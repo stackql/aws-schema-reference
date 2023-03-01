@@ -86,8 +86,10 @@ def process_resources(service, file_contents):
             resource_section = True
         elif resource_section and line.startswith('+'):
             parts = line.strip().split()
-            resource = parts[1].split('](')[0].strip('[').split('::')[-1]
+            fq_resource = parts[1].split('](')[0].strip('[')
+            resource = camel_to_snake_case(parts[1].split('](')[0].strip('[').split('::')[-1])
             resource_file_name = parts[1].split('](')[1].strip(')')
+            print(fq_resource)
             print(service)
             print(resource)
             print(resource_file_name)
@@ -97,14 +99,17 @@ def process_services(filename, file_contents):
     Processes a single markdown file.
     """
     service = camel_to_snake_case(filename[4:-3])
-    print(f"processing service: {service} from file: {filename}")
-    # Delete the output directory if it already exists
-    output_path = os.path.join(outputs_dir, service)
-    if os.path.exists(output_path):
-        shutil.rmtree(output_path)
-    # Create the output directory
-    os.makedirs(output_path)
-    process_resources(service, file_contents)
+    if service in ['ec2', 's3', 'iam']: # excluding services that already exist
+        pass
+    else:
+        print(f"processing service: {service} from file: {filename}")
+        # Delete the output directory if it already exists
+        output_path = os.path.join(outputs_dir, service)
+        if os.path.exists(output_path):
+            shutil.rmtree(output_path)
+        # Create the output directory
+        os.makedirs(output_path)
+        process_resources(service, file_contents)
 
 def process_all_docs():
     """
