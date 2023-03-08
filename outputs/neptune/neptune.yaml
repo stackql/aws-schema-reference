@@ -1,0 +1,333 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Neptune
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    DBCluster:
+      type: object
+      properties:
+        AssociatedRoles:
+          type: >-
+            list of
+            [dbclusterrole](aws-properties-neptune-dbcluster-dbclusterrole.md)
+          description: >-
+            Provides a list of the Amazon Identity and Access Management \(IAM\)
+            roles that are associated with the DB cluster\. IAM roles that are
+            associated with a DB cluster grant permission for the DB cluster to
+            access other Amazon services on your behalf\.
+        AvailabilityZones:
+          type: array
+          description: >-
+            Provides the list of EC2 Availability Zones that instances in the DB
+            cluster can be created in\.
+        BackupRetentionPeriod:
+          type: integer
+          description: >-
+            Specifies the number of days for which automatic DB snapshots are
+            retained\.   An update may require some interruption\. See
+            [ModifyDBInstance](https://docs.aws.amazon.com/neptune/latest/userguide/api-instances.html#ModifyDBInstance)
+            in the Amazon Neptune User Guide for more information\.
+        DBClusterIdentifier:
+          type: string
+          description: >-
+            Contains a user\-supplied DB cluster identifier\. This identifier is
+            the unique key that identifies a DB cluster\.
+        DBClusterParameterGroupName:
+          type: string
+          description: >-
+            Provides the name of the DB cluster parameter group\.   An update
+            may require some interruption\. See
+            [ModifyDBInstance](https://docs.aws.amazon.com/neptune/latest/userguide/api-instances.html#ModifyDBInstance)
+            in the Amazon Neptune User Guide for more information\.
+        DBSubnetGroupName:
+          type: string
+          description: >-
+            Specifies information on the subnet group associated with the DB
+            cluster, including the name, description, and subnets in the subnet
+            group\.
+        DeletionProtection:
+          type: boolean
+          description: >-
+            Indicates whether or not the DB cluster has deletion protection
+            enabled\. The database can't be deleted when deletion protection is
+            enabled\.
+        EnableCloudwatchLogsExports:
+          type: array
+          description: >-
+            Specifies a list of log types that are enabled for export to
+            CloudWatch Logs\.
+        EngineVersion:
+          type: string
+          description: Indicates the database engine version\.
+        IamAuthEnabled:
+          type: boolean
+          description: >-
+            True if mapping of Amazon Identity and Access Management \(IAM\)
+            accounts to database accounts is enabled, and otherwise false\.
+        KmsKeyId:
+          type: string
+          description: >-
+            If `StorageEncrypted` is true, the Amazon KMS key identifier for the
+            encrypted DB cluster\.
+        Port:
+          type: integer
+          description: Specifies the port that the database engine is listening on\.
+        PreferredBackupWindow:
+          type: string
+          description: >-
+            Specifies the daily time range during which automated backups are
+            created if automated backups are enabled, as determined by the
+            `BackupRetentionPeriod`\.   An update may require some
+            interruption\.
+        PreferredMaintenanceWindow:
+          type: string
+          description: >-
+            Specifies the weekly time range during which system maintenance can
+            occur, in Universal Coordinated Time \(UTC\)\.
+        RestoreToTime:
+          type: string
+          description: >-
+            Creates a new DB cluster from a DB snapshot or DB cluster
+            snapshot\.   If a DB snapshot is specified, the target DB cluster is
+            created from the source DB snapshot with a default configuration and
+            default security group\.   If a DB cluster snapshot is specified,
+            the target DB cluster is created from the source DB cluster restore
+            point with the same configuration as the original source DB cluster,
+            except that the new DB cluster is created with the default security
+            group\.
+        RestoreType:
+          type: string
+          description: >-
+            Creates a new DB cluster from a DB snapshot or DB cluster
+            snapshot\.   If a DB snapshot is specified, the target DB cluster is
+            created from the source DB snapshot with a default configuration and
+            default security group\.   If a DB cluster snapshot is specified,
+            the target DB cluster is created from the source DB cluster restore
+            point with the same configuration as the original source DB cluster,
+            except that the new DB cluster is created with the default security
+            group\.
+        SnapshotIdentifier:
+          type: string
+          description: >-
+            Specifies the identifier for a DB cluster snapshot\. Must match the
+            identifier of an existing snapshot\.   After you restore a DB
+            cluster using a `SnapshotIdentifier`, you must specify the same
+            `SnapshotIdentifier` for any future updates to the DB cluster\. When
+            you specify this property for an update, the DB cluster is not
+            restored from the snapshot again, and the data in the database is
+            not changed\.   However, if you don't specify the
+            `SnapshotIdentifier`, an empty DB cluster is created, and the
+            original DB cluster is deleted\. If you specify a property that is
+            different from the previous snapshot restore property, the DB
+            cluster is restored from the snapshot specified by the
+            `SnapshotIdentifier`, and the original DB cluster is deleted\.
+        SourceDBClusterIdentifier:
+          type: string
+          description: >-
+            Creates a new DB cluster from a DB snapshot or DB cluster
+            snapshot\.   If a DB snapshot is specified, the target DB cluster is
+            created from the source DB snapshot with a default configuration and
+            default security group\.   If a DB cluster snapshot is specified,
+            the target DB cluster is created from the source DB cluster restore
+            point with the same configuration as the original source DB cluster,
+            except that the new DB cluster is created with the default security
+            group\.
+        StorageEncrypted:
+          type: boolean
+          description: >-
+            Indicates whether the DB cluster is encrypted\.   If you specify the
+            `DBClusterIdentifier`, `DBSnapshotIdentifier`, or
+            `SourceDBInstanceIdentifier` property, don't specify this property\.
+            The value is inherited from the cluster, snapshot, or source DB
+            instance\. If you specify the `KmsKeyId` property, you must enable
+            encryption\.   If you specify the `KmsKeyId`, you must enable
+            encryption by setting `StorageEncrypted` to true\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags assigned to this cluster\.
+        UseLatestRestorableTime:
+          type: boolean
+          description: >-
+            Creates a new DB cluster from a DB snapshot or DB cluster
+            snapshot\.   If a DB snapshot is specified, the target DB cluster is
+            created from the source DB snapshot with a default configuration and
+            default security group\.   If a DB cluster snapshot is specified,
+            the target DB cluster is created from the source DB cluster restore
+            point with the same configuration as the original source DB cluster,
+            except that the new DB cluster is created with the default security
+            group\.
+        VpcSecurityGroupIds:
+          type: array
+          description: >-
+            Provides a list of VPC security groups that the DB cluster belongs
+            to\.
+    DBClusterParameterGroup:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: >-
+            Provides the customer\-specified description for this DB cluster
+            parameter group\.
+        Family:
+          type: string
+          description: >-
+            Must be `neptune1` for engine versions prior to
+            [1\.2\.0\.0](https://docs.aws.amazon.com/neptune/latest/userguide/engine-releases-1.2.0.0.html),
+            or `neptune1.2` for engine version `1.2.0.0` and higher\.
+        Name:
+          type: string
+          description: Provides the name of the DB cluster parameter group\.
+        Parameters:
+          type: object
+          description: >-
+            The parameters to set for this DB cluster parameter group\.   The
+            parameters are expressed as a JSON object consisting of key\-value
+            pairs\.   If you update the parameters, some interruption may occur
+            depending on which parameters you update\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags that you want to attach to this parameter group\.
+      required:
+        - Description
+        - Family
+        - Parameters
+    DBInstance:
+      type: object
+      properties:
+        AllowMajorVersionUpgrade:
+          type: boolean
+          description: >-
+            Indicates that major version upgrades are allowed\. Changing this
+            parameter doesn't result in an outage and the change is
+            asynchronously applied as soon as possible\. This parameter must be
+            set to true when specifying a value for the EngineVersion parameter
+            that is a different major version than the DB instance's current
+            version\.
+        AutoMinorVersionUpgrade:
+          type: boolean
+          description: >-
+            Indicates that minor version patches are applied automatically\.  
+            When updating this property, some interruptions may occur\.
+        AvailabilityZone:
+          type: string
+          description: >-
+            Specifies the name of the Availability Zone the DB instance is
+            located in\.
+        DBClusterIdentifier:
+          type: string
+          description: >-
+            If the DB instance is a member of a DB cluster, contains the name of
+            the DB cluster that the DB instance is a member of\.
+        DBInstanceClass:
+          type: string
+          description: >-
+            Contains the name of the compute and memory capacity class of the DB
+            instance\.   If you update this property, some interruptions may
+            occur\.
+        DBInstanceIdentifier:
+          type: string
+          description: >-
+            Contains a user\-supplied database identifier\. This identifier is
+            the unique key that identifies a DB instance\.
+        DBParameterGroupName:
+          type: string
+          description: >-
+            The name of an existing DB parameter group or a reference to an
+            AWS::Neptune::DBParameterGroup resource created in the template\. If
+            any of the data members of the referenced parameter group are
+            changed during an update, the DB instance might need to be
+            restarted, which causes some interruption\. If the parameter group
+            contains static parameters, whether they were changed or not, an
+            update triggers a reboot\.
+        DBSnapshotIdentifier:
+          type: string
+          description: >-
+            This parameter is not supported\.    `AWS::Neptune::DBInstance` does
+            not support restoring from snapshots\.    `AWS::Neptune::DBCluster`
+            does support restoring from snapshots\.
+        DBSubnetGroupName:
+          type: string
+          description: >-
+            A DB subnet group to associate with the DB instance\. If you update
+            this value, the new subnet group must be a subnet group in a new
+            virtual private cloud \(VPC\)\.
+        PreferredMaintenanceWindow:
+          type: string
+          description: >-
+            Specifies the weekly time range during which system maintenance can
+            occur, in Universal Coordinated Time \(UTC\)\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: An arbitrary set of tags \(key\-value pairs\) for this DB instance\.
+      required:
+        - DBInstanceClass
+    DBParameterGroup:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: >-
+            Provides the customer\-specified description for this DB parameter
+            group\.
+        Family:
+          type: string
+          description: >-
+            Must be `neptune1` for engine versions prior to
+            [1\.2\.0\.0](https://docs.aws.amazon.com/neptune/latest/userguide/engine-releases-1.2.0.0.html),
+            or `neptune1.2` for engine version `1.2.0.0` and higher\.
+        Name:
+          type: string
+          description: Provides the name of the DB parameter group\.
+        Parameters:
+          type: object
+          description: >-
+            The parameters to set for this DB parameter group\.   The parameters
+            are expressed as a JSON object consisting of key\-value pairs\.  
+            Changes to dynamic parameters are applied immediately\. During an
+            update, if you have static parameters \(whether they were changed or
+            not\), it triggers AWS CloudFormation to reboot the associated DB
+            instance without failover\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags that you want to attach to this parameter group\.
+      required:
+        - Description
+        - Family
+        - Parameters
+    DBSubnetGroup:
+      type: object
+      properties:
+        DBSubnetGroupDescription:
+          type: string
+          description: Provides the description of the DB subnet group\.
+        DBSubnetGroupName:
+          type: string
+          description: The name of the DB subnet group\.
+        SubnetIds:
+          type: array
+          description: The Amazon EC2 subnet IDs for the DB subnet group\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags that you want to attach to the DB subnet group\.
+      required:
+        - DBSubnetGroupDescription
+        - SubnetIds
+paths: {}

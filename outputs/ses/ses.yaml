@@ -1,0 +1,204 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: SES
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ConfigurationSet:
+      type: object
+      properties:
+        DeliveryOptions:
+          type: >-
+            [deliveryoptions](aws-properties-ses-configurationset-deliveryoptions.md)
+          description: >-
+            Specifies whether messages that use the configuration set are
+            required to use Transport Layer Security \(TLS\)\.
+        Name:
+          type: string
+          description: >-
+            The name of the configuration set\. The name must meet the following
+            requirements:   + Contain only letters \(a\-z, A\-Z\), numbers
+            \(0\-9\), underscores \(\_\), or dashes \(\-\)\. + Contain 64
+            characters or fewer\.
+        ReputationOptions:
+          type: >-
+            [reputationoptions](aws-properties-ses-configurationset-reputationoptions.md)
+          description: >-
+            An object that represents the reputation settings for the
+            configuration set\.
+        SendingOptions:
+          type: >-
+            [sendingoptions](aws-properties-ses-configurationset-sendingoptions.md)
+          description: >-
+            An object that defines whether or not Amazon SES can send email that
+            you send using the configuration set\.
+        SuppressionOptions:
+          type: >-
+            [suppressionoptions](aws-properties-ses-configurationset-suppressionoptions.md)
+          description: >-
+            An object that contains information about the suppression list
+            preferences for your account\.
+        TrackingOptions:
+          type: >-
+            [trackingoptions](aws-properties-ses-configurationset-trackingoptions.md)
+          description: >-
+            The name of the custom open and click tracking domain associated
+            with the configuration set\.
+        VdmOptions:
+          type: '[vdmoptions](aws-properties-ses-configurationset-vdmoptions.md)'
+          description: >-
+            The Virtual Deliverability Manager \(VDM\) options that apply to the
+            configuration set\.
+    ConfigurationSetEventDestination:
+      type: object
+      properties:
+        ConfigurationSetName:
+          type: string
+          description: >-
+            The name of the configuration set that contains the event
+            destination\.
+        EventDestination:
+          type: >-
+            [eventdestination](aws-properties-ses-configurationseteventdestination-eventdestination.md)
+          description: The event destination object\.
+      required:
+        - ConfigurationSetName
+        - EventDestination
+    ContactList:
+      type: object
+      properties:
+        ContactListName:
+          type: string
+          description: The name of the contact list\.
+        Description:
+          type: string
+          description: A description of what the contact list is about\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags associated with a contact list\.
+        Topics:
+          type: list of [topic](aws-properties-ses-contactlist-topic.md)
+          description: >-
+            An interest group, theme, or label within a list\. A contact list
+            can have multiple topics\.
+    DedicatedIpPool:
+      type: object
+      properties:
+        PoolName:
+          type: string
+          description: >-
+            The name of the dedicated IP pool that the IP address is associated
+            with\.
+        ScalingMode:
+          type: string
+          description: >-
+            The type of scaling mode\.   The following options are available:  
+            + `STANDARD` \- The customer controls which IPs are part of the
+            dedicated IP pool\. + `MANAGED` \- The reputation and number of IPs
+            is automatically managed by Amazon SES\. The `STANDARD` option is
+            selected by default if no value is specified\.
+    EmailIdentity:
+      type: object
+      properties:
+        ConfigurationSetAttributes:
+          type: >-
+            [configurationsetattributes](aws-properties-ses-emailidentity-configurationsetattributes.md)
+          description: Used to associate a configuration set with an email identity\.
+        DkimAttributes:
+          type: '[dkimattributes](aws-properties-ses-emailidentity-dkimattributes.md)'
+          description: >-
+            An object that contains information about the DKIM attributes for
+            the identity\.
+        DkimSigningAttributes:
+          type: >-
+            [dkimsigningattributes](aws-properties-ses-emailidentity-dkimsigningattributes.md)
+          description: >-
+            If your request includes this object, Amazon SES configures the
+            identity to use Bring Your Own DKIM \(BYODKIM\) for DKIM
+            authentication purposes, or, configures the key length to be used
+            for [Easy
+            DKIM](https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-dkim-easy.html)\.
+        EmailIdentity:
+          type: string
+          description: The email address or domain to verify\.
+        FeedbackAttributes:
+          type: >-
+            [feedbackattributes](aws-properties-ses-emailidentity-feedbackattributes.md)
+          description: Used to enable or disable feedback forwarding for an identity\.
+        MailFromAttributes:
+          type: >-
+            [mailfromattributes](aws-properties-ses-emailidentity-mailfromattributes.md)
+          description: >-
+            Used to enable or disable the custom Mail\-From domain configuration
+            for an email identity\.
+      required:
+        - EmailIdentity
+    ReceiptFilter:
+      type: object
+      properties:
+        Filter:
+          type: '[filter](aws-properties-ses-receiptfilter-filter.md)'
+          description: >-
+            A data structure that describes the IP address filter to create,
+            which consists of a name, an IP address range, and whether to allow
+            or block mail from it\.
+      required:
+        - Filter
+    ReceiptRule:
+      type: object
+      properties:
+        After:
+          type: string
+          description: >-
+            The name of an existing rule after which the new rule is placed\. If
+            this parameter is null, the new rule is inserted at the beginning of
+            the rule list\.
+        Rule:
+          type: '[rule](aws-properties-ses-receiptrule-rule.md)'
+          description: >-
+            A data structure that contains the specified rule's name, actions,
+            recipients, domains, enabled status, scan status, and TLS policy\.
+        RuleSetName:
+          type: string
+          description: The name of the rule set where the receipt rule is added\.
+      required:
+        - Rule
+        - RuleSetName
+    ReceiptRuleSet:
+      type: object
+      properties:
+        RuleSetName:
+          type: string
+          description: The name of the receipt rule set to reorder\.
+    Template:
+      type: object
+      properties:
+        Template:
+          type: '[template](aws-properties-ses-template-template.md)'
+          description: >-
+            The content of the email, composed of a subject line and either an
+            HTML part or a text\-only part\.
+    VdmAttributes:
+      type: object
+      properties:
+        DashboardAttributes:
+          type: >-
+            [dashboardattributes](aws-properties-ses-vdmattributes-dashboardattributes.md)
+          description: >-
+            Specifies additional settings for your VDM configuration as
+            applicable to the Dashboard\.
+        GuardianAttributes:
+          type: >-
+            [guardianattributes](aws-properties-ses-vdmattributes-guardianattributes.md)
+          description: >-
+            Specifies additional settings for your VDM configuration as
+            applicable to the Guardian\.
+paths: {}

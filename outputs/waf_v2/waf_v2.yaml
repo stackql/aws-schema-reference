@@ -1,0 +1,383 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: WAFv2
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    IPSet:
+      type: object
+      properties:
+        Addresses:
+          type: array
+          description: >-
+            Contains an array of strings that specifies zero or more IP
+            addresses or blocks of IP addresses\. All addresses must be
+            specified using Classless Inter\-Domain Routing \(CIDR\) notation\.
+            AWS WAF supports all IPv4 and IPv6 CIDR ranges except for `/0`\.   
+            Example address strings:    + To configure AWS WAF to allow, block,
+            or count requests that originated from the IP address 192\.0\.2\.44,
+            specify `192.0.2.44/32`\. + To configure AWS WAF to allow, block, or
+            count requests that originated from IP addresses from 192\.0\.2\.0
+            to 192\.0\.2\.255, specify `192.0.2.0/24`\. + To configure AWS WAF
+            to allow, block, or count requests that originated from the IP
+            address 1111:0000:0000:0000:0000:0000:0000:0111, specify
+            `1111:0000:0000:0000:0000:0000:0000:0111/128`\. + To configure AWS
+            WAF to allow, block, or count requests that originated from IP
+            addresses 1111:0000:0000:0000:0000:0000:0000:0000 to
+            1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify
+            `1111:0000:0000:0000:0000:0000:0000:0000/64`\. For more information
+            about CIDR notation, see the Wikipedia entry [Classless
+            Inter\-Domain
+            Routing](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing)\.  
+            Example JSON `Addresses` specifications:    + Empty array:
+            `"Addresses": []`  + Array with one address: `"Addresses":
+            ["192.0.2.44/32"]`  + Array with three addresses: `"Addresses":
+            ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]`  + INVALID
+            specification: `"Addresses": [""]` INVALID
+        Description:
+          type: string
+          description: A description of the IP set that helps with identification\.
+        IPAddressVersion:
+          type: string
+          description: The version of the IP addresses, either `IPV4` or `IPV6`\.
+        Name:
+          type: string
+          description: >-
+            The name of the IP set\. You cannot change the name of an `IPSet`
+            after you create it\.
+        Scope:
+          type: string
+          description: >-
+            Specifies whether this is for an Amazon CloudFront distribution or
+            for a regional application\. A regional application can be an
+            Application Load Balancer \(ALB\), an Amazon API Gateway REST API,
+            an AWS AppSync GraphQL API, or an Amazon Cognito user pool\. Valid
+            Values are `CLOUDFRONT` and `REGIONAL`\.    For `CLOUDFRONT`, you
+            must create your WAFv2 resources in the US East \(N\. Virginia\)
+            Region, `us-east-1`\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Key:value pairs associated with an AWS resource\. The key:value pair
+            can be anything you define\. Typically, the tag key represents a
+            category \(such as "environment"\) and the tag value represents a
+            specific value within that category \(such as "test," "development,"
+            or "production"\)\. You can add up to 50 tags to each AWS
+            resource\.   To modify tags on existing resources, use the AWS WAF
+            APIs or command line interface\. With AWS CloudFormation, you can
+            only add tags to AWS WAF resources during resource creation\.
+      required:
+        - Addresses
+        - IPAddressVersion
+        - Scope
+    LoggingConfiguration:
+      type: object
+      properties:
+        LogDestinationConfigs:
+          type: array
+          description: >-
+            The logging destination configuration that you want to associate
+            with the web ACL\.   You can associate one logging destination to a
+            web ACL\.
+        LoggingFilter:
+          type: >-
+            [loggingfilter](aws-properties-wafv2-loggingconfiguration-loggingfilter.md)
+          description: >-
+            Filtering that specifies which web requests are kept in the logs and
+            which are dropped\. You can filter on the rule action and on the web
+            request labels that were applied by matching rules during web ACL
+            evaluation\.
+        RedactedFields:
+          type: >-
+            list of
+            [fieldtomatch](aws-properties-wafv2-loggingconfiguration-fieldtomatch.md)
+          description: >-
+            The parts of the request that you want to keep out of the logs\. For
+            example, if you redact the `SingleHeader` field, the `HEADER` field
+            in the logs will be `xxx`\.    You can specify only the following
+            fields for redaction: `UriPath`, `QueryString`, `SingleHeader`,
+            `Method`, and `JsonBody`\.
+        ResourceArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the web ACL that you want to
+            associate with `LogDestinationConfigs`\.
+      required:
+        - LogDestinationConfigs
+        - ResourceArn
+    RegexPatternSet:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description of the set that helps with identification\.
+        Name:
+          type: string
+          description: >-
+            The name of the set\. You cannot change the name after you create
+            the set\.
+        RegularExpressionList:
+          type: array
+          description: The regular expression patterns in the set\.
+        Scope:
+          type: string
+          description: >-
+            Specifies whether this is for an Amazon CloudFront distribution or
+            for a regional application\. A regional application can be an
+            Application Load Balancer \(ALB\), an Amazon API Gateway REST API,
+            an AWS AppSync GraphQL API, or an Amazon Cognito user pool\. Valid
+            Values are `CLOUDFRONT` and `REGIONAL`\.   For `CLOUDFRONT`, you
+            must create your WAFv2 resources in the US East \(N\. Virginia\)
+            Region, `us-east-1`\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Key:value pairs associated with an AWS resource\. The key:value pair
+            can be anything you define\. Typically, the tag key represents a
+            category \(such as "environment"\) and the tag value represents a
+            specific value within that category \(such as "test," "development,"
+            or "production"\)\. You can add up to 50 tags to each AWS
+            resource\.   To modify tags on existing resources, use the AWS WAF
+            APIs or command line interface\. With AWS CloudFormation, you can
+            only add tags to AWS WAF resources during resource creation\.
+      required:
+        - RegularExpressionList
+        - Scope
+    RuleGroup:
+      type: object
+      properties:
+        AvailableLabels:
+          type: >-
+            list of
+            [labelsummary](aws-properties-wafv2-rulegroup-labelsummary.md)
+          description: >-
+            The labels that one or more rules in this rule group add to matching
+            web requests\. These labels are defined in the `RuleLabels` for a
+            Rule\.
+        Capacity:
+          type: integer
+          description: >-
+            The web ACL capacity units \(WCUs\) required for this rule group\.  
+            When you create your own rule group, you define this, and you cannot
+            change it after creation\. When you add or modify the rules in a
+            rule group, AWS WAF enforces this limit\.     AWS WAF uses WCUs to
+            calculate and control the operating resources that are used to run
+            your rules, rule groups, and web ACLs\. AWS WAF calculates capacity
+            differently for each rule type, to reflect the relative cost of each
+            rule\. Simple rules that cost little to run use fewer WCUs than more
+            complex rules that use more processing power\. Rule group capacity
+            is fixed at creation, which helps users plan their web ACL WCU usage
+            when they use a rule group\. The WCU limit for web ACLs is 1,500\.
+        ConsumedLabels:
+          type: >-
+            list of
+            [labelsummary](aws-properties-wafv2-rulegroup-labelsummary.md)
+          description: >-
+            The labels that one or more rules in this rule group match against
+            in label match statements\. These labels are defined in a
+            `LabelMatchStatement` specification, in the
+            [Statement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-wafv2-webacl-notstatement.html#cfn-wafv2-webacl-notstatement-statement)
+            definition of a rule\.
+        CustomResponseBodies:
+          type: >-
+            map of
+            [customresponsebody](aws-properties-wafv2-rulegroup-customresponsebody.md)
+          description: >-
+            A map of custom response keys and content bodies\. When you create a
+            rule with a block action, you can send a custom response to the web
+            request\. You define these for the rule group, and then use them in
+            the rules that you define in the rule group\.    For information
+            about customizing web requests and responses, see [Customizing web
+            requests and responses in AWS
+            WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html)
+            in the [AWS WAF Developer
+            Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html)\.   
+            For information about the limits on count and size for custom
+            request and response settings, see [AWS WAF
+            quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html)
+            in the [AWS WAF Developer
+            Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html)\.
+        Description:
+          type: string
+          description: A description of the rule group that helps with identification\.
+        Name:
+          type: string
+          description: >-
+            The name of the rule group\. You cannot change the name of a rule
+            group after you create it\.
+        Rules:
+          type: list of [rule](aws-properties-wafv2-rulegroup-rule.md)
+          description: >-
+            The rule statements used to identify the web requests that you want
+            to allow, block, or count\. Each rule includes one top\-level
+            statement that AWS WAF uses to identify matching web requests, and
+            parameters that govern how AWS WAF handles them\.
+        Scope:
+          type: string
+          description: >-
+            Specifies whether this is for an Amazon CloudFront distribution or
+            for a regional application\. A regional application can be an
+            Application Load Balancer \(ALB\), an Amazon API Gateway REST API,
+            an AWS AppSync GraphQL API, or an Amazon Cognito user pool\. Valid
+            Values are `CLOUDFRONT` and `REGIONAL`\.   For `CLOUDFRONT`, you
+            must create your WAFv2 resources in the US East \(N\. Virginia\)
+            Region, `us-east-1`\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Key:value pairs associated with an AWS resource\. The key:value pair
+            can be anything you define\. Typically, the tag key represents a
+            category \(such as "environment"\) and the tag value represents a
+            specific value within that category \(such as "test," "development,"
+            or "production"\)\. You can add up to 50 tags to each AWS
+            resource\.   To modify tags on existing resources, use the AWS WAF
+            APIs or command line interface\. With AWS CloudFormation, you can
+            only add tags to AWS WAF resources during resource creation\.
+        VisibilityConfig:
+          type: >-
+            [visibilityconfig](aws-properties-wafv2-rulegroup-visibilityconfig.md)
+          description: >-
+            Defines and enables Amazon CloudWatch metrics and web request sample
+            collection\.
+      required:
+        - Capacity
+        - Scope
+        - VisibilityConfig
+    WebACL:
+      type: object
+      properties:
+        CaptchaConfig:
+          type: '[captchaconfig](aws-properties-wafv2-webacl-captchaconfig.md)'
+          description: >-
+            Specifies how AWS WAF should handle `CAPTCHA` evaluations for rules
+            that don't have their own `CaptchaConfig` settings\. If you don't
+            specify this, AWS WAF uses its default settings for
+            `CaptchaConfig`\.
+        ChallengeConfig:
+          type: '[challengeconfig](aws-properties-wafv2-webacl-challengeconfig.md)'
+          description: >-
+            Specifies how AWS WAF should handle challenge evaluations for rules
+            that don't have their own `ChallengeConfig` settings\. If you don't
+            specify this, AWS WAF uses its default settings for
+            `ChallengeConfig`\.
+        CustomResponseBodies:
+          type: >-
+            map of
+            [customresponsebody](aws-properties-wafv2-webacl-customresponsebody.md)
+          description: >-
+            A map of custom response keys and content bodies\. When you create a
+            rule with a block action, you can send a custom response to the web
+            request\. You define these for the web ACL, and then use them in the
+            rules and default actions that you define in the web ACL\.    For
+            information about customizing web requests and responses, see
+            [Customizing web requests and responses in AWS
+            WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html)
+            in the [AWS WAF Developer
+            Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html)\.   
+            For information about the limits on count and size for custom
+            request and response settings, see [AWS WAF
+            quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html)
+            in the [AWS WAF Developer
+            Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html)\.
+        DefaultAction:
+          type: '[defaultaction](aws-properties-wafv2-webacl-defaultaction.md)'
+          description: >-
+            The action to perform if none of the `Rules` contained in the
+            `WebACL` match\.
+        Description:
+          type: string
+          description: A description of the web ACL that helps with identification\.
+        Name:
+          type: string
+          description: >-
+            The name of the web ACL\. You cannot change the name of a web ACL
+            after you create it\.
+        Rules:
+          type: list of [rule](aws-properties-wafv2-webacl-rule.md)
+          description: >-
+            The rule statements used to identify the web requests that you want
+            to allow, block, or count\. Each rule includes one top\-level
+            statement that AWS WAF uses to identify matching web requests, and
+            parameters that govern how AWS WAF handles them\.
+        Scope:
+          type: string
+          description: >-
+            Specifies whether this is for an Amazon CloudFront distribution or
+            for a regional application\. A regional application can be an
+            Application Load Balancer \(ALB\), an Amazon API Gateway REST API,
+            an AWS AppSync GraphQL API, or an Amazon Cognito user pool\. Valid
+            Values are `CLOUDFRONT` and `REGIONAL`\.   For `CLOUDFRONT`, you
+            must create your WAFv2 resources in the US East \(N\. Virginia\)
+            Region, `us-east-1`\. For information about how to define the
+            association of the web ACL with your resource, see
+            [AWS::WAFv2::WebACLAssociation](aws-resource-wafv2-webaclassociation.md)\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Key:value pairs associated with an AWS resource\. The key:value pair
+            can be anything you define\. Typically, the tag key represents a
+            category \(such as "environment"\) and the tag value represents a
+            specific value within that category \(such as "test," "development,"
+            or "production"\)\. You can add up to 50 tags to each AWS
+            resource\.   To modify tags on existing resources, use the AWS WAF
+            APIs or command line interface\. With AWS CloudFormation, you can
+            only add tags to AWS WAF resources during resource creation\.
+        TokenDomains:
+          type: array
+          description: >-
+            Specifies the domains that AWS WAF should accept in a web request
+            token\. This enables the use of tokens across multiple protected
+            websites\. When AWS WAF provides a token, it uses the domain of the
+            AWS resource that the web ACL is protecting\. If you don't specify a
+            list of token domains, AWS WAF accepts tokens only for the domain of
+            the protected resource\. With a token domain list, AWS WAF accepts
+            the resource's host domain plus all domains in the token domain
+            list, including their prefixed subdomains\.
+        VisibilityConfig:
+          type: '[visibilityconfig](aws-properties-wafv2-webacl-visibilityconfig.md)'
+          description: >-
+            Defines and enables Amazon CloudWatch metrics and web request sample
+            collection\.
+      required:
+        - DefaultAction
+        - Scope
+        - VisibilityConfig
+    WebACLAssociation:
+      type: object
+      properties:
+        ResourceArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the resource to associate with
+            the web ACL\.    The ARN must be in one of the following formats:  
+            + For an Application Load Balancer:
+            `arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id
+            `  + For an Amazon API Gateway REST API:
+            `arn:aws:apigateway:region::/restapis/api-id/stages/stage-name `  +
+            For an AWS AppSync GraphQL API:
+            `arn:aws:appsync:region:account-id:apis/GraphQLApiId `  + For an
+            Amazon Cognito user pool:
+            `arn:aws:cognito-idp:region:account-id:userpool/user-pool-id `
+        WebACLArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the web ACL that you want to
+            associate with the resource\.
+      required:
+        - ResourceArn
+        - WebACLArn
+paths: {}

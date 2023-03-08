@@ -1,0 +1,154 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Macie
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    AllowList:
+      type: object
+      properties:
+        Criteria:
+          type: '[criteria](aws-properties-macie-allowlist-criteria.md)'
+          description: >-
+            The criteria that specify the text or text pattern to ignore\. The
+            criteria can be the location and name of an Amazon S3 object that
+            lists specific text to ignore \(`S3WordsList`\), or a regular
+            expression \(`Regex`\) that defines a text pattern to ignore\.
+        Description:
+          type: string
+          description: >-
+            A custom description of the allow list\. The description can contain
+            1\-512 characters\.
+        Name:
+          type: string
+          description: >-
+            A custom name for the allow list\. The name can contain 1\-128
+            characters\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to the allow list\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - Criteria
+        - Name
+    CustomDataIdentifier:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: >-
+            A custom description of the custom data identifier\. The description
+            can contain 1\-512 characters\.   Avoid including sensitive data in
+            the description\. Users of the account might be able to see the
+            description, depending on the actions that they're allowed to
+            perform in Amazon Macie\.
+        IgnoreWords:
+          type: array
+          description: >-
+            An array of character sequences \(*ignore words*\) to exclude from
+            the results\. If text matches the regular expression \(`Regex`\) but
+            it contains a string in this array, Amazon Macie ignores the text
+            and doesn't include it in the results\.   The array can contain
+            1\-10 ignore words\. Each ignore word can contain 4\-90 UTF\-8
+            characters\. Ignore words are case sensitive\.
+        Keywords:
+          type: array
+          description: >-
+            An array of character sequences \(*keywords*\), one of which must
+            precede and be in proximity \(`MaximumMatchDistance`\) of the
+            regular expression \(`Regex`\) to match\.   The array can contain
+            1\-50 keywords\. Each keyword can contain 3\-90 UTF\-8 characters\.
+            Keywords aren't case sensitive\.
+        MaximumMatchDistance:
+          type: integer
+          description: >-
+            The maximum number of characters that can exist between the end of
+            at least one complete character sequence specified by the `Keywords`
+            array and the end of text that matches the regular expression
+            \(`Regex`\)\. If a complete keyword precedes all the text that
+            matches the regular expression and the keyword is within the
+            specified distance, Amazon Macie includes the result\.   The
+            distance can be 1\-300 characters\. The default value is 50\.
+        Name:
+          type: string
+          description: >-
+            A custom name for the custom data identifier\. The name can contain
+            1\-128 characters\.   Avoid including sensitive data in the name of
+            a custom data identifier\. Users of the account might be able to see
+            the name, depending on the actions that they're allowed to perform
+            in Amazon Macie\.
+        Regex:
+          type: string
+          description: >-
+            The regular expression \(*regex*\) that defines the text pattern to
+            match\. The expression can contain 1\-512 characters\.
+      required:
+        - Name
+        - Regex
+    FindingsFilter:
+      type: object
+      properties:
+        Action:
+          type: string
+          description: >-
+            The action to perform on findings that match the filter criteria
+            \(`FindingCriteria`\)\. Valid values are:   + `ARCHIVE` \- Suppress
+            \(automatically archive\) the findings\. + `NOOP` \- Don't perform
+            any action on the findings\.
+        Description:
+          type: string
+          description: >-
+            A custom description of the findings filter\. The description can
+            contain 1\-512 characters\.   Avoid including sensitive data in the
+            description\. Users of the account might be able to see the
+            description, depending on the actions that they're allowed to
+            perform in Amazon Macie\.
+        FindingCriteria:
+          type: >-
+            [findingcriteria](aws-properties-macie-findingsfilter-findingcriteria.md)
+          description: The criteria to use to filter findings\.
+        Name:
+          type: string
+          description: >-
+            A custom name for the findings filter\. The name can contain 3\-64
+            characters\.   Avoid including sensitive data in the name\. Users of
+            the account might be able to see the name, depending on the actions
+            that they're allowed to perform in Amazon Macie\.
+        Position:
+          type: integer
+          description: >-
+            The position of the findings filter in the list of saved filters on
+            the Amazon Macie console\. This value also determines the order in
+            which the filter is applied to findings, relative to other filters
+            that are also applied to findings\.
+      required:
+        - FindingCriteria
+        - Name
+    Session:
+      type: object
+      properties:
+        FindingPublishingFrequency:
+          type: string
+          description: >-
+            Specifies how often Amazon Macie publishes updates to policy
+            findings for the account\. This includes publishing updates to AWS
+            Security Hub and Amazon EventBridge \(formerly Amazon CloudWatch
+            Events\)\. Valid values are:   + FIFTEEN\_MINUTES + ONE\_HOUR +
+            SIX\_HOURS
+        Status:
+          type: string
+          description: >-
+            The status of Amazon Macie for the account\. Valid values are:
+            `ENABLED`, start or resume all Macie activities for the account;
+            and, `PAUSED`, suspend all Macie activities for the account\.
+paths: {}

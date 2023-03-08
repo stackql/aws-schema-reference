@@ -1,0 +1,253 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Amplify
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    App:
+      type: object
+      properties:
+        AccessToken:
+          type: string
+          description: >-
+            The personal access token for a GitHub repository for an Amplify
+            app\. The personal access token is used to authorize access to a
+            GitHub repository using the Amplify GitHub App\. The token is not
+            stored\.   Use `AccessToken` for GitHub repositories only\. To
+            authorize access to a repository provider such as Bitbucket or
+            CodeCommit, use `OauthToken`\.   You must specify either
+            `AccessToken` or `OauthToken` when you create a new app\.   Existing
+            Amplify apps deployed from a GitHub repository using OAuth continue
+            to work with CI/CD\. However, we strongly recommend that you migrate
+            these apps to use the GitHub App\. For more information, see
+            [Migrating an existing OAuth app to the Amplify GitHub
+            App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth)
+            in the *Amplify User Guide* \.   *Length Constraints:* Minimum
+            length of 1\. Maximum length of 255\.
+        AutoBranchCreationConfig:
+          type: >-
+            [autobranchcreationconfig](aws-properties-amplify-app-autobranchcreationconfig.md)
+          description: Sets the configuration for your automatic branch creation\.
+        BasicAuthConfig:
+          type: '[basicauthconfig](aws-properties-amplify-app-basicauthconfig.md)'
+          description: >-
+            The credentials for basic authorization for an Amplify app\. You
+            must base64\-encode the authorization credentials and provide them
+            in the format `user:password`\.
+        BuildSpec:
+          type: string
+          description: >-
+            The build specification \(build spec\) for an Amplify app\.   
+            *Length Constraints:* Minimum length of 1\. Maximum length of
+            25000\.   *Pattern:* \(?s\)\.\+
+        CustomHeaders:
+          type: string
+          description: >-
+            The custom HTTP headers for an Amplify app\.   *Length Constraints:*
+            Minimum length of 0\. Maximum length of 25000\.   *Pattern:*
+            \(?s\)\.\*
+        CustomRules:
+          type: list of [customrule](aws-properties-amplify-app-customrule.md)
+          description: The custom rewrite and redirect rules for an Amplify app\.
+        Description:
+          type: string
+          description: >-
+            The description for an Amplify app\.    *Length Constraints:*
+            Maximum length of 1000\.   *Pattern:* \(?s\)\.\*
+        EnableBranchAutoDeletion:
+          type: boolean
+          description: >-
+            Automatically disconnect a branch in Amplify Hosting when you delete
+            a branch from your Git repository\.
+        EnvironmentVariables:
+          type: >-
+            list of
+            [environmentvariable](aws-properties-amplify-app-environmentvariable.md)
+          description: The environment variables map for an Amplify app\.
+        IAMServiceRole:
+          type: string
+          description: >-
+            The AWS Identity and Access Management \(IAM\) service role for the
+            Amazon Resource Name \(ARN\) of the Amplify app\.    *Length
+            Constraints:* Minimum length of 0\. Maximum length of 1000\.  
+            *Pattern:* \(?s\)\.\*
+        Name:
+          type: string
+          description: >-
+            The name for an Amplify app\.    *Length Constraints:* Minimum
+            length of 1\. Maximum length of 255\.   *Pattern:* \(?s\)\.\+
+        OauthToken:
+          type: string
+          description: >-
+            The OAuth token for a third\-party source control system for an
+            Amplify app\. The OAuth token is used to create a webhook and a
+            read\-only deploy key using SSH cloning\. The OAuth token is not
+            stored\.   Use `OauthToken` for repository providers other than
+            GitHub, such as Bitbucket or CodeCommit\. To authorize access to
+            GitHub as your repository provider, use `AccessToken`\.   You must
+            specify either `OauthToken` or `AccessToken` when you create a new
+            app\.   Existing Amplify apps deployed from a GitHub repository
+            using OAuth continue to work with CI/CD\. However, we strongly
+            recommend that you migrate these apps to use the GitHub App\. For
+            more information, see [Migrating an existing OAuth app to the
+            Amplify GitHub
+            App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth)
+            in the *Amplify User Guide* \.   *Length Constraints:* Maximum
+            length of 1000\.   *Pattern:* \(?s\)\.\*
+        Platform:
+          type: string
+          description: >-
+            The platform for the Amplify app\. For a static app, set the
+            platform type to `WEB`\. For a dynamic server\-side rendered \(SSR\)
+            app, set the platform type to `WEB_COMPUTE`\. For an app requiring
+            Amplify Hosting's original SSR support only, set the platform type
+            to `WEB_DYNAMIC`\.
+        Repository:
+          type: string
+          description: The repository for an Amplify app\.    *Pattern:* \(?s\)\.\*
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tag for an Amplify app\.
+      required:
+        - Name
+    Branch:
+      type: object
+      properties:
+        AppId:
+          type: string
+          description: >-
+            The unique ID for an Amplify app\.    *Length Constraints:* Minimum
+            length of 1\. Maximum length of 20\.   *Pattern:* d\[a\-z0\-9\]\+
+        BasicAuthConfig:
+          type: '[basicauthconfig](aws-properties-amplify-branch-basicauthconfig.md)'
+          description: >-
+            The basic authorization credentials for a branch of an Amplify app\.
+            You must base64\-encode the authorization credentials and provide
+            them in the format `user:password`\.
+        BranchName:
+          type: string
+          description: >-
+            The name for the branch\.    *Length Constraints:* Minimum length of
+            1\. Maximum length of 255\.   *Pattern:* \(?s\)\.\+
+        BuildSpec:
+          type: string
+          description: >-
+            The build specification \(build spec\) for the branch\.    *Length
+            Constraints:* Minimum length of 1\. Maximum length of 25000\.  
+            *Pattern:* \(?s\)\.\+
+        Description:
+          type: string
+          description: >-
+            The description for the branch that is part of an Amplify app\.   
+            *Length Constraints:* Maximum length of 1000\.   *Pattern:*
+            \(?s\)\.\*
+        EnableAutoBuild:
+          type: boolean
+          description: Enables auto building for the branch\.
+        EnablePerformanceMode:
+          type: boolean
+          description: >-
+            Enables performance mode for the branch\.   Performance mode
+            optimizes for faster hosting performance by keeping content cached
+            at the edge for a longer interval\. When performance mode is
+            enabled, hosting configuration or code changes can take up to 10
+            minutes to roll out\.
+        EnablePullRequestPreview:
+          type: boolean
+          description: >-
+            Specifies whether Amplify Hosting creates a preview for each pull
+            request that is made for this branch\. If this property is enabled,
+            Amplify deploys your app to a unique preview URL after each pull
+            request is opened\. Development and QA teams can use this preview to
+            test the pull request before it's merged into a production or
+            integration branch\.   To provide backend support for your preview,
+            Amplify automatically provisions a temporary backend environment
+            that it deletes when the pull request is closed\. If you want to
+            specify a dedicated backend environment for your previews, use the
+            `PullRequestEnvironmentName` property\.   For more information, see
+            [Web
+            Previews](https://docs.aws.amazon.com/amplify/latest/userguide/pr-previews.html)
+            in the *AWS Amplify Hosting User Guide*\.
+        EnvironmentVariables:
+          type: >-
+            list of
+            [environmentvariable](aws-properties-amplify-branch-environmentvariable.md)
+          description: The environment variables for the branch\.
+        Framework:
+          type: string
+          description: The framework for the branch\.
+        PullRequestEnvironmentName:
+          type: string
+          description: >-
+            If pull request previews are enabled for this branch, you can use
+            this property to specify a dedicated backend environment for your
+            previews\. For example, you could specify an environment named
+            `prod`, `test`, or `dev` that you initialized with the Amplify CLI
+            and mapped to this branch\.   To enable pull request previews, set
+            the `EnablePullRequestPreview` property to `true`\.   If you don't
+            specify an environment, Amplify Hosting provides backend support for
+            each preview by automatically provisioning a temporary backend
+            environment\. Amplify Hosting deletes this environment when the pull
+            request is closed\.   For more information about creating backend
+            environments, see [Feature Branch Deployments and Team
+            Workflows](https://docs.aws.amazon.com/amplify/latest/userguide/multi-environments.html)
+            in the *AWS Amplify Hosting User Guide*\.   *Length Constraints:*
+            Maximum length of 20\.   *Pattern:* \(?s\)\.\*
+        Stage:
+          type: string
+          description: >-
+            Describes the current stage for the branch\.    *Valid Values:*
+            PRODUCTION \| BETA \| DEVELOPMENT \| EXPERIMENTAL \| PULL\_REQUEST
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tag for the branch\.
+      required:
+        - AppId
+        - BranchName
+    Domain:
+      type: object
+      properties:
+        AppId:
+          type: string
+          description: >-
+            The unique ID for an Amplify app\.    *Length Constraints:* Minimum
+            length of 1\. Maximum length of 20\.   *Pattern:* d\[a\-z0\-9\]\+
+        AutoSubDomainCreationPatterns:
+          type: array
+          description: Sets the branch patterns for automatic subdomain creation\.
+        AutoSubDomainIAMRole:
+          type: string
+          description: >-
+            The required AWS Identity and Access Management \(IAM\) service role
+            for the Amazon Resource Name \(ARN\) for automatically creating
+            subdomains\.   *Length Constraints:* Maximum length of 1000\.  
+            *Pattern:* ^$\|^arn:aws:iam::\\d\{12\}:role\.\+
+        DomainName:
+          type: string
+          description: >-
+            The domain name for the domain association\.    *Length
+            Constraints:* Maximum length of 255\.   *Pattern:*
+            ^\(\(\(?\!\-\)\[A\-Za\-z0\-9\-\]\{0,62\}\[A\-Za\-z0\-9\]\)\\\.\)\+\(\(?\!\-\)\[A\-Za\-z0\-9\-\]\{1,62\}\[A\-Za\-z0\-9\]\)\(\\\.\)?$
+        EnableAutoSubDomain:
+          type: boolean
+          description: Enables the automated creation of subdomains for branches\.
+        SubDomainSettings:
+          type: >-
+            list of
+            [subdomainsetting](aws-properties-amplify-domain-subdomainsetting.md)
+          description: The setting for the subdomain\.
+      required:
+        - AppId
+        - DomainName
+        - SubDomainSettings
+paths: {}

@@ -1,0 +1,38 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: CodeStarConnections
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Connection:
+      type: object
+      properties:
+        ConnectionName:
+          type: string
+          description: >-
+            The name of the connection\. Connection names must be unique in an
+            AWS user account\.
+        HostArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the host associated with the
+            connection\.
+        ProviderType:
+          type: string
+          description: >-
+            The name of the external provider where your third\-party code
+            repository is configured\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Specifies the tags applied to the resource\.
+      required:
+        - ConnectionName
+paths: {}

@@ -1,0 +1,198 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: CloudFront
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    CachePolicy:
+      type: object
+      properties:
+        CachePolicyConfig:
+          type: >-
+            [cachepolicyconfig](aws-properties-cloudfront-cachepolicy-cachepolicyconfig.md)
+          description: The cache policy configuration\.
+      required:
+        - CachePolicyConfig
+    CloudFrontOriginAccessIdentity:
+      type: object
+      properties:
+        CloudFrontOriginAccessIdentityConfig:
+          type: >-
+            [cloudfrontoriginaccessidentityconfig](aws-properties-cloudfront-cloudfrontoriginaccessidentity-cloudfrontoriginaccessidentityconfig.md)
+          description: The current configuration information for the identity\.
+      required:
+        - CloudFrontOriginAccessIdentityConfig
+    ContinuousDeploymentPolicy:
+      type: object
+      properties:
+        ContinuousDeploymentPolicyConfig:
+          type: >-
+            [continuousdeploymentpolicyconfig](aws-properties-cloudfront-continuousdeploymentpolicy-continuousdeploymentpolicyconfig.md)
+          description: Contains the configuration for a continuous deployment policy\.
+      required:
+        - ContinuousDeploymentPolicyConfig
+    Distribution:
+      type: object
+      properties:
+        DistributionConfig:
+          type: >-
+            [distributionconfig](aws-properties-cloudfront-distribution-distributionconfig.md)
+          description: The distribution's configuration\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A complex type that contains zero or more `Tag` elements\.
+      required:
+        - DistributionConfig
+    Function:
+      type: object
+      properties:
+        AutoPublish:
+          type: boolean
+          description: >-
+            A flag that determines whether to automatically publish the function
+            to the `LIVE` stage when it’s created\. To automatically publish to
+            the `LIVE` stage, set this property to `true`\.
+        FunctionCode:
+          type: string
+          description: >-
+            The function code\. For more information about writing a CloudFront
+            function, see [Writing function code for CloudFront
+            Functions](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/writing-function-code.html)
+            in the *Amazon CloudFront Developer Guide*\.
+        FunctionConfig:
+          type: >-
+            [functionconfig](aws-properties-cloudfront-function-functionconfig.md)
+          description: Contains configuration information about a CloudFront function\.
+        FunctionMetadata:
+          type: >-
+            [functionmetadata](aws-properties-cloudfront-function-functionmetadata.md)
+          description: Contains metadata about a CloudFront function\.
+        Name:
+          type: string
+          description: A name to identify the function\.
+      required:
+        - FunctionCode
+        - FunctionConfig
+        - Name
+    KeyGroup:
+      type: object
+      properties:
+        KeyGroupConfig:
+          type: >-
+            [keygroupconfig](aws-properties-cloudfront-keygroup-keygroupconfig.md)
+          description: The key group configuration\.
+      required:
+        - KeyGroupConfig
+    MonitoringSubscription:
+      type: object
+      properties:
+        DistributionId:
+          type: string
+          description: The ID of the distribution that you are enabling metrics for\.
+        MonitoringSubscription:
+          type: >-
+            [monitoringsubscription](aws-properties-cloudfront-monitoringsubscription-monitoringsubscription.md)
+          description: A subscription configuration for additional CloudWatch metrics\.
+      required:
+        - DistributionId
+        - MonitoringSubscription
+    OriginAccessControl:
+      type: object
+      properties:
+        OriginAccessControlConfig:
+          type: >-
+            [originaccesscontrolconfig](aws-properties-cloudfront-originaccesscontrol-originaccesscontrolconfig.md)
+          description: The origin access control\.
+      required:
+        - OriginAccessControlConfig
+    OriginRequestPolicy:
+      type: object
+      properties:
+        OriginRequestPolicyConfig:
+          type: >-
+            [originrequestpolicyconfig](aws-properties-cloudfront-originrequestpolicy-originrequestpolicyconfig.md)
+          description: The origin request policy configuration\.
+      required:
+        - OriginRequestPolicyConfig
+    PublicKey:
+      type: object
+      properties:
+        PublicKeyConfig:
+          type: >-
+            [publickeyconfig](aws-properties-cloudfront-publickey-publickeyconfig.md)
+          description: >-
+            Configuration information about a public key that you can use with
+            [signed URLs and signed
+            cookies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html),
+            or with [field\-level
+            encryption](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/field-level-encryption.html)\.
+      required:
+        - PublicKeyConfig
+    RealtimeLogConfig:
+      type: object
+      properties:
+        EndPoints:
+          type: >-
+            list of
+            [endpoint](aws-properties-cloudfront-realtimelogconfig-endpoint.md)
+          description: >-
+            Contains information about the Amazon Kinesis data stream where you
+            are sending real\-time log data for this real\-time log
+            configuration\.
+        Fields:
+          type: array
+          description: >-
+            A list of fields that are included in each real\-time log record\.
+            In an API response, the fields are provided in the same order in
+            which they are sent to the Amazon Kinesis data stream\.   For more
+            information about fields, see [Real\-time log configuration
+            fields](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/real-time-logs.html#understand-real-time-log-config-fields)
+            in the *Amazon CloudFront Developer Guide*\.
+        Name:
+          type: string
+          description: The unique name of this real\-time log configuration\.
+        SamplingRate:
+          type: double
+          description: >-
+            The sampling rate for this real\-time log configuration\. The
+            sampling rate determines the percentage of viewer requests that are
+            represented in the real\-time log data\. The sampling rate is an
+            integer between 1 and 100, inclusive\.
+      required:
+        - EndPoints
+        - Fields
+        - Name
+        - SamplingRate
+    ResponseHeadersPolicy:
+      type: object
+      properties:
+        ResponseHeadersPolicyConfig:
+          type: >-
+            [responseheaderspolicyconfig](aws-properties-cloudfront-responseheaderspolicy-responseheaderspolicyconfig.md)
+          description: A response headers policy configuration\.
+      required:
+        - ResponseHeadersPolicyConfig
+    StreamingDistribution:
+      type: object
+      properties:
+        StreamingDistributionConfig:
+          type: >-
+            [streamingdistributionconfig](aws-properties-cloudfront-streamingdistribution-streamingdistributionconfig.md)
+          description: The current configuration information for the RTMP distribution\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A complex type that contains zero or more `Tag` elements\.
+      required:
+        - StreamingDistributionConfig
+        - Tags
+paths: {}

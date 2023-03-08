@@ -1,0 +1,728 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Glue
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Classifier:
+      type: object
+      properties:
+        CsvClassifier:
+          type: '[csvclassifier](aws-properties-glue-classifier-csvclassifier.md)'
+          description: A classifier for comma\-separated values \(CSV\)\.
+        GrokClassifier:
+          type: '[grokclassifier](aws-properties-glue-classifier-grokclassifier.md)'
+          description: A classifier that uses `grok`\.
+        JsonClassifier:
+          type: '[jsonclassifier](aws-properties-glue-classifier-jsonclassifier.md)'
+          description: A classifier for JSON content\.
+        XMLClassifier:
+          type: '[xmlclassifier](aws-properties-glue-classifier-xmlclassifier.md)'
+          description: A classifier for XML content\.
+    Connection:
+      type: object
+      properties:
+        CatalogId:
+          type: string
+          description: >-
+            The ID of the data catalog to create the catalog object in\.
+            Currently, this should be the AWS account ID\.   To specify the
+            account ID, you can use the `Ref` intrinsic function with the
+            `AWS::AccountId` pseudo parameter\. For example: `!Ref
+            AWS::AccountId`\.
+        ConnectionInput:
+          type: '[connectioninput](aws-properties-glue-connection-connectioninput.md)'
+          description: The connection that you want to create\.
+      required:
+        - CatalogId
+        - ConnectionInput
+    Crawler:
+      type: object
+      properties:
+        Classifiers:
+          type: array
+          description: >-
+            A list of UTF\-8 strings that specify the names of custom
+            classifiers that are associated with the crawler\.
+        Configuration:
+          type: string
+          description: >-
+            Crawler configuration information\. This versioned JSON string
+            allows users to specify aspects of a crawler's behavior\. For more
+            information, see [Configuring a
+            Crawler](https://docs.aws.amazon.com/glue/latest/dg/crawler-configuration.html)\.
+        CrawlerSecurityConfiguration:
+          type: string
+          description: >-
+            The name of the `SecurityConfiguration` structure to be used by this
+            crawler\.
+        DatabaseName:
+          type: string
+          description: The name of the database in which the crawler's output is stored\.
+        Description:
+          type: string
+          description: A description of the crawler\.
+        Name:
+          type: string
+          description: The name of the crawler\.
+        RecrawlPolicy:
+          type: '[recrawlpolicy](aws-properties-glue-crawler-recrawlpolicy.md)'
+          description: >-
+            A policy that specifies whether to crawl the entire dataset again,
+            or to crawl only folders that were added since the last crawler
+            run\.
+        Role:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of an IAM role that's used to
+            access customer resources, such as Amazon Simple Storage Service
+            \(Amazon S3\) data\.
+        Schedule:
+          type: '[schedule](aws-properties-glue-crawler-schedule.md)'
+          description: For scheduled crawlers, the schedule when the crawler runs\.
+        SchemaChangePolicy:
+          type: >-
+            [schemachangepolicy](aws-properties-glue-crawler-schemachangepolicy.md)
+          description: >-
+            The policy that specifies update and delete behaviors for the
+            crawler\. The policy tells the crawler what to do in the event that
+            it detects a change in a table that already exists in the customer's
+            database at the time of the crawl\. The `SchemaChangePolicy` does
+            not affect whether or how new tables and partitions are added\. New
+            tables and partitions are always created regardless of the
+            `SchemaChangePolicy` on a crawler\.   The SchemaChangePolicy
+            consists of two components, `UpdateBehavior` and `DeleteBehavior`\.
+        TablePrefix:
+          type: string
+          description: The prefix added to the names of tables that are created\.
+        Tags:
+          type: object
+          description: The tags to use with this crawler\.
+        Targets:
+          type: '[targets](aws-properties-glue-crawler-targets.md)'
+          description: A collection of targets to crawl\.
+      required:
+        - Role
+        - Targets
+    Database:
+      type: object
+      properties:
+        CatalogId:
+          type: string
+          description: >-
+            The AWS account ID for the account in which to create the catalog
+            object\.    To specify the account ID, you can use the `Ref`
+            intrinsic function with the `AWS::AccountId` pseudo parameter\. For
+            example: `!Ref AWS::AccountId`
+        DatabaseInput:
+          type: '[databaseinput](aws-properties-glue-database-databaseinput.md)'
+          description: The metadata for the database\.
+      required:
+        - CatalogId
+        - DatabaseInput
+    DataCatalogEncryptionSettings:
+      type: object
+      properties:
+        CatalogId:
+          type: string
+          description: The ID of the Data Catalog in which the settings are created\.
+        DataCatalogEncryptionSettings:
+          type: >-
+            [datacatalogencryptionsettings](aws-properties-glue-datacatalogencryptionsettings-datacatalogencryptionsettings.md)
+          description: >-
+            Contains configuration information for maintaining Data Catalog
+            security\.
+      required:
+        - CatalogId
+        - DataCatalogEncryptionSettings
+    DevEndpoint:
+      type: object
+      properties:
+        Arguments:
+          type: object
+          description: >-
+            A map of arguments used to configure the `DevEndpoint`\.   Valid
+            arguments are:   + `"--enable-glue-datacatalog": ""` +
+            `"GLUE_PYTHON_VERSION": "3"` + `"GLUE_PYTHON_VERSION": "2"` You can
+            specify a version of Python support for development endpoints by
+            using the `Arguments` parameter in the `CreateDevEndpoint` or
+            `UpdateDevEndpoint` APIs\. If no arguments are provided, the version
+            defaults to Python 2\.
+        EndpointName:
+          type: string
+          description: The name of the `DevEndpoint`\.
+        ExtraJarsS3Path:
+          type: string
+          description: >-
+            The path to one or more Java `.jar` files in an S3 bucket that
+            should be loaded in your `DevEndpoint`\.   You can only use pure
+            Java/Scala libraries with a `DevEndpoint`\.
+        ExtraPythonLibsS3Path:
+          type: string
+          description: >-
+            The paths to one or more Python libraries in an Amazon S3 bucket
+            that should be loaded in your `DevEndpoint`\. Multiple values must
+            be complete paths separated by a comma\.   You can only use pure
+            Python libraries with a `DevEndpoint`\. Libraries that rely on C
+            extensions, such as the [pandas](http://pandas.pydata.org/) Python
+            data analysis library, are not currently supported\.
+        GlueVersion:
+          type: string
+          description: >-
+            The AWS Glue version determines the versions of Apache Spark and
+            Python that AWS Glue supports\. The Python version indicates the
+            version supported for running your ETL scripts on development
+            endpoints\.    For more information about the available AWS Glue
+            versions and corresponding Spark and Python versions, see [Glue
+            version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in
+            the developer guide\.   Development endpoints that are created
+            without specifying a Glue version default to Glue 0\.9\.   You can
+            specify a version of Python support for development endpoints by
+            using the `Arguments` parameter in the `CreateDevEndpoint` or
+            `UpdateDevEndpoint` APIs\. If no arguments are provided, the version
+            defaults to Python 2\.
+        NumberOfNodes:
+          type: integer
+          description: >-
+            The number of AWS Glue Data Processing Units \(DPUs\) allocated to
+            this `DevEndpoint`\.
+        NumberOfWorkers:
+          type: integer
+          description: >-
+            The number of workers of a defined `workerType` that are allocated
+            to the development endpoint\.   The maximum number of workers you
+            can define are 299 for `G.1X`, and 149 for `G.2X`\.
+        PublicKey:
+          type: string
+          description: >-
+            The public key to be used by this `DevEndpoint` for authentication\.
+            This attribute is provided for backward compatibility because the
+            recommended attribute to use is public keys\.
+        PublicKeys:
+          type: array
+          description: >-
+            A list of public keys to be used by the `DevEndpoints` for
+            authentication\. Using this attribute is preferred over a single
+            public key because the public keys allow you to have a different
+            private key per client\.   If you previously created an endpoint
+            with a public key, you must remove that key to be able to set a list
+            of public keys\. Call the `UpdateDevEndpoint` API operation with the
+            public key content in the `deletePublicKeys` attribute, and the list
+            of new keys in the `addPublicKeys` attribute\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the IAM role used in this
+            `DevEndpoint`\.
+        SecurityConfiguration:
+          type: string
+          description: >-
+            The name of the `SecurityConfiguration` structure to be used with
+            this `DevEndpoint`\.
+        SecurityGroupIds:
+          type: array
+          description: A list of security group identifiers used in this `DevEndpoint`\.
+        SubnetId:
+          type: string
+          description: The subnet ID for this `DevEndpoint`\.
+        Tags:
+          type: object
+          description: The tags to use with this DevEndpoint\.
+        WorkerType:
+          type: string
+          description: >-
+            The type of predefined worker that is allocated to the development
+            endpoint\. Accepts a value of Standard, G\.1X, or G\.2X\.   + For
+            the `Standard` worker type, each worker provides 4 vCPU, 16 GB of
+            memory and a 50GB disk, and 2 executors per worker\. + For the
+            `G.1X` worker type, each worker maps to 1 DPU \(4 vCPU, 16 GB of
+            memory, 64 GB disk\), and provides 1 executor per worker\. We
+            recommend this worker type for memory\-intensive jobs\. + For the
+            `G.2X` worker type, each worker maps to 2 DPU \(8 vCPU, 32 GB of
+            memory, 128 GB disk\), and provides 1 executor per worker\. We
+            recommend this worker type for memory\-intensive jobs\. Known issue:
+            when a development endpoint is created with the `G.2X` `WorkerType`
+            configuration, the Spark drivers for the development endpoint will
+            run on 4 vCPU, 16 GB of memory, and a 64 GB disk\.
+      required:
+        - RoleArn
+    Job:
+      type: object
+      properties:
+        AllocatedCapacity:
+          type: double
+          description: >-
+            This parameter is no longer supported\. Use `MaxCapacity`
+            instead\.   The number of capacity units that are allocated to this
+            job\.
+        Command:
+          type: '[jobcommand](aws-properties-glue-job-jobcommand.md)'
+          description: The code that executes a job\.
+        Connections:
+          type: '[connectionslist](aws-properties-glue-job-connectionslist.md)'
+          description: The connections used for this job\.
+        DefaultArguments:
+          type: object
+          description: >-
+            The default arguments for this job, specified as name\-value
+            pairs\.   You can specify arguments here that your own
+            job\-execution script consumes, in addition to arguments that AWS
+            Glue itself consumes\.   For information about how to specify and
+            consume your own job arguments, see [Calling AWS Glue APIs in
+            Python](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-python-calling.html)
+            in the *AWS Glue Developer Guide*\.   For information about the
+            key\-value pairs that AWS Glue consumes to set up your job, see
+            [Special Parameters Used by AWS
+            Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html)
+            in the *AWS Glue Developer Guide*\.
+        Description:
+          type: string
+          description: A description of the job\.
+        ExecutionClass:
+          type: string
+          description: >-
+            Indicates whether the job is run with a standard or flexible
+            execution class\. The standard execution class is ideal for
+            time\-sensitive workloads that require fast job startup and
+            dedicated resources\.   The flexible execution class is appropriate
+            for time\-insensitive jobs whose start and completion times may
+            vary\.   Only jobs with AWS Glue version 3\.0 and above and command
+            type `glueetl` will be allowed to set `ExecutionClass` to `FLEX`\.
+            The flexible execution class is available for Spark jobs\.
+        ExecutionProperty:
+          type: '[executionproperty](aws-properties-glue-job-executionproperty.md)'
+          description: >-
+            The maximum number of concurrent runs that are allowed for this
+            job\.
+        GlueVersion:
+          type: string
+          description: >-
+            Glue version determines the versions of Apache Spark and Python that
+            AWS Glue supports\. The Python version indicates the version
+            supported for jobs of type Spark\.    For more information about the
+            available AWS Glue versions and corresponding Spark and Python
+            versions, see [Glue
+            version](https://docs.aws.amazon.com/glue/latest/dg/add-job.html) in
+            the developer guide\.   Jobs that are created without specifying a
+            Glue version default to Glue 0\.9\.
+        LogUri:
+          type: string
+          description: This field is reserved for future use\.
+        MaxCapacity:
+          type: double
+          description: >-
+            The number of AWS Glue data processing units \(DPUs\) that can be
+            allocated when this job runs\. A DPU is a relative measure of
+            processing power that consists of 4 vCPUs of compute capacity and 16
+            GB of memory\.   Do not set `Max Capacity` if using `WorkerType` and
+            `NumberOfWorkers`\.   The value that can be allocated for
+            `MaxCapacity` depends on whether you are running a Python shell job
+            or an Apache Spark ETL job:   + When you specify a Python shell job
+            \(`JobCommand.Name`="pythonshell"\), you can allocate either 0\.0625
+            or 1 DPU\. The default is 0\.0625 DPU\. + When you specify an Apache
+            Spark ETL job \(`JobCommand.Name`="glueetl"\), you can allocate from
+            2 to 100 DPUs\. The default is 10 DPUs\. This job type cannot have a
+            fractional DPU allocation\.
+        MaxRetries:
+          type: double
+          description: The maximum number of times to retry this job after a JobRun fails\.
+        Name:
+          type: string
+          description: The name you assign to this job definition\.
+        NonOverridableArguments:
+          type: object
+          description: >-
+            Non\-overridable arguments for this job, specified as name\-value
+            pairs\.
+        NotificationProperty:
+          type: >-
+            [notificationproperty](aws-properties-glue-job-notificationproperty.md)
+          description: Specifies configuration properties of a notification\.
+        NumberOfWorkers:
+          type: integer
+          description: >-
+            The number of workers of a defined `workerType` that are allocated
+            when a job runs\.   The maximum number of workers you can define are
+            299 for `G.1X`, and 149 for `G.2X`\.
+        Role:
+          type: string
+          description: >-
+            The name or Amazon Resource Name \(ARN\) of the IAM role associated
+            with this job\.
+        SecurityConfiguration:
+          type: string
+          description: >-
+            The name of the `SecurityConfiguration` structure to be used with
+            this job\.
+        Tags:
+          type: object
+          description: The tags to use with this job\.
+        Timeout:
+          type: integer
+          description: >-
+            The job timeout in minutes\. This is the maximum time that a job run
+            can consume resources before it is terminated and enters TIMEOUT
+            status\. The default is 2,880 minutes \(48 hours\)\.
+        WorkerType:
+          type: string
+          description: >-
+            The type of predefined worker that is allocated when a job runs\.
+            Accepts a value of Standard, G\.1X, or G\.2X\.   + For the
+            `Standard` worker type, each worker provides 4 vCPU, 16 GB of memory
+            and a 50GB disk, and 2 executors per worker\. + For the `G.1X`
+            worker type, each worker maps to 1 DPU \(4 vCPU, 16 GB of memory, 64
+            GB disk\), and provides 1 executor per worker\. We recommend this
+            worker type for memory\-intensive jobs\. + For the `G.2X` worker
+            type, each worker maps to 2 DPU \(8 vCPU, 32 GB of memory, 128 GB
+            disk\), and provides 1 executor per worker\. We recommend this
+            worker type for memory\-intensive jobs\.
+      required:
+        - Command
+        - Role
+    MLTransform:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: >-
+            A user\-defined, long\-form description text for the machine
+            learning transform\.
+        GlueVersion:
+          type: string
+          description: >-
+            This value determines which version of AWS Glue this machine
+            learning transform is compatible with\. Glue 1\.0 is recommended for
+            most customers\. If the value is not set, the Glue compatibility
+            defaults to Glue 0\.9\. For more information, see [AWS Glue
+            Versions](https://docs.aws.amazon.com/glue/latest/dg/release-notes.html#release-notes-versions)
+            in the developer guide\.
+        InputRecordTables:
+          type: >-
+            [inputrecordtables](aws-properties-glue-mltransform-inputrecordtables.md)
+          description: A list of AWS Glue table definitions used by the transform\.
+        MaxCapacity:
+          type: double
+          description: >-
+            The number of AWS Glue data processing units \(DPUs\) that are
+            allocated to task runs for this transform\. You can allocate from 2
+            to 100 DPUs; the default is 10\. A DPU is a relative measure of
+            processing power that consists of 4 vCPUs of compute capacity and 16
+            GB of memory\. For more information, see the [AWS Glue pricing
+            page](http://aws.amazon.com/glue/pricing/)\.    `MaxCapacity` is a
+            mutually exclusive option with `NumberOfWorkers` and
+            `WorkerType`\.   + If either `NumberOfWorkers` or `WorkerType` is
+            set, then `MaxCapacity` cannot be set\. + If `MaxCapacity` is set
+            then neither `NumberOfWorkers` or `WorkerType` can be set\. + If
+            `WorkerType` is set, then `NumberOfWorkers` is required \(and vice
+            versa\)\. + `MaxCapacity` and `NumberOfWorkers` must both be at
+            least 1\. When the `WorkerType` field is set to a value other than
+            `Standard`, the `MaxCapacity` field is set automatically and becomes
+            read\-only\.
+        MaxRetries:
+          type: integer
+          description: >-
+            The maximum number of times to retry after an `MLTaskRun` of the
+            machine learning transform fails\.
+        Name:
+          type: string
+          description: >-
+            A user\-defined name for the machine learning transform\. Names are
+            required to be unique\. `Name` is optional:   + If you supply
+            `Name`, the stack cannot be repeatedly created\. + If `Name` is not
+            provided, a randomly generated name will be used instead\.
+        NumberOfWorkers:
+          type: integer
+          description: >-
+            The number of workers of a defined `workerType` that are allocated
+            when a task of the transform runs\.   If `WorkerType` is set, then
+            `NumberOfWorkers` is required \(and vice versa\)\.
+        Role:
+          type: string
+          description: >-
+            The name or Amazon Resource Name \(ARN\) of the IAM role with the
+            required permissions\. The required permissions include both AWS
+            Glue service role permissions to AWS Glue resources, and Amazon S3
+            permissions required by the transform\.    + This role needs AWS
+            Glue service role permissions to allow access to resources in AWS
+            Glue\. See [Attach a Policy to IAM Users That Access AWS
+            Glue](https://docs.aws.amazon.com/glue/latest/dg/attach-policy-iam-user.html)\.
+            + This role needs permission to your Amazon Simple Storage Service
+            \(Amazon S3\) sources, targets, temporary directory, scripts, and
+            any libraries used by the task run for this transform\.
+        Tags:
+          type: object
+          description: >-
+            The tags to use with this machine learning transform\. You may use
+            tags to limit access to the machine learning transform\. For more
+            information about tags in AWS Glue, see [AWS Tags in AWS
+            Glue](https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html)
+            in the developer guide\.
+        Timeout:
+          type: integer
+          description: The timeout in minutes of the machine learning transform\.
+        TransformEncryption:
+          type: >-
+            [transformencryption](aws-properties-glue-mltransform-transformencryption.md)
+          description: >-
+            The encryption\-at\-rest settings of the transform that apply to
+            accessing user data\. Machine learning transforms can access user
+            data encrypted in Amazon S3 using KMS\.   Additionally, imported
+            labels and trained transforms can now be encrypted using a customer
+            provided KMS key\.
+        TransformParameters:
+          type: >-
+            [transformparameters](aws-properties-glue-mltransform-transformparameters.md)
+          description: >-
+            The algorithm\-specific parameters that are associated with the
+            machine learning transform\.
+        WorkerType:
+          type: string
+          description: >-
+            The type of predefined worker that is allocated when a task of this
+            transform runs\. Accepts a value of Standard, G\.1X, or G\.2X\.   +
+            For the `Standard` worker type, each worker provides 4 vCPU, 16 GB
+            of memory and a 50GB disk, and 2 executors per worker\. + For the
+            `G.1X` worker type, each worker provides 4 vCPU, 16 GB of memory and
+            a 64GB disk, and 1 executor per worker\. + For the `G.2X` worker
+            type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk,
+            and 1 executor per worker\. `MaxCapacity` is a mutually exclusive
+            option with `NumberOfWorkers` and `WorkerType`\.   + If either
+            `NumberOfWorkers` or `WorkerType` is set, then `MaxCapacity` cannot
+            be set\. + If `MaxCapacity` is set then neither `NumberOfWorkers` or
+            `WorkerType` can be set\. + If `WorkerType` is set, then
+            `NumberOfWorkers` is required \(and vice versa\)\. + `MaxCapacity`
+            and `NumberOfWorkers` must both be at least 1\.
+      required:
+        - InputRecordTables
+        - Role
+        - TransformParameters
+    Partition:
+      type: object
+      properties:
+        CatalogId:
+          type: string
+          description: >-
+            The AWS account ID of the catalog in which the partion is to be
+            created\.   To specify the account ID, you can use the `Ref`
+            intrinsic function with the `AWS::AccountId` pseudo parameter\. For
+            example: `!Ref AWS::AccountId`
+        DatabaseName:
+          type: string
+          description: The name of the catalog database in which to create the partition\.
+        PartitionInput:
+          type: '[partitioninput](aws-properties-glue-partition-partitioninput.md)'
+          description: The structure used to create and update a partition\.
+        TableName:
+          type: string
+          description: >-
+            The name of the metadata table in which the partition is to be
+            created\.
+      required:
+        - CatalogId
+        - DatabaseName
+        - PartitionInput
+        - TableName
+    Registry:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description of the registry\.
+        Name:
+          type: string
+          description: The name of the registry\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            AWS tags that contain a key value pair and may be searched by
+            console, command line, or API\.
+      required:
+        - Name
+    Schema:
+      type: object
+      properties:
+        CheckpointVersion:
+          type: '[schemaversion](aws-properties-glue-schema-schemaversion.md)'
+          description: >-
+            Specify the `VersionNumber` or the `IsLatest` for setting the
+            checkpoint for the schema\. This is only required for updating a
+            checkpoint\.
+        Compatibility:
+          type: string
+          description: The compatibility mode of the schema\.
+        DataFormat:
+          type: string
+          description: >-
+            The data format of the schema definition\. Currently only `AVRO` is
+            supported\.
+        Description:
+          type: string
+          description: A description of the schema if specified when created\.
+        Name:
+          type: string
+          description: >-
+            Name of the schema to be created of max length of 255, and may only
+            contain letters, numbers, hyphen, underscore, dollar sign, or hash
+            mark\. No whitespace\.
+        Registry:
+          type: '[registry](aws-properties-glue-schema-registry.md)'
+          description: The registry where a schema is stored\.
+        SchemaDefinition:
+          type: string
+          description: >-
+            The schema definition using the `DataFormat` setting for
+            `SchemaName`\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            AWS tags that contain a key value pair and may be searched by
+            console, command line, or API\.
+      required:
+        - Compatibility
+        - DataFormat
+        - Name
+        - SchemaDefinition
+    SchemaVersion:
+      type: object
+      properties:
+        Schema:
+          type: '[schema](aws-properties-glue-schemaversion-schema.md)'
+          description: The schema that includes the schema version\.
+        SchemaDefinition:
+          type: string
+          description: The schema definition for the schema version\.
+      required:
+        - Schema
+        - SchemaDefinition
+    SchemaVersionMetadata:
+      type: object
+      properties:
+        Key:
+          type: string
+          description: A metadata key in a key\-value pair for metadata\.
+        SchemaVersionId:
+          type: string
+          description: The version number of the schema\.
+        Value:
+          type: string
+          description: A metadata key's corresponding value\.
+      required:
+        - Key
+        - SchemaVersionId
+        - Value
+    SecurityConfiguration:
+      type: object
+      properties:
+        EncryptionConfiguration:
+          type: >-
+            [encryptionconfiguration](aws-properties-glue-securityconfiguration-encryptionconfiguration.md)
+          description: >-
+            The encryption configuration associated with this security
+            configuration\.
+        Name:
+          type: string
+          description: The name of the security configuration\.
+      required:
+        - EncryptionConfiguration
+        - Name
+    Table:
+      type: object
+      properties:
+        CatalogId:
+          type: string
+          description: The ID of the Data Catalog in which to create the `Table`\.
+        DatabaseName:
+          type: string
+          description: >-
+            The name of the database where the table metadata resides\. For Hive
+            compatibility, this must be all lowercase\.
+        TableInput:
+          type: '[tableinput](aws-properties-glue-table-tableinput.md)'
+          description: A structure used to define a table\.
+      required:
+        - CatalogId
+        - DatabaseName
+        - TableInput
+    Trigger:
+      type: object
+      properties:
+        Actions:
+          type: list of [action](aws-properties-glue-trigger-action.md)
+          description: The actions initiated by this trigger\.
+        Description:
+          type: string
+          description: A description of this trigger\.
+        EventBatchingCondition:
+          type: >-
+            [eventbatchingcondition](aws-properties-glue-trigger-eventbatchingcondition.md)
+          description: >-
+            Batch condition that must be met \(specified number of events
+            received or batch time window expired\) before EventBridge event
+            trigger fires\.
+        Name:
+          type: string
+          description: The name of the trigger\.
+        Predicate:
+          type: '[predicate](aws-properties-glue-trigger-predicate.md)'
+          description: The predicate of this trigger, which defines when it will fire\.
+        Schedule:
+          type: string
+          description: >-
+            A `cron` expression used to specify the schedule\. For more
+            information, see [Time\-Based Schedules for Jobs and
+            Crawlers](https://docs.aws.amazon.com/glue/latest/dg/monitor-data-warehouse-schedule.html)
+            in the *AWS Glue Developer Guide*\. For example, to run something
+            every day at 12:15 UTC, specify `cron(15 12 * * ? *)`\.
+        StartOnCreation:
+          type: boolean
+          description: >-
+            Set to true to start `SCHEDULED` and `CONDITIONAL` triggers when
+            created\. True is not supported for `ON_DEMAND` triggers\.
+        Tags:
+          type: object
+          description: The tags to use with this trigger\.
+        Type:
+          type: string
+          description: The type of trigger that this is\.
+        WorkflowName:
+          type: string
+          description: The name of the workflow associated with the trigger\.
+      required:
+        - Actions
+        - Type
+    Workflow:
+      type: object
+      properties:
+        DefaultRunProperties:
+          type: object
+          description: >-
+            A collection of properties to be used as part of each execution of
+            the workflow
+        Description:
+          type: string
+          description: A description of the workflow
+        MaxConcurrentRuns:
+          type: integer
+          description: >-
+            You can use this parameter to prevent unwanted multiple updates to
+            data, to control costs, or in some cases, to prevent exceeding the
+            maximum number of concurrent runs of any of the component jobs\. If
+            you leave this parameter blank, there is no limit to the number of
+            concurrent workflow runs\.
+        Name:
+          type: string
+          description: The name of the workflow representing the flow
+        Tags:
+          type: object
+          description: The tags to use with this workflow\.
+paths: {}

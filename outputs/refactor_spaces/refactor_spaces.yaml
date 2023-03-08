@@ -1,0 +1,123 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: RefactorSpaces
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Application:
+      type: object
+      properties:
+        ApiGatewayProxy:
+          type: >-
+            [apigatewayproxyinput](aws-properties-refactorspaces-application-apigatewayproxyinput.md)
+          description: The endpoint URL of the Amazon API Gateway proxy\.
+        EnvironmentIdentifier:
+          type: string
+          description: The unique identifier of the environment\.
+        Name:
+          type: string
+          description: The name of the application\.
+        ProxyType:
+          type: string
+          description: The proxy type of the proxy created within the application\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags assigned to the application\.
+        VpcId:
+          type: string
+          description: The ID of the virtual private cloud \(VPC\)\.
+    Environment:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description of the environment\.
+        Name:
+          type: string
+          description: The name of the environment\.
+        NetworkFabricType:
+          type: string
+          description: The network fabric type of the environment\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags assigned to the environment\.
+    Route:
+      type: object
+      properties:
+        ApplicationIdentifier:
+          type: string
+          description: The unique identifier of the application\.
+        DefaultRoute:
+          type: >-
+            [defaultrouteinput](aws-properties-refactorspaces-route-defaultrouteinput.md)
+          description: Configuration for the default route type\.
+        EnvironmentIdentifier:
+          type: string
+          description: The unique identifier of the environment\.
+        RouteType:
+          type: string
+          description: The route type of the route\.
+        ServiceIdentifier:
+          type: string
+          description: The unique identifier of the service\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags assigned to the route\.
+        UriPathRoute:
+          type: >-
+            [uripathrouteinput](aws-properties-refactorspaces-route-uripathrouteinput.md)
+          description: The configuration for the URI path route type\.
+      required:
+        - ApplicationIdentifier
+        - EnvironmentIdentifier
+        - ServiceIdentifier
+    Service:
+      type: object
+      properties:
+        ApplicationIdentifier:
+          type: string
+          description: The unique identifier of the application\.
+        Description:
+          type: string
+          description: A description of the service\.
+        EndpointType:
+          type: string
+          description: The endpoint type of the service\.
+        EnvironmentIdentifier:
+          type: string
+          description: The unique identifier of the environment\.
+        LambdaEndpoint:
+          type: >-
+            [lambdaendpointinput](aws-properties-refactorspaces-service-lambdaendpointinput.md)
+          description: A summary of the configuration for the AWS Lambda endpoint type\.
+        Name:
+          type: string
+          description: The name of the service\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags assigned to the service\.
+        UrlEndpoint:
+          type: >-
+            [urlendpointinput](aws-properties-refactorspaces-service-urlendpointinput.md)
+          description: The summary of the configuration for the URL endpoint type\.
+        VpcId:
+          type: string
+          description: The ID of the virtual private cloud \(VPC\)\.
+      required:
+        - ApplicationIdentifier
+        - EnvironmentIdentifier
+paths: {}

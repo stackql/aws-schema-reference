@@ -1,0 +1,329 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: FSx
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    DataRepositoryAssociation:
+      type: object
+      properties:
+        BatchImportMetaDataOnCreate:
+          type: boolean
+          description: >-
+            A boolean flag indicating whether an import data repository task to
+            import metadata should run after the data repository association is
+            created\. The task runs if this flag is set to `true`\.
+        DataRepositoryPath:
+          type: string
+          description: >-
+            The path to the Amazon S3 data repository that will be linked to the
+            file system\. The path can be an S3 bucket or prefix in the format
+            `s3://myBucket/myPrefix/`\. This path specifies where in the S3 data
+            repository files will be imported from or exported to\.
+        FileSystemId:
+          type: string
+          description: >-
+            The ID of the file system on which the data repository association
+            is configured\.
+        FileSystemPath:
+          type: string
+          description: >-
+            A path on the Amazon FSx for Lustre file system that points to a
+            high\-level directory \(such as `/ns1/`\) or subdirectory \(such as
+            `/ns1/subdir/`\) that will be mapped 1\-1 with
+            `DataRepositoryPath`\. The leading forward slash in the name is
+            required\. Two data repository associations cannot have overlapping
+            file system paths\. For example, if a data repository is associated
+            with file system path `/ns1/`, then you cannot link another data
+            repository with file system path `/ns1/ns2`\.   This path specifies
+            where in your file system files will be exported from or imported
+            to\. This file system directory can be linked to only one Amazon S3
+            bucket, and no other S3 bucket can be linked to the directory\.   If
+            you specify only a forward slash \(`/`\) as the file system path,
+            you can link only one data repository to the file system\. You can
+            only specify "/" as the file system path for the first data
+            repository associated with a file system\.
+        ImportedFileChunkSize:
+          type: integer
+          description: >-
+            For files imported from a data repository, this value determines the
+            stripe count and maximum amount of data per file \(in MiB\) stored
+            on a single physical disk\. The maximum number of disks that a
+            single file can be striped across is limited by the total number of
+            disks that make up the file system or cache\.   The default chunk
+            size is 1,024 MiB \(1 GiB\) and can go as high as 512,000 MiB \(500
+            GiB\)\. Amazon S3 objects have a maximum size of 5 TB\.
+        S3:
+          type: '[s3](aws-properties-fsx-datarepositoryassociation-s3.md)'
+          description: >-
+            The configuration for an Amazon S3 data repository linked to an
+            Amazon FSx Lustre file system with a data repository association\.
+            The configuration defines which file events \(new, changed, or
+            deleted files or directories\) are automatically imported from the
+            linked data repository to the file system or automatically exported
+            from the file system to the data repository\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - DataRepositoryPath
+        - FileSystemId
+        - FileSystemPath
+    FileSystem:
+      type: object
+      properties:
+        BackupId:
+          type: string
+          description: >-
+            The ID of the file system backup that you are using to create a file
+            system\. For more information, see
+            [CreateFileSystemFromBackup](https://docs.aws.amazon.com/fsx/latest/APIReference/API_CreateFileSystemFromBackup.html)\.
+        FileSystemType:
+          type: string
+          description: >-
+            The type of Amazon FSx file system, which can be `LUSTRE`,
+            `WINDOWS`, `ONTAP`, or `OPENZFS`\.
+        FileSystemTypeVersion:
+          type: string
+          description: >-
+            \(Optional\) For FSx for Lustre file systems, sets the Lustre
+            version for the file system that you're creating\. Valid values are
+            `2.10` and `2.12`:   + 2\.10 is supported by the Scratch and
+            Persistent\_1 Lustre deployment types\. + 2\.12 is supported by all
+            Lustre deployment types\. `2.12` is required when setting FSx for
+            Lustre `DeploymentType` to `PERSISTENT_2`\. Default value = `2.10`,
+            except when `DeploymentType` is set to `PERSISTENT_2`, then the
+            default is `2.12`\.   If you set `FileSystemTypeVersion` to `2.10`
+            for a `PERSISTENT_2` Lustre deployment type, the `CreateFileSystem`
+            operation fails\.
+        KmsKeyId:
+          description: >-
+            The ID of the AWS Key Management Service \(AWS KMS\) key used to
+            encrypt Amazon FSx file system data\. Used as follows with Amazon
+            FSx file system types:   + Amazon FSx for Lustre `PERSISTENT_1` and
+            `PERSISTENT_2` deployment types only\.
+        undefined:
+          type: string
+          description: >-
+            `SCRATCH_1` and `SCRATCH_2` types are encrypted using the Amazon FSx
+            service AWS KMS key for your account\. + Amazon FSx for NetApp ONTAP
+            + Amazon FSx for OpenZFS + Amazon FSx for Windows File Server
+        LustreConfiguration:
+          type: >-
+            [lustreconfiguration](aws-properties-fsx-filesystem-lustreconfiguration.md)
+          description: >-
+            The Lustre configuration for the file system being created\.   The
+            following parameters are not supported for file systems with the
+            Lustre `Persistent_2` deployment type\.   +  `AutoImportPolicy`  + 
+            `ExportPath`  +  `ImportedChunkSize`  +  `ImportPath`
+        OntapConfiguration:
+          type: >-
+            [ontapconfiguration](aws-properties-fsx-filesystem-ontapconfiguration.md)
+          description: >-
+            The ONTAP configuration properties of the FSx for ONTAP file system
+            that you are creating\.
+        OpenZFSConfiguration:
+          type: >-
+            [openzfsconfiguration](aws-properties-fsx-filesystem-openzfsconfiguration.md)
+          description: >-
+            The Amazon FSx for OpenZFS configuration properties for the file
+            system that you are creating\.
+        SecurityGroupIds:
+          type: array
+          description: >-
+            A list of IDs specifying the security groups to apply to all network
+            interfaces created for file system access\. This list isn't returned
+            in later requests to describe the file system\.
+        StorageCapacity:
+          type: integer
+          description: >-
+            Sets the storage capacity of the file system that you're creating\.
+            `StorageCapacity` is required if you are creating a new file
+            system\.   **FSx for Lustre file systems** \- The amount of storage
+            capacity that you can configure depends on the value that you set
+            for `StorageType` and the Lustre `DeploymentType`, as follows:   +
+            For `SCRATCH_2`, `PERSISTENT_2` and `PERSISTENT_1` deployment types
+            using SSD storage type, the valid values are 1200 GiB, 2400 GiB, and
+            increments of 2400 GiB\. + For `PERSISTENT_1` HDD file systems,
+            valid values are increments of 6000 GiB for 12 MB/s/TiB file systems
+            and increments of 1800 GiB for 40 MB/s/TiB file systems\. + For
+            `SCRATCH_1` deployment type, valid values are 1200 GiB, 2400 GiB,
+            and increments of 3600 GiB\. **FSx for ONTAP file systems** \- The
+            amount of storage capacity that you can configure is from 1024 GiB
+            up to 196,608 GiB \(192 TiB\)\.   **FSx for OpenZFS file systems**
+            \- The amount of storage capacity that you can configure is from 64
+            GiB up to 524,288 GiB \(512 TiB\)\. If you are creating a file
+            system from a backup, you can specify a storage capacity equal to or
+            greater than the original file system's storage capacity\.   **FSx
+            for Windows File Server file systems** \- The amount of storage
+            capacity that you can configure depends on the value that you set
+            for `StorageType` as follows:   + For SSD storage, valid values are
+            32 GiB\-65,536 GiB \(64 TiB\)\. + For HDD storage, valid values are
+            2000 GiB\-65,536 GiB \(64 TiB\)\.
+        StorageType:
+          type: string
+          description: >-
+            Sets the storage type for the file system that you're creating\.
+            Valid values are `SSD` and `HDD`\.   + Set to `SSD` to use solid
+            state drive storage\. SSD is supported on all Windows, Lustre,
+            ONTAP, and OpenZFS deployment types\. + Set to `HDD` to use hard
+            disk drive storage\. HDD is supported on `SINGLE_AZ_2` and
+            `MULTI_AZ_1` Windows file system deployment types, and on
+            `PERSISTENT_1` Lustre file system deployment types\.  Default value
+            is `SSD`\. For more information, see [ Storage type
+            options](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/optimize-fsx-costs.html#storage-type-options)
+            in the *FSx for Windows File Server User Guide* and [Multiple
+            storage
+            options](https://docs.aws.amazon.com/fsx/latest/LustreGuide/what-is.html#storage-options)
+            in the *FSx for Lustre User Guide*\.
+        SubnetIds:
+          type: array
+          description: >-
+            Specifies the IDs of the subnets that the file system will be
+            accessible from\. For Windows and ONTAP `MULTI_AZ_1` deployment
+            types,provide exactly two subnet IDs, one for the preferred file
+            server and one for the standby file server\. You specify one of
+            these subnets as the preferred subnet using the
+            `WindowsConfiguration > PreferredSubnetID` or `OntapConfiguration >
+            PreferredSubnetID` properties\. For more information about Multi\-AZ
+            file system configuration, see [ Availability and durability:
+            Single\-AZ and Multi\-AZ file
+            systems](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/high-availability-multiAZ.html)
+            in the *Amazon FSx for Windows User Guide* and [ Availability and
+            durability](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/high-availability-multiAZ.html)
+            in the *Amazon FSx for ONTAP User Guide*\.   For Windows
+            `SINGLE_AZ_1` and `SINGLE_AZ_2` and all Lustre deployment types,
+            provide exactly one subnet ID\. The file server is launched in that
+            subnet's Availability Zone\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        WindowsConfiguration:
+          type: >-
+            [windowsconfiguration](aws-properties-fsx-filesystem-windowsconfiguration.md)
+          description: >-
+            The configuration object for the Microsoft Windows file system you
+            are creating\. This value is required if `FileSystemType` is set to
+            `WINDOWS`\.
+      required:
+        - FileSystemType
+        - SubnetIds
+    Snapshot:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: The name of the snapshot\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        VolumeId:
+          type: string
+          description: The ID of the volume that the snapshot is of\.
+      required:
+        - Name
+        - VolumeId
+    StorageVirtualMachine:
+      type: object
+      properties:
+        ActiveDirectoryConfiguration:
+          type: >-
+            [activedirectoryconfiguration](aws-properties-fsx-storagevirtualmachine-activedirectoryconfiguration.md)
+          description: >-
+            Describes the Microsoft Active Directory configuration to which the
+            SVM is joined, if applicable\.
+        FileSystemId:
+          type: string
+          description: Specifies the FSx for ONTAP file system on which to create the SVM\.
+        Name:
+          type: string
+          description: The name of the SVM\.
+        RootVolumeSecurityStyle:
+          type: string
+          description: >-
+            The security style of the root volume of the SVM\. Specify one of
+            the following values:   +  `UNIX` if the file system is managed by a
+            UNIX administrator, the majority of users are NFS clients, and an
+            application accessing the data uses a UNIX user as the service
+            account\. +  `NTFS` if the file system is managed by a Windows
+            administrator, the majority of users are SMB clients, and an
+            application accessing the data uses a Windows user as the service
+            account\. +  `MIXED` if the file system is managed by both UNIX and
+            Windows administrators and users consist of both NFS and SMB
+            clients\.
+        SvmAdminPassword:
+          type: string
+          description: >-
+            Specifies the password to use when logging on to the SVM using a
+            secure shell \(SSH\) connection to the SVM's management endpoint\.
+            Doing so enables you to manage the SVM using the NetApp ONTAP CLI or
+            REST API\. If you do not specify a password, you can still use the
+            file system's `fsxadmin` user to manage the SVM\. For more
+            information, see [ Managing SVMs using the NetApp ONTAP
+            CLI](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-resources-ontap-apps.html#vsadmin-ontap-cli)
+            in the *FSx for ONTAP User Guide*\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - FileSystemId
+        - Name
+    Volume:
+      type: object
+      properties:
+        BackupId:
+          type: string
+          description: >-
+            Specifies the ID of the volume backup to use to create a new
+            volume\.
+        Name:
+          type: string
+          description: The name of the volume\.
+        OntapConfiguration:
+          type: >-
+            [ontapconfiguration](aws-properties-fsx-volume-ontapconfiguration.md)
+          description: The configuration of an Amazon FSx for NetApp ONTAP volume\.
+        OpenZFSConfiguration:
+          type: >-
+            [openzfsconfiguration](aws-properties-fsx-volume-openzfsconfiguration.md)
+          description: The configuration of an Amazon FSx for OpenZFS volume\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        VolumeType:
+          type: string
+          description: The type of the volume\.
+      required:
+        - Name
+paths: {}

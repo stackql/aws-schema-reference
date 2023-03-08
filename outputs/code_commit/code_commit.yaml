@@ -1,0 +1,62 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: CodeCommit
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Repository:
+      type: object
+      properties:
+        Code:
+          type: '[code](aws-properties-codecommit-repository-code.md)'
+          description: >-
+            Information about code to be committed to a repository after it is
+            created in an AWS CloudFormation stack\. Information about code is
+            only used in resource creation\. Updates to a stack will not reflect
+            changes made to code properties after initial resource creation\.   
+            You can only use this property to add code when creating a
+            repository with a AWS CloudFormation template at creation time\.
+            This property cannot be used for updating code to an existing
+            repository\.
+        RepositoryDescription:
+          type: string
+          description: >-
+            A comment or description about the new repository\.   The
+            description field for a repository accepts all HTML characters and
+            all valid Unicode characters\. Applications that do not HTML\-encode
+            the description and display it in a webpage can expose users to
+            potentially malicious code\. Make sure that you HTML\-encode the
+            description field in any application that uses this API to display
+            the repository description on a webpage\.
+        RepositoryName:
+          type: string
+          description: >-
+            The name of the new repository to be created\.   The repository name
+            must be unique across the calling AWS account\. Repository names are
+            limited to 100 alphanumeric, dash, and underscore characters, and
+            cannot include certain characters\. For more information about the
+            limits on repository names, see
+            [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html)
+            in the * AWS CodeCommit User Guide*\. The suffix \.git is
+            prohibited\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            One or more tag key\-value pairs to use when tagging this
+            repository\.
+        Triggers:
+          type: >-
+            list of
+            [repositorytrigger](aws-properties-codecommit-repository-repositorytrigger.md)
+          description: The JSON block of configuration information for each trigger\.
+      required:
+        - RepositoryName
+paths: {}

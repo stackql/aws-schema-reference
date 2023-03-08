@@ -1,0 +1,270 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Route53Resolver
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    FirewallDomainList:
+      type: object
+      properties:
+        DomainFileUrl:
+          type: string
+          description: >-
+            The fully qualified URL or URI of the file stored in Amazon Simple
+            Storage Service \(Amazon S3\) that contains the list of domains to
+            import\.   The file must be in an S3 bucket that's in the same
+            Region as your DNS Firewall\. The file must be a text file and must
+            contain a single domain per line\.
+        Domains:
+          type: array
+          description: A list of the domain lists that you have defined\.
+        Name:
+          type: string
+          description: The name of the domain list\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of the tag keys and values that you want to associate with
+            the domain list\.
+    FirewallRuleGroup:
+      type: object
+      properties:
+        FirewallRules:
+          type: >-
+            list of
+            [firewallrule](aws-properties-route53resolver-firewallrulegroup-firewallrule.md)
+          description: A list of the rules that you have defined\.
+        Name:
+          type: string
+          description: The name of the rule group\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of the tag keys and values that you want to associate with
+            the rule group\.
+    FirewallRuleGroupAssociation:
+      type: object
+      properties:
+        FirewallRuleGroupId:
+          type: string
+          description: The unique identifier of the firewall rule group\.
+        MutationProtection:
+          type: string
+          description: >-
+            If enabled, this setting disallows modification or removal of the
+            association, to help prevent against accidentally altering DNS
+            firewall protections\.
+        Name:
+          type: string
+          description: The name of the association\.
+        Priority:
+          type: integer
+          description: >-
+            The setting that determines the processing order of the rule group
+            among the rule groups that are associated with a single VPC\. DNS
+            Firewall filters VPC traffic starting from rule group with the
+            lowest numeric priority setting\.    You must specify a unique
+            priority for each rule group that you associate with a single VPC\.
+            To make it easier to insert rule groups later, leave space between
+            the numbers, for example, use 101, 200, and so on\. You can change
+            the priority setting for a rule group association after you create
+            it\.   The allowed values for `Priority` are between 100 and 9900
+            \(excluding 100 and 9900\)\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of the tag keys and values that you want to associate with
+            the rule group\.
+        VpcId:
+          type: string
+          description: >-
+            The unique identifier of the VPC that is associated with the rule
+            group\.
+      required:
+        - FirewallRuleGroupId
+        - Priority
+        - VpcId
+    ResolverConfig:
+      type: object
+      properties:
+        AutodefinedReverseFlag:
+          type: string
+          description: >-
+            Represents the desired status of `AutodefinedReverse`\. The only
+            supported value on creation is `DISABLE`\. Deletion of this resource
+            will return `AutodefinedReverse` to its default value of `ENABLED`\.
+        ResourceId:
+          type: string
+          description: >-
+            The ID of the Amazon Virtual Private Cloud VPC that you're
+            configuring Resolver for\.
+      required:
+        - AutodefinedReverseFlag
+        - ResourceId
+    ResolverDNSSECConfig:
+      type: object
+      properties:
+        ResourceId:
+          type: string
+          description: >-
+            The ID of the virtual private cloud \(VPC\) that you're configuring
+            the DNSSEC validation status for\.
+    ResolverEndpoint:
+      type: object
+      properties:
+        Direction:
+          type: string
+          description: >-
+            Indicates whether the Resolver endpoint allows inbound or outbound
+            DNS queries:   +  `INBOUND`: allows DNS queries to your VPC from
+            your network +  `OUTBOUND`: allows DNS queries from your VPC to your
+            network
+        IpAddresses:
+          type: >-
+            list of
+            [ipaddressrequest](aws-properties-route53resolver-resolverendpoint-ipaddressrequest.md)
+          description: >-
+            The subnets and IP addresses in your VPC that DNS queries originate
+            from \(for outbound endpoints\) or that you forward DNS queries to
+            \(for inbound endpoints\)\. The subnet ID uniquely identifies a
+            VPC\.
+        Name:
+          type: string
+          description: >-
+            A friendly name that lets you easily find a configuration in the
+            Resolver dashboard in the Route 53 console\.
+        OutpostArn:
+          type: string
+          description: Property description not available\.
+        PreferredInstanceType:
+          type: string
+          description: Property description not available\.
+        ResolverEndpointType:
+          type: string
+          description: Property description not available\.
+        SecurityGroupIds:
+          type: array
+          description: >-
+            The ID of one or more security groups that control access to this
+            VPC\. The security group must include one or more inbound rules
+            \(for inbound endpoints\) or outbound rules \(for outbound
+            endpoints\)\. Inbound and outbound rules must allow TCP and UDP
+            access\. For inbound access, open port 53\. For outbound access,
+            open the port that you're using for DNS queries on your network\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Route 53 Resolver doesn't support updating tags through
+            CloudFormation\.
+      required:
+        - Direction
+        - IpAddresses
+        - SecurityGroupIds
+    ResolverQueryLoggingConfig:
+      type: object
+      properties:
+        DestinationArn:
+          type: string
+          description: >-
+            The ARN of the resource that you want Resolver to send query logs:
+            an Amazon S3 bucket, a CloudWatch Logs log group, or a Kinesis Data
+            Firehose delivery stream\.
+        Name:
+          type: string
+          description: The name of the query logging configuration\.
+    ResolverQueryLoggingConfigAssociation:
+      type: object
+      properties:
+        ResolverQueryLogConfigId:
+          type: string
+          description: >-
+            The ID of the query logging configuration that a VPC is associated
+            with\.
+        ResourceId:
+          type: string
+          description: >-
+            The ID of the Amazon VPC that is associated with the query logging
+            configuration\.
+    ResolverRule:
+      type: object
+      properties:
+        DomainName:
+          type: string
+          description: >-
+            DNS queries for this domain name are forwarded to the IP addresses
+            that are specified in `TargetIps`\. If a query matches multiple
+            Resolver rules \(example\.com and www\.example\.com\), the query is
+            routed using the Resolver rule that contains the most specific
+            domain name \(www\.example\.com\)\.
+        Name:
+          type: string
+          description: >-
+            The name for the Resolver rule, which you specified when you created
+            the Resolver rule\.
+        ResolverEndpointId:
+          type: string
+          description: The ID of the endpoint that the rule is associated with\.
+        RuleType:
+          type: string
+          description: >-
+            When you want to forward DNS queries for specified domain name to
+            resolvers on your network, specify `FORWARD`\.   When you have a
+            forwarding rule to forward DNS queries for a domain to your network
+            and you want Resolver to process queries for a subdomain of that
+            domain, specify `SYSTEM`\.   For example, to forward DNS queries for
+            example\.com to resolvers on your network, you create a rule and
+            specify `FORWARD` for `RuleType`\. To then have Resolver process
+            queries for apex\.example\.com, you create a rule and specify
+            `SYSTEM` for `RuleType`\.   Currently, only Resolver can create
+            rules that have a value of `RECURSIVE` for `RuleType`\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Route 53 Resolver doesn't support updating tags through
+            CloudFormation\.
+        TargetIps:
+          type: >-
+            list of
+            [targetaddress](aws-properties-route53resolver-resolverrule-targetaddress.md)
+          description: >-
+            An array that contains the IP addresses and ports that an outbound
+            endpoint forwards DNS queries to\. Typically, these are the IP
+            addresses of DNS resolvers on your network\. Specify IPv4
+            addresses\. IPv6 is not supported\.
+      required:
+        - DomainName
+        - RuleType
+    ResolverRuleAssociation:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: The name of an association between a Resolver rule and a VPC\.
+        ResolverRuleId:
+          type: string
+          description: >-
+            The ID of the Resolver rule that you associated with the VPC that is
+            specified by `VPCId`\.
+        VPCId:
+          type: string
+          description: The ID of the VPC that you associated the Resolver rule with\.
+      required:
+        - ResolverRuleId
+        - VPCId
+paths: {}

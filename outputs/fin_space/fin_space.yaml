@@ -1,0 +1,48 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: FinSpace
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Environment:
+      type: object
+      properties:
+        DataBundles:
+          type: array
+          description: >-
+            The list of Amazon Resource Names \(ARN\) of the data bundles to
+            install\. Currently supported data bundle ARNs:   + 
+            `arn:aws:finspace:${Region}::data-bundle/capital-markets-sample` \-
+            Contains sample Capital Markets datasets, categories and controlled
+            vocabularies\. +  `arn:aws:finspace:${Region}::data-bundle/taq`
+            \(default\) \- Contains trades and quotes data in addition to sample
+            Capital Markets data\.
+        Description:
+          type: string
+          description: The description of the FinSpace environment\.
+        FederationMode:
+          type: string
+          description: The authentication mode for the environment\.
+        FederationParameters:
+          type: >-
+            [federationparameters](aws-properties-finspace-environment-federationparameters.md)
+          description: Configuration information when authentication mode is FEDERATED\.
+        KmsKeyId:
+          type: string
+          description: The KMS key id used to encrypt in the FinSpace environment\.
+        Name:
+          type: string
+          description: The name of the FinSpace environment\.
+        SuperuserParameters:
+          type: >-
+            [superuserparameters](aws-properties-finspace-environment-superuserparameters.md)
+          description: Configuration information for the superuser\.
+      required:
+        - Name
+paths: {}

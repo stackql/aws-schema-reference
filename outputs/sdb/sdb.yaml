@@ -1,0 +1,19 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: SDB
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Domain:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: Information about the SimpleDB domain\.
+paths: {}

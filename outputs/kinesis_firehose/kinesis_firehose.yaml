@@ -1,0 +1,118 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: KinesisFirehose
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    DeliveryStream:
+      type: object
+      properties:
+        AmazonOpenSearchServerlessDestinationConfiguration:
+          type: >-
+            [amazonopensearchserverlessdestinationconfiguration](aws-properties-kinesisfirehose-deliverystream-amazonopensearchserverlessdestinationconfiguration.md)
+          description: Property description not available\.
+        AmazonopensearchserviceDestinationConfiguration:
+          type: >-
+            [amazonopensearchservicedestinationconfiguration](aws-properties-kinesisfirehose-deliverystream-amazonopensearchservicedestinationconfiguration.md)
+          description: >-
+            The destination in Amazon OpenSearch Service\. You can specify only
+            one destination\.
+        DeliveryStreamEncryptionConfigurationInput:
+          type: >-
+            [deliverystreamencryptionconfigurationinput](aws-properties-kinesisfirehose-deliverystream-deliverystreamencryptionconfigurationinput.md)
+          description: >-
+            Specifies the type and Amazon Resource Name \(ARN\) of the CMK to
+            use for Server\-Side Encryption \(SSE\)\.
+        DeliveryStreamName:
+          type: string
+          description: The name of the delivery stream\.
+        DeliveryStreamType:
+          type: string
+          description: >-
+            The delivery stream type\. This can be one of the following
+            values:   +  `DirectPut`: Provider applications access the delivery
+            stream directly\. +  `KinesisStreamAsSource`: The delivery stream
+            uses a Kinesis data stream as a source\.
+        ElasticsearchDestinationConfiguration:
+          type: >-
+            [elasticsearchdestinationconfiguration](aws-properties-kinesisfirehose-deliverystream-elasticsearchdestinationconfiguration.md)
+          description: >-
+            An Amazon ES destination for the delivery stream\.   Conditional\.
+            You must specify only one destination configuration\.   If you
+            change the delivery stream destination from an Amazon ES destination
+            to an Amazon S3 or Amazon Redshift destination, update requires
+            [some
+            interruptions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-some-interrupt)\.
+        ExtendedS3DestinationConfiguration:
+          type: >-
+            [extendeds3destinationconfiguration](aws-properties-kinesisfirehose-deliverystream-extendeds3destinationconfiguration.md)
+          description: >-
+            An Amazon S3 destination for the delivery stream\.   Conditional\.
+            You must specify only one destination configuration\.   If you
+            change the delivery stream destination from an Amazon Extended S3
+            destination to an Amazon ES destination, update requires [some
+            interruptions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-some-interrupt)\.
+        HttpEndpointDestinationConfiguration:
+          type: >-
+            [httpendpointdestinationconfiguration](aws-properties-kinesisfirehose-deliverystream-httpendpointdestinationconfiguration.md)
+          description: >-
+            Enables configuring Kinesis Firehose to deliver data to any HTTP
+            endpoint destination\. You can specify only one destination\.
+        KinesisStreamSourceConfiguration:
+          type: >-
+            [kinesisstreamsourceconfiguration](aws-properties-kinesisfirehose-deliverystream-kinesisstreamsourceconfiguration.md)
+          description: >-
+            When a Kinesis stream is used as the source for the delivery stream,
+            a
+            [KinesisStreamSourceConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-kinesisfirehose-deliverystream-kinesisstreamsourceconfiguration.html)
+            containing the Kinesis stream ARN and the role ARN for the source
+            stream\.
+        RedshiftDestinationConfiguration:
+          type: >-
+            [redshiftdestinationconfiguration](aws-properties-kinesisfirehose-deliverystream-redshiftdestinationconfiguration.md)
+          description: >-
+            An Amazon Redshift destination for the delivery stream\.  
+            Conditional\. You must specify only one destination
+            configuration\.   If you change the delivery stream destination from
+            an Amazon Redshift destination to an Amazon ES destination, update
+            requires [some
+            interruptions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-some-interrupt)\.
+        S3DestinationConfiguration:
+          type: >-
+            [s3destinationconfiguration](aws-properties-kinesisfirehose-deliverystream-s3destinationconfiguration.md)
+          description: >-
+            The `S3DestinationConfiguration` property type specifies an Amazon
+            Simple Storage Service \(Amazon S3\) destination to which Amazon
+            Kinesis Data Firehose \(Kinesis Data Firehose\) delivers data\.  
+            Conditional\. You must specify only one destination
+            configuration\.   If you change the delivery stream destination from
+            an Amazon S3 destination to an Amazon ES destination, update
+            requires [some
+            interruptions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-some-interrupt)\.
+        SplunkDestinationConfiguration:
+          type: >-
+            [splunkdestinationconfiguration](aws-properties-kinesisfirehose-deliverystream-splunkdestinationconfiguration.md)
+          description: >-
+            The configuration of a destination in Splunk for the delivery
+            stream\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A set of tags to assign to the delivery stream\. A tag is a
+            key\-value pair that you can define and assign to AWS resources\.
+            Tags are metadata\. For example, you can add friendly names and
+            descriptions or other types of information that can help you
+            distinguish the delivery stream\. For more information about tags,
+            see [Using Cost Allocation
+            Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html)
+            in the AWS Billing and Cost Management User Guide\.   You can
+            specify up to 50 tags when creating a delivery stream\.
+paths: {}

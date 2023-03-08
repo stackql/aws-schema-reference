@@ -1,0 +1,38 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: IoTFleetHub
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Application:
+      type: object
+      properties:
+        ApplicationDescription:
+          type: string
+          description: An optional description of the web application\.
+        ApplicationName:
+          type: string
+          description: The name of the web application\.
+        RoleArn:
+          type: string
+          description: >-
+            The ARN of the role that the web application assumes when it
+            interacts with AWS IoT Core\.   The name of the role must be in the
+            form `FleetHub_random_string`\. Pattern: `^arn:[!-~]+$`
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A set of key/value pairs that you can use to manage the web
+            application resource\.
+      required:
+        - ApplicationName
+        - RoleArn
+paths: {}

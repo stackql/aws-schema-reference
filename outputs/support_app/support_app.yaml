@@ -1,0 +1,83 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: SupportApp
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    AccountAlias:
+      type: object
+      properties:
+        AccountAlias:
+          type: string
+          description: An alias or short name for an AWS account\.
+      required:
+        - AccountAlias
+    SlackChannelConfiguration:
+      type: object
+      properties:
+        ChannelId:
+          type: string
+          description: >-
+            The channel ID in Slack\. This ID identifies a channel within a
+            Slack workspace\.
+        ChannelName:
+          type: string
+          description: >-
+            The channel name in Slack\. This is the channel where you invite the
+            AWS Support App\.
+        ChannelRoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the IAM role for this Slack
+            channel configuration\. The AWS Support App uses this role to
+            perform AWS Support and Service Quotas actions on your behalf\.
+        NotifyOnAddCorrespondenceToCase:
+          type: boolean
+          description: >-
+            Whether to get notified when a correspondence is added to your
+            support cases\.
+        NotifyOnCaseSeverity:
+          type: string
+          description: >-
+            The case severity for your support cases that you want to receive
+            notifications\. You can specify `none`, `all`, or `high`\.
+        NotifyOnCreateOrReopenCase:
+          type: boolean
+          description: >-
+            Whether to get notified when your support cases are created or
+            reopened
+        NotifyOnResolveCase:
+          type: boolean
+          description: Whether to get notified when your support cases are resolved\.
+        TeamId:
+          type: string
+          description: >-
+            The team ID in Slack\. This ID uniquely identifies a Slack
+            workspace\.
+      required:
+        - ChannelId
+        - ChannelRoleArn
+        - NotifyOnCaseSeverity
+        - TeamId
+    SlackWorkspaceConfiguration:
+      type: object
+      properties:
+        TeamId:
+          type: string
+          description: >-
+            The team ID in Slack\. This ID uniquely identifies a Slack
+            workspace, such as `T012ABCDEFG`\.
+        VersionId:
+          type: string
+          description: >-
+            An identifier used to update an existing Slack workspace
+            configuration in AWS CloudFormation, such as `100`\.
+      required:
+        - TeamId
+paths: {}

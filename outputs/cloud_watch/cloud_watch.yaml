@@ -1,0 +1,461 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: CloudWatch
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Alarm:
+      type: object
+      properties:
+        ActionsEnabled:
+          type: boolean
+          description: >-
+            Indicates whether actions should be executed during any changes to
+            the alarm state\. The default is TRUE\.
+        AlarmActions:
+          type: array
+          description: >-
+            The list of actions to execute when this alarm transitions into an
+            ALARM state from any other state\. Specify each action as an Amazon
+            Resource Name \(ARN\)\. For more information about creating alarms
+            and the actions that you can specify, see
+            [PutMetricAlarm](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_PutMetricAlarm.html)
+            in the *Amazon CloudWatch API Reference*\.
+        AlarmDescription:
+          type: string
+          description: The description of the alarm\.
+        AlarmName:
+          type: string
+          description: >-
+            The name of the alarm\. If you don't specify a name, AWS
+            CloudFormation generates a unique physical ID and uses that ID for
+            the alarm name\.    If you specify a name, you cannot perform
+            updates that require replacement of this resource\. You can perform
+            updates that require no or some interruption\. If you must replace
+            the resource, specify a new name\.
+        ComparisonOperator:
+          type: string
+          description: >-
+            The arithmetic operation to use when comparing the specified
+            statistic and threshold\. The specified statistic value is used as
+            the first operand\.   You can specify the following values:
+            `GreaterThanThreshold`, `GreaterThanOrEqualToThreshold`,
+            `LessThanThreshold`, or `LessThanOrEqualToThreshold`\.
+        DatapointsToAlarm:
+          type: integer
+          description: >-
+            The number of datapoints that must be breaching to trigger the
+            alarm\. This is used only if you are setting an "M out of N" alarm\.
+            In that case, this value is the M, and the value that you set for
+            `EvaluationPeriods` is the N value\. For more information, see
+            [Evaluating an
+            Alarm](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarm-evaluation)
+            in the *Amazon CloudWatch User Guide*\.   If you omit this
+            parameter, CloudWatch uses the same value here that you set for
+            `EvaluationPeriods`, and the alarm goes to alarm state if that many
+            consecutive periods are breaching\.
+        Dimensions:
+          type: list of [dimension](aws-properties-cw-dimension.md)
+          description: >-
+            The dimensions for the metric associated with the alarm\. For an
+            alarm based on a math expression, you can't specify `Dimensions`\.
+            Instead, you use `Metrics`\.
+        EvaluateLowSampleCountPercentile:
+          type: string
+          description: >-
+            Used only for alarms based on percentiles\. If `ignore`, the alarm
+            state does not change during periods with too few data points to be
+            statistically significant\. If `evaluate` or this parameter is not
+            used, the alarm is always evaluated and possibly changes state no
+            matter how many data points are available\.
+        EvaluationPeriods:
+          type: integer
+          description: >-
+            The number of periods over which data is compared to the specified
+            threshold\. If you are setting an alarm that requires that a number
+            of consecutive data points be breaching to trigger the alarm, this
+            value specifies that number\. If you are setting an "M out of N"
+            alarm, this value is the N, and `DatapointsToAlarm` is the M\.   For
+            more information, see [Evaluating an
+            Alarm](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarm-evaluation)
+            in the *Amazon CloudWatch User Guide*\.
+        ExtendedStatistic:
+          type: string
+          description: >-
+            The percentile statistic for the metric associated with the alarm\.
+            Specify a value between p0\.0 and p100\.   For an alarm based on a
+            metric, you must specify either `Statistic` or `ExtendedStatistic`
+            but not both\.   For an alarm based on a math expression, you can't
+            specify `ExtendedStatistic`\. Instead, you use `Metrics`\.
+        InsufficientDataActions:
+          type: array
+          description: >-
+            The actions to execute when this alarm transitions to the
+            `INSUFFICIENT_DATA` state from any other state\. Each action is
+            specified as an Amazon Resource Name \(ARN\)\.
+        MetricName:
+          type: string
+          description: >-
+            The name of the metric associated with the alarm\. This is required
+            for an alarm based on a metric\. For an alarm based on a math
+            expression, you use `Metrics` instead and you can't specify
+            `MetricName`\.
+        Metrics:
+          type: >-
+            list of
+            [metricdataquery](aws-properties-cloudwatch-alarm-metricdataquery.md)
+          description: >-
+            An array that enables you to create an alarm based on the result of
+            a metric math expression\. Each item in the array either retrieves a
+            metric or performs a math expression\.   If you specify the
+            `Metrics` parameter, you cannot specify `MetricName`, `Dimensions`,
+            `Period`, `Namespace`, `Statistic`, `ExtendedStatistic`, or `Unit`\.
+        Namespace:
+          type: string
+          description: >-
+            The namespace of the metric associated with the alarm\. This is
+            required for an alarm based on a metric\. For an alarm based on a
+            math expression, you can't specify `Namespace` and you use `Metrics`
+            instead\.   For a list of namespaces for metrics from AWS services,
+            see [AWS Services That Publish CloudWatchMetrics\.
+            ](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/aws-services-cloudwatch-metrics.html)
+        OKActions:
+          type: array
+          description: >-
+            The actions to execute when this alarm transitions to the `OK` state
+            from any other state\. Each action is specified as an Amazon
+            Resource Name \(ARN\)\.
+        Period:
+          type: integer
+          description: >-
+            The period, in seconds, over which the statistic is applied\. This
+            is required for an alarm based on a metric\. Valid values are 10,
+            30, 60, and any multiple of 60\.   For an alarm based on a math
+            expression, you can't specify `Period`, and instead you use the
+            `Metrics` parameter\.   *Minimum:* 10
+        Statistic:
+          type: string
+          description: >-
+            The statistic for the metric associated with the alarm, other than
+            percentile\. For percentile statistics, use `ExtendedStatistic`\.  
+            For an alarm based on a metric, you must specify either `Statistic`
+            or `ExtendedStatistic` but not both\.   For an alarm based on a math
+            expression, you can't specify `Statistic`\. Instead, you use
+            `Metrics`\.
+        Threshold:
+          type: double
+          description: The value to compare with the specified statistic\.
+        ThresholdMetricId:
+          type: string
+          description: >-
+            In an alarm based on an anomaly detection model, this is the ID of
+            the `ANOMALY_DETECTION_BAND` function used as the threshold for the
+            alarm\.
+        TreatMissingData:
+          type: string
+          description: >-
+            Sets how this alarm is to handle missing data points\. Valid values
+            are `breaching`, `notBreaching`, `ignore`, and `missing`\. For more
+            information, see [ Configuring How CloudWatchAlarms Treat Missing
+            Data](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/AlarmThatSendsEmail.html#alarms-and-missing-data)
+            in the *Amazon CloudWatchUser Guide*\.   If you omit this parameter,
+            the default behavior of `missing` is used\.
+        Unit:
+          type: string
+          description: >-
+            The unit of the metric associated with the alarm\. Specify this only
+            if you are creating an alarm based on a single metric\. Do not
+            specify this if you are specifying a `Metrics` array\.    You can
+            specify the following values: Seconds, Microseconds, Milliseconds,
+            Bytes, Kilobytes, Megabytes, Gigabytes, Terabytes, Bits, Kilobits,
+            Megabits, Gigabits, Terabits, Percent, Count, Bytes/Second,
+            Kilobytes/Second, Megabytes/Second, Gigabytes/Second,
+            Terabytes/Second, Bits/Second, Kilobits/Second, Megabits/Second,
+            Gigabits/Second, Terabits/Second, Count/Second, or None\.
+      required:
+        - ComparisonOperator
+        - EvaluationPeriods
+    AnomalyDetector:
+      type: object
+      properties:
+        Configuration:
+          type: >-
+            [configuration](aws-properties-cloudwatch-anomalydetector-configuration.md)
+          description: >-
+            Specifies details about how the anomaly detection model is to be
+            trained, including time ranges to exclude when training and updating
+            the model\. The configuration can also include the time zone to use
+            for the metric\.
+        Dimensions:
+          type: >-
+            list of
+            [dimension](aws-properties-cloudwatch-anomalydetector-dimension.md)
+          description: >-
+            The dimensions of the metric associated with the anomaly detection
+            band\.
+        MetricMathAnomalyDetector:
+          type: >-
+            [metricmathanomalydetector](aws-properties-cloudwatch-anomalydetector-metricmathanomalydetector.md)
+          description: The CloudWatch metric math expression for this anomaly detector\.
+        MetricName:
+          type: string
+          description: The name of the metric associated with the anomaly detection band\.
+        Namespace:
+          type: string
+          description: >-
+            The namespace of the metric associated with the anomaly detection
+            band\.
+        SingleMetricAnomalyDetector:
+          type: >-
+            [singlemetricanomalydetector](aws-properties-cloudwatch-anomalydetector-singlemetricanomalydetector.md)
+          description: The CloudWatch metric and statistic for this anomaly detector\.
+        Stat:
+          type: string
+          description: >-
+            The statistic of the metric associated with the anomaly detection
+            band\.
+    CompositeAlarm:
+      type: object
+      properties:
+        ActionsEnabled:
+          type: boolean
+          description: >-
+            Indicates whether actions should be executed during any changes to
+            the alarm state of the composite alarm\. The default is TRUE\.
+        ActionsSuppressor:
+          type: string
+          description: >-
+            Actions will be suppressed if the suppressor alarm is in the `ALARM`
+            state\. `ActionsSuppressor` can be an AlarmName or an Amazon
+            Resource Name \(ARN\) from an existing alarm\.
+        ActionsSuppressorExtensionPeriod:
+          type: integer
+          description: >-
+            The maximum time in seconds that the composite alarm waits after
+            suppressor alarm goes out of the `ALARM` state\. After this time,
+            the composite alarm performs its actions\.     `ExtensionPeriod` is
+            required only when `ActionsSuppressor` is specified\.
+        ActionsSuppressorWaitPeriod:
+          type: integer
+          description: >-
+            The maximum time in seconds that the composite alarm waits for the
+            suppressor alarm to go into the `ALARM` state\. After this time, the
+            composite alarm performs its actions\.    `WaitPeriod` is required
+            only when `ActionsSuppressor` is specified\.
+        AlarmActions:
+          type: array
+          description: >-
+            The actions to execute when this alarm transitions to the ALARM
+            state from any other state\. Each action is specified as an Amazon
+            Resource Name \(ARN\)\. For more information about creating alarms
+            and the actions that you can specify, see
+            [PutCompositeAlarm](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_PutCompositeAlarm.html)
+            in the *Amazon CloudWatch API Reference*\.
+        AlarmDescription:
+          type: string
+          description: The description for the composite alarm\.
+        AlarmName:
+          type: string
+          description: >-
+            The name for the composite alarm\. This name must be unique within
+            your AWS account\.
+        AlarmRule:
+          type: string
+          description: >-
+            An expression that specifies which other alarms are to be evaluated
+            to determine this composite alarm's state\. For each alarm that you
+            reference, you designate a function that specifies whether that
+            alarm needs to be in ALARM state, OK state, or INSUFFICIENT\_DATA
+            state\. You can use operators \(AND, OR and NOT\) to combine
+            multiple functions in a single expression\. You can use parenthesis
+            to logically group the functions in your expression\.   You can use
+            either alarm names or ARNs to reference the other alarms that are to
+            be evaluated\.   Functions can include the following:   + 
+            ALARM\("alarm\-name or alarm\-ARN"\) is TRUE if the named alarm is
+            in ALARM state\.  +  OK\("alarm\-name or alarm\-ARN"\) is TRUE if
+            the named alarm is in OK state\.  + 
+            INSUFFICIENT\_DATA\("alarm\-name or alarm\-ARN"\) is TRUE if the
+            named alarm is in INSUFFICIENT\_DATA state\.  + TRUE always
+            evaluates to TRUE\. + FALSE always evaluates to FALSE\.  TRUE and
+            FALSE are useful for testing a complex AlarmRule structure, and for
+            testing your alarm actions\.   For more information about
+            `AlarmRule` syntax, see
+            [PutCompositeAlarm](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_PutCompositeAlarm.html)
+            in the *Amazon CloudWatch API Reference*\.
+        InsufficientDataActions:
+          type: array
+          description: >-
+            The actions to execute when this alarm transitions to the
+            INSUFFICIENT\_DATA state from any other state\. Each action is
+            specified as an Amazon Resource Name \(ARN\)\. For more information
+            about creating alarms and the actions that you can specify, see
+            [PutCompositeAlarm](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_PutCompositeAlarm.html)
+            in the *Amazon CloudWatch API Reference*\.
+        OKActions:
+          type: array
+          description: >-
+            The actions to execute when this alarm transitions to the OK state
+            from any other state\. Each action is specified as an Amazon
+            Resource Name \(ARN\)\. For more information about creating alarms
+            and the actions that you can specify, see
+            [PutCompositeAlarm](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_PutCompositeAlarm.html)
+            in the *Amazon CloudWatch API Reference*\.
+      required:
+        - AlarmRule
+    Dashboard:
+      type: object
+      properties:
+        DashboardBody:
+          type: string
+          description: >-
+            The detailed information about the dashboard in JSON format,
+            including the widgets to include and their location on the
+            dashboard\. This parameter is required\.   For more information
+            about the syntax, see [Dashboard Body Structure and
+            Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/CloudWatch-Dashboard-Body-Structure.html)\.
+        DashboardName:
+          type: string
+          description: >-
+            The name of the dashboard\. The name must be between 1 and 255
+            characters\. If you do not specify a name, one will be generated
+            automatically\.
+      required:
+        - DashboardBody
+    InsightRule:
+      type: object
+      properties:
+        RuleBody:
+          type: string
+          description: >-
+            The definition of the rule, as a JSON object\. For details about the
+            syntax, see [ Contributor Insights Rule
+            Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContributorInsights-RuleSyntax.html)
+            in the *Amazon CloudWatch User Guide*\.
+        RuleName:
+          type: string
+          description: The name of the rule\.
+        RuleState:
+          type: string
+          description: >-
+            The current state of the rule\. Valid values are `ENABLED` and
+            `DISABLED`\.
+        Tags:
+          type: '[tags](aws-properties-cloudwatch-insightrule-tags.md)'
+          description: >-
+            A list of key\-value pairs to associate with the Contributor
+            Insights rule\. You can associate as many as 50 tags with a rule\.  
+            Tags can help you organize and categorize your resources\. For more
+            information, see [ Tagging Your Amazon CloudWatch
+            Resources](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Tagging.html)\.  
+            To be able to associate tags with a rule, you must have the
+            `cloudwatch:TagResource` permission in addition to the
+            `cloudwatch:PutInsightRule` permission\.
+      required:
+        - RuleBody
+        - RuleName
+        - RuleState
+    MetricStream:
+      type: object
+      properties:
+        ExcludeFilters:
+          type: >-
+            list of
+            [metricstreamfilter](aws-properties-cloudwatch-metricstream-metricstreamfilter.md)
+          description: >-
+            If you specify this parameter, the stream sends metrics from all
+            metric namespaces except for the namespaces that you specify here\.
+            You cannot specify both `IncludeFilters` and `ExcludeFilters` in the
+            same metric stream\.   When you modify the `IncludeFilters` or
+            `ExcludeFilters` of an existing metric stream in any way, the metric
+            stream is effectively restarted, so after such a change you will get
+            only the datapoints that have a timestamp after the time of the
+            update\.
+        FirehoseArn:
+          type: string
+          description: >-
+            The ARN of the Amazon Kinesis Firehose delivery stream to use for
+            this metric stream\. This Amazon Kinesis Firehose delivery stream
+            must already exist and must be in the same account as the metric
+            stream\.
+        IncludeFilters:
+          type: >-
+            list of
+            [metricstreamfilter](aws-properties-cloudwatch-metricstream-metricstreamfilter.md)
+          description: >-
+            If you specify this parameter, the stream sends only the metrics
+            from the metric namespaces that you specify here\. You cannot
+            specify both `IncludeFilters` and `ExcludeFilters` in the same
+            metric stream\.   When you modify the `IncludeFilters` or
+            `ExcludeFilters` of an existing metric stream in any way, the metric
+            stream is effectively restarted, so after such a change you will get
+            only the datapoints that have a timestamp after the time of the
+            update\.
+        IncludeLinkedAccountsMetrics:
+          type: boolean
+          description: >-
+            If you are creating a metric stream in a monitoring account, specify
+            `true` to include metrics from source accounts that are linked to
+            this monitoring account, in the metric stream\. The default is
+            `false`\.   For more information about linking accounts, see
+            [CloudWatch cross\-account
+            observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html)
+        Name:
+          type: string
+          description: >-
+            If you are creating a new metric stream, this is the name for the
+            new stream\. The name must be different than the names of other
+            metric streams in this account and Region\.   If you are updating a
+            metric stream, specify the name of that stream here\.
+        OutputFormat:
+          type: string
+          description: >-
+            The output format for the stream\. Valid values are `json` and
+            `opentelemetry0.7` For more information about metric stream output
+            formats, see [ Metric streams output
+            formats](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-metric-streams-formats.html)\.  
+            This parameter is required\.
+        RoleArn:
+          type: string
+          description: >-
+            The ARN of an IAM role that this metric stream will use to access
+            Amazon Kinesis Firehose resources\. This IAM role must already exist
+            and must be in the same account as the metric stream\. This IAM role
+            must include the `firehose:PutRecord` and `firehose:PutRecordBatch`
+            permissions\.
+        StatisticsConfigurations:
+          type: >-
+            list of
+            [metricstreamstatisticsconfiguration](aws-properties-cloudwatch-metricstream-metricstreamstatisticsconfiguration.md)
+          description: >-
+            By default, a metric stream always sends the MAX, MIN, SUM, and
+            SAMPLECOUNT statistics for each metric that is streamed\. You can
+            use this parameter to have the metric stream also send additional
+            statistics in the stream\. This array can have up to 100 members\.  
+            For each entry in this array, you specify one or more metrics and
+            the list of additional statistics to stream for those metrics\. The
+            additional statistics that you can stream depend on the stream's
+            `OutputFormat`\. If the `OutputFormat` is `json`, you can stream any
+            additional statistic that is supported by CloudWatch, listed in
+            [CloudWatch statistics
+            definitions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html.html)\.
+            If the `OutputFormat` is `opentelemetry0`\.7, you can stream
+            percentile statistics *\(p??\)*\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to the metric stream\.   For
+            more information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - FirehoseArn
+        - OutputFormat
+        - RoleArn
+paths: {}

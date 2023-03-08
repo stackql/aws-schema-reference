@@ -1,0 +1,424 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: QuickSight
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Analysis:
+      type: object
+      properties:
+        AnalysisId:
+          type: string
+          description: >-
+            The ID for the analysis that you're creating\. This ID displays in
+            the URL of the analysis\.
+        AwsAccountId:
+          type: string
+          description: The ID of the AWS account where you are creating an analysis\.
+        Errors:
+          type: >-
+            list of
+            [analysiserror](aws-properties-quicksight-analysis-analysiserror.md)
+          description: Property description not available\.
+        Name:
+          type: string
+          description: >-
+            A descriptive name for the analysis that you're creating\. This name
+            displays for the analysis in the Amazon QuickSight console\.
+        Parameters:
+          type: '[parameters](aws-properties-quicksight-analysis-parameters.md)'
+          description: >-
+            The parameter names and override values that you want to use\. An
+            analysis can have any parameter type, and some parameters might
+            accept multiple values\.
+        Permissions:
+          type: >-
+            list of
+            [resourcepermission](aws-properties-quicksight-analysis-resourcepermission.md)
+          description: >-
+            A structure that describes the principals and the resource\-level
+            permissions on an analysis\. You can use the `Permissions` structure
+            to grant permissions by providing a list of AWS Identity and Access
+            Management \(IAM\) action information for each principal listed by
+            Amazon Resource Name \(ARN\)\.    To specify no permissions, omit
+            `Permissions`\.
+        SourceEntity:
+          type: >-
+            [analysissourceentity](aws-properties-quicksight-analysis-analysissourceentity.md)
+          description: >-
+            A source entity to use for the analysis that you're creating\. This
+            metadata structure contains details that describe a source template
+            and one or more datasets\.   Either a `SourceEntity` or a
+            `Definition` must be provided in order for the request to be valid\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Contains a map of the key\-value pairs for the resource tag or tags
+            assigned to the analysis\.
+        ThemeArn:
+          type: string
+          description: >-
+            The ARN for the theme to apply to the analysis that you're
+            creating\. To see the theme in the Amazon QuickSight console, make
+            sure that you have access to it\.
+      required:
+        - AnalysisId
+        - AwsAccountId
+        - SourceEntity
+    Dashboard:
+      type: object
+      properties:
+        AwsAccountId:
+          type: string
+          description: The ID of the AWS account where you want to create the dashboard\.
+        DashboardId:
+          type: string
+          description: The ID for the dashboard, also added to the IAM policy\.
+        DashboardPublishOptions:
+          type: >-
+            [dashboardpublishoptions](aws-properties-quicksight-dashboard-dashboardpublishoptions.md)
+          description: >-
+            Options for publishing the dashboard when you create it:   + 
+            `AvailabilityStatus` for `AdHocFilteringOption` \- This status can
+            be either `ENABLED` or `DISABLED`\. When this is set to `DISABLED`,
+            Amazon QuickSight disables the left filter pane on the published
+            dashboard, which can be used for ad hoc \(one\-time\) filtering\.
+            This option is `ENABLED` by default\.  +  `AvailabilityStatus` for
+            `ExportToCSVOption` \- This status can be either `ENABLED` or
+            `DISABLED`\. The visual option to export data to \.CSV format isn't
+            enabled when this is set to `DISABLED`\. This option is `ENABLED` by
+            default\.  +  `VisibilityState` for `SheetControlsOption` \- This
+            visibility state can be either `COLLAPSED` or `EXPANDED`\. This
+            option is `COLLAPSED` by default\.
+        Name:
+          type: string
+          description: The display name of the dashboard\.
+        Parameters:
+          type: '[parameters](aws-properties-quicksight-dashboard-parameters.md)'
+          description: >-
+            The parameters for the creation of the dashboard, which you want to
+            use to override the default settings\. A dashboard can have any type
+            of parameters, and some parameters might accept multiple values\.
+        Permissions:
+          type: >-
+            list of
+            [resourcepermission](aws-properties-quicksight-dashboard-resourcepermission.md)
+          description: >-
+            A structure that contains the permissions of the dashboard\. You can
+            use this structure for granting permissions by providing a list of
+            IAM action information for each principal ARN\.    To specify no
+            permissions, omit the permissions list\.
+        SourceEntity:
+          type: >-
+            [dashboardsourceentity](aws-properties-quicksight-dashboard-dashboardsourceentity.md)
+          description: >-
+            The entity that you are using as a source when you create the
+            dashboard\. In `SourceEntity`, you specify the type of object that
+            you want to use\. You can only create a dashboard from a template,
+            so you use a `SourceTemplate` entity\. If you need to create a
+            dashboard from an analysis, first convert the analysis to a template
+            by using the `CreateTemplate` API operation\. For `SourceTemplate`,
+            specify the Amazon Resource Name \(ARN\) of the source template\.
+            The `SourceTemplate`ARN can contain any AWS account; and any
+            QuickSight\-supported AWS Region\.    Use the `DataSetReferences`
+            entity within `SourceTemplate` to list the replacement datasets for
+            the placeholders listed in the original\. The schema in each dataset
+            must match its placeholder\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Contains a map of the key\-value pairs for the resource tag or tags
+            assigned to the dashboard\.
+        ThemeArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the theme that is being used for
+            this dashboard\. If you add a value for this field, it overrides the
+            value that is used in the source entity\. The theme ARN must exist
+            in the same AWS account where you create the dashboard\.
+        VersionDescription:
+          type: string
+          description: A description for the first version of the dashboard being created\.
+      required:
+        - AwsAccountId
+        - DashboardId
+        - SourceEntity
+    DataSet:
+      type: object
+      properties:
+        AwsAccountId:
+          type: string
+          description: The AWS account ID\.
+        ColumnGroups:
+          type: >-
+            list of
+            [columngroup](aws-properties-quicksight-dataset-columngroup.md)
+          description: >-
+            Groupings of columns that work together in certain Amazon QuickSight
+            features\. Currently, only geospatial hierarchy is supported\.
+        ColumnLevelPermissionRules:
+          type: >-
+            list of
+            [columnlevelpermissionrule](aws-properties-quicksight-dataset-columnlevelpermissionrule.md)
+          description: >-
+            A set of one or more definitions of a ` ColumnLevelPermissionRule
+            `\.
+        DataSetId:
+          type: string
+          description: >-
+            An ID for the dataset that you want to create\. This ID is unique
+            per AWS Region for each AWS account\.
+        DataSetUsageConfiguration:
+          type: >-
+            [datasetusageconfiguration](aws-properties-quicksight-dataset-datasetusageconfiguration.md)
+          description: >-
+            The usage configuration to apply to child datasets that reference
+            this dataset as a source\.
+        FieldFolders:
+          type: >-
+            map of
+            [fieldfolder](aws-properties-quicksight-dataset-fieldfolder.md)
+          description: >-
+            The folder that contains fields and nested subfolders for your
+            dataset\.
+        ImportMode:
+          type: string
+          description: Indicates whether you want to import the data into SPICE\.
+        IngestionWaitPolicy:
+          type: >-
+            [ingestionwaitpolicy](aws-properties-quicksight-dataset-ingestionwaitpolicy.md)
+          description: >-
+            The wait policy to use when creating or updating a Dataset\. The
+            default is to wait for SPICE ingestion to finish with timeout of 36
+            hours\.
+        LogicalTableMap:
+          type: >-
+            map of
+            [logicaltable](aws-properties-quicksight-dataset-logicaltable.md)
+          description: >-
+            Configures the combination and transformation of the data from the
+            physical tables\.
+        Name:
+          type: string
+          description: The display name for the dataset\.
+        Permissions:
+          type: >-
+            list of
+            [resourcepermission](aws-properties-quicksight-dataset-resourcepermission.md)
+          description: A list of resource permissions on the dataset\.
+        PhysicalTableMap:
+          type: >-
+            map of
+            [physicaltable](aws-properties-quicksight-dataset-physicaltable.md)
+          description: >-
+            Declares the physical tables that are available in the underlying
+            data sources\.
+        RowLevelPermissionDataSet:
+          type: >-
+            [rowlevelpermissiondataset](aws-properties-quicksight-dataset-rowlevelpermissiondataset.md)
+          description: >-
+            The row\-level security configuration for the data that you want to
+            create\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Contains a map of the key\-value pairs for the resource tag or tags
+            assigned to the dataset\.
+    DataSource:
+      type: object
+      properties:
+        AlternateDataSourceParameters:
+          type: >-
+            list of
+            [datasourceparameters](aws-properties-quicksight-datasource-datasourceparameters.md)
+          description: >-
+            A set of alternate data source parameters that you want to share for
+            the credentials stored with this data source\. The credentials are
+            applied in tandem with the data source parameters when you copy a
+            data source by using a create or update request\. The API operation
+            compares the `DataSourceParameters` structure that's in the request
+            with the structures in the `AlternateDataSourceParameters` allow
+            list\. If the structures are an exact match, the request is allowed
+            to use the credentials from this existing data source\. If the
+            `AlternateDataSourceParameters` list is null, the `Credentials`
+            originally used with this `DataSourceParameters` are automatically
+            allowed\.
+        AwsAccountId:
+          type: string
+          description: The AWS account ID\.
+        Credentials:
+          type: >-
+            [datasourcecredentials](aws-properties-quicksight-datasource-datasourcecredentials.md)
+          description: >-
+            The credentials Amazon QuickSight that uses to connect to your
+            underlying source\. Currently, only credentials based on user name
+            and password are supported\.
+        DataSourceId:
+          type: string
+          description: >-
+            An ID for the data source\. This ID is unique per AWS Region for
+            each AWS account\.
+        DataSourceParameters:
+          type: >-
+            [datasourceparameters](aws-properties-quicksight-datasource-datasourceparameters.md)
+          description: >-
+            The parameters that Amazon QuickSight uses to connect to your
+            underlying source\.
+        ErrorInfo:
+          type: >-
+            [datasourceerrorinfo](aws-properties-quicksight-datasource-datasourceerrorinfo.md)
+          description: >-
+            Error information from the last update or the creation of the data
+            source\.
+        Name:
+          type: string
+          description: A display name for the data source\.
+        Permissions:
+          type: >-
+            list of
+            [resourcepermission](aws-properties-quicksight-datasource-resourcepermission.md)
+          description: A list of resource permissions on the data source\.
+        SslProperties:
+          type: >-
+            [sslproperties](aws-properties-quicksight-datasource-sslproperties.md)
+          description: >-
+            Secure Socket Layer \(SSL\) properties that apply when Amazon
+            QuickSight connects to your underlying source\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Contains a map of the key\-value pairs for the resource tag or tags
+            assigned to the data source\.
+        Type:
+          type: string
+          description: >-
+            The type of the data source\. To return a list of all data sources,
+            use `ListDataSources`\.   Use `AMAZON_ELASTICSEARCH` for Amazon
+            OpenSearch Service\.
+        VpcConnectionProperties:
+          type: >-
+            [vpcconnectionproperties](aws-properties-quicksight-datasource-vpcconnectionproperties.md)
+          description: >-
+            Use this parameter only when you want Amazon QuickSight to use a VPC
+            connection when connecting to your underlying source\.
+    Template:
+      type: object
+      properties:
+        AwsAccountId:
+          type: string
+          description: >-
+            The ID for the AWS account that the group is in\. You use the ID for
+            the AWS account that contains your Amazon QuickSight account\.
+        Name:
+          type: string
+          description: A display name for the template\.
+        Permissions:
+          type: >-
+            list of
+            [resourcepermission](aws-properties-quicksight-template-resourcepermission.md)
+          description: A list of resource permissions to be set on the template\.
+        SourceEntity:
+          type: >-
+            [templatesourceentity](aws-properties-quicksight-template-templatesourceentity.md)
+          description: >-
+            The entity that you are using as a source when you create the
+            template\. In `SourceEntity`, you specify the type of object you're
+            using as source: `SourceTemplate` for a template or `SourceAnalysis`
+            for an analysis\. Both of these require an Amazon Resource Name
+            \(ARN\)\. For `SourceTemplate`, specify the ARN of the source
+            template\. For `SourceAnalysis`, specify the ARN of the source
+            analysis\. The `SourceTemplate` ARN can contain any AWS account and
+            any Amazon QuickSight\-supported AWS Region\.    Use the
+            `DataSetReferences` entity within `SourceTemplate` or
+            `SourceAnalysis` to list the replacement datasets for the
+            placeholders listed in the original\. The schema in each dataset
+            must match its placeholder\.    Either a `SourceEntity` or a
+            `Definition` must be provided in order for the request to be valid\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Contains a map of the key\-value pairs for the resource tag or tags
+            assigned to the resource\.
+        TemplateId:
+          type: string
+          description: >-
+            An ID for the template that you want to create\. This template is
+            unique per AWS Region; in each AWS account\.
+        VersionDescription:
+          type: string
+          description: >-
+            A description of the current template version being created\. This
+            API operation creates the first version of the template\. Every time
+            `UpdateTemplate` is called, a new version is created\. Each version
+            of the template maintains a description of the version in the
+            `VersionDescription` field\.
+      required:
+        - AwsAccountId
+        - SourceEntity
+        - TemplateId
+    Theme:
+      type: object
+      properties:
+        AwsAccountId:
+          type: string
+          description: The ID of the AWS account where you want to store the new theme\.
+        BaseThemeId:
+          type: string
+          description: >-
+            The ID of the theme that a custom theme will inherit from\. All
+            themes inherit from one of the starting themes defined by Amazon
+            QuickSight\. For a list of the starting themes, use `ListThemes` or
+            choose **Themes** from within an analysis\.
+        Configuration:
+          type: >-
+            [themeconfiguration](aws-properties-quicksight-theme-themeconfiguration.md)
+          description: >-
+            The theme configuration, which contains the theme display
+            properties\.
+        Name:
+          type: string
+          description: A display name for the theme\.
+        Permissions:
+          type: >-
+            list of
+            [resourcepermission](aws-properties-quicksight-theme-resourcepermission.md)
+          description: A valid grouping of resource permissions to apply to the new theme\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A map of the key\-value pairs for the resource tag or tags that you
+            want to add to the resource\.
+        ThemeId:
+          type: string
+          description: >-
+            An ID for the theme that you want to create\. The theme ID is unique
+            per AWS Region in each AWS account\.
+        VersionDescription:
+          type: string
+          description: >-
+            A description of the first version of the theme that you're
+            creating\. Every time `UpdateTheme` is called, a new version is
+            created\. Each version of the theme has a description of the version
+            in the `VersionDescription` field\.
+      required:
+        - AwsAccountId
+        - ThemeId
+paths: {}

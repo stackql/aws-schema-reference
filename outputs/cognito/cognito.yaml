@@ -1,0 +1,780 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Cognito
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    IdentityPool:
+      type: object
+      properties:
+        AllowClassicFlow:
+          type: boolean
+          description: Enables the Basic \(Classic\) authentication flow\.
+        AllowUnauthenticatedIdentities:
+          type: boolean
+          description: >-
+            Specifies whether the identity pool supports unauthenticated
+            logins\.
+        CognitoEvents:
+          type: object
+          description: The events to configure\.
+        CognitoIdentityProviders:
+          type: >-
+            list of
+            [cognitoidentityprovider](aws-properties-cognito-identitypool-cognitoidentityprovider.md)
+          description: The Amazon Cognito user pools and their client IDs\.
+        CognitoStreams:
+          type: >-
+            [cognitostreams](aws-properties-cognito-identitypool-cognitostreams.md)
+          description: Configuration options for configuring Amazon Cognito streams\.
+        DeveloperProviderName:
+          type: string
+          description: >-
+            The "domain" Amazon Cognito uses when referencing your users\. This
+            name acts as a placeholder that allows your backend and the Amazon
+            Cognito service to communicate about the developer provider\. For
+            the `DeveloperProviderName`, you can use letters and periods \(\.\),
+            underscores \(\_\), and dashes \(\-\)\.
+        IdentityPoolName:
+          type: string
+          description: The name of your Amazon Cognito identity pool\.
+        OpenIdConnectProviderARNs:
+          type: array
+          description: The Amazon Resource Names \(ARNs\) of the OpenID connect providers\.
+        PushSync:
+          type: '[pushsync](aws-properties-cognito-identitypool-pushsync.md)'
+          description: The configuration options to be applied to the identity pool\.
+        SamlProviderARNs:
+          type: array
+          description: >-
+            The Amazon Resource Names \(ARNs\) of the Security Assertion Markup
+            Language \(SAML\) providers\.
+        SupportedLoginProviders:
+          type: object
+          description: Key\-value pairs that map provider names to provider app IDs\.
+      required:
+        - AllowUnauthenticatedIdentities
+    IdentityPoolRoleAttachment:
+      type: object
+      properties:
+        IdentityPoolId:
+          type: string
+          description: An identity pool ID in the format `REGION:GUID`\.
+        RoleMappings:
+          type: object
+          description: >-
+            How users for a specific identity provider are mapped to roles\.
+            This is a string to the `RoleMapping` object map\. The string
+            identifies the identity provider\. For example: `graph.facebook.com`
+            or
+            `cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id`\.  
+            If the `IdentityProvider` field isn't provided in this object, the
+            string is used as the identity provider name\.   For more
+            information, see the [RoleMapping
+            property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cognito-identitypoolroleattachment-rolemapping.html)\.
+        Roles:
+          type: object
+          description: >-
+            The map of the roles associated with this pool\. For a given role,
+            the key is either "authenticated" or "unauthenticated"\. The value
+            is the role ARN\.
+      required:
+        - IdentityPoolId
+    UserPool:
+      type: object
+      properties:
+        AccountRecoverySetting:
+          type: >-
+            [accountrecoverysetting](aws-properties-cognito-userpool-accountrecoverysetting.md)
+          description: >-
+            Use this setting to define which verified available method a user
+            can use to recover their password when they call `ForgotPassword`\.
+            It allows you to define a preferred method when a user has more than
+            one method available\. With this setting, SMS does not qualify for a
+            valid password recovery mechanism if the user also has SMS MFA
+            enabled\. In the absence of this setting, Cognito uses the legacy
+            behavior to determine the recovery method where SMS is preferred
+            over email\.
+        AdminCreateUserConfig:
+          type: >-
+            [admincreateuserconfig](aws-properties-cognito-userpool-admincreateuserconfig.md)
+          description: The configuration for creating a new user profile\.
+        AliasAttributes:
+          type: array
+          description: >-
+            Attributes supported as an alias for this user pool\. Possible
+            values: **phone\_number**, **email**, or **preferred\_username**\.  
+            This user pool property cannot be updated\.
+        AutoVerifiedAttributes:
+          type: array
+          description: >-
+            The attributes to be auto\-verified\. Possible values: **email**,
+            **phone\_number**\.
+        DeletionProtection:
+          type: string
+          description: Property description not available\.
+        DeviceConfiguration:
+          type: >-
+            [deviceconfiguration](aws-properties-cognito-userpool-deviceconfiguration.md)
+          description: >-
+            The device\-remembering configuration for a user pool\. A null value
+            indicates that you have deactivated device remembering in your user
+            pool\.   When you provide a value for any `DeviceConfiguration`
+            field, you activate the Amazon Cognito device\-remembering feature\.
+        EmailConfiguration:
+          type: >-
+            [emailconfiguration](aws-properties-cognito-userpool-emailconfiguration.md)
+          description: >-
+            The email configuration of your user pool\. The email configuration
+            type sets your preferred sending method, AWS Region, and sender for
+            messages from your user pool\.
+        EmailVerificationMessage:
+          type: string
+          description: >-
+            This parameter is no longer used\. See
+            [VerificationMessageTemplateType](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_VerificationMessageTemplateType.html)\.
+        EmailVerificationSubject:
+          type: string
+          description: >-
+            This parameter is no longer used\. See
+            [VerificationMessageTemplateType](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_VerificationMessageTemplateType.html)\.
+        EnabledMfas:
+          type: array
+          description: >-
+            Enables MFA on a specified user pool\. To disable all MFAs after it
+            has been enabled, set MfaConfiguration to “OFF” and remove
+            EnabledMfas\. MFAs can only be all disabled if MfaConfiguration is
+            OFF\. Once SMS\_MFA is enabled, SMS\_MFA can only be disabled by
+            setting MfaConfiguration to “OFF”\. Can be one of the following
+            values:   + `SMS_MFA` \- Enables SMS MFA for the user pool\.
+            SMS\_MFA can only be enabled if SMS configuration is provided\. +
+            `SOFTWARE_TOKEN_MFA` \- Enables software token MFA for the user
+            pool\. Allowed values: `SMS_MFA` \| `SOFTWARE_TOKEN_MFA`
+        LambdaConfig:
+          description: >-
+            The Lambda trigger configuration information for the new user
+            pool\.   In a push model, event sources \(such as Amazon S3 and
+            custom applications\) need permission to invoke a function\. So you
+            must make an extra call to add permission for these event sources to
+            invoke your Lambda function\.
+        undefined:
+          type: '[lambdaconfig](aws-properties-cognito-userpool-lambdaconfig.md)'
+          description: >-
+            For more information on using the Lambda API to add permission, see[
+            AddPermission
+            ](https://docs.aws.amazon.com/lambda/latest/dg/API_AddPermission.html)\.   
+            For adding permission using the AWS CLI, see[ add\-permission
+            ](https://docs.aws.amazon.com/cli/latest/reference/lambda/add-permission.html)\.
+        MfaConfiguration:
+          type: string
+          description: >-
+            The multi\-factor authentication \(MFA\) configuration\. Valid
+            values include:   +  `OFF` MFA won't be used for any users\. +  `ON`
+            MFA is required for all users to sign in\. +  `OPTIONAL` MFA will be
+            required only for individual users who have an MFA factor
+            activated\.
+        Policies:
+          type: '[policies](aws-properties-cognito-userpool-policies.md)'
+          description: The policy associated with a user pool\.
+        Schema:
+          type: >-
+            list of
+            [schemaattribute](aws-properties-cognito-userpool-schemaattribute.md)
+          description: >-
+            The schema attributes for the new user pool\. These attributes can
+            be standard or custom attributes\.    During a user pool update, you
+            can add new schema attributes but you cannot modify or delete an
+            existing schema attribute\.
+        SmsAuthenticationMessage:
+          type: string
+          description: A string representing the SMS authentication message\.
+        SmsConfiguration:
+          type: >-
+            [smsconfiguration](aws-properties-cognito-userpool-smsconfiguration.md)
+          description: >-
+            The SMS configuration with the settings that your Amazon Cognito
+            user pool must use to send an SMS message from your AWS account
+            through Amazon Simple Notification Service\. To send SMS messages
+            with Amazon SNS in the AWS Region that you want, the Amazon Cognito
+            user pool uses an AWS Identity and Access Management \(IAM\) role in
+            your AWS account\.
+        SmsVerificationMessage:
+          type: string
+          description: >-
+            This parameter is no longer used\. See
+            [VerificationMessageTemplateType](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_VerificationMessageTemplateType.html)\.
+        UserAttributeUpdateSettings:
+          type: >-
+            [userattributeupdatesettings](aws-properties-cognito-userpool-userattributeupdatesettings.md)
+          description: >-
+            The settings for updates to user attributes\. These settings include
+            the property `AttributesRequireVerificationBeforeUpdate`, a
+            user\-pool setting that tells Amazon Cognito how to handle changes
+            to the value of your users' email address and phone number
+            attributes\. For more information, see [ Verifying updates to email
+            addresses and phone
+            numbers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-email-phone-verification.html#user-pool-settings-verifications-verify-attribute-updates)\.
+        UsernameAttributes:
+          type: array
+          description: >-
+            Determines whether email addresses or phone numbers can be specified
+            as user names when a user signs up\. Possible values: `phone_number`
+            or `email`\.   This user pool property cannot be updated\.
+        UsernameConfiguration:
+          type: >-
+            [usernameconfiguration](aws-properties-cognito-userpool-usernameconfiguration.md)
+          description: >-
+            You can choose to set case sensitivity on the username input for the
+            selected sign\-in option\. For example, when this is set to `False`,
+            users will be able to sign in using either "username" or
+            "Username"\. This configuration is immutable once it has been set\.
+        UserPoolAddOns:
+          type: '[userpooladdons](aws-properties-cognito-userpool-userpooladdons.md)'
+          description: >-
+            Enables advanced security risk detection\. Set the key
+            `AdvancedSecurityMode` to the value "AUDIT"\.
+        UserPoolName:
+          type: string
+          description: A string used to name the user pool\.
+        UserPoolTags:
+          type: object
+          description: >-
+            The tag keys and values to assign to the user pool\. A tag is a
+            label that you can use to categorize and manage user pools in
+            different ways, such as by purpose, owner, environment, or other
+            criteria\.
+        VerificationMessageTemplate:
+          type: >-
+            [verificationmessagetemplate](aws-properties-cognito-userpool-verificationmessagetemplate.md)
+          description: >-
+            The template for the verification message that the user sees when
+            the app requests permission to access the user's information\.
+    UserPoolClient:
+      type: object
+      properties:
+        AccessTokenValidity:
+          type: integer
+          description: >-
+            The access token time limit\. After this limit expires, your user
+            can't use their access token\. To specify the time unit for
+            `AccessTokenValidity` as `seconds`, `minutes`, `hours`, or `days`,
+            set a `TokenValidityUnits` value in your API request\.   For
+            example, when you set `AccessTokenValidity` to `10` and
+            `TokenValidityUnits` to `hours`, your user can authorize access with
+            their access token for 10 hours\.   The default time unit for
+            `AccessTokenValidity` in an API request is hours\.
+        AllowedOAuthFlows:
+          type: array
+          description: >-
+            The allowed OAuth flows\.     code   Use a code grant flow, which
+            provides an authorization code as the response\. This code can be
+            exchanged for access tokens with the `/oauth2/token` endpoint\.  
+            implicit   Issue the access token \(and, optionally, ID token, based
+            on scopes\) directly to your user\.   client\_credentials   Issue
+            the access token from the `/oauth2/token` endpoint directly to a
+            non\-person user using a combination of the client ID and client
+            secret\.
+        AllowedOAuthFlowsUserPoolClient:
+          type: boolean
+          description: >-
+            Set to true if the client is allowed to follow the OAuth protocol
+            when interacting with Amazon Cognito user pools\.
+        AllowedOAuthScopes:
+          type: array
+          description: >-
+            The allowed OAuth scopes\. Possible values provided by OAuth are
+            `phone`, `email`, `openid`, and `profile`\. Possible values provided
+            by AWS are `aws.cognito.signin.user.admin`\. Custom scopes created
+            in Resource Servers are also supported\.
+        AnalyticsConfiguration:
+          type: >-
+            [analyticsconfiguration](aws-properties-cognito-userpoolclient-analyticsconfiguration.md)
+          description: >-
+            The user pool analytics configuration for collecting metrics and
+            sending them to your Amazon Pinpoint campaign\.   In AWS Regions
+            where Amazon Pinpoint isn't available, user pools only support
+            sending events to Amazon Pinpoint projects in AWS Region
+            us\-east\-1\. In Regions where Amazon Pinpoint is available, user
+            pools support sending events to Amazon Pinpoint projects within that
+            same Region\.
+        AuthSessionValidity:
+          type: integer
+          description: >-
+            Amazon Cognito creates a session token for each API request in an
+            authentication flow\. `AuthSessionValidity` is the duration, in
+            minutes, of that session token\. Your user pool native user must
+            respond to each authentication challenge before the session
+            expires\.
+        CallbackURLs:
+          type: array
+          description: >-
+            A list of allowed redirect \(callback\) URLs for the IdPs\.   A
+            redirect URI must:   + Be an absolute URI\. + Be registered with the
+            authorization server\. + Not include a fragment component\. See
+            [OAuth 2\.0 \- Redirection
+            Endpoint](https://tools.ietf.org/html/rfc6749#section-3.1.2)\.  
+            Amazon Cognito requires HTTPS over HTTP except for http://localhost
+            for testing purposes only\.   App callback URLs such as
+            myapp://example are also supported\.
+        ClientName:
+          type: string
+          description: The client name for the user pool client you would like to create\.
+        DefaultRedirectURI:
+          type: string
+          description: >-
+            The default redirect URI\. Must be in the `CallbackURLs` list\.   A
+            redirect URI must:   + Be an absolute URI\. + Be registered with the
+            authorization server\. + Not include a fragment component\. See
+            [OAuth 2\.0 \- Redirection
+            Endpoint](https://tools.ietf.org/html/rfc6749#section-3.1.2)\.  
+            Amazon Cognito requires HTTPS over HTTP except for http://localhost
+            for testing purposes only\.   App callback URLs such as
+            myapp://example are also supported\.
+        EnablePropagateAdditionalUserContextData:
+          type: boolean
+          description: >-
+            Activates the propagation of additional user context data\. For more
+            information about propagation of user context data, see [ Adding
+            advanced security to a user
+            pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pool-settings-advanced-security.html)\.
+            If you don’t include this parameter, you can't send device
+            fingerprint information, including source IP address, to Amazon
+            Cognito advanced security\. You can only activate
+            `EnablePropagateAdditionalUserContextData` in an app client that has
+            a client secret\.
+        EnableTokenRevocation:
+          type: boolean
+          description: >-
+            Activates or deactivates token revocation\. For more information
+            about revoking tokens, see
+            [RevokeToken](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_RevokeToken.html)\.  
+            If you don't include this parameter, token revocation is
+            automatically activated for the new user pool client\.
+        ExplicitAuthFlows:
+          type: array
+          description: >-
+            The authentication flows that you want your user pool client to
+            support\. For each app client in your user pool, you can sign in
+            your users with any combination of one or more flows, including with
+            a user name and Secure Remote Password \(SRP\), a user name and
+            password, or a custom authentication process that you define with
+            Lambda functions\.   If you don't specify a value for
+            `ExplicitAuthFlows`, your user client supports
+            `ALLOW_REFRESH_TOKEN_AUTH`, `ALLOW_USER_SRP_AUTH`, and
+            `ALLOW_CUSTOM_AUTH`\. Valid values include:   + 
+            `ALLOW_ADMIN_USER_PASSWORD_AUTH`: Enable admin based user password
+            authentication flow `ADMIN_USER_PASSWORD_AUTH`\. This setting
+            replaces the `ADMIN_NO_SRP_AUTH` setting\. With this authentication
+            flow, your app passes a user name and password to Amazon Cognito in
+            the request, instead of using the Secure Remote Password \(SRP\)
+            protocol to securely transmit the password\. +  `ALLOW_CUSTOM_AUTH`:
+            Enable Lambda trigger based authentication\. + 
+            `ALLOW_USER_PASSWORD_AUTH`: Enable user password\-based
+            authentication\. In this flow, Amazon Cognito receives the password
+            in the request instead of using the SRP protocol to verify
+            passwords\. +  `ALLOW_USER_SRP_AUTH`: Enable SRP\-based
+            authentication\. +  `ALLOW_REFRESH_TOKEN_AUTH`: Enable authflow to
+            refresh tokens\. In some environments, you will see the values
+            `ADMIN_NO_SRP_AUTH`, `CUSTOM_AUTH_FLOW_ONLY`, or
+            `USER_PASSWORD_AUTH`\. You can't assign these legacy
+            `ExplicitAuthFlows` values to user pool clients at the same time as
+            values that begin with `ALLOW_`, like `ALLOW_USER_SRP_AUTH`\.
+        GenerateSecret:
+          type: boolean
+          description: >-
+            Boolean to specify whether you want to generate a secret for the
+            user pool client being created\.
+        IdTokenValidity:
+          type: integer
+          description: >-
+            The ID token time limit\. After this limit expires, your user can't
+            use their ID token\. To specify the time unit for `IdTokenValidity`
+            as `seconds`, `minutes`, `hours`, or `days`, set a
+            `TokenValidityUnits` value in your API request\.   For example, when
+            you set `IdTokenValidity` as `10` and `TokenValidityUnits` as
+            `hours`, your user can authenticate their session with their ID
+            token for 10 hours\.   The default time unit for
+            `AccessTokenValidity` in an API request is hours\.
+        LogoutURLs:
+          type: array
+          description: A list of allowed logout URLs for the IdPs\.
+        PreventUserExistenceErrors:
+          type: string
+          description: >-
+            Use this setting to choose which errors and responses are returned
+            by Cognito APIs during authentication, account confirmation, and
+            password recovery when the user does not exist in the user pool\.
+            When set to `ENABLED` and the user does not exist, authentication
+            returns an error indicating either the username or password was
+            incorrect, and account confirmation and password recovery return a
+            response indicating a code was sent to a simulated destination\.
+            When set to `LEGACY`, those APIs will return a
+            `UserNotFoundException` exception if the user does not exist in the
+            user pool\.
+        ReadAttributes:
+          type: array
+          description: The read attributes\.
+        RefreshTokenValidity:
+          type: integer
+          description: >-
+            The refresh token time limit\. After this limit expires, your user
+            can't use their refresh token\. To specify the time unit for
+            `RefreshTokenValidity` as `seconds`, `minutes`, `hours`, or `days`,
+            set a `TokenValidityUnits` value in your API request\.   For
+            example, when you set `RefreshTokenValidity` as `10` and
+            `TokenValidityUnits` as `days`, your user can refresh their session
+            and retrieve new access and ID tokens for 10 days\.   The default
+            time unit for `RefreshTokenValidity` in an API request is days\. You
+            can't set `RefreshTokenValidity` to 0\. If you do, Amazon Cognito
+            overrides the value with the default value of 30 days\.
+        SupportedIdentityProviders:
+          type: array
+          description: >-
+            A list of provider names for the identity providers \(IdPs\) that
+            are supported on this client\. The following are supported:
+            `COGNITO`, `Facebook`, `Google`, `SignInWithApple`, and
+            `LoginWithAmazon`\. You can also specify the names that you
+            configured for the SAML and OIDC IdPs in your user pool, for example
+            `MySAMLIdP` or `MyOIDCIdP`\.
+        TokenValidityUnits:
+          type: >-
+            [tokenvalidityunits](aws-properties-cognito-userpoolclient-tokenvalidityunits.md)
+          description: >-
+            The units in which the validity times are represented\. The default
+            unit for RefreshToken is days, and default for ID and access tokens
+            are hours\.
+        UserPoolId:
+          type: string
+          description: >-
+            The user pool ID for the user pool where you want to create a user
+            pool client\.
+        WriteAttributes:
+          type: array
+          description: >-
+            The user pool attributes that the app client can write to\.   If
+            your app client allows users to sign in through an IdP, this array
+            must include all attributes that you have mapped to IdP attributes\.
+            Amazon Cognito updates mapped attributes when users sign in to your
+            application through an IdP\. If your app client does not have write
+            access to a mapped attribute, Amazon Cognito throws an error when it
+            tries to update the attribute\. For more information, see
+            [Specifying IdP Attribute Mappings for Your user
+            pool](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-specifying-attribute-mapping.html)\.
+      required:
+        - UserPoolId
+    UserPoolDomain:
+      type: object
+      properties:
+        CustomDomainConfig:
+          type: >-
+            [customdomainconfigtype](aws-properties-cognito-userpooldomain-customdomainconfigtype.md)
+          description: >-
+            The configuration for a custom domain that hosts the sign\-up and
+            sign\-in pages for your application\. Use this object to specify an
+            SSL certificate that is managed by ACM\.
+        Domain:
+          type: string
+          description: >-
+            The domain name for the domain that hosts the sign\-up and sign\-in
+            pages for your application\. For example: `auth.example.com`\. If
+            you're using a prefix domain, this field denotes the first part of
+            the domain before `.auth.[region].amazoncognito.com`\.   This string
+            can include only lowercase letters, numbers, and hyphens\. Don't use
+            a hyphen for the first or last character\. Use periods to separate
+            subdomain names\.
+        UserPoolId:
+          type: string
+          description: >-
+            The user pool ID for the user pool where you want to associate a
+            user pool domain\.
+      required:
+        - Domain
+        - UserPoolId
+    UserPoolGroup:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A string containing the description of the group\.
+        GroupName:
+          type: string
+          description: The name of the group\. Must be unique\.
+        Precedence:
+          type: double
+          description: >-
+            A non\-negative integer value that specifies the precedence of this
+            group relative to the other groups that a user can belong to in the
+            user pool\. Zero is the highest precedence value\. Groups with lower
+            `Precedence` values take precedence over groups with higher or null
+            `Precedence` values\. If a user belongs to two or more groups, it is
+            the group with the lowest precedence value whose role ARN is given
+            in the user's tokens for the `cognito:roles` and
+            `cognito:preferred_role` claims\.   Two groups can have the same
+            `Precedence` value\. If this happens, neither group takes precedence
+            over the other\. If two groups with the same `Precedence` have the
+            same role ARN, that role is used in the `cognito:preferred_role`
+            claim in tokens for users in each group\. If the two groups have
+            different role ARNs, the `cognito:preferred_role` claim isn't set in
+            users' tokens\.   The default `Precedence` value is null\. The
+            maximum `Precedence` value is `2^31-1`\.
+        RoleArn:
+          type: string
+          description: The role Amazon Resource Name \(ARN\) for the group\.
+        UserPoolId:
+          type: string
+          description: The user pool ID for the user pool\.
+      required:
+        - UserPoolId
+    UserPoolIdentityProvider:
+      type: object
+      properties:
+        AttributeMapping:
+          type: object
+          description: >-
+            A mapping of IdP attributes to standard and custom user pool
+            attributes\.
+        IdpIdentifiers:
+          type: array
+          description: A list of IdP identifiers\.
+        ProviderDetails:
+          type: object
+          description: >-
+            The IdP details\. The following list describes the provider detail
+            keys for each IdP type\.   + For Google and Login with Amazon:   +
+            client\_id   + client\_secret   + authorize\_scopes + For
+            Facebook:   + client\_id   + client\_secret   + authorize\_scopes  
+            + api\_version + For Sign in with Apple:   + client\_id   +
+            team\_id   + key\_id   + private\_key   + authorize\_scopes + For
+            OpenID Connect \(OIDC\) providers:   + client\_id   +
+            client\_secret   + attributes\_request\_method   + oidc\_issuer   +
+            authorize\_scopes   + The following keys are only present if Amazon
+            Cognito didn't discover them at the `oidc_issuer` URL\.     +
+            authorize\_url      + token\_url      + attributes\_url      +
+            jwks\_uri    + Amazon Cognito sets the value of the following keys
+            automatically\. They are read\-only\.     +
+            attributes\_url\_add\_attributes  + For SAML providers:   +
+            MetadataFile or MetadataURL   + IDPSignout *optional*
+        ProviderName:
+          type: string
+          description: The IdP name\.
+        ProviderType:
+          type: string
+          description: The IdP type\.
+        UserPoolId:
+          type: string
+          description: The user pool ID\.
+      required:
+        - ProviderName
+        - ProviderType
+        - UserPoolId
+    UserPoolResourceServer:
+      type: object
+      properties:
+        Identifier:
+          type: string
+          description: >-
+            A unique resource server identifier for the resource server\. This
+            could be an HTTPS endpoint where the resource server is located\.
+            For example: `https://my-weather-api.example.com`\.
+        Name:
+          type: string
+          description: A friendly name for the resource server\.
+        Scopes:
+          type: >-
+            list of
+            [resourceserverscopetype](aws-properties-cognito-userpoolresourceserver-resourceserverscopetype.md)
+          description: >-
+            A list of scopes\. Each scope is a map with keys `ScopeName` and
+            `ScopeDescription`\.
+        UserPoolId:
+          type: string
+          description: The user pool ID for the user pool\.
+      required:
+        - Identifier
+        - Name
+        - UserPoolId
+    UserPoolRiskConfigurationAttachment:
+      type: object
+      properties:
+        AccountTakeoverRiskConfiguration:
+          type: >-
+            [accounttakeoverriskconfigurationtype](aws-properties-cognito-userpoolriskconfigurationattachment-accounttakeoverriskconfigurationtype.md)
+          description: >-
+            The account takeover risk configuration object, including the
+            `NotifyConfiguration` object and `Actions` to take if there is an
+            account takeover\.
+        ClientId:
+          type: string
+          description: >-
+            The app client ID\. You can specify the risk configuration for a
+            single client \(with a specific ClientId\) or for all clients \(by
+            setting the ClientId to `ALL`\)\.
+        CompromisedCredentialsRiskConfiguration:
+          type: >-
+            [compromisedcredentialsriskconfigurationtype](aws-properties-cognito-userpoolriskconfigurationattachment-compromisedcredentialsriskconfigurationtype.md)
+          description: >-
+            The compromised credentials risk configuration object, including the
+            `EventFilter` and the `EventAction`\.
+        RiskExceptionConfiguration:
+          type: >-
+            [riskexceptionconfigurationtype](aws-properties-cognito-userpoolriskconfigurationattachment-riskexceptionconfigurationtype.md)
+          description: The configuration to override the risk decision\.
+        UserPoolId:
+          type: string
+          description: The user pool ID\.
+      required:
+        - ClientId
+        - UserPoolId
+    UserPoolUICustomizationAttachment:
+      type: object
+      properties:
+        ClientId:
+          type: string
+          description: >-
+            The client ID for the client app\. You can specify the UI
+            customization settings for a single client \(with a specific
+            clientId\) or for all clients \(by setting the clientId to `ALL`\)\.
+        CSS:
+          type: string
+          description: The CSS values in the UI customization\.
+        UserPoolId:
+          type: string
+          description: The user pool ID for the user pool\.
+      required:
+        - ClientId
+        - UserPoolId
+    UserPoolUser:
+      type: object
+      properties:
+        ClientMetadata:
+          type: object
+          description: >-
+            A map of custom key\-value pairs that you can provide as input for
+            the custom workflow that is invoked by the *pre sign\-up*
+            trigger\.   You create custom workflows by assigning AWS Lambda
+            functions to user pool triggers\. When you create a `UserPoolUser`
+            resource and include the `ClientMetadata` property, Amazon Cognito
+            invokes the function that is assigned to the *pre sign\-up*
+            trigger\. When Amazon Cognito invokes this function, it passes a
+            JSON payload, which the function receives as input\. This payload
+            contains a `clientMetadata` attribute, which provides the data that
+            you assigned to the ClientMetadata property\. In your function code
+            in AWS Lambda, you can process the `clientMetadata` value to enhance
+            your workflow for your specific needs\.   For more information, see
+            [Customizing User Pool Workflows with Lambda
+            Triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-identity-pools-working-with-aws-lambda-triggers.html)
+            in the *Amazon Cognito Developer Guide*\.   Take the following
+            limitations into consideration when you use the ClientMetadata
+            parameter:   + Amazon Cognito does not store the ClientMetadata
+            value\. This data is available only to AWS Lambda triggers that are
+            assigned to a user pool to support custom workflows\. If your user
+            pool configuration does not include triggers, the ClientMetadata
+            parameter serves no purpose\. + Amazon Cognito does not validate the
+            ClientMetadata value\. + Amazon Cognito does not encrypt the the
+            ClientMetadata value, so don't use it to provide sensitive
+            information\.
+        DesiredDeliveryMediums:
+          type: array
+          description: >-
+            Specify `"EMAIL"` if email will be used to send the welcome
+            message\. Specify `"SMS"` if the phone number will be used\. The
+            default value is `"SMS"`\. You can specify more than one value\.
+        ForceAliasCreation:
+          type: boolean
+          description: >-
+            This parameter is used only if the `phone_number_verified` or
+            `email_verified` attribute is set to `True`\. Otherwise, it is
+            ignored\.   If this parameter is set to `True` and the phone number
+            or email address specified in the UserAttributes parameter already
+            exists as an alias with a different user, the API call will migrate
+            the alias from the previous user to the newly created user\. The
+            previous user will no longer be able to log in using that alias\.  
+            If this parameter is set to `False`, the API throws an
+            `AliasExistsException` error if the alias already exists\. The
+            default value is `False`\.
+        MessageAction:
+          type: string
+          description: >-
+            Set to `RESEND` to resend the invitation message to a user that
+            already exists and reset the expiration limit on the user's
+            account\. Set to `SUPPRESS` to suppress sending the message\. You
+            can specify only one value\.
+        UserAttributes:
+          type: >-
+            list of
+            [attributetype](aws-properties-cognito-userpooluser-attributetype.md)
+          description: >-
+            The user attributes and attribute values to be set for the user to
+            be created\. These are name\-value pairs You can create a user
+            without specifying any attributes other than `Username`\. However,
+            any attributes that you specify as required \(in
+            [https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_CreateUserPool.html](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_CreateUserPool.html)
+            or in the **Attributes** tab of the console\) must be supplied
+            either by you \(in your call to `AdminCreateUser`\) or by the user
+            \(when they sign up in response to your welcome message\)\.   For
+            custom attributes, you must prepend the `custom:` prefix to the
+            attribute name\.   To send a message inviting the user to sign up,
+            you must specify the user's email address or phone number\. This can
+            be done in your call to AdminCreateUser or in the **Users** tab of
+            the Amazon Cognito console for managing your user pools\.   In your
+            call to `AdminCreateUser`, you can set the `email_verified`
+            attribute to `True`, and you can set the `phone_number_verified`
+            attribute to `True`\. \(You can also do this by calling
+            [https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminUpdateUserAttributes.html](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_AdminUpdateUserAttributes.html)\.\)  
+            +  **email**: The email address of the user to whom the message that
+            contains the code and user name will be sent\. Required if the
+            `email_verified` attribute is set to `True`, or if `"EMAIL"` is
+            specified in the `DesiredDeliveryMediums` parameter\. + 
+            **phone\_number**: The phone number of the user to whom the message
+            that contains the code and user name will be sent\. Required if the
+            `phone_number_verified` attribute is set to `True`, or if `"SMS"` is
+            specified in the `DesiredDeliveryMediums` parameter\.
+        Username:
+          type: string
+          description: >-
+            The username for the user\. Must be unique within the user pool\.
+            Must be a UTF\-8 string between 1 and 128 characters\. After the
+            user is created, the username can't be changed\.
+        UserPoolId:
+          type: string
+          description: The user pool ID for the user pool where the user will be created\.
+        ValidationData:
+          type: >-
+            list of
+            [attributetype](aws-properties-cognito-userpooluser-attributetype.md)
+          description: >-
+            The user's validation data\. This is an array of name\-value pairs
+            that contain user attributes and attribute values that you can use
+            for custom validation, such as restricting the types of user
+            accounts that can be registered\. For example, you might choose to
+            allow or disallow user sign\-up based on the user's domain\.   To
+            configure custom validation, you must create a Pre Sign\-up AWS
+            Lambda trigger for the user pool as described in the Amazon Cognito
+            Developer Guide\. The Lambda trigger receives the validation data
+            and uses it in the validation process\.   The user's validation data
+            isn't persisted\.
+      required:
+        - UserPoolId
+    UserPoolUserToGroupAttachment:
+      type: object
+      properties:
+        GroupName:
+          type: string
+          description: The group name\.
+        Username:
+          type: string
+          description: The username for the user\.
+        UserPoolId:
+          type: string
+          description: The user pool ID for the user pool\.
+      required:
+        - GroupName
+        - Username
+        - UserPoolId
+paths: {}

@@ -1,0 +1,753 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: ApiGateway
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        CloudWatchRoleArn:
+          type: string
+          description: The ARN of an Amazon CloudWatch role for the current Account\.
+    ApiKey:
+      type: object
+      properties:
+        CustomerId:
+          type: string
+          description: >-
+            An AWS Marketplace customer identifier, when integrating with the
+            AWS SaaS Marketplace\.
+        Description:
+          type: string
+          description: The description of the ApiKey\.
+        Enabled:
+          type: boolean
+          description: Specifies whether the ApiKey can be used by callers\.
+        GenerateDistinctId:
+          type: boolean
+          description: >-
+            Specifies whether \(`true`\) or not \(`false`\) the key identifier
+            is distinct from the created API key value\. This parameter is
+            deprecated and should not be used\.
+        Name:
+          type: string
+          description: >-
+            A name for the API key\. If you don't specify a name, AWS
+            CloudFormation generates a unique physical ID and uses that ID for
+            the API key name\. For more information, see [Name
+            Type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html)\.  
+            If you specify a name, you cannot perform updates that require
+            replacement of this resource\. You can perform updates that require
+            no or some interruption\. If you must replace the resource, specify
+            a new name\.
+        StageKeys:
+          type: list of [stagekey](aws-properties-apigateway-apikey-stagekey.md)
+          description: >-
+            DEPRECATED FOR USAGE PLANS \- Specifies stages associated with the
+            API key\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The key\-value map of strings\. The valid character set is
+            \[a\-zA\-Z\+\-=\.\_:/\]\. The tag key can be up to 128 characters
+            and must not start with `aws:`\. The tag value can be up to 256
+            characters\.
+        Value:
+          type: string
+          description: Specifies a value of the API key\.
+    Authorizer:
+      type: object
+      properties:
+        AuthorizerCredentials:
+          type: string
+          description: >-
+            Specifies the required credentials as an IAM role for API Gateway to
+            invoke the authorizer\. To specify an IAM role for API Gateway to
+            assume, use the role's Amazon Resource Name \(ARN\)\. To use
+            resource\-based permissions on the Lambda function, specify null\.
+        AuthorizerResultTtlInSeconds:
+          type: integer
+          description: >-
+            The TTL in seconds of cached authorizer results\. If it equals 0,
+            authorization caching is disabled\. If it is greater than 0, API
+            Gateway will cache authorizer responses\. If this field is not set,
+            the default value is 300\. The maximum value is 3600, or 1 hour\.
+        AuthorizerUri:
+          type: string
+          description: >-
+            Specifies the authorizer's Uniform Resource Identifier \(URI\)\. For
+            `TOKEN` or `REQUEST` authorizers, this must be a well\-formed Lambda
+            function URI, for example,
+            `arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:{account_id}:function:{lambda_function_name}/invocations`\.
+            In general, the URI has this form
+            `arn:aws:apigateway:{region}:lambda:path/{service_api}`, where
+            `{region}` is the same as the region hosting the Lambda function,
+            `path` indicates that the remaining substring in the URI should be
+            treated as the path to the resource, including the initial `/`\. For
+            Lambda functions, this is usually of the form
+            `/2015-03-31/functions/[FunctionARN]/invocations`\.
+        AuthType:
+          type: string
+          description: >-
+            Optional customer\-defined field, used in OpenAPI imports and
+            exports without functional impact\.
+        IdentitySource:
+          type: string
+          description: >-
+            The identity source for which authorization is requested\. For a
+            `TOKEN` or `COGNITO_USER_POOLS` authorizer, this is required and
+            specifies the request header mapping expression for the custom
+            header holding the authorization token submitted by the client\. For
+            example, if the token header name is `Auth`, the header mapping
+            expression is `method.request.header.Auth`\. For the `REQUEST`
+            authorizer, this is required when authorization caching is enabled\.
+            The value is a comma\-separated string of one or more mapping
+            expressions of the specified request parameters\. For example, if an
+            `Auth` header, a `Name` query string parameter are defined as
+            identity sources, this value is `method.request.header.Auth,
+            method.request.querystring.Name`\. These parameters will be used to
+            derive the authorization caching key and to perform runtime
+            validation of the `REQUEST` authorizer by verifying all of the
+            identity\-related request parameters are present, not null and
+            non\-empty\. Only when this is true does the authorizer invoke the
+            authorizer Lambda function, otherwise, it returns a 401 Unauthorized
+            response without calling the Lambda function\. The valid value is a
+            string of comma\-separated mapping expressions of the specified
+            request parameters\. When the authorization caching is not enabled,
+            this property is optional\.
+        IdentityValidationExpression:
+          type: string
+          description: >-
+            A validation expression for the incoming identity token\. For
+            `TOKEN` authorizers, this value is a regular expression\. For
+            `COGNITO_USER_POOLS` authorizers, API Gateway will match the `aud`
+            field of the incoming token from the client against the specified
+            regular expression\. It will invoke the authorizer's Lambda function
+            when there is a match\. Otherwise, it will return a 401 Unauthorized
+            response without calling the Lambda function\. The validation
+            expression does not apply to the `REQUEST` authorizer\.
+        Name:
+          type: string
+          description: The name of the authorizer\.
+        ProviderARNs:
+          type: array
+          description: >-
+            A list of the Amazon Cognito user pool ARNs for the
+            `COGNITO_USER_POOLS` authorizer\. Each element is of this format:
+            `arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}`\.
+            For a `TOKEN` or `REQUEST` authorizer, this is not defined\.
+        RestApiId:
+          type: string
+          description: The string identifier of the associated RestApi\.
+        Type:
+          type: string
+          description: >-
+            The authorizer type\. Valid values are `TOKEN` for a Lambda function
+            using a single authorization token submitted in a custom header,
+            `REQUEST` for a Lambda function using incoming request parameters,
+            and `COGNITO_USER_POOLS` for using an Amazon Cognito user pool\.
+      required:
+        - Name
+        - RestApiId
+        - Type
+    BasePathMapping:
+      type: object
+      properties:
+        BasePath:
+          type: string
+          description: >-
+            The base path name that callers of the API must provide as part of
+            the URL after the domain name\.
+        DomainName:
+          type: string
+          description: The domain name of the BasePathMapping resource to be described\.
+        Id:
+          type: string
+          description: Property description not available\.
+        RestApiId:
+          type: string
+          description: The string identifier of the associated RestApi\.
+        Stage:
+          type: string
+          description: The name of the associated stage\.
+      required:
+        - DomainName
+    ClientCertificate:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the client certificate\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The collection of tags\. Each tag element is associated with a given
+            resource\.
+    Deployment:
+      type: object
+      properties:
+        DeploymentCanarySettings:
+          type: >-
+            [deploymentcanarysettings](aws-properties-apigateway-deployment-deploymentcanarysettings.md)
+          description: The input configuration for a canary deployment\.
+        Description:
+          type: string
+          description: The description for the Deployment resource to create\.
+        RestApiId:
+          type: string
+          description: The string identifier of the associated RestApi\.
+        StageDescription:
+          type: >-
+            [stagedescription](aws-properties-apigateway-deployment-stagedescription.md)
+          description: >-
+            The description of the Stage resource for the Deployment resource to
+            create\.
+        StageName:
+          type: string
+          description: >-
+            The name of the Stage resource for the Deployment resource to
+            create\.
+      required:
+        - RestApiId
+    DocumentationPart:
+      type: object
+      properties:
+        Location:
+          type: '[location](aws-properties-apigateway-documentationpart-location.md)'
+          description: >-
+            The location of the targeted API entity of the to\-be\-created
+            documentation part\.
+        Properties:
+          type: string
+          description: >-
+            The new documentation content map of the targeted API entity\.
+            Enclosed key\-value pairs are API\-specific, but only
+            OpenAPI\-compliant key\-value pairs can be exported and, hence,
+            published\.
+        RestApiId:
+          type: string
+          description: The string identifier of the associated RestApi\.
+      required:
+        - Location
+        - Properties
+        - RestApiId
+    DocumentationVersion:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description about the new documentation snapshot\.
+        DocumentationVersion:
+          type: string
+          description: >-
+            The version identifier of the to\-be\-updated documentation
+            version\.
+        RestApiId:
+          type: string
+          description: The string identifier of the associated RestApi\.
+      required:
+        - DocumentationVersion
+        - RestApiId
+    DomainName:
+      type: object
+      properties:
+        CertificateArn:
+          type: string
+          description: >-
+            The reference to an AWS\-managed certificate that will be used by
+            edge\-optimized endpoint for this domain name\. AWS Certificate
+            Manager is the only supported source\.
+        DomainName:
+          type: string
+          description: >-
+            The custom domain name as an API host name, for example,
+            `my-api.example.com`\.
+        EndpointConfiguration:
+          type: >-
+            [endpointconfiguration](aws-properties-apigateway-domainname-endpointconfiguration.md)
+          description: >-
+            The endpoint configuration of this DomainName showing the endpoint
+            types of the domain name\.
+        MutualTlsAuthentication:
+          type: >-
+            [mutualtlsauthentication](aws-properties-apigateway-domainname-mutualtlsauthentication.md)
+          description: >-
+            The mutual TLS authentication configuration for a custom domain
+            name\. If specified, API Gateway performs two\-way authentication
+            between the client and the server\. Clients must present a trusted
+            certificate to access your API\.
+        OwnershipVerificationCertificateArn:
+          type: string
+          description: >-
+            The ARN of the public certificate issued by ACM to validate
+            ownership of your custom domain\. Only required when configuring
+            mutual TLS and using an ACM imported or private CA certificate ARN
+            as the RegionalCertificateArn\.
+        RegionalCertificateArn:
+          type: string
+          description: >-
+            The reference to an AWS\-managed certificate that will be used for
+            validating the regional domain name\. AWS Certificate Manager is the
+            only supported source\.
+        SecurityPolicy:
+          type: string
+          description: >-
+            The Transport Layer Security \(TLS\) version \+ cipher suite for
+            this DomainName\. The valid values are `TLS_1_0` and `TLS_1_2`\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The collection of tags\. Each tag element is associated with a given
+            resource\.
+    GatewayResponse:
+      type: object
+      properties:
+        ResponseParameters:
+          type: map of string
+          description: >-
+            Response parameters \(paths, query strings and headers\) of the
+            GatewayResponse as a string\-to\-string map of key\-value pairs\.
+        ResponseTemplates:
+          type: map of string
+          description: >-
+            Response templates of the GatewayResponse as a string\-to\-string
+            map of key\-value pairs\.
+        ResponseType:
+          type: string
+          description: The response type of the associated GatewayResponse\.
+        RestApiId:
+          type: string
+          description: The string identifier of the associated RestApi\.
+        StatusCode:
+          type: string
+          description: The HTTP status code for this GatewayResponse\.
+      required:
+        - ResponseType
+        - RestApiId
+    Method:
+      type: object
+      properties:
+        ApiKeyRequired:
+          type: boolean
+          description: >-
+            A boolean flag specifying whether a valid ApiKey is required to
+            invoke this method\.
+        AuthorizationScopes:
+          type: array
+          description: >-
+            A list of authorization scopes configured on the method\. The scopes
+            are used with a `COGNITO_USER_POOLS` authorizer to authorize the
+            method invocation\. The authorization works by matching the method
+            scopes against the scopes parsed from the access token in the
+            incoming request\. The method invocation is authorized if any method
+            scopes matches a claimed scope in the access token\. Otherwise, the
+            invocation is not authorized\. When the method scope is configured,
+            the client must provide an access token instead of an identity token
+            for authorization purposes\.
+        AuthorizationType:
+          type: string
+          description: >-
+            The method's authorization type\. This parameter is required\. For
+            valid values, see
+            [Method](https://docs.aws.amazon.com/apigateway/latest/api/API_Method.html)
+            in the *API Gateway API Reference*\.   If you specify the
+            `AuthorizerId` property, specify `CUSTOM` or `COGNITO_USER_POOLS`
+            for this property\.
+        AuthorizerId:
+          type: string
+          description: >-
+            The identifier of an Authorizer to use on this method\. The
+            `authorizationType` must be `CUSTOM`\.
+        HttpMethod:
+          type: string
+          description: The method's HTTP verb\.
+        Integration:
+          type: '[integration](aws-properties-apitgateway-method-integration.md)'
+          description: >-
+            Represents an `HTTP`, `HTTP_PROXY`, `AWS`, `AWS_PROXY`, or Mock
+            integration\.
+        MethodResponses:
+          type: >-
+            list of
+            [methodresponse](aws-properties-apitgateway-method-methodresponse.md)
+          description: Gets a method response associated with a given HTTP status code\.
+        OperationName:
+          type: string
+          description: >-
+            A human\-friendly operation identifier for the method\. For example,
+            you can assign the `operationName` of `ListPets` for the `GET /pets`
+            method in the `PetStore` example\.
+        RequestModels:
+          type: map of string
+          description: >-
+            A key\-value map specifying data schemas, represented by Model
+            resources, \(as the mapped value\) of the request payloads of given
+            content types \(as the mapping key\)\.
+        RequestParameters:
+          type: map of boolean
+          description: >-
+            A key\-value map defining required or optional method request
+            parameters that can be accepted by API Gateway\. A key is a method
+            request parameter name matching the pattern of
+            `method.request.{location}.{name}`, where `location` is
+            `querystring`, `path`, or `header` and `name` is a valid and unique
+            parameter name\. The value associated with the key is a Boolean flag
+            indicating whether the parameter is required \(`true`\) or optional
+            \(`false`\)\. The method request parameter names defined here are
+            available in Integration to be mapped to integration request
+            parameters or templates\.
+        RequestValidatorId:
+          type: string
+          description: The identifier of a RequestValidator for request validation\.
+        ResourceId:
+          type: string
+          description: The Resource identifier for the MethodResponse resource\.
+        RestApiId:
+          type: string
+          description: The string identifier of the associated RestApi\.
+      required:
+        - HttpMethod
+        - ResourceId
+        - RestApiId
+    Model:
+      type: object
+      properties:
+        ContentType:
+          type: string
+          description: The content\-type for the model\.
+        Description:
+          type: string
+          description: The description of the model\.
+        Name:
+          type: string
+          description: >-
+            A name for the model\. If you don't specify a name, AWS
+            CloudFormation generates a unique physical ID and uses that ID for
+            the model name\. For more information, see [Name
+            Type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html)\.  
+            If you specify a name, you cannot perform updates that require
+            replacement of this resource\. You can perform updates that require
+            no or some interruption\. If you must replace the resource, specify
+            a new name\.
+        RestApiId:
+          type: string
+          description: The string identifier of the associated RestApi\.
+        Schema:
+          type: object
+          description: >-
+            The schema for the model\. For `application/json` models, this
+            should be JSON schema draft 4 model\. Do not include "\\\*/"
+            characters in the description of any properties because such "\\\*/"
+            characters may be interpreted as the closing marker for comments in
+            some languages, such as Java or JavaScript, causing the installation
+            of your API's SDK generated by API Gateway to fail\.
+      required:
+        - RestApiId
+    RequestValidator:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: The name of this RequestValidator
+        RestApiId:
+          type: string
+          description: The string identifier of the associated RestApi\.
+        ValidateRequestBody:
+          type: boolean
+          description: >-
+            A Boolean flag to indicate whether to validate a request body
+            according to the configured Model schema\.
+        ValidateRequestParameters:
+          type: boolean
+          description: >-
+            A Boolean flag to indicate whether to validate request parameters
+            \(`true`\) or not \(`false`\)\.
+      required:
+        - RestApiId
+    Resource:
+      type: object
+      properties:
+        ParentId:
+          type: string
+          description: The parent resource's identifier\.
+        PathPart:
+          type: string
+          description: The last path segment for this resource\.
+        RestApiId:
+          type: string
+          description: The string identifier of the associated RestApi\.
+      required:
+        - ParentId
+        - PathPart
+        - RestApiId
+    RestApi:
+      type: object
+      properties:
+        ApiKeySourceType:
+          type: string
+          description: >-
+            The source of the API key for metering requests according to a usage
+            plan\. Valid values are: `HEADER` to read the API key from the
+            `X-API-Key` header of a request\. `AUTHORIZER` to read the API key
+            from the `UsageIdentifierKey` from a custom authorizer\.
+        BinaryMediaTypes:
+          type: array
+          description: >-
+            The list of binary media types supported by the RestApi\. By
+            default, the RestApi supports only UTF\-8\-encoded text payloads\.
+        Body:
+          type: object
+          description: >-
+            An OpenAPI specification that defines a set of RESTful APIs in JSON
+            format\. For YAML templates, you can also provide the specification
+            in YAML format\.
+        BodyS3Location:
+          type: '[s3location](aws-properties-apigateway-restapi-s3location.md)'
+          description: >-
+            The Amazon Simple Storage Service \(Amazon S3\) location that points
+            to an OpenAPI file, which defines a set of RESTful APIs in JSON or
+            YAML format\.
+        CloneFrom:
+          type: string
+          description: The ID of the RestApi that you want to clone from\.
+        Description:
+          type: string
+          description: The description of the RestApi\.
+        DisableExecuteApiEndpoint:
+          type: boolean
+          description: >-
+            Specifies whether clients can invoke your API by using the default
+            `execute-api` endpoint\. By default, clients can invoke your API
+            with the default
+            `https://{api_id}.execute-api.{region}.amazonaws.com` endpoint\. To
+            require that clients use a custom domain name to invoke your API,
+            disable the default endpoint
+        EndpointConfiguration:
+          type: >-
+            [endpointconfiguration](aws-properties-apigateway-restapi-endpointconfiguration.md)
+          description: >-
+            A list of the endpoint types of the API\. Use this property when
+            creating an API\. When importing an existing API, specify the
+            endpoint configuration types using the `Parameters` property\.
+        FailOnWarnings:
+          type: boolean
+          description: >-
+            A query parameter to indicate whether to rollback the API update
+            \(`true`\) or not \(`false`\) when a warning is encountered\. The
+            default value is `false`\.
+        MinimumCompressionSize:
+          type: integer
+          description: >-
+            A nullable integer that is used to enable compression \(with
+            non\-negative between 0 and 10485760 \(10M\) bytes, inclusive\) or
+            disable compression \(with a null value\) on an API\. When
+            compression is enabled, compression or decompression is not applied
+            on the payload if the payload size is smaller than this value\.
+            Setting it to zero allows compression for any payload size\.
+        Mode:
+          type: string
+          description: >-
+            This property applies only when you use OpenAPI to define your REST
+            API\. The `Mode` determines how API Gateway handles resource
+            updates\.   Valid values are `overwrite` or `merge`\.    For
+            `overwrite`, the new API definition replaces the existing one\. The
+            existing API identifier remains unchanged\.    For `merge`, the new
+            API definition takes precedence, but any container types such as
+            endpoint configurations and binary media types are merged with the
+            existing API\. Use `merge` to define top\-level `RestApi` properties
+            in addition to using OpenAPI\. Generally, it's preferred to use API
+            Gateway's OpenAPI extensions to model these properties\.   If you
+            don't specify this property, a default value is chosen\. For REST
+            APIs created before March 29, 2021, the default is `overwrite`\.
+            Otherwise, the default value is `merge`\.
+        Name:
+          type: string
+          description: The name of the RestApi\.
+        Parameters:
+          type: map of string
+          description: >-
+            Custom header parameters as part of the request\. For example, to
+            exclude DocumentationParts from an imported API, set
+            `ignore=documentation` as a `parameters` value, as in the AWS CLI
+            command of `aws apigateway import-rest-api --parameters
+            ignore=documentation --body
+            'file:///path/to/imported-api-body.json'`\.
+        Policy:
+          type: object
+          description: >-
+            A policy document that contains the permissions for the `RestApi`
+            resource\. To set the ARN for the policy, use the `!Join` intrinsic
+            function with `""` as delimiter and values of `"execute-api:/"` and
+            `"*"`\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The key\-value map of strings\. The valid character set is
+            \[a\-zA\-Z\+\-=\.\_:/\]\. The tag key can be up to 128 characters
+            and must not start with `aws:`\. The tag value can be up to 256
+            characters\.
+    Stage:
+      type: object
+      properties:
+        AccessLogSetting:
+          type: >-
+            [accesslogsetting](aws-properties-apigateway-stage-accesslogsetting.md)
+          description: >-
+            Access log settings, including the access log format and access log
+            destination ARN\.
+        CacheClusterEnabled:
+          type: boolean
+          description: Specifies whether a cache cluster is enabled for the stage\.
+        CacheClusterSize:
+          type: string
+          description: >-
+            The stage's cache capacity in GB\. For more information about
+            choosing a cache size, see [Enabling API caching to enhance
+            responsiveness](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-caching.html)\.
+        CanarySetting:
+          type: '[canarysetting](aws-properties-apigateway-stage-canarysetting.md)'
+          description: Settings for the canary deployment in this stage\.
+        ClientCertificateId:
+          type: string
+          description: The identifier of a client certificate for an API stage\.
+        DeploymentId:
+          type: string
+          description: The identifier of the Deployment that the stage points to\.
+        Description:
+          type: string
+          description: The stage's description\.
+        DocumentationVersion:
+          type: string
+          description: The version of the associated API documentation\.
+        MethodSettings:
+          type: >-
+            list of
+            [methodsetting](aws-properties-apigateway-stage-methodsetting.md)
+          description: >-
+            A map that defines the method settings for a Stage resource\. Keys
+            \(designated as `/{method_setting_key` below\) are method paths
+            defined as `{resource_path}/{http_method}` for an individual method
+            override, or `/\*/\*` for overriding all methods in the stage\.
+        RestApiId:
+          type: string
+          description: The string identifier of the associated RestApi\.
+        StageName:
+          type: string
+          description: >-
+            The name of the stage is the first path segment in the Uniform
+            Resource Identifier \(URI\) of a call to API Gateway\. Stage names
+            can only contain alphanumeric characters, hyphens, and underscores\.
+            Maximum length is 128 characters\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The collection of tags\. Each tag element is associated with a given
+            resource\.
+        TracingEnabled:
+          type: boolean
+          description: >-
+            Specifies whether active tracing with X\-ray is enabled for the
+            Stage\.
+        Variables:
+          type: map of string
+          description: >-
+            A map \(string\-to\-string map\) that defines the stage variables,
+            where the variable name is the key and the variable value is the
+            value\. Variable names are limited to alphanumeric characters\.
+            Values must match the following regular expression:
+            `[A-Za-z0-9-._~:/?#&=,]+`\.
+      required:
+        - RestApiId
+    UsagePlan:
+      type: object
+      properties:
+        ApiStages:
+          type: list of [apistage](aws-properties-apigateway-usageplan-apistage.md)
+          description: The associated API stages of a usage plan\.
+        Description:
+          type: string
+          description: The description of a usage plan\.
+        Quota:
+          type: >-
+            [quotasettings](aws-properties-apigateway-usageplan-quotasettings.md)
+          description: >-
+            The target maximum number of permitted requests per a given unit
+            time interval\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The collection of tags\. Each tag element is associated with a given
+            resource\.
+        Throttle:
+          type: >-
+            [throttlesettings](aws-properties-apigateway-usageplan-throttlesettings.md)
+          description: >-
+            A map containing method level throttling information for API stage
+            in a usage plan\.
+        UsagePlanName:
+          type: string
+          description: The name of a usage plan\.
+    UsagePlanKey:
+      type: object
+      properties:
+        KeyId:
+          type: string
+          description: The Id of the UsagePlanKey resource to be deleted\.
+        KeyType:
+          type: string
+          description: The type of a UsagePlanKey resource for a plan customer\.
+        UsagePlanId:
+          type: string
+          description: >-
+            The Id of the UsagePlan resource representing the usage plan
+            containing the to\-be\-deleted UsagePlanKey resource representing a
+            plan customer\.
+      required:
+        - KeyId
+        - KeyType
+        - UsagePlanId
+    VpcLink:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the VPC link\.
+        Name:
+          type: string
+          description: The name used to label and identify the VPC link\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of arbitrary tags \(key\-value pairs\) to associate with
+            the VPC link\.
+        TargetArns:
+          type: array
+          description: >-
+            The ARN of the network load balancer of the VPC targeted by the VPC
+            link\. The network load balancer must be owned by the same AWS
+            account of the API owner\.
+      required:
+        - Name
+        - TargetArns
+paths: {}

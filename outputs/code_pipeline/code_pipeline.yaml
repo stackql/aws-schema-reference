@@ -1,0 +1,183 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: CodePipeline
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    CustomActionType:
+      type: object
+      properties:
+        Category:
+          type: string
+          description: >-
+            The category of the custom action, such as a build action or a test
+            action\.
+        ConfigurationProperties:
+          type: >-
+            [list](aws-properties-codepipeline-customactiontype-configurationproperties.md)
+            of
+            [configurationproperties](aws-properties-codepipeline-customactiontype-configurationproperties.md)
+          description: >-
+            The configuration properties for the custom action\.   You can refer
+            to a name in the configuration properties of the custom action
+            within the URL templates by following the format of \{Config:name\},
+            as long as the configuration property is both required and not
+            secret\. For more information, see [Create a Custom Action for a
+            Pipeline](https://docs.aws.amazon.com/codepipeline/latest/userguide/how-to-create-custom-action.html)\.
+        InputArtifactDetails:
+          type: >-
+            [artifactdetails](aws-properties-codepipeline-customactiontype-artifactdetails.md)
+          description: >-
+            The details of the input artifact for the action, such as its commit
+            ID\.
+        OutputArtifactDetails:
+          type: >-
+            [artifactdetails](aws-properties-codepipeline-customactiontype-artifactdetails.md)
+          description: >-
+            The details of the output artifact of the action, such as its commit
+            ID\.
+        Provider:
+          type: string
+          description: >-
+            The provider of the service used in the custom action, such as
+            CodeDeploy\.
+        Settings:
+          type: '[settings](aws-properties-codepipeline-customactiontype-settings.md)'
+          description: URLs that provide users information about this custom action\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags for the custom action\.
+        Version:
+          type: string
+          description: The version identifier of the custom action\.
+      required:
+        - Category
+        - InputArtifactDetails
+        - OutputArtifactDetails
+        - Provider
+        - Version
+    Pipeline:
+      type: object
+      properties:
+        ArtifactStore:
+          type: >-
+            [artifactstore](aws-properties-codepipeline-pipeline-artifactstore.md)
+          description: >-
+            The S3 bucket where artifacts for the pipeline are stored\.   You
+            must include either `artifactStore` or `artifactStores` in your
+            pipeline, but you cannot use both\. If you create a cross\-region
+            action in your pipeline, you must use `artifactStores`\.
+        ArtifactStores:
+          type: >-
+            list of
+            [artifactstoremap](aws-properties-codepipeline-pipeline-artifactstoremap.md)
+          description: >-
+            A mapping of `artifactStore` objects and their corresponding AWS
+            Regions\. There must be an artifact store for the pipeline Region
+            and for each cross\-region action in the pipeline\.   You must
+            include either `artifactStore` or `artifactStores` in your pipeline,
+            but you cannot use both\. If you create a cross\-region action in
+            your pipeline, you must use `artifactStores`\.
+        DisableInboundStageTransitions:
+          type: >-
+            list of
+            [stagetransition](aws-properties-codepipeline-pipeline-disableinboundstagetransitions.md)
+          description: Represents the input of a `DisableStageTransition` action\.
+        Name:
+          type: string
+          description: The name of the pipeline\.
+        RestartExecutionOnUpdate:
+          type: boolean
+          description: >-
+            Indicates whether to rerun the CodePipeline pipeline after you
+            update it\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) for CodePipeline to use to either
+            perform actions with no `actionRoleArn`, or to use to assume roles
+            for actions with an `actionRoleArn`\.
+        Stages:
+          type: >-
+            list of
+            [stagedeclaration](aws-properties-codepipeline-pipeline-stages.md)
+          description: Represents information about a stage and its definition\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Specifies the tags applied to the pipeline\.
+      required:
+        - RoleArn
+        - Stages
+    Webhook:
+      type: object
+      properties:
+        Authentication:
+          type: string
+          description: >-
+            Supported options are GITHUB\_HMAC, IP, and UNAUTHENTICATED\.   +
+            For information about the authentication scheme implemented by
+            GITHUB\_HMAC, see [Securing your
+            webhooks](https://developer.github.com/webhooks/securing/) on the
+            GitHub Developer website\. +  IP rejects webhooks trigger requests
+            unless they originate from an IP address in the IP range whitelisted
+            in the authentication configuration\. +  UNAUTHENTICATED accepts all
+            webhook trigger requests regardless of origin\.
+        AuthenticationConfiguration:
+          type: >-
+            [webhookauthconfiguration](aws-properties-codepipeline-webhook-webhookauthconfiguration.md)
+          description: >-
+            Properties that configure the authentication applied to incoming
+            webhook trigger requests\. The required properties depend on the
+            authentication type\. For GITHUB\_HMAC, only the `SecretToken
+            `property must be set\. For IP, only the `AllowedIPRange `property
+            must be set to a valid CIDR range\. For UNAUTHENTICATED, no
+            properties can be set\.
+        Filters:
+          type: >-
+            list of
+            [webhookfilterrule](aws-properties-codepipeline-webhook-webhookfilterrule.md)
+          description: >-
+            A list of rules applied to the body/payload sent in the POST request
+            to a webhook URL\. All defined rules must pass for the request to be
+            accepted and the pipeline started\.
+        Name:
+          type: string
+          description: The name of the webhook\.
+        RegisterWithThirdParty:
+          type: boolean
+          description: >-
+            Configures a connection between the webhook that was created and the
+            external tool with events to be detected\.
+        TargetAction:
+          type: string
+          description: >-
+            The name of the action in a pipeline you want to connect to the
+            webhook\. The action must be from the source \(first\) stage of the
+            pipeline\.
+        TargetPipeline:
+          type: string
+          description: The name of the pipeline you want to connect to the webhook\.
+        TargetPipelineVersion:
+          type: integer
+          description: >-
+            The version number of the pipeline to be connected to the trigger
+            request\.   Required: Yes    Type: Integer     Update requires: [No
+            interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
+      required:
+        - Authentication
+        - AuthenticationConfiguration
+        - Filters
+        - TargetAction
+        - TargetPipeline
+        - TargetPipelineVersion
+paths: {}

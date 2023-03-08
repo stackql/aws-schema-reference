@@ -1,0 +1,70 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: ResourceGroups
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Group:
+      type: object
+      properties:
+        Configuration:
+          type: >-
+            list of
+            [configurationitem](aws-properties-resourcegroups-group-configurationitem.md)
+          description: >-
+            The service configuration currently associated with the resource
+            group and in effect for the members of the resource group\. A
+            `Configuration` consists of one or more `ConfigurationItem`
+            entries\. For information about service configurations for resource
+            groups and how to construct them, see [Service configurations for
+            resource
+            groups](https://docs.aws.amazon.com/ARG/latest/APIReference/about-slg.html)
+            in the *AWS Resource Groups User Guide*\.   You can include either a
+            `Configuration` or a `ResourceQuery`, but not both\.
+        Description:
+          type: string
+          description: The description of the resource group\.
+        Name:
+          type: string
+          description: >-
+            The name of a resource group\. The name must be unique within the
+            AWS Region in which you create the resource\. To create multiple
+            resource groups based on the same CloudFormation stack, you must
+            generate unique names for each\.
+        ResourceQuery:
+          type: >-
+            [resourcequery](aws-properties-resourcegroups-group-resourcequery.md)
+          description: >-
+            The resource query structure that is used to dynamically determine
+            which AWS resources are members of the associated resource group\.
+            For more information about queries and how to construct them, see
+            [Build queries and groups in AWS Resource
+            Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html)
+            in the *AWS Resource Groups User Guide*   + You can include either a
+            `ResourceQuery` or a `Configuration`, but not both\. + You can
+            specify the group's membership either by using a `ResourceQuery` or
+            by using a list of `Resources`, but not both\.
+        Resources:
+          type: array
+          description: >-
+            A list of the Amazon Resource Names \(ARNs\) of AWS resources that
+            you want to add to the specified group\.   + You can specify the
+            group membership either by using a list of `Resources` or by using a
+            `ResourceQuery`, but not both\. + You can include a `Resources`
+            property only if you also specify a `Configuration` property\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tag key and value pairs that are attached to the resource
+            group\.
+      required:
+        - Name
+paths: {}

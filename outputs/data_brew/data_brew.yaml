@@ -1,0 +1,264 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: DataBrew
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Dataset:
+      type: object
+      properties:
+        Format:
+          type: string
+          description: >-
+            The file format of a dataset that is created from an Amazon S3 file
+            or folder\.
+        FormatOptions:
+          type: '[formatoptions](aws-properties-databrew-dataset-formatoptions.md)'
+          description: >-
+            A set of options that define how DataBrew interprets the data in the
+            dataset\.
+        Input:
+          type: '[input](aws-properties-databrew-dataset-input.md)'
+          description: >-
+            Information on how DataBrew can find the dataset, in either the AWS
+            Glue Data Catalog or Amazon S3\.
+        Name:
+          type: string
+          description: The unique name of the dataset\.
+        PathOptions:
+          type: '[pathoptions](aws-properties-databrew-dataset-pathoptions.md)'
+          description: >-
+            A set of options that defines how DataBrew interprets an Amazon S3
+            path of the dataset\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Metadata tags that have been applied to the dataset\.
+      required:
+        - Input
+        - Name
+    Job:
+      type: object
+      properties:
+        DatabaseOutputs:
+          type: >-
+            list of
+            [databaseoutput](aws-properties-databrew-job-databaseoutput.md)
+          description: >-
+            Represents a list of JDBC database output objects which defines the
+            output destination for a DataBrew recipe job to write into\.
+        DataCatalogOutputs:
+          type: >-
+            list of
+            [datacatalogoutput](aws-properties-databrew-job-datacatalogoutput.md)
+          description: >-
+            One or more artifacts that represent the AWS Glue Data Catalog
+            output from running the job\.
+        DatasetName:
+          type: string
+          description: A dataset that the job is to process\.
+        EncryptionKeyArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of an encryption key that is used
+            to protect the job output\. For more information, see [Encrypting
+            data written by DataBrew
+            jobs](https://docs.aws.amazon.com/databrew/latest/dg/encryption-security-configuration.html)
+        EncryptionMode:
+          type: string
+          description: >-
+            The encryption mode for the job, which can be one of the
+            following:   +  `SSE-KMS` \- Server\-side encryption with keys
+            managed by AWS KMS\. +  `SSE-S3` \- Server\-side encryption with
+            keys managed by Amazon S3\.
+        JobSample:
+          type: '[jobsample](aws-properties-databrew-job-jobsample.md)'
+          description: >-
+            A sample configuration for profile jobs only, which determines the
+            number of rows on which the profile job is run\. If a `JobSample`
+            value isn't provided, the default value is used\. The default value
+            is CUSTOM\_ROWS for the mode parameter and 20,000 for the size
+            parameter\.
+        LogSubscription:
+          type: string
+          description: The current status of Amazon CloudWatch logging for the job\.
+        MaxCapacity:
+          type: integer
+          description: >-
+            The maximum number of nodes that can be consumed when the job
+            processes data\.
+        MaxRetries:
+          type: integer
+          description: The maximum number of times to retry the job after a job run fails\.
+        Name:
+          type: string
+          description: The unique name of the job\.
+        OutputLocation:
+          type: '[outputlocation](aws-properties-databrew-job-outputlocation.md)'
+          description: Property description not available\.
+        Outputs:
+          type: list of [output](aws-properties-databrew-job-output.md)
+          description: One or more artifacts that represent output from running the job\.
+        ProfileConfiguration:
+          type: >-
+            [profileconfiguration](aws-properties-databrew-job-profileconfiguration.md)
+          description: >-
+            Configuration for profile jobs\. Configuration can be used to select
+            columns, do evaluations, and override default parameters of
+            evaluations\. When configuration is undefined, the profile job will
+            apply default settings to all supported columns\.
+        ProjectName:
+          type: string
+          description: The name of the project that the job is associated with\.
+        Recipe:
+          type: '[recipe](aws-properties-databrew-job-recipe.md)'
+          description: A series of data transformation steps that the job runs\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the role to be assumed for this
+            job\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Metadata tags that have been applied to the job\.
+        Timeout:
+          type: integer
+          description: >-
+            The job's timeout in minutes\. A job that attempts to run longer
+            than this timeout period ends with a status of `TIMEOUT`\.
+        Type:
+          type: string
+          description: >-
+            The job type of the job, which must be one of the following:   + 
+            `PROFILE` \- A job to analyze a dataset, to determine its size, data
+            types, data distribution, and more\. +  `RECIPE` \- A job to apply
+            one or more transformations to a dataset\.
+        ValidationConfigurations:
+          type: >-
+            list of
+            [validationconfiguration](aws-properties-databrew-job-validationconfiguration.md)
+          description: >-
+            List of validation configurations that are applied to the profile
+            job\.
+      required:
+        - Name
+        - RoleArn
+        - Type
+    Project:
+      type: object
+      properties:
+        DatasetName:
+          type: string
+          description: The dataset that the project is to act upon\.
+        Name:
+          type: string
+          description: The unique name of a project\.
+        RecipeName:
+          type: string
+          description: >-
+            The name of a recipe that will be developed during a project
+            session\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the role that will be assumed
+            for this project\.
+        Sample:
+          type: '[sample](aws-properties-databrew-project-sample.md)'
+          description: >-
+            The sample size and sampling type to apply to the data\. If this
+            parameter isn't specified, then the sample consists of the first 500
+            rows from the dataset\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Metadata tags that have been applied to the project\.
+      required:
+        - DatasetName
+        - Name
+        - RecipeName
+        - RoleArn
+    Recipe:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the recipe\.
+        Name:
+          type: string
+          description: The unique name for the recipe\.
+        Steps:
+          type: list of [recipestep](aws-properties-databrew-recipe-recipestep.md)
+          description: A list of steps that are defined by the recipe\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Metadata tags that have been applied to the recipe\.
+      required:
+        - Name
+        - Steps
+    Ruleset:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the ruleset\.
+        Name:
+          type: string
+          description: The name of the ruleset\.
+        Rules:
+          type: list of [rule](aws-properties-databrew-ruleset-rule.md)
+          description: Contains metadata about the ruleset\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        TargetArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of a resource \(dataset\) that the
+            ruleset is associated with\.
+      required:
+        - Name
+        - Rules
+        - TargetArn
+    Schedule:
+      type: object
+      properties:
+        CronExpression:
+          type: string
+          description: >-
+            The dates and times when the job is to run\. For more information,
+            see [Working with cron expressions for recipe
+            jobs](https://docs.aws.amazon.com/databrew/latest/dg/jobs.recipe.html#jobs.cron)
+            in the * AWS Glue DataBrew Developer Guide*\.
+        JobNames:
+          type: array
+          description: A list of jobs to be run, according to the schedule\.
+        Name:
+          type: string
+          description: The name of the schedule\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Metadata tags that have been applied to the schedule\.
+      required:
+        - CronExpression
+        - Name
+paths: {}

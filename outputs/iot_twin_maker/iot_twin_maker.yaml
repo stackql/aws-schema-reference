@@ -1,0 +1,176 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: IoTTwinMaker
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ComponentType:
+      type: object
+      properties:
+        ComponentTypeId:
+          type: string
+          description: The ID of the component type\.
+        Description:
+          type: string
+          description: The description of the component type\.
+        ExtendsFrom:
+          type: array
+          description: >-
+            The name of the parent component type that this component type
+            extends\.
+        Functions:
+          type: >-
+            map of
+            [function](aws-properties-iottwinmaker-componenttype-function.md)
+          description: >-
+            An object that maps strings to the functions in the component type\.
+            Each string in the mapping must be unique to this object\.   For
+            information on the FunctionResponse object see the
+            [FunctionResponse](https://docs.aws.amazon.com/iot-twinmaker/latest/apireference/API_FunctionResponse.html)
+            API reference\.
+        IsSingleton:
+          type: boolean
+          description: >-
+            A boolean value that specifies whether an entity can have more than
+            one component of this type\.
+        PropertyDefinitions:
+          type: >-
+            map of
+            [propertydefinition](aws-properties-iottwinmaker-componenttype-propertydefinition.md)
+          description: >-
+            An object that maps strings to the property definitions in the
+            component type\. Each string in the mapping must be unique to this
+            object\.   For information about the PropertyDefinitionResponse
+            object, see the
+            [PropertyDefinitionResponse](https://docs.aws.amazon.com/iot-twinmaker/latest/apireference/API_PropertyDefinitionResponse.html)
+            API reference\.
+        PropertyGroups:
+          type: >-
+            map of
+            [propertygroup](aws-properties-iottwinmaker-componenttype-propertygroup.md)
+          description: >-
+            An object that maps strings to the property groups in the component
+            type\. Each string in the mapping must be unique to this object\.
+        Tags:
+          type: map of string
+          description: The ComponentType tags\.
+        WorkspaceId:
+          type: string
+          description: The ID of the workspace\.
+      required:
+        - ComponentTypeId
+        - WorkspaceId
+    Entity:
+      type: object
+      properties:
+        Components:
+          type: map of [component](aws-properties-iottwinmaker-entity-component.md)
+          description: >-
+            An object that maps strings to the components in the entity\. Each
+            string in the mapping must be unique to this object\.   For
+            information on the component object see the
+            [component](https://docs.aws.amazon.com/iot-twinmaker/latest/apireference/API_ComponentResponse.html)
+            API reference\.
+        Description:
+          type: string
+          description: The description of the entity\.
+        EntityId:
+          type: string
+          description: The entity ID\.
+        EntityName:
+          type: string
+          description: The entity name\.
+        ParentEntityId:
+          type: string
+          description: The ID of the parent entity\.
+        Tags:
+          type: map of string
+          description: Metadata that you can use to manage the entity\.
+        WorkspaceId:
+          type: string
+          description: The ID of the workspace\.
+      required:
+        - EntityName
+        - WorkspaceId
+    Scene:
+      type: object
+      properties:
+        Capabilities:
+          type: array
+          description: A list of capabilities that the scene uses to render\.
+        ContentLocation:
+          type: string
+          description: >-
+            The relative path that specifies the location of the content
+            definition file\.
+        Description:
+          type: string
+          description: The description of this scene\.
+        SceneId:
+          type: string
+          description: The scene ID\.
+        Tags:
+          type: map of string
+          description: The ComponentType tags\.
+        WorkspaceId:
+          type: string
+          description: The ID of the workspace\.
+      required:
+        - ContentLocation
+        - SceneId
+        - WorkspaceId
+    SyncJob:
+      type: object
+      properties:
+        SyncRole:
+          type: string
+          description: >-
+            The SyncJob IAM role\. This IAM role is used by the sync job to read
+            from the syncSource, and create, update or delete the corresponding
+            resources\.
+        SyncSource:
+          type: string
+          description: >-
+            The sync source\.   Currently the only supported syncSoucre is
+            `SITEWISE`\.
+        Tags:
+          type: map of string
+          description: Metadata you can use to manage the SyncJob\.
+        WorkspaceId:
+          type: string
+          description: The ID of the workspace that contains the sync job\.
+      required:
+        - SyncRole
+        - SyncSource
+        - WorkspaceId
+    Workspace:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the workspace\.
+        Role:
+          type: string
+          description: The ARN of the execution role associated with the workspace\.
+        S3Location:
+          type: string
+          description: >-
+            The ARN of the S3 bucket where resources associated with the
+            workspace are stored\.
+        Tags:
+          type: map of string
+          description: Metadata that you can use to manage the workspace\.
+        WorkspaceId:
+          type: string
+          description: The ID of the workspace\.
+      required:
+        - Role
+        - S3Location
+        - WorkspaceId
+paths: {}

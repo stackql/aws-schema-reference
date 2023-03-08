@@ -1,0 +1,149 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Synthetics
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Canary:
+      type: object
+      properties:
+        ArtifactConfig:
+          type: '[artifactconfig](aws-properties-synthetics-canary-artifactconfig.md)'
+          description: >-
+            A structure that contains the configuration for canary artifacts,
+            including the encryption\-at\-rest settings for artifacts that the
+            canary uploads to Amazon S3\.
+        ArtifactS3Location:
+          type: string
+          description: >-
+            The location in Amazon S3 where Synthetics stores artifacts from the
+            runs of this canary\. Artifacts include the log file, screenshots,
+            and HAR files\. Specify the full location path, including `s3://` at
+            the beginning of the path\.
+        Code:
+          type: '[code](aws-properties-synthetics-canary-code.md)'
+          description: >-
+            Use this structure to input your script code for the canary\. This
+            structure contains the Lambda handler with the location where the
+            canary should start running the script\. If the script is stored in
+            an S3 bucket, the bucket name, key, and version are also included\.
+            If the script is passed into the canary directly, the script code is
+            contained in the value of `Script`\.
+        DeleteLambdaResourcesOnCanaryDeletion:
+          type: boolean
+          description: >-
+            Specifies whether AWS CloudFormation is to also delete the Lambda
+            functions and layers used by this canary, when the canary is
+            deleted\. The default is false\.
+        ExecutionRoleArn:
+          type: string
+          description: >-
+            The ARN of the IAM role to be used to run the canary\. This role
+            must already exist, and must include `lambda.amazonaws.com` as a
+            principal in the trust policy\. The role must also have the
+            following permissions:   +  `s3:PutObject`  + 
+            `s3:GetBucketLocation`  +  `s3:ListAllMyBuckets`  + 
+            `cloudwatch:PutMetricData`  +  `logs:CreateLogGroup`  + 
+            `logs:CreateLogStream`  +  `logs:PutLogEvents`
+        FailureRetentionPeriod:
+          type: integer
+          description: >-
+            The number of days to retain data about failed runs of this canary\.
+            If you omit this field, the default of 31 days is used\. The valid
+            range is 1 to 455 days\.
+        Name:
+          type: string
+          description: >-
+            The name for this canary\. Be sure to give it a descriptive name
+            that distinguishes it from other canaries in your account\.   Do not
+            include secrets or proprietary information in your canary names\.
+            The canary name makes up part of the canary ARN, and the ARN is
+            included in outbound calls over the internet\. For more information,
+            see [Security Considerations for Synthetics
+            Canaries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/servicelens_canaries_security.html)\.
+        RunConfig:
+          type: '[runconfig](aws-properties-synthetics-canary-runconfig.md)'
+          description: >-
+            A structure that contains input information for a canary run\. If
+            you omit this structure, the frequency of the canary is used as
+            canary's timeout value, up to a maximum of 900 seconds\.
+        RuntimeVersion:
+          type: string
+          description: >-
+            Specifies the runtime version to use for the canary\. For more
+            information about runtime versions, see [ Canary Runtime
+            Versions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Library.html)\.
+        Schedule:
+          type: '[schedule](aws-properties-synthetics-canary-schedule.md)'
+          description: >-
+            A structure that contains information about how often the canary is
+            to run, and when these runs are to stop\.
+        StartCanaryAfterCreation:
+          type: boolean
+          description: >-
+            Specify TRUE to have the canary start making runs immediately after
+            it is created\.   A canary that you create using CloudFormation
+            can't be used to monitor the CloudFormation stack that creates the
+            canary or to roll back that stack if there is a failure\.
+        SuccessRetentionPeriod:
+          type: integer
+          description: >-
+            The number of days to retain data about successful runs of this
+            canary\. If you omit this field, the default of 31 days is used\.
+            The valid range is 1 to 455 days\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The list of key\-value pairs that are associated with the canary\.
+        VisualReference:
+          type: >-
+            [visualreference](aws-properties-synthetics-canary-visualreference.md)
+          description: >-
+            If this canary performs visual monitoring by comparing screenshots,
+            this structure contains the ID of the canary run to use as the
+            baseline for screenshots, and the coordinates of any parts of the
+            screen to ignore during the visual monitoring comparison\.
+        VPCConfig:
+          type: '[vpcconfig](aws-properties-synthetics-canary-vpcconfig.md)'
+          description: >-
+            If this canary is to test an endpoint in a VPC, this structure
+            contains information about the subnet and security groups of the VPC
+            endpoint\. For more information, see [ Running a Canary in a
+            VPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html)\.
+      required:
+        - ArtifactS3Location
+        - Code
+        - ExecutionRoleArn
+        - Name
+        - RuntimeVersion
+        - Schedule
+        - StartCanaryAfterCreation
+    Group:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: >-
+            A name for the group\. It can include any Unicode characters\.   The
+            names for all groups in your account, across all Regions, must be
+            unique\.
+        ResourceArns:
+          type: array
+          description: >-
+            The ARNs of the canaries that you want to associate with this
+            group\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The list of key\-value pairs that are associated with the group\.
+      required:
+        - Name
+paths: {}

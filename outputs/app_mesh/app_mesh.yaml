@@ -1,0 +1,251 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: AppMesh
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    GatewayRoute:
+      type: object
+      properties:
+        GatewayRouteName:
+          type: string
+          description: The name of the gateway route\.
+        MeshName:
+          type: string
+          description: The name of the service mesh that the resource resides in\.
+        MeshOwner:
+          type: string
+          description: >-
+            The AWS IAM account ID of the service mesh owner\. If the account ID
+            is not your own, then it's the ID of the account that shared the
+            mesh with your account\. For more information about mesh sharing,
+            see [Working with shared
+            meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html)\.
+        Spec:
+          type: >-
+            [gatewayroutespec](aws-properties-appmesh-gatewayroute-gatewayroutespec.md)
+          description: The specifications of the gateway route\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Optional metadata that you can apply to the gateway route to assist
+            with categorization and organization\. Each tag consists of a key
+            and an optional value, both of which you define\. Tag keys can have
+            a maximum character length of 128 characters, and tag values can
+            have a maximum length of 256 characters\.
+        VirtualGatewayName:
+          type: string
+          description: The virtual gateway that the gateway route is associated with\.
+      required:
+        - MeshName
+        - Spec
+        - VirtualGatewayName
+    Mesh:
+      type: object
+      properties:
+        MeshName:
+          type: string
+          description: The name to use for the service mesh\.
+        Spec:
+          type: '[meshspec](aws-properties-appmesh-mesh-meshspec.md)'
+          description: The service mesh specification to apply\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Optional metadata that you can apply to the service mesh to assist
+            with categorization and organization\. Each tag consists of a key
+            and an optional value, both of which you define\. Tag keys can have
+            a maximum character length of 128 characters, and tag values can
+            have a maximum length of 256 characters\.
+    Route:
+      type: object
+      properties:
+        MeshName:
+          type: string
+          description: The name of the service mesh to create the route in\.
+        MeshOwner:
+          type: string
+          description: >-
+            The AWS IAM account ID of the service mesh owner\. If the account ID
+            is not your own, then the account that you specify must share the
+            mesh with your account before you can create the resource in the
+            service mesh\. For more information about mesh sharing, see [Working
+            with shared
+            meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html)\.
+        RouteName:
+          type: string
+          description: The name to use for the route\.
+        Spec:
+          type: '[routespec](aws-properties-appmesh-route-routespec.md)'
+          description: The route specification to apply\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Optional metadata that you can apply to the route to assist with
+            categorization and organization\. Each tag consists of a key and an
+            optional value, both of which you define\. Tag keys can have a
+            maximum character length of 128 characters, and tag values can have
+            a maximum length of 256 characters\.
+        VirtualRouterName:
+          type: string
+          description: >-
+            The name of the virtual router in which to create the route\. If the
+            virtual router is in a shared mesh, then you must be the owner of
+            the virtual router resource\.
+      required:
+        - MeshName
+        - Spec
+        - VirtualRouterName
+    VirtualGateway:
+      type: object
+      properties:
+        MeshName:
+          type: string
+          description: The name of the service mesh that the virtual gateway resides in\.
+        MeshOwner:
+          type: string
+          description: >-
+            The AWS IAM account ID of the service mesh owner\. If the account ID
+            is not your own, then it's the ID of the account that shared the
+            mesh with your account\. For more information about mesh sharing,
+            see [Working with shared
+            meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html)\.
+        Spec:
+          type: >-
+            [virtualgatewayspec](aws-properties-appmesh-virtualgateway-virtualgatewayspec.md)
+          description: The specifications of the virtual gateway\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Optional metadata that you can apply to the virtual gateway to
+            assist with categorization and organization\. Each tag consists of a
+            key and an optional value, both of which you define\. Tag keys can
+            have a maximum character length of 128 characters, and tag values
+            can have a maximum length of 256 characters\.
+        VirtualGatewayName:
+          type: string
+          description: The name of the virtual gateway\.
+      required:
+        - MeshName
+        - Spec
+    VirtualNode:
+      type: object
+      properties:
+        MeshName:
+          type: string
+          description: The name of the service mesh to create the virtual node in\.
+        MeshOwner:
+          type: string
+          description: >-
+            The AWS IAM account ID of the service mesh owner\. If the account ID
+            is not your own, then the account that you specify must share the
+            mesh with your account before you can create the resource in the
+            service mesh\. For more information about mesh sharing, see [Working
+            with shared
+            meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html)\.
+        Spec:
+          type: >-
+            [virtualnodespec](aws-properties-appmesh-virtualnode-virtualnodespec.md)
+          description: The virtual node specification to apply\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Optional metadata that you can apply to the virtual node to assist
+            with categorization and organization\. Each tag consists of a key
+            and an optional value, both of which you define\. Tag keys can have
+            a maximum character length of 128 characters, and tag values can
+            have a maximum length of 256 characters\.
+        VirtualNodeName:
+          type: string
+          description: The name to use for the virtual node\.
+      required:
+        - MeshName
+        - Spec
+    VirtualRouter:
+      type: object
+      properties:
+        MeshName:
+          type: string
+          description: The name of the service mesh to create the virtual router in\.
+        MeshOwner:
+          type: string
+          description: >-
+            The AWS IAM account ID of the service mesh owner\. If the account ID
+            is not your own, then the account that you specify must share the
+            mesh with your account before you can create the resource in the
+            service mesh\. For more information about mesh sharing, see [Working
+            with shared
+            meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html)\.
+        Spec:
+          type: >-
+            [virtualrouterspec](aws-properties-appmesh-virtualrouter-virtualrouterspec.md)
+          description: The virtual router specification to apply\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Optional metadata that you can apply to the virtual router to assist
+            with categorization and organization\. Each tag consists of a key
+            and an optional value, both of which you define\. Tag keys can have
+            a maximum character length of 128 characters, and tag values can
+            have a maximum length of 256 characters\.
+        VirtualRouterName:
+          type: string
+          description: The name to use for the virtual router\.
+      required:
+        - MeshName
+        - Spec
+    VirtualService:
+      type: object
+      properties:
+        MeshName:
+          type: string
+          description: The name of the service mesh to create the virtual service in\.
+        MeshOwner:
+          type: string
+          description: >-
+            The AWS IAM account ID of the service mesh owner\. If the account ID
+            is not your own, then the account that you specify must share the
+            mesh with your account before you can create the resource in the
+            service mesh\. For more information about mesh sharing, see [Working
+            with shared
+            meshes](https://docs.aws.amazon.com/app-mesh/latest/userguide/sharing.html)\.
+        Spec:
+          type: >-
+            [virtualservicespec](aws-properties-appmesh-virtualservice-virtualservicespec.md)
+          description: The virtual service specification to apply\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Optional metadata that you can apply to the virtual service to
+            assist with categorization and organization\. Each tag consists of a
+            key and an optional value, both of which you define\. Tag keys can
+            have a maximum character length of 128 characters, and tag values
+            can have a maximum length of 256 characters\.
+        VirtualServiceName:
+          type: string
+          description: The name to use for the virtual service\.
+      required:
+        - MeshName
+        - Spec
+        - VirtualServiceName
+paths: {}

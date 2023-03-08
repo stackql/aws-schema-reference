@@ -1,0 +1,35 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: DevOpsGuru
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    NotificationChannel:
+      type: object
+      properties:
+        Config:
+          type: >-
+            [notificationchannelconfig](aws-properties-devopsguru-notificationchannel-notificationchannelconfig.md)
+          description: >-
+            A `NotificationChannelConfig` object that contains information about
+            configured notification channels\.
+      required:
+        - Config
+    ResourceCollection:
+      type: object
+      properties:
+        ResourceCollectionFilter:
+          type: >-
+            [resourcecollectionfilter](aws-properties-devopsguru-resourcecollection-resourcecollectionfilter.md)
+          description: >-
+            Information about a filter used to specify which AWS resources are
+            analyzed for anomalous behavior by DevOps Guru\.
+      required:
+        - ResourceCollectionFilter
+paths: {}

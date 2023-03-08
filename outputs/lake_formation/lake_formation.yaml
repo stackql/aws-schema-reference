@@ -1,0 +1,193 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: LakeFormation
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    DataCellsFilter:
+      type: object
+      properties:
+        ColumnNames:
+          type: array
+          description: An array of UTF\-8 strings\. A list of column names\.
+        ColumnWildcard:
+          type: >-
+            [columnwildcard](aws-properties-lakeformation-datacellsfilter-columnwildcard.md)
+          description: >-
+            A wildcard with exclusions\. You must specify either a `ColumnNames`
+            list or the `ColumnWildCard`\.
+        DatabaseName:
+          type: string
+          description: >-
+            UTF\-8 string, not less than 1 or more than 255 bytes long, matching
+            the [single\-line string
+            pattern](lake-formation/latest/dg/aws-lake-formation-api-aws-lake-formation-api-common.html#aws-glue-api-regex-oneLine)\.  
+            A database in the Data Catalog\.
+        Name:
+          type: string
+          description: >-
+            UTF\-8 string, not less than 1 or more than 255 bytes long, matching
+            the [single\-line string
+            pattern](lake-formation/latest/dg/aws-lake-formation-api-aws-lake-formation-api-common.html#aws-glue-api-regex-oneLine)\.  
+            The name given by the user to the data filter cell\.
+        RowFilter:
+          type: >-
+            [rowfilter](aws-properties-lakeformation-datacellsfilter-rowfilter.md)
+          description: A PartiQL predicate\.
+        TableCatalogId:
+          type: string
+          description: >-
+            Catalog id string, not less than 1 or more than 255 bytes long,
+            matching the [single\-line string
+            pattern](lake-formation/latest/dg/aws-lake-formation-api-aws-lake-formation-api-common.html#aws-glue-api-regex-oneLine)\.  
+            The ID of the catalog to which the table belongs\.
+        TableName:
+          type: string
+          description: >-
+            UTF\-8 string, not less than 1 or more than 255 bytes long, matching
+            the [single\-line string
+            pattern](lake-formation/latest/dg/aws-lake-formation-api-aws-lake-formation-api-common.html#aws-glue-api-regex-oneLine)\.  
+            A table in the database\.
+      required:
+        - DatabaseName
+        - Name
+        - TableCatalogId
+        - TableName
+    DataLakeSettings:
+      type: object
+      properties:
+        Admins:
+          type: '[admins](aws-properties-lakeformation-datalakesettings-admins.md)'
+          description: A list of AWS Lake Formation principals\.
+        TrustedResourceOwners:
+          type: array
+          description: >-
+            An array of UTF\-8 strings\.   A list of the resource\-owning
+            account IDs that the caller's account can use to share their user
+            access details \(user ARNs\)\. The user ARNs can be logged in the
+            resource owner's CloudTrail log\. You may want to specify this
+            property when you are in a high\-trust boundary, such as the same
+            team or company\.
+    Permissions:
+      type: object
+      properties:
+        DataLakePrincipal:
+          type: >-
+            [datalakeprincipal](aws-properties-lakeformation-permissions-datalakeprincipal.md)
+          description: The AWS Lake Formation principal\.
+        Permissions:
+          type: array
+          description: The permissions granted or revoked\.
+        PermissionsWithGrantOption:
+          type: array
+          description: >-
+            Indicates the ability to grant permissions \(as a subset of
+            permissions granted\)\.
+        Resource:
+          type: '[resource](aws-properties-lakeformation-permissions-resource.md)'
+          description: A structure for the resource\.
+      required:
+        - DataLakePrincipal
+        - Resource
+    PrincipalPermissions:
+      type: object
+      properties:
+        Catalog:
+          type: string
+          description: >-
+            The identifier for the Data Catalog\. By default, the account ID\.
+            The Data Catalog is the persistent metadata store\. It contains
+            database definitions, table definitions, and other control
+            information to manage your Lake Formation environment\.
+        Permissions:
+          type: array
+          description: The permissions granted or revoked\.
+        PermissionsWithGrantOption:
+          type: array
+          description: >-
+            Indicates the ability to grant permissions \(as a subset of
+            permissions granted\)\.
+        Principal:
+          type: >-
+            [datalakeprincipal](aws-properties-lakeformation-principalpermissions-datalakeprincipal.md)
+          description: The principal to be granted a permission\.
+        Resource:
+          type: >-
+            [resource](aws-properties-lakeformation-principalpermissions-resource.md)
+          description: The resource to be granted or revoked permissions\.
+      required:
+        - Permissions
+        - PermissionsWithGrantOption
+        - Principal
+        - Resource
+    Resource:
+      type: object
+      properties:
+        ResourceArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the resource\.
+        RoleArn:
+          type: string
+          description: The IAM role that registered a resource\.
+        UseServiceLinkedRole:
+          type: boolean
+          description: >-
+            Designates a trusted caller, an IAM principal, by registering this
+            caller with the Data Catalog\.
+      required:
+        - ResourceArn
+        - UseServiceLinkedRole
+    Tag:
+      type: object
+      properties:
+        CatalogId:
+          type: string
+          description: >-
+            Catalog id string, not less than 1 or more than 255 bytes long,
+            matching the [single\-line string
+            pattern](lake-formation/latest/dg/aws-lake-formation-api-aws-lake-formation-api-common.html#aws-glue-api-regex-oneLine)\.  
+            The identifier for the Data Catalog\. By default, the account ID\.
+            The Data Catalog is the persistent metadata store\. It contains
+            database definitions, table definitions, and other control
+            information to manage your AWS Lake Formation environment\.
+        TagKey:
+          type: string
+          description: >-
+            UTF\-8 string, not less than 1 or more than 255 bytes long, matching
+            the [single\-line string
+            pattern](lake-formation/latest/dg/aws-lake-formation-api-aws-lake-formation-api-common.html#aws-glue-api-regex-oneLine)\.  
+            The key\-name for the LF\-tag\.   For more information about using
+            the `Ref` function, see
+            [Ref](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref.html)\.
+        TagValues:
+          type: array
+          description: >-
+            An array of UTF\-8 strings, not less than 1 or more than 50
+            strings\.    A list of possible values of the corresponding `TagKey`
+            of an LF\-tag key\-value pair\.
+      required:
+        - TagKey
+        - TagValues
+    TagAssociation:
+      type: object
+      properties:
+        LFTags:
+          type: >-
+            list of
+            [lftagpair](aws-properties-lakeformation-tagassociation-lftagpair.md)
+          description: A structure containing an LF\-tag key\-value pair\.
+        Resource:
+          type: '[resource](aws-properties-lakeformation-tagassociation-resource.md)'
+          description: >-
+            UTF\-8 string \(valid values: `DATABASE | TABLE`\)\.   The resource
+            for which the LF\-tag policy applies\.
+      required:
+        - LFTags
+        - Resource
+paths: {}

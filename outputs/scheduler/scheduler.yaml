@@ -1,0 +1,101 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Scheduler
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Schedule:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description you specify for the schedule\.
+        EndDate:
+          type: string
+          description: >-
+            The date, in UTC, before which the schedule can invoke its target\.
+            Depending on the schedule's recurrence expression, invocations might
+            stop on, or before, the `EndDate` you specify\. EventBridge
+            Scheduler ignores `EndDate` for one\-time schedules\.
+        FlexibleTimeWindow:
+          type: >-
+            [flexibletimewindow](aws-properties-scheduler-schedule-flexibletimewindow.md)
+          description: >-
+            Allows you to configure a time window during which EventBridge
+            Scheduler invokes the schedule\.
+        GroupName:
+          type: string
+          description: The name of the schedule group associated with this schedule\.
+        KmsKeyArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) for the customer managed KMS key
+            that EventBridge Scheduler will use to encrypt and decrypt your
+            data\.
+        Name:
+          type: string
+          description: The name of the schedule\.
+        ScheduleExpression:
+          type: string
+          description: >-
+            The expression that defines when the schedule runs\. The following
+            formats are supported\.    +  `at` expression \-
+            `at(yyyy-mm-ddThh:mm:ss)`  +  `rate` expression \- `rate(unit
+            value)`  +  `cron` expression \- `cron(fields)`   You can use `at`
+            expressions to create one\-time schedules that invoke a target once,
+            at the time and in the time zone, that you specify\. You can use
+            `rate` and `cron` expressions to create recurring schedules\.
+            Rate\-based schedules are useful when you want to invoke a target at
+            regular intervals, such as every 15 minutes or every five days\.
+            Cron\-based schedules are useful when you want to invoke a target
+            periodically at a specific time, such as at 8:00 am \(UTC\+0\) every
+            1st day of the month\.     A `cron` expression consists of six
+            fields separated by white spaces: `(minutes hours day_of_month month
+            day_of_week year)`\.     A `rate` expression consists of a *value*
+            as a positive integer, and a *unit* with the following options:
+            `minute` \| `minutes` \| `hour` \| `hours` \| `day` \| `days`    
+            For more information and examples, see [Schedule types on
+            EventBridge
+            Scheduler](https://docs.aws.amazon.com/scheduler/latest/UserGuide/schedule-types.html)
+            in the *EventBridge Scheduler User Guide*\.
+        ScheduleExpressionTimezone:
+          type: string
+          description: The timezone in which the scheduling expression is evaluated\.
+        StartDate:
+          type: string
+          description: >-
+            The date, in UTC, after which the schedule can begin invoking its
+            target\. Depending on the schedule's recurrence expression,
+            invocations might occur on, or after, the `StartDate` you specify\.
+            EventBridge Scheduler ignores `StartDate` for one\-time schedules\.
+        State:
+          type: string
+          description: Specifies whether the schedule is enabled or disabled\.
+        Target:
+          type: '[target](aws-properties-scheduler-schedule-target.md)'
+          description: The schedule's target details\.
+      required:
+        - FlexibleTimeWindow
+        - ScheduleExpression
+        - Target
+    ScheduleGroup:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: The name of the schedule group\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+paths: {}

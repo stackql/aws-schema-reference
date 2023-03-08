@@ -1,0 +1,138 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: IVS
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Channel:
+      type: object
+      properties:
+        Authorized:
+          type: boolean
+          description: Whether the channel is authorized\.
+        LatencyMode:
+          type: string
+          description: >-
+            Channel latency mode\. Valid values:   +  `NORMAL`: Use NORMAL to
+            broadcast and deliver live video up to Full HD\. +  `LOW`: Use LOW
+            for near real\-time interactions with viewers\. In the Amazon IVS
+            console, `LOW` and `NORMAL` correspond to `Ultra-low` and
+            `Standard`, respectively\.
+        Name:
+          type: string
+          description: Channel name\.
+        RecordingConfigurationArn:
+          type: string
+          description: >-
+            The ARN of a RecordingConfiguration resource\. An empty string
+            indicates that recording is disabled for the channel\. A
+            RecordingConfiguration ARN indicates that recording is enabled using
+            the specified recording configuration\. See the [
+            RecordingConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ivs-recordingconfiguration.html)
+            resource for more information and an example\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        Type:
+          type: string
+          description: >-
+            The channel type, which determines the allowable resolution and
+            bitrate\. *If you exceed the allowable resolution or bitrate, the
+            stream probably will disconnect immediately\.* Valid values:   + 
+            `STANDARD`: Video is transcoded: multiple qualities are generated
+            from the original input to automatically give viewers the best
+            experience for their devices and network conditions\. Transcoding
+            allows higher playback quality across a range of download speeds\.
+            Resolution can be up to 1080p and bitrate can be up to 8\.5 Mbps\.
+            Audio is transcoded only for renditions 360p and below; above that,
+            audio is passed through\. +  `BASIC`: Video is transmuxed: Amazon
+            IVS delivers the original input to viewers\. The viewer’s
+            video\-quality choice is limited to the original input\. Resolution
+            can be up to 1080p and bitrate can be up to 1\.5 Mbps for 480p and
+            up to 3\.5 Mbps for resolutions between 480p and 1080p\.
+    PlaybackKeyPair:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: Playback\-key\-pair name\. The value does not need to be unique\.
+        PublicKeyMaterial:
+          type: string
+          description: The public portion of a customer\-generated key pair\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+    RecordingConfiguration:
+      type: object
+      properties:
+        DestinationConfiguration:
+          type: >-
+            [destinationconfiguration](aws-properties-ivs-recordingconfiguration-destinationconfiguration.md)
+          description: >-
+            A destination configuration contains information about where
+            recorded video will be stored\. See the [
+            DestinationConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ivs-recordingconfiguration-destinationconfiguration.html)
+            property type for more information\.
+        Name:
+          type: string
+          description: >-
+            Recording\-configuration name\. The value does not need to be
+            unique\.
+        RecordingReconnectWindowSeconds:
+          type: integer
+          description: >-
+            If a broadcast disconnects and then reconnects within the specified
+            interval, the multiple streams will be considered a single broadcast
+            and merged together\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        ThumbnailConfiguration:
+          type: >-
+            [thumbnailconfiguration](aws-properties-ivs-recordingconfiguration-thumbnailconfiguration.md)
+          description: >-
+            A thumbnail configuration enables/disables the recording of
+            thumbnails for a live session and controls the interval at which
+            thumbnails are generated for the live session\. See the
+            [ThumbnailConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ivs-recordingconfiguration-thunbnailconfiguration.html)
+            property type for more information\.
+      required:
+        - DestinationConfiguration
+    StreamKey:
+      type: object
+      properties:
+        ChannelArn:
+          type: string
+          description: Channel ARN for the stream\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - ChannelArn
+paths: {}

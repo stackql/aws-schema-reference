@@ -1,0 +1,594 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: AppStream
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    AppBlock:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the app block\.
+        DisplayName:
+          type: string
+          description: The display name of the app block\.
+        Name:
+          type: string
+          description: The name of the app block\.
+        SetupScriptDetails:
+          type: '[scriptdetails](aws-properties-appstream-appblock-scriptdetails.md)'
+          description: The setup script details of the app block\.
+        SourceS3Location:
+          type: '[s3location](aws-properties-appstream-appblock-s3location.md)'
+          description: The source S3 location of the app block\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags of the app block\.
+      required:
+        - Name
+        - SetupScriptDetails
+        - SourceS3Location
+    Application:
+      type: object
+      properties:
+        AppBlockArn:
+          type: string
+          description: The app block ARN with which the application should be associated\.
+        AttributesToDelete:
+          type: array
+          description: A list of attributes to delete from an application\.
+        Description:
+          type: string
+          description: The description of the application\.
+        DisplayName:
+          type: string
+          description: >-
+            The display name of the application\. This name is visible to users
+            in the application catalog\.
+        IconS3Location:
+          type: '[s3location](aws-properties-appstream-application-s3location.md)'
+          description: The icon S3 location of the application\.
+        InstanceFamilies:
+          type: array
+          description: The instance families the application supports\.
+        LaunchParameters:
+          type: string
+          description: The launch parameters of the application\.
+        LaunchPath:
+          type: string
+          description: The launch path of the application\.
+        Name:
+          type: string
+          description: >-
+            The name of the application\. This name is visible to users when a
+            name is not specified in the DisplayName property\.
+        Platforms:
+          type: array
+          description: The platforms the application supports\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags of the application\.
+        WorkingDirectory:
+          type: string
+          description: The working directory of the application\.
+      required:
+        - AppBlockArn
+        - IconS3Location
+        - InstanceFamilies
+        - LaunchPath
+        - Name
+        - Platforms
+    ApplicationEntitlementAssociation:
+      type: object
+      properties:
+        ApplicationIdentifier:
+          type: string
+          description: The identifier of the application\.
+        EntitlementName:
+          type: string
+          description: The name of the entitlement\.
+        StackName:
+          type: string
+          description: The name of the stack\.
+      required:
+        - ApplicationIdentifier
+        - EntitlementName
+        - StackName
+    ApplicationFleetAssociation:
+      type: object
+      properties:
+        ApplicationArn:
+          type: string
+          description: The ARN of the application\.
+        FleetName:
+          type: string
+          description: The name of the fleet\.
+      required:
+        - ApplicationArn
+        - FleetName
+    DirectoryConfig:
+      type: object
+      properties:
+        CertificateBasedAuthProperties:
+          type: >-
+            [certificatebasedauthproperties](aws-properties-appstream-directoryconfig-certificatebasedauthproperties.md)
+          description: >-
+            The certificate\-based authentication properties used to
+            authenticate SAML 2\.0 Identity Provider \(IdP\) user identities to
+            Active Directory domain\-joined streaming instances\.
+        DirectoryName:
+          type: string
+          description: >-
+            The fully qualified name of the directory \(for example,
+            corp\.example\.com\)\.
+        OrganizationalUnitDistinguishedNames:
+          type: array
+          description: >-
+            The distinguished names of the organizational units for computer
+            accounts\.
+        ServiceAccountCredentials:
+          type: >-
+            [serviceaccountcredentials](aws-properties-appstream-directoryconfig-serviceaccountcredentials.md)
+          description: >-
+            The credentials for the service account used by the streaming
+            instance to connect to the directory\. Do not use this parameter
+            directly\. Use `ServiceAccountCredentials` as an input parameter
+            with `noEcho` as shown in the
+            [Parameters](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/parameters-section-structure.html)\.
+            For best practices information, see [Do Not Embed Credentials in
+            Your
+            Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/best-practices.html#creds)\.
+      required:
+        - DirectoryName
+        - OrganizationalUnitDistinguishedNames
+        - ServiceAccountCredentials
+    Entitlement:
+      type: object
+      properties:
+        AppVisibility:
+          type: string
+          description: Specifies whether to entitle all apps or only selected apps\.
+        Attributes:
+          type: >-
+            list of
+            [attribute](aws-properties-appstream-entitlement-attribute.md)
+          description: The attributes of the entitlement\.
+        Description:
+          type: string
+          description: The description of the entitlement\.
+        Name:
+          type: string
+          description: The name of the entitlement\.
+        StackName:
+          type: string
+          description: The name of the stack\.
+      required:
+        - AppVisibility
+        - Attributes
+        - Name
+        - StackName
+    Fleet:
+      type: object
+      properties:
+        ComputeCapacity:
+          type: '[computecapacity](aws-properties-appstream-fleet-computecapacity.md)'
+          description: >-
+            The desired capacity for the fleet\. This is not allowed for Elastic
+            fleets\.
+        Description:
+          type: string
+          description: The description to display\.
+        DisconnectTimeoutInSeconds:
+          type: integer
+          description: >-
+            The amount of time that a streaming session remains active after
+            users disconnect\. If users try to reconnect to the streaming
+            session after a disconnection or network interruption within this
+            time interval, they are connected to their previous session\.
+            Otherwise, they are connected to a new session with a new streaming
+            instance\.    Specify a value between 60 and 360000\.
+        DisplayName:
+          type: string
+          description: The fleet name to display\.
+        DomainJoinInfo:
+          type: '[domainjoininfo](aws-properties-appstream-fleet-domainjoininfo.md)'
+          description: >-
+            The name of the directory and organizational unit \(OU\) to use to
+            join the fleet to a Microsoft Active Directory domain\. This is not
+            allowed for Elastic fleets\.
+        EnableDefaultInternetAccess:
+          type: boolean
+          description: Enables or disables default internet access for the fleet\.
+        FleetType:
+          type: string
+          description: >-
+            The fleet type\.     ALWAYS\_ON   Provides users with instant\-on
+            access to their apps\. You are charged for all running instances in
+            your fleet, even if no users are streaming apps\.   ON\_DEMAND  
+            Provide users with access to applications after they connect, which
+            takes one to two minutes\. You are charged for instance streaming
+            when users are connected and a small hourly fee for instances that
+            are not streaming apps\.   ELASTIC   The pool of streaming instances
+            is managed by Amazon AppStream 2\.0\. When a user selects their
+            application or desktop to launch, they will start streaming after
+            the app block has been downloaded and mounted to a streaming
+            instance\.
+        IamRoleArn:
+          type: string
+          description: >-
+            The ARN of the IAM role that is applied to the fleet\. To assume a
+            role, the fleet instance calls the AWS Security Token Service
+            `AssumeRole` API operation and passes the ARN of the role to use\.
+            The operation creates a new session with temporary credentials\.
+            AppStream 2\.0 retrieves the temporary credentials and creates the
+            **appstream\_machine\_role** credential profile on the instance\.  
+            For more information, see [Using an IAM Role to Grant Permissions to
+            Applications and Scripts Running on AppStream 2\.0 Streaming
+            Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html)
+            in the *Amazon AppStream 2\.0 Administration Guide*\.
+        IdleDisconnectTimeoutInSeconds:
+          type: integer
+          description: >-
+            The amount of time that users can be idle \(inactive\) before they
+            are disconnected from their streaming session and the
+            `DisconnectTimeoutInSeconds` time interval begins\. Users are
+            notified before they are disconnected due to inactivity\. If they
+            try to reconnect to the streaming session before the time interval
+            specified in `DisconnectTimeoutInSeconds` elapses, they are
+            connected to their previous session\. Users are considered idle when
+            they stop providing keyboard or mouse input during their streaming
+            session\. File uploads and downloads, audio in, audio out, and
+            pixels changing do not qualify as user activity\. If users continue
+            to be idle after the time interval in
+            `IdleDisconnectTimeoutInSeconds` elapses, they are disconnected\.  
+            To prevent users from being disconnected due to inactivity, specify
+            a value of 0\. Otherwise, specify a value between 60 and 3600\.   If
+            you enable this feature, we recommend that you specify a value that
+            corresponds exactly to a whole number of minutes \(for example, 60,
+            120, and 180\)\. If you don't do this, the value is rounded to the
+            nearest minute\. For example, if you specify a value of 70, users
+            are disconnected after 1 minute of inactivity\. If you specify a
+            value that is at the midpoint between two different minutes, the
+            value is rounded up\. For example, if you specify a value of 90,
+            users are disconnected after 2 minutes of inactivity\.
+        ImageArn:
+          type: string
+          description: The ARN of the public, private, or shared image to use\.
+        ImageName:
+          type: string
+          description: The name of the image used to create the fleet\.
+        InstanceType:
+          type: string
+          description: >-
+            The instance type to use when launching fleet instances\. The
+            following instance types are available for non\-Elastic fleets:   +
+            stream\.standard\.small + stream\.standard\.medium +
+            stream\.standard\.large + stream\.compute\.large +
+            stream\.compute\.xlarge + stream\.compute\.2xlarge +
+            stream\.compute\.4xlarge + stream\.compute\.8xlarge +
+            stream\.memory\.large + stream\.memory\.xlarge +
+            stream\.memory\.2xlarge + stream\.memory\.4xlarge +
+            stream\.memory\.8xlarge + stream\.memory\.z1d\.large +
+            stream\.memory\.z1d\.xlarge + stream\.memory\.z1d\.2xlarge +
+            stream\.memory\.z1d\.3xlarge + stream\.memory\.z1d\.6xlarge +
+            stream\.memory\.z1d\.12xlarge + stream\.graphics\-design\.large +
+            stream\.graphics\-design\.xlarge + stream\.graphics\-design\.2xlarge
+            + stream\.graphics\-design\.4xlarge +
+            stream\.graphics\-desktop\.2xlarge + stream\.graphics\.g4dn\.xlarge
+            + stream\.graphics\.g4dn\.2xlarge + stream\.graphics\.g4dn\.4xlarge
+            + stream\.graphics\.g4dn\.8xlarge + stream\.graphics\.g4dn\.12xlarge
+            + stream\.graphics\.g4dn\.16xlarge + stream\.graphics\-pro\.4xlarge
+            + stream\.graphics\-pro\.8xlarge + stream\.graphics\-pro\.16xlarge
+            The following instance types are available for Elastic fleets:   +
+            stream\.standard\.small + stream\.standard\.medium
+        MaxConcurrentSessions:
+          type: integer
+          description: >-
+            The maximum number of concurrent sessions that can be run on an
+            Elastic fleet\. This setting is required for Elastic fleets, but is
+            not used for other fleet types\.
+        MaxUserDurationInSeconds:
+          type: integer
+          description: >-
+            The maximum amount of time that a streaming session can remain
+            active, in seconds\. If users are still connected to a streaming
+            instance five minutes before this limit is reached, they are
+            prompted to save any open documents before being disconnected\.
+            After this time elapses, the instance is terminated and replaced by
+            a new instance\.   Specify a value between 600 and 360000\.
+        Name:
+          type: string
+          description: A unique name for the fleet\.
+        Platform:
+          type: string
+          description: >-
+            The platform of the fleet\. Platform is a required setting for
+            Elastic fleets, and is not used for other fleet types\.
+        SessionScriptS3Location:
+          type: '[s3location](aws-properties-appstream-fleet-s3location.md)'
+          description: >-
+            The S3 location of the session scripts configuration zip file\. This
+            only applies to Elastic fleets\.
+        StreamView:
+          type: string
+          description: >-
+            The AppStream 2\.0 view that is displayed to your users when they
+            stream from the fleet\. When `APP` is specified, only the windows of
+            applications opened by users display\. When `DESKTOP` is specified,
+            the standard desktop that is provided by the operating system
+            displays\.   The default value is `APP`\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: An array of key\-value pairs\.
+        UsbDeviceFilterStrings:
+          type: array
+          description: >-
+            The USB device filter strings that specify which USB devices a user
+            can redirect to the fleet streaming session, when using the Windows
+            native client\. This is allowed but not required for Elastic
+            fleets\.
+        VpcConfig:
+          type: '[vpcconfig](aws-properties-appstream-fleet-vpcconfig.md)'
+          description: >-
+            The VPC configuration for the fleet\. This is required for Elastic
+            fleets, but not required for other fleet types\.
+      required:
+        - InstanceType
+        - Name
+    ImageBuilder:
+      type: object
+      properties:
+        AccessEndpoints:
+          type: >-
+            list of
+            [accessendpoint](aws-properties-appstream-imagebuilder-accessendpoint.md)
+          description: >-
+            The list of virtual private cloud \(VPC\) interface endpoint
+            objects\. Administrators can connect to the image builder only
+            through the specified endpoints\.
+        AppstreamAgentVersion:
+          type: string
+          description: >-
+            The version of the AppStream 2\.0 agent to use for this image
+            builder\. To use the latest version of the AppStream 2\.0 agent,
+            specify \[LATEST\]\.
+        Description:
+          type: string
+          description: The description to display\.
+        DisplayName:
+          type: string
+          description: The image builder name to display\.
+        DomainJoinInfo:
+          type: >-
+            [domainjoininfo](aws-properties-appstream-imagebuilder-domainjoininfo.md)
+          description: >-
+            The name of the directory and organizational unit \(OU\) to use to
+            join the image builder to a Microsoft Active Directory domain\.
+        EnableDefaultInternetAccess:
+          type: boolean
+          description: Enables or disables default internet access for the image builder\.
+        IamRoleArn:
+          type: string
+          description: >-
+            The ARN of the IAM role that is applied to the image builder\. To
+            assume a role, the image builder calls the AWS Security Token
+            Service `AssumeRole` API operation and passes the ARN of the role to
+            use\. The operation creates a new session with temporary
+            credentials\. AppStream 2\.0 retrieves the temporary credentials and
+            creates the **appstream\_machine\_role** credential profile on the
+            instance\.   For more information, see [Using an IAM Role to Grant
+            Permissions to Applications and Scripts Running on AppStream 2\.0
+            Streaming
+            Instances](https://docs.aws.amazon.com/appstream2/latest/developerguide/using-iam-roles-to-grant-permissions-to-applications-scripts-streaming-instances.html)
+            in the *Amazon AppStream 2\.0 Administration Guide*\.
+        ImageArn:
+          type: string
+          description: The ARN of the public, private, or shared image to use\.
+        ImageName:
+          type: string
+          description: The name of the image used to create the image builder\.
+        InstanceType:
+          type: string
+          description: >-
+            The instance type to use when launching the image builder\. The
+            following instance types are available:   + stream\.standard\.small
+            + stream\.standard\.medium + stream\.standard\.large +
+            stream\.compute\.large + stream\.compute\.xlarge +
+            stream\.compute\.2xlarge + stream\.compute\.4xlarge +
+            stream\.compute\.8xlarge + stream\.memory\.large +
+            stream\.memory\.xlarge + stream\.memory\.2xlarge +
+            stream\.memory\.4xlarge + stream\.memory\.8xlarge +
+            stream\.memory\.z1d\.large + stream\.memory\.z1d\.xlarge +
+            stream\.memory\.z1d\.2xlarge + stream\.memory\.z1d\.3xlarge +
+            stream\.memory\.z1d\.6xlarge + stream\.memory\.z1d\.12xlarge +
+            stream\.graphics\-design\.large + stream\.graphics\-design\.xlarge +
+            stream\.graphics\-design\.2xlarge +
+            stream\.graphics\-design\.4xlarge +
+            stream\.graphics\-desktop\.2xlarge + stream\.graphics\.g4dn\.xlarge
+            + stream\.graphics\.g4dn\.2xlarge + stream\.graphics\.g4dn\.4xlarge
+            + stream\.graphics\.g4dn\.8xlarge + stream\.graphics\.g4dn\.12xlarge
+            + stream\.graphics\.g4dn\.16xlarge + stream\.graphics\-pro\.4xlarge
+            + stream\.graphics\-pro\.8xlarge + stream\.graphics\-pro\.16xlarge
+        Name:
+          type: string
+          description: A unique name for the image builder\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: An array of key\-value pairs\.
+        VpcConfig:
+          type: '[vpcconfig](aws-properties-appstream-imagebuilder-vpcconfig.md)'
+          description: >-
+            The VPC configuration for the image builder\. You can specify only
+            one subnet\.
+      required:
+        - InstanceType
+        - Name
+    Stack:
+      type: object
+      properties:
+        AccessEndpoints:
+          type: >-
+            list of
+            [accessendpoint](aws-properties-appstream-stack-accessendpoint.md)
+          description: >-
+            The list of virtual private cloud \(VPC\) interface endpoint
+            objects\. Users of the stack can connect to AppStream 2\.0 only
+            through the specified endpoints\.
+        ApplicationSettings:
+          type: >-
+            [applicationsettings](aws-properties-appstream-stack-applicationsettings.md)
+          description: >-
+            The persistent application settings for users of the stack\. When
+            these settings are enabled, changes that users make to applications
+            and Windows settings are automatically saved after each session and
+            applied to the next session\.
+        AttributesToDelete:
+          type: array
+          description: The stack attributes to delete\.
+        DeleteStorageConnectors:
+          type: boolean
+          description: >-
+            *This parameter has been deprecated\.*   Deletes the storage
+            connectors currently enabled for the stack\.
+        Description:
+          type: string
+          description: The description to display\.
+        DisplayName:
+          type: string
+          description: The stack name to display\.
+        EmbedHostDomains:
+          type: array
+          description: >-
+            The domains where AppStream 2\.0 streaming sessions can be embedded
+            in an iframe\. You must approve the domains that you want to host
+            embedded AppStream 2\.0 streaming sessions\.
+        FeedbackURL:
+          type: string
+          description: >-
+            The URL that users are redirected to after they click the Send
+            Feedback link\. If no URL is specified, no Send Feedback link is
+            displayed\.
+        Name:
+          type: string
+          description: The name of the stack\.
+        RedirectURL:
+          type: string
+          description: >-
+            The URL that users are redirected to after their streaming session
+            ends\.
+        StorageConnectors:
+          type: >-
+            list of
+            [storageconnector](aws-properties-appstream-stack-storageconnector.md)
+          description: The storage connectors to enable\.
+        StreamingExperienceSettings:
+          type: >-
+            [streamingexperiencesettings](aws-properties-appstream-stack-streamingexperiencesettings.md)
+          description: >-
+            The streaming protocol that you want your stack to prefer\. This can
+            be UDP or TCP\. Currently, UDP is only supported in the Windows
+            native client\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: An array of key\-value pairs\.
+        UserSettings:
+          type: list of [usersetting](aws-properties-appstream-stack-usersetting.md)
+          description: >-
+            The actions that are enabled or disabled for users during their
+            streaming sessions\. By default, these actions are enabled\.
+    StackFleetAssociation:
+      type: object
+      properties:
+        FleetName:
+          type: string
+          description: >-
+            The name of the fleet\.   To associate a fleet with a stack, you
+            must specify a dependency on the fleet resource\. For more
+            information, see [DependsOn
+            Attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html)\.
+        StackName:
+          type: string
+          description: >-
+            The name of the stack\.   To associate a fleet with a stack, you
+            must specify a dependency on the stack resource\. For more
+            information, see [DependsOn
+            Attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html)\.
+      required:
+        - FleetName
+        - StackName
+    StackUserAssociation:
+      type: object
+      properties:
+        AuthenticationType:
+          type: string
+          description: >-
+            The authentication type for the user who is associated with the
+            stack\. You must specify USERPOOL\.
+        SendEmailNotification:
+          type: boolean
+          description: >-
+            Specifies whether a welcome email is sent to a user after the user
+            is created in the user pool\.
+        StackName:
+          type: string
+          description: The name of the stack that is associated with the user\.
+        UserName:
+          type: string
+          description: >-
+            The email address of the user who is associated with the stack\.  
+            Users' email addresses are case\-sensitive\.
+      required:
+        - AuthenticationType
+        - StackName
+        - UserName
+    User:
+      type: object
+      properties:
+        AuthenticationType:
+          type: string
+          description: The authentication type for the user\. You must specify USERPOOL\.
+        FirstName:
+          type: string
+          description: The first name, or given name, of the user\.
+        LastName:
+          type: string
+          description: The last name, or surname, of the user\.
+        MessageAction:
+          type: string
+          description: >-
+            The action to take for the welcome email that is sent to a user
+            after the user is created in the user pool\. If you specify
+            SUPPRESS, no email is sent\. If you specify RESEND, do not specify
+            the first name or last name of the user\. If the value is null, the
+            email is sent\.    The temporary password in the welcome email is
+            valid for only 7 days\. If users don’t set their passwords within 7
+            days, you must send them a new welcome email\.
+        UserName:
+          type: string
+          description: >-
+            The email address of the user\.   Users' email addresses are
+            case\-sensitive\. During login, if they specify an email address
+            that doesn't use the same capitalization as the email address
+            specified when their user pool account was created, a "user does not
+            exist" error message displays\.
+      required:
+        - AuthenticationType
+        - UserName
+paths: {}

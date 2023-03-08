@@ -1,0 +1,134 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: PinpointEmail
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ConfigurationSet:
+      type: object
+      properties:
+        DeliveryOptions:
+          type: >-
+            [deliveryoptions](aws-properties-pinpointemail-configurationset-deliveryoptions.md)
+          description: >-
+            An object that defines the dedicated IP pool that is used to send
+            emails that you send using the configuration set\.
+        Name:
+          type: string
+          description: The name of the configuration set\.
+        ReputationOptions:
+          type: >-
+            [reputationoptions](aws-properties-pinpointemail-configurationset-reputationoptions.md)
+          description: >-
+            An object that defines whether or not Amazon Pinpoint collects
+            reputation metrics for the emails that you send that use the
+            configuration set\.
+        SendingOptions:
+          type: >-
+            [sendingoptions](aws-properties-pinpointemail-configurationset-sendingoptions.md)
+          description: >-
+            An object that defines whether or not Amazon Pinpoint can send email
+            that you send using the configuration set\.
+        Tags:
+          type: >-
+            [list](aws-properties-pinpointemail-configurationset-tags.md) of
+            [tags](aws-properties-pinpointemail-configurationset-tags.md)
+          description: >-
+            An object that defines the tags \(keys and values\) that you want to
+            associate with the configuration set\.
+        TrackingOptions:
+          type: >-
+            [trackingoptions](aws-properties-pinpointemail-configurationset-trackingoptions.md)
+          description: >-
+            An object that defines the open and click tracking options for
+            emails that you send using the configuration set\.
+      required:
+        - Name
+    ConfigurationSetEventDestination:
+      type: object
+      properties:
+        ConfigurationSetName:
+          type: string
+          description: >-
+            The name of the configuration set that contains the event
+            destination that you want to modify\.
+        EventDestination:
+          type: >-
+            [eventdestination](aws-properties-pinpointemail-configurationseteventdestination-eventdestination.md)
+          description: An object that defines the event destination\.
+        EventDestinationName:
+          type: string
+          description: The name of the event destination that you want to modify\.
+      required:
+        - ConfigurationSetName
+        - EventDestinationName
+    DedicatedIpPool:
+      type: object
+      properties:
+        PoolName:
+          type: string
+          description: The name of the dedicated IP pool\.
+        Tags:
+          type: >-
+            [list](aws-properties-pinpointemail-dedicatedippool-tags.md) of
+            [tags](aws-properties-pinpointemail-dedicatedippool-tags.md)
+          description: >-
+            An object that defines the tags \(keys and values\) that you want to
+            associate with the dedicated IP pool\.
+    Identity:
+      type: object
+      properties:
+        DkimSigningEnabled:
+          type: boolean
+          description: >-
+            For domain identities, this attribute is used to enable or disable
+            DomainKeys Identified Mail \(DKIM\) signing for the domain\.   If
+            the value is `true`, then the messages that you send from the domain
+            are signed using both the DKIM keys for your domain, as well as the
+            keys for the `amazonses.com` domain\. If the value is `false`, then
+            the messages that you send are only signed using the DKIM keys for
+            the `amazonses.com` domain\.
+        FeedbackForwardingEnabled:
+          type: boolean
+          description: >-
+            Used to enable or disable feedback forwarding for an identity\. This
+            setting determines what happens when an identity is used to send an
+            email that results in a bounce or complaint event\.   When you
+            enable feedback forwarding, Amazon Pinpoint sends you email
+            notifications when bounce or complaint events occur\. Amazon
+            Pinpoint sends this notification to the address that you specified
+            in the Return\-Path header of the original email\.   When you
+            disable feedback forwarding, Amazon Pinpoint sends notifications
+            through other mechanisms, such as by notifying an Amazon SNS topic\.
+            You're required to have a method of tracking bounces and
+            complaints\. If you haven't set up another mechanism for receiving
+            bounce or complaint notifications, Amazon Pinpoint sends an email
+            notification when these events occur \(even if this setting is
+            disabled\)\.
+        MailFromAttributes:
+          type: >-
+            [mailfromattributes](aws-properties-pinpointemail-identity-mailfromattributes.md)
+          description: >-
+            Used to enable or disable the custom Mail\-From domain configuration
+            for an email identity\.
+        Name:
+          type: string
+          description: >-
+            The address or domain of the identity, such as *sender@example\.com*
+            or *example\.co\.uk*\.
+        Tags:
+          type: >-
+            [list](aws-properties-pinpointemail-identity-tags.md) of
+            [tags](aws-properties-pinpointemail-identity-tags.md)
+          description: >-
+            An object that defines the tags \(keys and values\) that you want to
+            associate with the email identity\.
+      required:
+        - Name
+paths: {}

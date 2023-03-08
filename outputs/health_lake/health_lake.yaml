@@ -1,0 +1,46 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: HealthLake
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    FHIRDatastore:
+      type: object
+      properties:
+        DatastoreName:
+          type: string
+          description: The user generated name for the Data Store\.
+        DatastoreTypeVersion:
+          type: string
+          description: >-
+            The FHIR version of the Data Store\. The only supported version is
+            R4\.
+        PreloadDataConfig:
+          type: >-
+            [preloaddataconfig](aws-properties-healthlake-fhirdatastore-preloaddataconfig.md)
+          description: >-
+            The preloaded data configuration for the Data Store\. Only data
+            preloaded from Synthea is supported\.
+        SseConfiguration:
+          type: >-
+            [sseconfiguration](aws-properties-healthlake-fhirdatastore-sseconfiguration.md)
+          description: >-
+            The server\-side encryption key configuration for a customer
+            provided encryption key specified for creating a Data Store\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - DatastoreTypeVersion
+paths: {}

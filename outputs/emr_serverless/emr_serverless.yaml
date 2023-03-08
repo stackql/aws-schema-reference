@@ -1,0 +1,78 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: EMRServerless
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Application:
+      type: object
+      properties:
+        Architecture:
+          type: string
+          description: >-
+            The CPU architecture type of the application\. Allowed values:
+            `X86_64` or `ARM64`
+        AutoStartConfiguration:
+          type: >-
+            [autostartconfiguration](aws-properties-emrserverless-application-autostartconfiguration.md)
+          description: >-
+            The configuration for an application to automatically start on job
+            submission\.
+        AutoStopConfiguration:
+          type: >-
+            [autostopconfiguration](aws-properties-emrserverless-application-autostopconfiguration.md)
+          description: >-
+            The configuration for an application to automatically stop after a
+            certain amount of time being idle\.
+        ImageConfiguration:
+          type: >-
+            [imageconfigurationinput](aws-properties-emrserverless-application-imageconfigurationinput.md)
+          description: The image configuration applied to all worker types\.
+        InitialCapacity:
+          type: >-
+            list of
+            [initialcapacityconfigkeyvaluepair](aws-properties-emrserverless-application-initialcapacityconfigkeyvaluepair.md)
+          description: The initial capacity of the application\.
+        MaximumCapacity:
+          type: >-
+            [maximumallowedresources](aws-properties-emrserverless-application-maximumallowedresources.md)
+          description: >-
+            The maximum capacity of the application\. This is cumulative across
+            all workers at any given point in time during the lifespan of the
+            application is created\. No new resources will be created once any
+            one of the defined limits is hit\.
+        Name:
+          type: string
+          description: The name of the application\.
+        NetworkConfiguration:
+          type: >-
+            [networkconfiguration](aws-properties-emrserverless-application-networkconfiguration.md)
+          description: >-
+            The network configuration for customer VPC connectivity for the
+            application\.
+        ReleaseLabel:
+          type: string
+          description: The EMR release version associated with the application\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags assigned to the application\.
+        Type:
+          type: string
+          description: The type of application, such as Spark or Hive\.
+        WorkerTypeSpecifications:
+          type: >-
+            map of
+            [workertypespecificationinput](aws-properties-emrserverless-application-workertypespecificationinput.md)
+          description: The specification applied to each worker type\.
+      required:
+        - ReleaseLabel
+        - Type
+paths: {}

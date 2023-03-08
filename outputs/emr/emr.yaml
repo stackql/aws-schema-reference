@@ -1,0 +1,472 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: EMR
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Cluster:
+      type: object
+      properties:
+        AdditionalInfo:
+          type: object
+          description: A JSON string for selecting additional features\.
+        Applications:
+          type: >-
+            list of
+            [application](aws-properties-elasticmapreduce-cluster-application.md)
+          description: >-
+            The applications to install on this cluster, for example, Spark,
+            Flink, Oozie, Zeppelin, and so on\.
+        AutoScalingRole:
+          type: string
+          description: >-
+            An IAM role for automatic scaling policies\. The default role is
+            `EMR_AutoScaling_DefaultRole`\. The IAM role provides permissions
+            that the automatic scaling feature requires to launch and terminate
+            EC2 instances in an instance group\.
+        AutoTerminationPolicy:
+          type: >-
+            [autoterminationpolicy](aws-properties-elasticmapreduce-cluster-autoterminationpolicy.md)
+          description: Property description not available\.
+        BootstrapActions:
+          type: >-
+            list of
+            [bootstrapactionconfig](aws-properties-elasticmapreduce-cluster-bootstrapactionconfig.md)
+          description: >-
+            A list of bootstrap actions to run before Hadoop starts on the
+            cluster nodes\.
+        Configurations:
+          type: >-
+            list of
+            [configuration](aws-properties-elasticmapreduce-cluster-configuration.md)
+          description: >-
+            Applies only to Amazon EMR releases 4\.x and later\. The list of
+            Configurations supplied to the EMR cluster\.
+        CustomAmiId:
+          type: string
+          description: >-
+            Available only in Amazon EMR version 5\.7\.0 and later\. The ID of a
+            custom Amazon EBS\-backed Linux AMI if the cluster uses a custom
+            AMI\.
+        EbsRootVolumeSize:
+          type: integer
+          description: >-
+            The size, in GiB, of the Amazon EBS root device volume of the Linux
+            AMI that is used for each EC2 instance\. Available in Amazon EMR
+            version 4\.x and later\.
+        Instances:
+          type: >-
+            [jobflowinstancesconfig](aws-properties-elasticmapreduce-cluster-jobflowinstancesconfig.md)
+          description: A specification of the number and type of Amazon EC2 instances\.
+        JobFlowRole:
+          type: string
+          description: >-
+            Also called instance profile and EC2 role\. An IAM role for an EMR
+            cluster\. The EC2 instances of the cluster assume this role\. The
+            default role is `EMR_EC2_DefaultRole`\. In order to use the default
+            role, you must have already created it using the CLI or console\.
+        KerberosAttributes:
+          type: >-
+            [kerberosattributes](aws-properties-elasticmapreduce-cluster-kerberosattributes.md)
+          description: >-
+            Attributes for Kerberos configuration when Kerberos authentication
+            is enabled using a security configuration\. For more information see
+            [Use Kerberos
+            Authentication](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-kerberos.html)
+            in the *Amazon EMR Management Guide*\.
+        LogEncryptionKmsKeyId:
+          type: string
+          description: >-
+            The AWS KMS key used for encrypting log files\. This attribute is
+            only available with EMR version 5\.30\.0 and later, excluding EMR
+            6\.0\.0\.
+        LogUri:
+          type: string
+          description: >-
+            The path to the Amazon S3 location where logs for this cluster are
+            stored\.
+        ManagedScalingPolicy:
+          type: >-
+            [managedscalingpolicy](aws-properties-elasticmapreduce-cluster-managedscalingpolicy.md)
+          description: >-
+            Creates or updates a managed scaling policy for an Amazon EMR
+            cluster\. The managed scaling policy defines the limits for
+            resources, such as EC2 instances that can be added or terminated
+            from a cluster\. The policy only applies to the core and task
+            nodes\. The master node cannot be scaled after initial
+            configuration\.
+        Name:
+          type: string
+          description: The name of the cluster\.
+        OSReleaseLabel:
+          type: string
+          description: >-
+            The Amazon Linux release specified in a cluster launch RunJobFlow
+            request\. If no Amazon Linux release was specified, the default
+            Amazon Linux release is shown in the response\.
+        ReleaseLabel:
+          type: string
+          description: >-
+            The Amazon EMR release label, which determines the version of
+            open\-source application packages installed on the cluster\. Release
+            labels are in the form `emr-x.x.x`, where x\.x\.x is an Amazon EMR
+            release version such as `emr-5.14.0`\. For more information about
+            Amazon EMR release versions and included application versions and
+            features, see
+            [https://docs.aws.amazon.com/emr/latest/ReleaseGuide/](https://docs.aws.amazon.com/emr/latest/ReleaseGuide/)\.
+            The release label applies only to Amazon EMR releases version 4\.0
+            and later\. Earlier versions use `AmiVersion`\.
+        ScaleDownBehavior:
+          type: string
+          description: >-
+            The way that individual Amazon EC2 instances terminate when an
+            automatic scale\-in activity occurs or an instance group is
+            resized\. `TERMINATE_AT_INSTANCE_HOUR` indicates that Amazon EMR
+            terminates nodes at the instance\-hour boundary, regardless of when
+            the request to terminate the instance was submitted\. This option is
+            only available with Amazon EMR 5\.1\.0 and later and is the default
+            for clusters created using that version\.
+            `TERMINATE_AT_TASK_COMPLETION` indicates that Amazon EMR adds nodes
+            to a deny list and drains tasks from nodes before terminating the
+            Amazon EC2 instances, regardless of the instance\-hour boundary\.
+            With either behavior, Amazon EMR removes the least active nodes
+            first and blocks instance termination if it could lead to HDFS
+            corruption\. `TERMINATE_AT_TASK_COMPLETION` is available only in
+            Amazon EMR version 4\.1\.0 and later, and is the default for
+            versions of Amazon EMR earlier than 5\.1\.0\.
+        SecurityConfiguration:
+          type: string
+          description: The name of the security configuration applied to the cluster\.
+        ServiceRole:
+          type: string
+          description: >-
+            The IAM role that Amazon EMR assumes in order to access AWS
+            resources on your behalf\.
+        StepConcurrencyLevel:
+          type: integer
+          description: >-
+            Specifies the number of steps that can be executed concurrently\.
+            The default value is `1`\. The maximum value is `256`\.
+        Steps:
+          type: >-
+            list of
+            [stepconfig](aws-properties-elasticmapreduce-cluster-stepconfig.md)
+          description: A list of steps to run\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A list of tags associated with a cluster\.
+        VisibleToAllUsers:
+          type: boolean
+          description: >-
+            Indicates whether the cluster is visible to all IAM users of the AWS
+            account associated with the cluster\. If this value is set to
+            `true`, all IAM users of that AWS account can view and manage the
+            cluster if they have the proper policy permissions set\. If this
+            value is `false`, only the IAM user that created the cluster can
+            view and manage it\. This value can be changed using the
+            SetVisibleToAllUsers action\.   When you create clusters directly
+            through the EMR console or API, this value is set to `true` by
+            default\. However, for `AWS::EMR::Cluster` resources in
+            CloudFormation, the default is `false`\.
+      required:
+        - Instances
+        - JobFlowRole
+        - Name
+        - ServiceRole
+    InstanceFleetConfig:
+      type: object
+      properties:
+        ClusterId:
+          type: string
+          description: The unique identifier of the EMR cluster\.
+        InstanceFleetType:
+          type: string
+          description: The node type that the instance fleet hosts\.
+        InstanceTypeConfigs:
+          type: >-
+            list of
+            [instancetypeconfig](aws-properties-elasticmapreduce-instancefleetconfig-instancetypeconfig.md)
+          description: >-
+            `InstanceTypeConfigs` determine the EC2 instances that Amazon EMR
+            attempts to provision to fulfill On\-Demand and Spot target
+            capacities\.   The instance fleet configuration is available only in
+            Amazon EMR versions 4\.8\.0 and later, excluding 5\.0\.x versions\.
+        LaunchSpecifications:
+          type: >-
+            [instancefleetprovisioningspecifications](aws-properties-elasticmapreduce-instancefleetconfig-instancefleetprovisioningspecifications.md)
+          description: The launch specification for the instance fleet\.
+        Name:
+          type: string
+          description: The friendly name of the instance fleet\.
+        TargetOnDemandCapacity:
+          type: integer
+          description: >-
+            The target capacity of On\-Demand units for the instance fleet,
+            which determines how many On\-Demand instances to provision\. When
+            the instance fleet launches, Amazon EMR tries to provision
+            On\-Demand instances as specified by `InstanceTypeConfig`\. Each
+            instance configuration has a specified `WeightedCapacity`\. When an
+            On\-Demand instance is provisioned, the `WeightedCapacity` units
+            count toward the target capacity\. Amazon EMR provisions instances
+            until the target capacity is totally fulfilled, even if this results
+            in an overage\. For example, if there are 2 units remaining to
+            fulfill capacity, and Amazon EMR can only provision an instance with
+            a `WeightedCapacity` of 5 units, the instance is provisioned, and
+            the target capacity is exceeded by 3 units\.   If not specified or
+            set to 0, only Spot instances are provisioned for the instance fleet
+            using `TargetSpotCapacity`\. At least one of `TargetSpotCapacity`
+            and `TargetOnDemandCapacity` should be greater than 0\. For a master
+            instance fleet, only one of `TargetSpotCapacity` and
+            `TargetOnDemandCapacity` can be specified, and its value must be 1\.
+        TargetSpotCapacity:
+          type: integer
+          description: >-
+            The target capacity of Spot units for the instance fleet, which
+            determines how many Spot instances to provision\. When the instance
+            fleet launches, Amazon EMR tries to provision Spot instances as
+            specified by `InstanceTypeConfig`\. Each instance configuration has
+            a specified `WeightedCapacity`\. When a Spot instance is
+            provisioned, the `WeightedCapacity` units count toward the target
+            capacity\. Amazon EMR provisions instances until the target capacity
+            is totally fulfilled, even if this results in an overage\. For
+            example, if there are 2 units remaining to fulfill capacity, and
+            Amazon EMR can only provision an instance with a `WeightedCapacity`
+            of 5 units, the instance is provisioned, and the target capacity is
+            exceeded by 3 units\.   If not specified or set to 0, only
+            On\-Demand instances are provisioned for the instance fleet\. At
+            least one of `TargetSpotCapacity` and `TargetOnDemandCapacity`
+            should be greater than 0\. For a master instance fleet, only one of
+            `TargetSpotCapacity` and `TargetOnDemandCapacity` can be specified,
+            and its value must be 1\.
+      required:
+        - ClusterId
+        - InstanceFleetType
+    InstanceGroupConfig:
+      type: object
+      properties:
+        AutoScalingPolicy:
+          type: >-
+            [autoscalingpolicy](aws-properties-elasticmapreduce-instancegroupconfig-autoscalingpolicy.md)
+          description: >-
+            `AutoScalingPolicy` is a subproperty of `InstanceGroupConfig`\.
+            `AutoScalingPolicy` defines how an instance group dynamically adds
+            and terminates EC2 instances in response to the value of a
+            CloudWatch metric\. For more information, see [Using Automatic
+            Scaling in Amazon
+            EMR](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-automatic-scaling.html)
+            in the *Amazon EMR Management Guide*\.
+        BidPrice:
+          type: string
+          description: >-
+            If specified, indicates that the instance group uses Spot
+            Instances\. This is the maximum price you are willing to pay for
+            Spot Instances\. Specify `OnDemandPrice` to set the amount equal to
+            the On\-Demand price, or specify an amount in USD\.
+        Configurations:
+          type: list of [configuration](aws-properties-emr-cluster-configuration.md)
+          description: >-
+            Amazon EMR releases 4\.x or later\. The list of configurations
+            supplied for an EMR cluster instance group\. You can specify a
+            separate configuration for each instance group \(master, core, and
+            task\)\.
+        CustomAmiId:
+          type: string
+          description: The custom AMI ID to use for the provisioned instance group\.
+        EbsConfiguration:
+          type: '[ebsconfiguration](aws-properties-emr-ebsconfiguration.md)'
+          description: >-
+            `EbsConfiguration` determines the EBS volumes to attach to EMR
+            cluster instances\.
+        InstanceCount:
+          type: integer
+          description: Target number of instances for the instance group\.
+        InstanceRole:
+          type: string
+          description: The role of the instance group in the cluster\.
+        InstanceType:
+          type: string
+          description: The EC2 instance type for all instances in the instance group\.
+        JobFlowId:
+          type: string
+          description: >-
+            The ID of an Amazon EMR cluster that you want to associate this
+            instance group with\.
+        Market:
+          type: string
+          description: Market type of the EC2 instances used to create a cluster node\.
+        Name:
+          type: string
+          description: Friendly name given to the instance group\.
+      required:
+        - InstanceCount
+        - InstanceRole
+        - InstanceType
+        - JobFlowId
+    SecurityConfiguration:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: The name of the security configuration\.
+        SecurityConfiguration:
+          type: object
+          description: The security configuration details in JSON format\.
+      required:
+        - SecurityConfiguration
+    Step:
+      type: object
+      properties:
+        ActionOnFailure:
+          type: string
+          description: >-
+            This specifies what action to take when the cluster step fails\.
+            Possible values are `CANCEL_AND_WAIT` and `CONTINUE`\.
+        HadoopJarStep:
+          type: >-
+            [hadoopjarstepconfig](aws-properties-elasticmapreduce-step-hadoopjarstepconfig.md)
+          description: >-
+            The `HadoopJarStepConfig` property type specifies a job flow step
+            consisting of a JAR file whose main function will be executed\. The
+            main function submits a job for the cluster to execute as a step on
+            the master node, and then waits for the job to finish or fail before
+            executing subsequent steps\.
+        JobFlowId:
+          type: string
+          description: A string that uniquely identifies the cluster \(job flow\)\.
+        Name:
+          type: string
+          description: The name of the cluster step\.
+      required:
+        - ActionOnFailure
+        - HadoopJarStep
+        - JobFlowId
+        - Name
+    Studio:
+      type: object
+      properties:
+        AuthMode:
+          type: string
+          description: >-
+            Specifies whether the Studio authenticates users using IAM Identity
+            Center or IAM\.
+        DefaultS3Location:
+          type: string
+          description: >-
+            The Amazon S3 location to back up EMR Studio Workspaces and notebook
+            files\.
+        Description:
+          type: string
+          description: A detailed description of the Amazon EMR Studio\.
+        EngineSecurityGroupId:
+          type: string
+          description: >-
+            The ID of the Amazon EMR Studio Engine security group\. The Engine
+            security group allows inbound network traffic from the Workspace
+            security group, and it must be in the same VPC specified by
+            `VpcId`\.
+        IdpAuthUrl:
+          type: string
+          description: >-
+            Your identity provider's authentication endpoint\. Amazon EMR Studio
+            redirects federated users to this endpoint for authentication when
+            logging in to a Studio with the Studio URL\.
+        IdpRelayStateParameterName:
+          type: string
+          description: The name of your identity provider's `RelayState` parameter\.
+        Name:
+          type: string
+          description: A descriptive name for the Amazon EMR Studio\.
+        ServiceRole:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the IAM role that will be
+            assumed by the Amazon EMR Studio\. The service role provides a way
+            for Amazon EMR Studio to interoperate with other AWS services\.
+        SubnetIds:
+          type: array
+          description: >-
+            A list of subnet IDs to associate with the Amazon EMR Studio\. A
+            Studio can have a maximum of 5 subnets\. The subnets must belong to
+            the VPC specified by `VpcId`\. Studio users can create a Workspace
+            in any of the specified subnets\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        UserRole:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the IAM user role that will be
+            assumed by users and groups logged in to a Studio\. The permissions
+            attached to this IAM role can be scoped down for each user or group
+            using session policies\. You only need to specify `UserRole` when
+            you set `AuthMode` to `SSO`\.
+        VpcId:
+          type: string
+          description: >-
+            The ID of the Amazon Virtual Private Cloud \(Amazon VPC\) to
+            associate with the Studio\.
+        WorkspaceSecurityGroupId:
+          type: string
+          description: >-
+            The ID of the Workspace security group associated with the Amazon
+            EMR Studio\. The Workspace security group allows outbound network
+            traffic to resources in the Engine security group and to the
+            internet\.
+      required:
+        - AuthMode
+        - DefaultS3Location
+        - EngineSecurityGroupId
+        - Name
+        - ServiceRole
+        - SubnetIds
+        - VpcId
+        - WorkspaceSecurityGroupId
+    StudioSessionMapping:
+      type: object
+      properties:
+        IdentityName:
+          type: string
+          description: >-
+            The name of the user or group\. For more information, see
+            [UserName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_User.html#singlesignon-Type-User-UserName)
+            and
+            [DisplayName](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/API_Group.html#singlesignon-Type-Group-DisplayName)
+            in the *IAM Identity Center Identity Store API Reference*\.
+        IdentityType:
+          type: string
+          description: >-
+            Specifies whether the identity to map to the Amazon EMR Studio is a
+            user or a group\.
+        SessionPolicyArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) for the session policy that will be
+            applied to the user or group\. Session policies refine Studio user
+            permissions without the need to use multiple IAM user roles\. For
+            more information, see [Create an EMR Studio user role with session
+            policies](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-studio-user-role.html)
+            in the *Amazon EMR Management Guide*\.
+        StudioId:
+          type: string
+          description: >-
+            The ID of the Amazon EMR Studio to which the user or group will be
+            mapped\.
+      required:
+        - IdentityName
+        - IdentityType
+        - SessionPolicyArn
+        - StudioId
+paths: {}

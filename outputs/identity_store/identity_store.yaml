@@ -1,0 +1,47 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: IdentityStore
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Group:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A string containing the description of the group\.
+        DisplayName:
+          type: string
+          description: Property description not available\.
+        IdentityStoreId:
+          type: string
+          description: Property description not available\.
+      required:
+        - DisplayName
+        - IdentityStoreId
+    GroupMembership:
+      type: object
+      properties:
+        GroupId:
+          type: string
+          description: Property description not available\.
+        IdentityStoreId:
+          type: string
+          description: Property description not available\.
+        MemberId:
+          type: '[memberid](aws-properties-identitystore-groupmembership-memberid.md)'
+          description: >-
+            An object containing the identifier of a group member\. Setting
+            `MemberId`'s `UserId` field to a specific User's ID indicates we
+            should consider that User as a group member\.
+      required:
+        - GroupId
+        - IdentityStoreId
+        - MemberId
+paths: {}

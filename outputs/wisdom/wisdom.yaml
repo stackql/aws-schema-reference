@@ -1,0 +1,103 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Wisdom
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Assistant:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the assistant\.
+        Name:
+          type: string
+          description: The name of the assistant\.
+        ServerSideEncryptionConfiguration:
+          type: >-
+            [serversideencryptionconfiguration](aws-properties-wisdom-assistant-serversideencryptionconfiguration.md)
+          description: The KMS key used for encryption\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags used to organize, track, or control access for this
+            resource\.
+        Type:
+          type: string
+          description: The type of assistant\.
+      required:
+        - Name
+        - Type
+    AssistantAssociation:
+      type: object
+      properties:
+        AssistantId:
+          type: string
+          description: The identifier of the Wisdom assistant\.
+        Association:
+          type: >-
+            [associationdata](aws-properties-wisdom-assistantassociation-associationdata.md)
+          description: The identifier of the associated resource\.
+        AssociationType:
+          type: string
+          description: The type of association\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags used to organize, track, or control access for this
+            resource\.
+      required:
+        - AssistantId
+        - Association
+        - AssociationType
+    KnowledgeBase:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description\.
+        KnowledgeBaseType:
+          type: string
+          description: >-
+            The type of knowledge base\. Only CUSTOM knowledge bases allow you
+            to upload your own content\. EXTERNAL knowledge bases support
+            integrations with third\-party systems whose content is synchronized
+            automatically\.
+        Name:
+          type: string
+          description: The name of the knowledge base\.
+        RenderingConfiguration:
+          type: >-
+            [renderingconfiguration](aws-properties-wisdom-knowledgebase-renderingconfiguration.md)
+          description: Information about how to render the content\.
+        ServerSideEncryptionConfiguration:
+          type: >-
+            [serversideencryptionconfiguration](aws-properties-wisdom-knowledgebase-serversideencryptionconfiguration.md)
+          description: The KMS key used for encryption\.
+        SourceConfiguration:
+          type: >-
+            [sourceconfiguration](aws-properties-wisdom-knowledgebase-sourceconfiguration.md)
+          description: >-
+            The source of the knowledge base content\. Only set this argument
+            for EXTERNAL knowledge bases\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags used to organize, track, or control access for this
+            resource\.
+      required:
+        - KnowledgeBaseType
+        - Name
+paths: {}

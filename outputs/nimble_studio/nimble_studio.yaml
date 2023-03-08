@@ -1,0 +1,171 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: NimbleStudio
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    LaunchProfile:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A human\-readable description of the launch profile\.
+        Ec2SubnetIds:
+          type: array
+          description: Unique identifiers for a collection of EC2 subnets\.
+        LaunchProfileProtocolVersions:
+          type: array
+          description: >-
+            The version number of the protocol that is used by the launch
+            profile\. The only valid version is "2021\-03\-31"\.
+        Name:
+          type: string
+          description: A friendly name for the launch profile\.
+        StreamConfiguration:
+          type: >-
+            [streamconfiguration](aws-properties-nimblestudio-launchprofile-streamconfiguration.md)
+          description: A configuration for a streaming session\.
+        StudioComponentIds:
+          type: array
+          description: >-
+            Unique identifiers for a collection of studio components that can be
+            used with this launch profile\.
+        StudioId:
+          type: string
+          description: >-
+            The unique identifier for a studio resource\. In Nimble Studio, all
+            other resources are contained in a studio resource\.
+        Tags:
+          type: map of string
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - Ec2SubnetIds
+        - LaunchProfileProtocolVersions
+        - Name
+        - StreamConfiguration
+        - StudioComponentIds
+        - StudioId
+    StreamingImage:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A human\-readable description of the streaming image\.
+        Ec2ImageId:
+          type: string
+          description: >-
+            The ID of an EC2 machine image with which to create the streaming
+            image\.
+        Name:
+          type: string
+          description: A friendly name for a streaming image resource\.
+        StudioId:
+          type: string
+          description: >-
+            The unique identifier for a studio resource\. In Nimble Studio, all
+            other resources are contained in a studio resource\.
+        Tags:
+          type: map of string
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - Ec2ImageId
+        - Name
+        - StudioId
+    Studio:
+      type: object
+      properties:
+        AdminRoleArn:
+          type: string
+          description: >-
+            The IAM role that studio admins assume when logging in to the Nimble
+            Studio portal\.
+        DisplayName:
+          type: string
+          description: A friendly name for the studio\.
+        StudioEncryptionConfiguration:
+          type: >-
+            [studioencryptionconfiguration](aws-properties-nimblestudio-studio-studioencryptionconfiguration.md)
+          description: Configuration of the encryption method that is used for the studio\.
+        StudioName:
+          type: string
+          description: >-
+            The name of the studio, as included in the URL when accessing it in
+            the Nimble Studio portal\.
+        Tags:
+          type: map of string
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        UserRoleArn:
+          type: string
+          description: >-
+            The IAM role that studio users assume when logging in to the Nimble
+            Studio portal\.
+      required:
+        - AdminRoleArn
+        - DisplayName
+        - StudioName
+        - UserRoleArn
+    StudioComponent:
+      type: object
+      properties:
+        Configuration:
+          type: >-
+            [studiocomponentconfiguration](aws-properties-nimblestudio-studiocomponent-studiocomponentconfiguration.md)
+          description: The configuration of the studio component, based on component type\.
+        Description:
+          type: string
+          description: A human\-readable description for the studio component resource\.
+        Ec2SecurityGroupIds:
+          type: array
+          description: >-
+            The EC2 security groups that control access to the studio
+            component\.
+        InitializationScripts:
+          type: >-
+            list of
+            [studiocomponentinitializationscript](aws-properties-nimblestudio-studiocomponent-studiocomponentinitializationscript.md)
+          description: Initialization scripts for studio components\.
+        Name:
+          type: string
+          description: A friendly name for the studio component resource\.
+        ScriptParameters:
+          type: >-
+            list of
+            [scriptparameterkeyvalue](aws-properties-nimblestudio-studiocomponent-scriptparameterkeyvalue.md)
+          description: Parameters for the studio component scripts\.
+        StudioId:
+          type: string
+          description: >-
+            The unique identifier for a studio resource\. In Nimble Studio, all
+            other resources are contained in a studio resource\.
+        Subtype:
+          type: string
+          description: The specific subtype of a studio component\.
+        Tags:
+          type: map of string
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        Type:
+          type: string
+          description: The type of the studio component\.
+      required:
+        - Name
+        - StudioId
+        - Type
+paths: {}

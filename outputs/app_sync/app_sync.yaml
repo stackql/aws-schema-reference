@@ -1,0 +1,431 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: AppSync
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ApiCache:
+      type: object
+      properties:
+        ApiCachingBehavior:
+          type: string
+          description: >-
+            Caching behavior\.   +  **FULL\_REQUEST\_CACHING**: All requests are
+            fully cached\. +  **PER\_RESOLVER\_CACHING**: Individual resolvers
+            that you specify are cached\.
+        ApiId:
+          type: string
+          description: The GraphQL API ID\.
+        AtRestEncryptionEnabled:
+          type: boolean
+          description: >-
+            At\-rest encryption flag for cache\. You cannot update this setting
+            after creation\.
+        TransitEncryptionEnabled:
+          type: boolean
+          description: >-
+            Transit encryption flag when connecting to cache\. You cannot update
+            this setting after creation\.
+        Ttl:
+          type: double
+          description: >-
+            TTL in seconds for cache entries\.   Valid values are 1–3,600
+            seconds\.
+        Type:
+          type: string
+          description: >-
+            The cache instance type\. Valid values are    +  `SMALL`  + 
+            `MEDIUM`  +  `LARGE`  +  `XLARGE`  +  `LARGE_2X`  +  `LARGE_4X`  + 
+            `LARGE_8X` \(not available in all regions\) +  `LARGE_12X` 
+            Historically, instance types were identified by an EC2\-style
+            value\. As of July 2020, this is deprecated, and the generic
+            identifiers above should be used\.   The following legacy instance
+            types are available, but their use is discouraged:   + 
+            **T2\_SMALL**: A t2\.small instance type\. +  **T2\_MEDIUM**: A
+            t2\.medium instance type\. +  **R4\_LARGE**: A r4\.large instance
+            type\. +  **R4\_XLARGE**: A r4\.xlarge instance type\. + 
+            **R4\_2XLARGE**: A r4\.2xlarge instance type\. +  **R4\_4XLARGE**: A
+            r4\.4xlarge instance type\. +  **R4\_8XLARGE**: A r4\.8xlarge
+            instance type\.
+      required:
+        - ApiCachingBehavior
+        - ApiId
+        - Ttl
+        - Type
+    ApiKey:
+      type: object
+      properties:
+        ApiId:
+          type: string
+          description: Unique AWS AppSync GraphQL API ID for this API key\.
+        ApiKeyId:
+          type: string
+          description: The API key ID\.
+        Description:
+          type: string
+          description: Unique description of your API key\.
+        Expires:
+          type: double
+          description: >-
+            The time after which the API key expires\. The date is represented
+            as seconds since the epoch, rounded down to the nearest hour\.
+      required:
+        - ApiId
+    DataSource:
+      type: object
+      properties:
+        ApiId:
+          type: string
+          description: >-
+            Unique AWS AppSync GraphQL API identifier where this data source
+            will be created\.
+        Description:
+          type: string
+          description: The description of the data source\.
+        DynamoDBConfig:
+          type: >-
+            [dynamodbconfig](aws-properties-appsync-datasource-dynamodbconfig.md)
+          description: >-
+            AWS Region and TableName for an Amazon DynamoDB table in your
+            account\.
+        ElasticsearchConfig:
+          type: >-
+            [elasticsearchconfig](aws-properties-appsync-datasource-elasticsearchconfig.md)
+          description: >-
+            AWS Region and Endpoints for an Amazon OpenSearch Service domain in
+            your account\.   As of September 2021, Amazon Elasticsearch Service
+            is Amazon OpenSearch Service\. This property is deprecated\. For new
+            data sources, use *OpenSearchServiceConfig* to specify an OpenSearch
+            Service data source\.
+        EventBridgeConfig:
+          type: >-
+            [eventbridgeconfig](aws-properties-appsync-datasource-eventbridgeconfig.md)
+          description: >-
+            An EventBridge configuration that contains a valid ARN of an event
+            bus\.
+        HttpConfig:
+          type: '[httpconfig](aws-properties-appsync-datasource-httpconfig.md)'
+          description: Endpoints for an HTTP data source\.
+        LambdaConfig:
+          type: '[lambdaconfig](aws-properties-appsync-datasource-lambdaconfig.md)'
+          description: >-
+            An ARN of a Lambda function in valid ARN format\. This can be the
+            ARN of a Lambda function that exists in the current account or in
+            another account\.
+        Name:
+          type: string
+          description: >-
+            Friendly name for you to identify your AppSync data source after
+            creation\.
+        OpenSearchServiceConfig:
+          type: >-
+            [opensearchserviceconfig](aws-properties-appsync-datasource-opensearchserviceconfig.md)
+          description: >-
+            AWS Region and Endpoints for an Amazon OpenSearch Service domain in
+            your account\.
+        RelationalDatabaseConfig:
+          type: >-
+            [relationaldatabaseconfig](aws-properties-appsync-datasource-relationaldatabaseconfig.md)
+          description: >-
+            Relational Database configuration of the relational database data
+            source\.
+        ServiceRoleArn:
+          type: string
+          description: >-
+            The AWS Identity and Access Management service role ARN for the data
+            source\. The system assumes this role when accessing the data
+            source\.   Required if `Type` is specified as `AWS_LAMBDA`,
+            `AMAZON_DYNAMODB`, `AMAZON_ELASTICSEARCH`, `AMAZON_EVENTBRIDGE`, or
+            `AMAZON_OPENSEARCH_SERVICE`\.
+        Type:
+          type: string
+          description: >-
+            The type of the data source\.   +  **AWS\_LAMBDA**: The data source
+            is an AWS Lambda function\. +  **AMAZON\_DYNAMODB**: The data source
+            is an Amazon DynamoDB table\. +  **AMAZON\_ELASTICSEARCH**: The data
+            source is an Amazon OpenSearch Service domain\. + 
+            **AMAZON\_EVENTBRIDGE**: The data source is an Amazon EventBridge
+            event bus\. +  **AMAZON\_OPENSEARCH\_SERVICE**: The data source is
+            an Amazon OpenSearch Service domain\. +  **NONE**: There is no data
+            source\. This type is used when you wish to invoke a GraphQL
+            operation without connecting to a data source, such as performing
+            data transformation with resolvers or triggering a subscription to
+            be invoked from a mutation\. +  **HTTP**: The data source is an HTTP
+            endpoint\. +  **RELATIONAL\_DATABASE**: The data source is a
+            relational database\.
+      required:
+        - ApiId
+        - Name
+        - Type
+    DomainName:
+      type: object
+      properties:
+        CertificateArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the certificate\. This will be
+            an AWS Certificate Manager certificate\.
+        Description:
+          type: string
+          description: The decription for your domain name\.
+        DomainName:
+          type: string
+          description: The domain name\.
+      required:
+        - CertificateArn
+        - DomainName
+    DomainNameApiAssociation:
+      type: object
+      properties:
+        ApiId:
+          type: string
+          description: The API ID\.
+        DomainName:
+          type: string
+          description: The domain name\.
+      required:
+        - ApiId
+        - DomainName
+    FunctionConfiguration:
+      type: object
+      properties:
+        ApiId:
+          type: string
+          description: >-
+            The AWS AppSync GraphQL API that you want to attach using this
+            function\.
+        Code:
+          type: string
+          description: >-
+            The `resolver` code that contains the request and response
+            functions\. When code is used, the `runtime` is required\. The
+            runtime value must be `APPSYNC_JS`\.
+        CodeS3Location:
+          type: string
+          description: The Amazon S3 endpoint\.
+        DataSourceName:
+          type: string
+          description: The name of data source this function will attach\.
+        Description:
+          type: string
+          description: The `Function` description\.
+        FunctionVersion:
+          type: string
+          description: >-
+            The version of the request mapping template\. Currently, only the
+            2018\-05\-29 version of the template is supported\.
+        MaxBatchSize:
+          type: integer
+          description: >-
+            The maximum number of resolver request inputs that will be sent to a
+            single AWS Lambda function in a `BatchInvoke` operation\.
+        Name:
+          type: string
+          description: The name of the function\.
+        RequestMappingTemplate:
+          type: string
+          description: >-
+            The `Function` request mapping template\. Functions support only the
+            2018\-05\-29 version of the request mapping template\.
+        RequestMappingTemplateS3Location:
+          type: string
+          description: >-
+            Describes a Sync configuration for a resolver\.   Contains
+            information on which Conflict Detection, as well as Resolution
+            strategy, should be performed when the resolver is invoked\.
+        ResponseMappingTemplate:
+          type: string
+          description: The `Function` response mapping template\.
+        ResponseMappingTemplateS3Location:
+          type: string
+          description: >-
+            The location of a response mapping template in an Amazon S3 bucket\.
+            Use this if you want to provision with a template file in Amazon S3
+            rather than embedding it in your CloudFormation template\.
+        Runtime:
+          type: >-
+            [appsyncruntime](aws-properties-appsync-functionconfiguration-appsyncruntime.md)
+          description: >-
+            Describes a runtime used by an AWS AppSync pipeline resolver or AWS
+            AppSync function\. Specifies the name and version of the runtime to
+            use\. Note that if a runtime is specified, code must also be
+            specified\.
+        SyncConfig:
+          type: >-
+            [syncconfig](aws-properties-appsync-functionconfiguration-syncconfig.md)
+          description: >-
+            Describes a Sync configuration for a resolver\.   Specifies which
+            Conflict Detection strategy and Resolution strategy to use when the
+            resolver is invoked\.
+      required:
+        - ApiId
+        - DataSourceName
+        - Name
+    GraphQLApi:
+      type: object
+      properties:
+        AdditionalAuthenticationProviders:
+          type: >-
+            list of
+            [additionalauthenticationprovider](aws-properties-appsync-graphqlapi-additionalauthenticationprovider.md)
+          description: >-
+            A list of additional authentication providers for the `GraphqlApi`
+            API\.
+        AuthenticationType:
+          type: string
+          description: >-
+            Security configuration for your GraphQL API\. For allowed values
+            \(such as `API_KEY`, `AWS_IAM`, `AMAZON_COGNITO_USER_POOLS`,
+            `OPENID_CONNECT`, or `AWS_LAMBDA`\), see
+            [Security](https://docs.aws.amazon.com/appsync/latest/devguide/security.html)
+            in the *AWS AppSync Developer Guide*\.
+        LambdaAuthorizerConfig:
+          type: >-
+            [lambdaauthorizerconfig](aws-properties-appsync-graphqlapi-lambdaauthorizerconfig.md)
+          description: >-
+            A `LambdaAuthorizerConfig` holds configuration on how to authorize
+            AWS AppSync API access when using the `AWS_LAMBDA` authorizer mode\.
+            Be aware that an AWS AppSync API may have only one Lambda authorizer
+            configured at a time\.
+        LogConfig:
+          type: '[logconfig](aws-properties-appsync-graphqlapi-logconfig.md)'
+          description: The Amazon CloudWatch Logs configuration\.
+        Name:
+          type: string
+          description: The API name\.
+        OpenIDConnectConfig:
+          type: >-
+            [openidconnectconfig](aws-properties-appsync-graphqlapi-openidconnectconfig.md)
+          description: The OpenID Connect configuration\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: An arbitrary set of tags \(key\-value pairs\) for this GraphQL API\.
+        UserPoolConfig:
+          type: >-
+            [userpoolconfig](aws-properties-appsync-graphqlapi-userpoolconfig.md)
+          description: >-
+            Optional authorization configuration for using Amazon Cognito user
+            pools with your GraphQL endpoint\.
+        XrayEnabled:
+          type: boolean
+          description: >-
+            A flag indicating whether to use AWS X\-Ray tracing for this
+            `GraphqlApi`\.
+      required:
+        - AuthenticationType
+        - Name
+    GraphQLSchema:
+      type: object
+      properties:
+        ApiId:
+          type: string
+          description: >-
+            The AWS AppSync GraphQL API identifier to which you want to apply
+            this schema\.
+        Definition:
+          type: string
+          description: >-
+            The text representation of a GraphQL schema in SDL format\.   For
+            more information about using the `Ref` function, see
+            [Ref](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref)\.
+        DefinitionS3Location:
+          type: string
+          description: >-
+            The location of a GraphQL schema file in an Amazon S3 bucket\. Use
+            this if you want to provision with the schema living in Amazon S3
+            rather than embedding it in your CloudFormation template\.
+      required:
+        - ApiId
+    Resolver:
+      type: object
+      properties:
+        ApiId:
+          type: string
+          description: >-
+            The AWS AppSync GraphQL API to which you want to attach this
+            resolver\.
+        CachingConfig:
+          type: '[cachingconfig](aws-properties-appsync-resolver-cachingconfig.md)'
+          description: The caching configuration for the resolver\.
+        Code:
+          type: string
+          description: >-
+            The `resolver` code that contains the request and response
+            functions\. When code is used, the `runtime` is required\. The
+            runtime value must be `APPSYNC_JS`\.
+        CodeS3Location:
+          type: string
+          description: The Amazon S3 endpoint\.
+        DataSourceName:
+          type: string
+          description: The resolver data source name\.
+        FieldName:
+          type: string
+          description: The GraphQL field on a type that invokes the resolver\.
+        Kind:
+          type: string
+          description: >-
+            The resolver type\.   +  **UNIT**: A UNIT resolver type\. A UNIT
+            resolver is the default resolver type\. You can use a UNIT resolver
+            to run a GraphQL query against a single data source\. + 
+            **PIPELINE**: A PIPELINE resolver type\. You can use a PIPELINE
+            resolver to invoke a series of `Function` objects in a serial
+            manner\. You can use a pipeline resolver to run a GraphQL query
+            against multiple data sources\.
+        MaxBatchSize:
+          type: integer
+          description: >-
+            The maximum number of resolver request inputs that will be sent to a
+            single AWS Lambda function in a `BatchInvoke` operation\.
+        PipelineConfig:
+          type: '[pipelineconfig](aws-properties-appsync-resolver-pipelineconfig.md)'
+          description: Functions linked with the pipeline resolver\.
+        RequestMappingTemplate:
+          type: string
+          description: >-
+            The request mapping template\.   Request mapping templates are
+            optional when using a Lambda data source\. For all other data
+            sources, a request mapping template is required\.
+        RequestMappingTemplateS3Location:
+          type: string
+          description: >-
+            The location of a request mapping template in an Amazon S3 bucket\.
+            Use this if you want to provision with a template file in Amazon S3
+            rather than embedding it in your CloudFormation template\.
+        ResponseMappingTemplate:
+          type: string
+          description: The response mapping template\.
+        ResponseMappingTemplateS3Location:
+          type: string
+          description: >-
+            The location of a response mapping template in an Amazon S3 bucket\.
+            Use this if you want to provision with a template file in Amazon S3
+            rather than embedding it in your CloudFormation template\.
+        Runtime:
+          type: '[appsyncruntime](aws-properties-appsync-resolver-appsyncruntime.md)'
+          description: >-
+            Describes a runtime used by an AWS AppSync pipeline resolver or AWS
+            AppSync function\. Specifies the name and version of the runtime to
+            use\. Note that if a runtime is specified, code must also be
+            specified\.
+        SyncConfig:
+          type: '[syncconfig](aws-properties-appsync-resolver-syncconfig.md)'
+          description: >-
+            The `SyncConfig` for a resolver attached to a versioned data
+            source\.
+        TypeName:
+          type: string
+          description: The GraphQL type that invokes this resolver\.
+      required:
+        - ApiId
+        - FieldName
+        - TypeName
+paths: {}

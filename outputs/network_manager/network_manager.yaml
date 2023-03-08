@@ -1,0 +1,315 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: NetworkManager
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ConnectAttachment:
+      type: object
+      properties:
+        CoreNetworkId:
+          type: string
+          description: The ID of the core network where the Connect attachment is located\.
+        EdgeLocation:
+          type: string
+          description: The Region where the edge is located\.
+        Options:
+          type: >-
+            [connectattachmentoptions](aws-properties-networkmanager-connectattachment-connectattachmentoptions.md)
+          description: Options for connecting an attachment\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Property description not available\.
+        TransportAttachmentId:
+          type: string
+          description: The ID of the transport attachment\.
+      required:
+        - CoreNetworkId
+        - EdgeLocation
+        - Options
+        - TransportAttachmentId
+    ConnectPeer:
+      type: object
+      properties:
+        BgpOptions:
+          type: >-
+            [bgpoptions](aws-properties-networkmanager-connectpeer-bgpoptions.md)
+          description: Property description not available\.
+        ConnectAttachmentId:
+          type: string
+          description: The ID of the attachment to connect\.
+        CoreNetworkAddress:
+          type: string
+          description: The IP address of a core network\.
+        InsideCidrBlocks:
+          type: array
+          description: The inside IP addresses used for a Connect peer configuration\.
+        PeerAddress:
+          type: string
+          description: The IP address of the Connect peer\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The list of key\-value tags associated with the Connect peer\.
+      required:
+        - ConnectAttachmentId
+        - InsideCidrBlocks
+        - PeerAddress
+    CoreNetwork:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of a core network\.
+        GlobalNetworkId:
+          type: string
+          description: The ID of the global network that your core network is a part of\.
+        PolicyDocument:
+          type: object
+          description: >-
+            Describes a core network policy\. For more information, see [Core
+            network
+            policies](https://docs.aws.amazon.com/vpc/latest/cloudwan/cloudwan-policy-changesets.html)\.  
+            If you update the policy document, CloudFormation will apply the
+            core network change set generated from the updated policy document,
+            and then set it as the LIVE policy\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The list of key\-value tags associated with a core network\.
+      required:
+        - GlobalNetworkId
+    CustomerGatewayAssociation:
+      type: object
+      properties:
+        CustomerGatewayArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the customer gateway\.
+        DeviceId:
+          type: string
+          description: The ID of the device\.
+        GlobalNetworkId:
+          type: string
+          description: The ID of the global network\.
+        LinkId:
+          type: string
+          description: The ID of the link\.
+      required:
+        - CustomerGatewayArn
+        - DeviceId
+        - GlobalNetworkId
+    Device:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: >-
+            A description of the device\.   Constraints: Maximum length of 256
+            characters\.
+        GlobalNetworkId:
+          type: string
+          description: The ID of the global network\.
+        Location:
+          type: '[location](aws-properties-networkmanager-device-location.md)'
+          description: The site location\.
+        Model:
+          type: string
+          description: >-
+            The model of the device\.   Constraints: Maximum length of 128
+            characters\.
+        SerialNumber:
+          type: string
+          description: >-
+            The serial number of the device\.   Constraints: Maximum length of
+            128 characters\.
+        SiteId:
+          type: string
+          description: The site ID\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags for the device\.
+        Type:
+          type: string
+          description: The device type\.
+        Vendor:
+          type: string
+          description: >-
+            The vendor of the device\.   Constraints: Maximum length of 128
+            characters\.
+      required:
+        - GlobalNetworkId
+    GlobalNetwork:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: >-
+            A description of the global network\.   Constraints: Maximum length
+            of 256 characters\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags for the global network\.
+    Link:
+      type: object
+      properties:
+        Bandwidth:
+          type: '[bandwidth](aws-properties-networkmanager-link-bandwidth.md)'
+          description: The bandwidth for the link\.
+        Description:
+          type: string
+          description: >-
+            A description of the link\.   Constraints: Maximum length of 256
+            characters\.
+        GlobalNetworkId:
+          type: string
+          description: The ID of the global network\.
+        Provider:
+          type: string
+          description: >-
+            The provider of the link\.   Constraints: Maximum length of 128
+            characters\. Cannot include the following characters: \| \\ ^
+        SiteId:
+          type: string
+          description: The ID of the site\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags for the link\.
+        Type:
+          type: string
+          description: >-
+            The type of the link\.   Constraints: Maximum length of 128
+            characters\. Cannot include the following characters: \| \\ ^
+      required:
+        - Bandwidth
+        - GlobalNetworkId
+        - SiteId
+    LinkAssociation:
+      type: object
+      properties:
+        DeviceId:
+          type: string
+          description: The device ID for the link association\.
+        GlobalNetworkId:
+          type: string
+          description: The ID of the global network\.
+        LinkId:
+          type: string
+          description: The ID of the link\.
+      required:
+        - DeviceId
+        - GlobalNetworkId
+        - LinkId
+    Site:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: >-
+            A description of your site\.   Constraints: Maximum length of 256
+            characters\.
+        GlobalNetworkId:
+          type: string
+          description: The ID of the global network\.
+        Location:
+          type: '[location](aws-properties-networkmanager-site-location.md)'
+          description: >-
+            The site location\. This information is used for visualization in
+            the Network Manager console\. If you specify the address, the
+            latitude and longitude are automatically calculated\.   + 
+            `Address`: The physical address of the site\. +  `Latitude`: The
+            latitude of the site\.  +  `Longitude`: The longitude of the site\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags for the site\.
+      required:
+        - GlobalNetworkId
+    SiteToSiteVpnAttachment:
+      type: object
+      properties:
+        CoreNetworkId:
+          type: string
+          description: Property description not available\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Property description not available\.
+        VpnConnectionArn:
+          type: string
+          description: The ARN of the site\-to\-site VPN attachment\.
+      required:
+        - CoreNetworkId
+        - VpnConnectionArn
+    TransitGatewayPeering:
+      type: object
+      properties:
+        CoreNetworkId:
+          type: string
+          description: The ID of the core network\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The list of key\-value tags associated with the peering\.
+        TransitGatewayArn:
+          type: string
+          description: The ARN of the transit gateway\.
+      required:
+        - CoreNetworkId
+        - TransitGatewayArn
+    TransitGatewayRegistration:
+      type: object
+      properties:
+        GlobalNetworkId:
+          type: string
+          description: The ID of the global network\.
+        TransitGatewayArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the transit gateway\.
+      required:
+        - GlobalNetworkId
+        - TransitGatewayArn
+    VpcAttachment:
+      type: object
+      properties:
+        CoreNetworkId:
+          type: string
+          description: The core network ID\.
+        Options:
+          type: >-
+            [vpcoptions](aws-properties-networkmanager-vpcattachment-vpcoptions.md)
+          description: Options for creating the VPC attachment\.
+        SubnetArns:
+          type: array
+          description: The subnet ARNs\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags associated with the VPC attachment\.
+        VpcArn:
+          type: string
+          description: The ARN of the VPC attachment\.
+      required:
+        - CoreNetworkId
+        - SubnetArns
+        - VpcArn
+paths: {}

@@ -1,0 +1,153 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: S3Outposts
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    AccessPoint:
+      type: object
+      properties:
+        Bucket:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the S3 on Outposts bucket that
+            is associated with this access point\.
+        Name:
+          type: string
+          description: The name of this access point\.
+        Policy:
+          type: object
+          description: The access point policy associated with this access point\.
+        VpcConfiguration:
+          type: >-
+            [vpcconfiguration](aws-properties-s3outposts-accesspoint-vpcconfiguration.md)
+          description: >-
+            The virtual private cloud \(VPC\) configuration for this access
+            point, if one exists\.
+      required:
+        - Bucket
+        - Name
+        - VpcConfiguration
+    Bucket:
+      type: object
+      properties:
+        BucketName:
+          type: string
+          description: >-
+            A name for the S3 on Outposts bucket\. If you don't specify a name,
+            AWS CloudFormation generates a unique ID and uses that ID for the
+            bucket name\. The bucket name must contain only lowercase letters,
+            numbers, periods \(\.\), and dashes \(\-\) and must follow [ Amazon
+            S3 bucket restrictions and
+            limitations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/BucketRestrictions.html)\.
+            For more information, see [Bucket naming
+            rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/BucketRestrictions.html#bucketnamingrules)\.   
+            If you specify a name, you can't perform updates that require
+            replacement of this resource\. You can perform updates that require
+            no or some interruption\. If you need to replace the resource,
+            specify a new name\.
+        LifecycleConfiguration:
+          type: >-
+            [lifecycleconfiguration](aws-properties-s3outposts-bucket-lifecycleconfiguration.md)
+          description: >-
+            Creates a new lifecycle configuration for the S3 on Outposts bucket
+            or replaces an existing lifecycle configuration\. Outposts buckets
+            only support lifecycle configurations that delete/expire objects
+            after a certain period of time and abort incomplete multipart
+            uploads\.
+        OutpostId:
+          type: string
+          description: The ID of the Outpost of the specified bucket\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Sets the tags for an S3 on Outposts bucket\. For more information,
+            see [Using Amazon S3 on
+            Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html)\.  
+            Use tags to organize your AWS bill to reflect your own cost
+            structure\. To do this, sign up to get your AWS account bill with
+            tag key values included\. Then, to see the cost of combined
+            resources, organize your billing information according to resources
+            with the same tag key values\. For example, you can tag several
+            resources with a specific application name, and then organize your
+            billing information to see the total cost of that application across
+            several services\. For more information, see [Cost allocation and
+            tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html)\.  
+            Within a bucket, if you add a tag that has the same key as an
+            existing tag, the new value overwrites the old value\. For more
+            information, see [ Using cost allocation and bucket
+            tags](https://docs.aws.amazon.com/AmazonS3/latest/userguide/CostAllocTagging.html)\.
+            To use this resource, you must have permissions to perform the
+            `s3-outposts:PutBucketTagging`\. The S3 on Outposts bucket owner has
+            this permission by default and can grant this permission to others\.
+            For more information about permissions, see [Permissions Related to
+            Bucket Subresource
+            Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources)
+            and [Managing access permissions to your Amazon S3
+            resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html)\.
+      required:
+        - BucketName
+        - OutpostId
+    BucketPolicy:
+      type: object
+      properties:
+        Bucket:
+          type: string
+          description: >-
+            The name of the Amazon S3 Outposts bucket to which the policy
+            applies\.
+        PolicyDocument:
+          type: object
+          description: >-
+            A policy document containing permissions to add to the specified
+            bucket\. In IAM, you must provide policy documents in JSON format\.
+            However, in CloudFormation, you can provide the policy in JSON or
+            YAML format because CloudFormation converts YAML to JSON before
+            submitting it to IAM\. For more information, see the
+            AWS::IAM::Policy [
+            PolicyDocument](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-policy.html#cfn-iam-policy-policydocument)
+            resource description in this guide and [ Access Policy Language
+            Overview](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-policy-language-overview.html)\.
+      required:
+        - Bucket
+        - PolicyDocument
+    Endpoint:
+      type: object
+      properties:
+        AccessType:
+          type: string
+          description: >-
+            The container for the type of connectivity used to access the Amazon
+            S3 on Outposts endpoint\. To use the Amazon VPC, choose `Private`\.
+            To use the endpoint with an on\-premises network, choose
+            `CustomerOwnedIp`\. If you choose `CustomerOwnedIp`, you must also
+            provide the customer\-owned IP address pool \(CoIP pool\)\.  
+            `Private` is the default access type value\.
+        CustomerOwnedIpv4Pool:
+          type: string
+          description: >-
+            The ID of the customer\-owned IPv4 address pool \(CoIP pool\) for
+            the endpoint\. IP addresses are allocated from this pool for the
+            endpoint\.
+        OutpostId:
+          type: string
+          description: The ID of the Outpost\.
+        SecurityGroupId:
+          type: string
+          description: The ID of the security group to use with the endpoint\.
+        SubnetId:
+          type: string
+          description: The ID of the subnet\.
+      required:
+        - OutpostId
+        - SecurityGroupId
+        - SubnetId
+paths: {}

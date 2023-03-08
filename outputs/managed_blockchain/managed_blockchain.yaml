@@ -1,0 +1,58 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: ManagedBlockchain
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Member:
+      type: object
+      properties:
+        InvitationId:
+          type: string
+          description: >-
+            The unique identifier of the invitation to join the network sent to
+            the account that creates the member\.
+        MemberConfiguration:
+          type: >-
+            [memberconfiguration](aws-properties-managedblockchain-member-memberconfiguration.md)
+          description: Configuration properties of the member\.
+        NetworkConfiguration:
+          type: >-
+            [networkconfiguration](aws-properties-managedblockchain-member-networkconfiguration.md)
+          description: >-
+            Configuration properties of the network to which the member
+            belongs\.
+        NetworkId:
+          type: string
+          description: The unique identifier of the network to which the member belongs\.
+      required:
+        - MemberConfiguration
+    Node:
+      type: object
+      properties:
+        MemberId:
+          type: string
+          description: >-
+            The unique identifier of the member to which the node belongs\.
+            Applies only to Hyperledger Fabric\.
+        NetworkId:
+          type: string
+          description: >-
+            The unique identifier of the network for the node\.   Ethereum
+            public networks have the following `NetworkId`s:   + 
+            `n-ethereum-mainnet`  +  `n-ethereum-goerli`  + 
+            `n-ethereum-rinkeby`  +  `n-ethereum-ropsten`
+        NodeConfiguration:
+          type: >-
+            [nodeconfiguration](aws-properties-managedblockchain-node-nodeconfiguration.md)
+          description: Configuration properties of a peer node\.
+      required:
+        - NetworkId
+        - NodeConfiguration
+paths: {}

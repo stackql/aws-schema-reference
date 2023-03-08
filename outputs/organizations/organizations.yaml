@@ -1,0 +1,218 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Organizations
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        AccountName:
+          type: string
+          description: The account name given to the account when it was created\.
+        Email:
+          type: string
+          description: >-
+            The email address associated with the AWS account\.   The [regex
+            pattern](http://wikipedia.org/wiki/regex) for this parameter is a
+            string of characters that represents a standard internet email
+            address\.
+        ParentIds:
+          type: array
+          description: >-
+            The unique identifier \(ID\) of the root or organizational unit
+            \(OU\) that you want to create the new account in\. If you don't
+            specify this parameter, the `ParentId` defaults to the root ID\.  
+            This parameter only accepts a string array with one string value\.  
+            The [regex pattern](http://wikipedia.org/wiki/regex) for a parent ID
+            string requires one of the following:   +  **Root** \- A string that
+            begins with "r\-" followed by from 4 to 32 lowercase letters or
+            digits\. +  **Organizational unit \(OU\)** \- A string that begins
+            with "ou\-" followed by from 4 to 32 lowercase letters or digits
+            \(the ID of the root that the OU is in\)\. This string is followed
+            by a second "\-" dash and from 8 to 32 additional lowercase letters
+            or digits\.
+        RoleName:
+          type: string
+          description: >-
+            The name of an IAM role that AWS Organizations automatically
+            preconfigures in the new member account\. This role trusts the
+            management account, allowing users in the management account to
+            assume the role, as permitted by the management account
+            administrator\. The role has administrator permissions in the new
+            member account\.   If you don't specify this parameter, the role
+            name defaults to `OrganizationAccountAccessRole`\.   For more
+            information about how to use this role to access the member account,
+            see the following links:   +  [Accessing and Administering the
+            Member Accounts in Your
+            Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role)
+            in the * AWS Organizations User Guide*  + Steps 2 and 3 in
+            [Tutorial: Delegate Access Across AWS accounts Using IAM
+            Roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html)
+            in the *IAM User Guide*  The [regex
+            pattern](http://wikipedia.org/wiki/regex) that is used to validate
+            this parameter\. The pattern can include uppercase letters,
+            lowercase letters, digits with no spaces, and any of the following
+            characters: =,\.@\-
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of tags that you want to attach to the newly created
+            account\. For each tag in the list, you must specify both a tag key
+            and a value\. You can set the value to an empty string, but you
+            can't set it to `null`\. For more information about tagging, see
+            [Tagging AWS Organizations
+            resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html)
+            in the AWS Organizations User Guide\.   If any one of the tags is
+            not valid or if you exceed the maximum allowed number of tags for an
+            account, then the entire request fails and the account is not
+            created\.
+      required:
+        - AccountName
+        - Email
+    OrganizationalUnit:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: >-
+            The friendly name of this OU\.   The [regex
+            pattern](http://wikipedia.org/wiki/regex) that is used to validate
+            this parameter is a string of any of the characters in the ASCII
+            character range\.
+        ParentId:
+          type: string
+          description: >-
+            The unique identifier \(ID\) of the parent root or OU that you want
+            to create the new OU in\.   To update the `ParentId` parameter
+            value, you must first remove all accounts attached to the
+            organizational unit \(OU\)\. OUs can't be moved within the
+            organization with accounts still attached\. The [regex
+            pattern](http://wikipedia.org/wiki/regex) for a parent ID string
+            requires one of the following:   +  **Root** \- A string that begins
+            with "r\-" followed by from 4 to 32 lowercase letters or digits\. + 
+            **Organizational unit \(OU\)** \- A string that begins with "ou\-"
+            followed by from 4 to 32 lowercase letters or digits \(the ID of the
+            root that the OU is in\)\. This string is followed by a second "\-"
+            dash and from 8 to 32 additional lowercase letters or digits\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of tags that you want to attach to the newly created OU\. For
+            each tag in the list, you must specify both a tag key and a value\.
+            You can set the value to an empty string, but you can't set it to
+            `null`\. For more information about tagging, see [Tagging AWS
+            Organizations
+            resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html)
+            in the AWS Organizations User Guide\.   If any one of the tags is
+            not valid or if you exceed the allowed number of tags for an OU,
+            then the entire request fails and the OU is not created\.
+      required:
+        - Name
+        - ParentId
+    Policy:
+      type: object
+      properties:
+        Content:
+          type: string
+          description: >-
+            The policy text content\. The text that you supply must adhere to
+            the rules of the policy type you specify in the `Type` parameter\.
+            The following AWS Organizations quotas are enforced for the maximum
+            size of a policy document:   + Service control policies: 5,120 bytes
+            *\(not characters\)* + AI services opt\-out policies: 2,500
+            characters + Backup policies: 10,000 characters + Tag policies:
+            10,000 characters For more information about Organizations service
+            quotas, see [Quotas for AWS
+            Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html)
+            in the *AWS Organizations User Guide*\.
+        Description:
+          type: string
+          description: Human readable description of the policy\.
+        Name:
+          type: string
+          description: >-
+            Name of the policy\.   The [regex
+            pattern](http://wikipedia.org/wiki/regex) that is used to validate
+            this parameter is a string of any of the characters in the ASCII
+            character range\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of tags that you want to attach to the newly created policy\.
+            For each tag in the list, you must specify both a tag key and a
+            value\. You can set the value to an empty string, but you can't set
+            it to `null`\. For more information about tagging, see [Tagging AWS
+            Organizations
+            resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html)
+            in the AWS Organizations User Guide\.   If any one of the tags is
+            not valid or if you exceed the allowed number of tags for a policy,
+            then the entire request fails and the policy is not created\.
+        TargetIds:
+          type: array
+          description: >-
+            List of unique identifiers \(IDs\) of the root, OU, or account that
+            you want to attach the policy to\. You can get the ID by calling the
+            [ListRoots](https://docs.aws.amazon.com/organizations/latest/APIReference/API_ListRoots.html),
+            [ListOrganizationalUnitsForParent](https://docs.aws.amazon.com/organizations/latest/APIReference/API_ListOrganizationalUnitsForParent.html),
+            or
+            [ListAccounts](https://docs.aws.amazon.com/organizations/latest/APIReference/API_ListAccounts.html)
+            operations\. If you don't specify this parameter, the policy is
+            created but not attached to any organization resource\.   The [regex
+            pattern](http://wikipedia.org/wiki/regex) for a target ID string
+            requires one of the following:   +  **Root** \- A string that begins
+            with "r\-" followed by from 4 to 32 lowercase letters or digits\. + 
+            **Account** \- A string that consists of exactly 12 digits\. + 
+            **Organizational unit \(OU\)** \- A string that begins with "ou\-"
+            followed by from 4 to 32 lowercase letters or digits \(the ID of the
+            root that the OU is in\)\. This string is followed by a second "\-"
+            dash and from 8 to 32 additional lowercase letters or digits\.
+        Type:
+          type: string
+          description: The type of policy to create\.
+      required:
+        - Content
+        - Name
+        - Type
+    ResourcePolicy:
+      type: object
+      properties:
+        Content:
+          type: object
+          description: >-
+            The policy text of the organization resource policy\. You can
+            specify the resource policy content as a JSON object or a JSON
+            string\.   When you specify the resource policy content as a JSON
+            string, you can't perform drift detection on the CloudFormation
+            stack\. For this reason, we recommend specifying the resource policy
+            content as a JSON object instead\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of tags that you want to attach to the newly created resource
+            policy\. For each tag in the list, you must specify both a tag key
+            and a value\. You can set the value to an empty string, but you
+            can't set it to `null`\. For more information about tagging, see
+            [Tagging AWS Organizations
+            resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html)
+            in the *AWS Organizations User Guide*\.   If any one of the tags is
+            not valid or if you exceed the allowed number of tags for the
+            resource policy, then the entire request fails and the resource
+            policy is not created\.
+      required:
+        - Content
+paths: {}

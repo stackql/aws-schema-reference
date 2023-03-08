@@ -1,0 +1,32 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: AutoScalingPlans
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ScalingPlan:
+      type: object
+      properties:
+        ApplicationSource:
+          type: >-
+            [applicationsource](aws-properties-autoscalingplans-scalingplan-applicationsource.md)
+          description: >-
+            A CloudFormation stack or a set of tags\. You can create one scaling
+            plan per application source\. The `ApplicationSource` property must
+            be present to ensure interoperability with the AWS Auto Scaling
+            console\.
+        ScalingInstructions:
+          type: >-
+            list of
+            [scalinginstruction](aws-properties-autoscalingplans-scalingplan-scalinginstruction.md)
+          description: The scaling instructions\.
+      required:
+        - ApplicationSource
+        - ScalingInstructions
+paths: {}

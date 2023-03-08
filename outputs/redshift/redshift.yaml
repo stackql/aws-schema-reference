@@ -1,0 +1,622 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Redshift
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Cluster:
+      type: object
+      properties:
+        AllowVersionUpgrade:
+          type: boolean
+          description: >-
+            If `true`, major version upgrades can be applied during the
+            maintenance window to the Amazon Redshift engine that is running on
+            the cluster\.   When a new major version of the Amazon Redshift
+            engine is released, you can request that the service automatically
+            apply upgrades during the maintenance window to the Amazon Redshift
+            engine that is running on your cluster\.   Default: `true`
+        AquaConfigurationStatus:
+          type: string
+          description: >-
+            This parameter is retired\. It does not set the AQUA configuration
+            status\. Amazon Redshift automatically determines whether to use
+            AQUA \(Advanced Query Accelerator\)\.
+        AutomatedSnapshotRetentionPeriod:
+          type: integer
+          description: >-
+            The number of days that automated snapshots are retained\. If the
+            value is 0, automated snapshots are disabled\. Even if automated
+            snapshots are disabled, you can still create manual snapshots when
+            you want with
+            [CreateClusterSnapshot](https://docs.aws.amazon.com/redshift/latest/APIReference/API_CreateClusterSnapshot.html)
+            in the *Amazon Redshift API Reference*\.    Default: `1`   
+            Constraints: Must be a value from 0 to 35\.
+        AvailabilityZone:
+          type: string
+          description: >-
+            The EC2 Availability Zone \(AZ\) in which you want Amazon Redshift
+            to provision the cluster\. For example, if you have several EC2
+            instances running in a specific Availability Zone, then you might
+            want the cluster to be provisioned in the same zone in order to
+            decrease network latency\.   Default: A random, system\-chosen
+            Availability Zone in the region that is specified by the
+            endpoint\.   Example: `us-east-2d`    Constraint: The specified
+            Availability Zone must be in the same region as the current
+            endpoint\.
+        AvailabilityZoneRelocation:
+          type: boolean
+          description: >-
+            The option to enable relocation for an Amazon Redshift cluster
+            between Availability Zones after the cluster is created\.
+        AvailabilityZoneRelocationStatus:
+          type: string
+          description: Describes the status of the Availability Zone relocation operation\.
+        Classic:
+          type: boolean
+          description: >-
+            A boolean value indicating whether the resize operation is using the
+            classic resize process\. If you don't provide this parameter or set
+            the value to `false`, the resize type is elastic\.
+        ClusterIdentifier:
+          type: string
+          description: >-
+            A unique identifier for the cluster\. You use this identifier to
+            refer to the cluster for any subsequent cluster operations such as
+            deleting or modifying\. The identifier also appears in the Amazon
+            Redshift console\.   Constraints:   + Must contain from 1 to 63
+            alphanumeric characters or hyphens\. + Alphabetic characters must be
+            lowercase\. + First character must be a letter\. + Cannot end with a
+            hyphen or contain two consecutive hyphens\. + Must be unique for all
+            clusters within an AWS account\. Example: `myexamplecluster`
+        ClusterParameterGroupName:
+          type: string
+          description: >-
+            The name of the parameter group to be associated with this
+            cluster\.   Default: The default Amazon Redshift cluster parameter
+            group\. For information about the default parameter group, go to
+            [Working with Amazon Redshift Parameter
+            Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-parameter-groups.html)   
+            Constraints:   + Must be 1 to 255 alphanumeric characters or
+            hyphens\. + First character must be a letter\. + Cannot end with a
+            hyphen or contain two consecutive hyphens\.
+        ClusterSecurityGroups:
+          type: array
+          description: >-
+            A list of security groups to be associated with this cluster\.  
+            Default: The default cluster security group for Amazon Redshift\.
+        ClusterSubnetGroupName:
+          type: string
+          description: >-
+            The name of a cluster subnet group to be associated with this
+            cluster\.   If this parameter is not provided the resulting cluster
+            will be deployed outside virtual private cloud \(VPC\)\.
+        ClusterType:
+          type: string
+          description: >-
+            The type of the cluster\. When cluster type is specified as   + 
+            `single-node`, the **NumberOfNodes** parameter is not required\. + 
+            `multi-node`, the **NumberOfNodes** parameter is required\. Valid
+            Values: `multi-node` \| `single-node`    Default: `multi-node`
+        ClusterVersion:
+          type: string
+          description: >-
+            The version of the Amazon Redshift engine software that you want to
+            deploy on the cluster\.   The version selected runs on all the nodes
+            in the cluster\.   Constraints: Only version 1\.0 is currently
+            available\.   Example: `1.0`
+        DBName:
+          type: string
+          description: >-
+            The name of the first database to be created when the cluster is
+            created\.   To create additional databases after the cluster is
+            created, connect to the cluster with a SQL client and use SQL
+            commands to create a database\. For more information, go to [Create
+            a
+            Database](https://docs.aws.amazon.com/redshift/latest/dg/t_creating_database.html)
+            in the Amazon Redshift Database Developer Guide\.    Default:
+            `dev`    Constraints:   + Must contain 1 to 64 alphanumeric
+            characters\. + Must contain only lowercase letters\. + Cannot be a
+            word that is reserved by the service\. A list of reserved words can
+            be found in [Reserved
+            Words](https://docs.aws.amazon.com/redshift/latest/dg/r_pg_keywords.html)
+            in the Amazon Redshift Database Developer Guide\.
+        DeferMaintenance:
+          type: boolean
+          description: Property description not available\.
+        DeferMaintenanceDuration:
+          type: integer
+          description: Property description not available\.
+        DeferMaintenanceEndTime:
+          type: string
+          description: Property description not available\.
+        DeferMaintenanceStartTime:
+          type: string
+          description: Property description not available\.
+        DestinationRegion:
+          type: string
+          description: >-
+            The destination region that snapshots are automatically copied to
+            when cross\-region snapshot copy is enabled\.
+        ElasticIp:
+          type: string
+          description: >-
+            The Elastic IP \(EIP\) address for the cluster\.   Constraints: The
+            cluster must be provisioned in EC2\-VPC and publicly\-accessible
+            through an Internet gateway\. Don't specify the Elastic IP address
+            for a publicly accessible cluster with availability zone relocation
+            turned on\. For more information about provisioning clusters in
+            EC2\-VPC, go to [Supported Platforms to Launch Your
+            Cluster](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#cluster-platforms)
+            in the Amazon Redshift Cluster Management Guide\.
+        Encrypted:
+          type: boolean
+          description: >-
+            If `true`, the data in the cluster is encrypted at rest\.   
+            Default: false
+        Endpoint:
+          type: '[endpoint](aws-properties-redshift-cluster-endpoint.md)'
+          description: The connection endpoint\.
+        EnhancedVpcRouting:
+          type: boolean
+          description: >-
+            An option that specifies whether to create the cluster with enhanced
+            VPC routing enabled\. To create a cluster that uses enhanced VPC
+            routing, the cluster must be in a VPC\. For more information, see
+            [Enhanced VPC
+            Routing](https://docs.aws.amazon.com/redshift/latest/mgmt/enhanced-vpc-routing.html)
+            in the Amazon Redshift Cluster Management Guide\.   If this option
+            is `true`, enhanced VPC routing is enabled\.    Default: false
+        HsmClientCertificateIdentifier:
+          type: string
+          description: >-
+            Specifies the name of the HSM client certificate the Amazon Redshift
+            cluster uses to retrieve the data encryption keys stored in an HSM\.
+        HsmConfigurationIdentifier:
+          type: string
+          description: >-
+            Specifies the name of the HSM configuration that contains the
+            information the Amazon Redshift cluster can use to retrieve and
+            store keys in an HSM\.
+        IamRoles:
+          type: array
+          description: >-
+            A list of AWS Identity and Access Management \(IAM\) roles that can
+            be used by the cluster to access other AWS services\. You must
+            supply the IAM roles in their Amazon Resource Name \(ARN\)
+            format\.    The maximum number of IAM roles that you can associate
+            is subject to a quota\. For more information, go to [Quotas and
+            limits](https://docs.aws.amazon.com/redshift/latest/mgmt/amazon-redshift-limits.html)
+            in the *Amazon Redshift Cluster Management Guide*\.
+        KmsKeyId:
+          type: string
+          description: >-
+            The AWS Key Management Service \(KMS\) key ID of the encryption key
+            that you want to use to encrypt data in the cluster\.
+        LoggingProperties:
+          type: >-
+            [loggingproperties](aws-properties-redshift-cluster-loggingproperties.md)
+          description: >-
+            Specifies logging information, such as queries and connection
+            attempts, for the specified Amazon Redshift cluster\.
+        MaintenanceTrackName:
+          type: string
+          description: >-
+            An optional parameter for the name of the maintenance track for the
+            cluster\. If you don't provide a maintenance track name, the cluster
+            is assigned to the `current` track\.
+        ManualSnapshotRetentionPeriod:
+          type: integer
+          description: >-
+            The default number of days to retain a manual snapshot\. If the
+            value is \-1, the snapshot is retained indefinitely\. This setting
+            doesn't change the retention period of existing snapshots\.   The
+            value must be either \-1 or an integer between 1 and 3,653\.
+        MasterUsername:
+          type: string
+          description: >-
+            The user name associated with the admin user account for the cluster
+            that is being created\.   Constraints:   + Must be 1 \- 128
+            alphanumeric characters or hyphens\. The user name can't be
+            `PUBLIC`\. + Must contain only lowercase letters, numbers,
+            underscore, plus sign, period \(dot\), at symbol \(@\), or hyphen\.
+            + The first character must be a letter\. + Must not contain a colon
+            \(:\) or a slash \(/\)\. + Cannot be a reserved word\. A list of
+            reserved words can be found in [Reserved
+            Words](https://docs.aws.amazon.com/redshift/latest/dg/r_pg_keywords.html)
+            in the Amazon Redshift Database Developer Guide\.
+        MasterUserPassword:
+          type: string
+          description: >-
+            The password associated with the admin user account for the cluster
+            that is being created\.   Constraints:   + Must be between 8 and 64
+            characters in length\. + Must contain at least one uppercase
+            letter\. + Must contain at least one lowercase letter\. + Must
+            contain one number\. + Can be any printable ASCII character \(ASCII
+            code 33\-126\) except `'` \(single quote\), `"` \(double quote\),
+            `\`, `/`, or `@`\.
+        NodeType:
+          type: string
+          description: >-
+            The node type to be provisioned for the cluster\. For information
+            about node types, go to [ Working with
+            Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes)
+            in the *Amazon Redshift Cluster Management Guide*\.    Valid Values:
+            `ds2.xlarge` \| `ds2.8xlarge` \| `dc1.large` \| `dc1.8xlarge` \|
+            `dc2.large` \| `dc2.8xlarge` \| `ra3.xlplus` \| `ra3.4xlarge` \|
+            `ra3.16xlarge`
+        NumberOfNodes:
+          type: integer
+          description: >-
+            The number of compute nodes in the cluster\. This parameter is
+            required when the **ClusterType** parameter is specified as
+            `multi-node`\.    For information about determining how many nodes
+            you need, go to [ Working with
+            Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes)
+            in the *Amazon Redshift Cluster Management Guide*\.    If you don't
+            specify this parameter, you get a single\-node cluster\. When
+            requesting a multi\-node cluster, you must specify the number of
+            nodes that you want in the cluster\.   Default: `1`    Constraints:
+            Value must be at least 1 and no more than 100\.
+        OwnerAccount:
+          type: string
+          description: >-
+            The AWS account used to create or copy the snapshot\. Required if
+            you are restoring a snapshot you do not own, optional if you own the
+            snapshot\.
+        Port:
+          type: integer
+          description: >-
+            The port number on which the cluster accepts incoming
+            connections\.   The cluster is accessible only via the JDBC and ODBC
+            connection strings\. Part of the connection string requires the port
+            on which the cluster will listen for incoming connections\.  
+            Default: `5439`    Valid Values: `1150-65535`
+        PreferredMaintenanceWindow:
+          type: string
+          description: >-
+            The weekly time range \(in UTC\) during which automated cluster
+            maintenance can occur\.    Format: `ddd:hh24:mi-ddd:hh24:mi`    
+            Default: A 30\-minute window selected at random from an 8\-hour
+            block of time per region, occurring on a random day of the week\.
+            For more information about the time blocks for each region, see
+            [Maintenance
+            Windows](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-maintenance-windows)
+            in Amazon Redshift Cluster Management Guide\.   Valid Days: Mon \|
+            Tue \| Wed \| Thu \| Fri \| Sat \| Sun   Constraints: Minimum
+            30\-minute window\.
+        PubliclyAccessible:
+          type: boolean
+          description: If `true`, the cluster can be accessed from a public network\.
+        ResourceAction:
+          type: string
+          description: Property description not available\.
+        RevisionTarget:
+          type: string
+          description: Property description not available\.
+        RotateEncryptionKey:
+          type: boolean
+          description: Property description not available\.
+        SnapshotClusterIdentifier:
+          type: string
+          description: >-
+            The name of the cluster the source snapshot was created from\. This
+            parameter is required if your IAM user has a policy containing a
+            snapshot resource element that specifies anything other than \* for
+            the cluster name\.
+        SnapshotCopyGrantName:
+          type: string
+          description: The name of the snapshot copy grant\.
+        SnapshotCopyManual:
+          type: boolean
+          description: >-
+            Indicates whether to apply the snapshot retention period to newly
+            copied manual snapshots instead of automated snapshots\.
+        SnapshotCopyRetentionPeriod:
+          type: integer
+          description: >-
+            The number of days to retain automated snapshots in the destination
+            AWS Region after they are copied from the source AWS Region\.   By
+            default, this only changes the retention period of copied automated
+            snapshots\.    If you decrease the retention period for automated
+            snapshots that are copied to a destination AWS Region, Amazon
+            Redshift deletes any existing automated snapshots that were copied
+            to the destination AWS Region and that fall outside of the new
+            retention period\.   Constraints: Must be at least 1 and no more
+            than 35 for automated snapshots\.    If you specify the `manual`
+            option, only newly copied manual snapshots will have the new
+            retention period\.    If you specify the value of \-1 newly copied
+            manual snapshots are retained indefinitely\.   Constraints: The
+            number of days must be either \-1 or an integer between 1 and 3,653
+            for manual snapshots\.
+        SnapshotIdentifier:
+          type: string
+          description: >-
+            The name of the snapshot from which to create the new cluster\. This
+            parameter isn't case sensitive\. You must specify this parameter or
+            `snapshotArn`, but not both\.   Example: `my-snapshot-id`
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A list of tag instances\.
+        VpcSecurityGroupIds:
+          type: array
+          description: >-
+            A list of Virtual Private Cloud \(VPC\) security groups to be
+            associated with the cluster\.   Default: The default VPC security
+            group is associated with the cluster\.
+      required:
+        - ClusterType
+        - DBName
+        - MasterUsername
+        - MasterUserPassword
+        - NodeType
+    ClusterParameterGroup:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the parameter group\.
+        ParameterGroupFamily:
+          type: string
+          description: >-
+            The name of the cluster parameter group family that this cluster
+            parameter group is compatible with\.
+        Parameters:
+          type: >-
+            list of
+            [parameter](aws-properties-redshift-clusterparametergroup-parameter.md)
+          description: >-
+            An array of parameters to be modified\. A maximum of 20 parameters
+            can be modified in a single request\.   For each parameter to be
+            modified, you must supply at least the parameter name and parameter
+            value; other name\-value pairs of the parameter are optional\.   For
+            the workload management \(WLM\) configuration, you must supply all
+            the name\-value pairs in the wlm\_json\_configuration parameter\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The list of tags for the cluster parameter group\.
+      required:
+        - Description
+        - ParameterGroupFamily
+    ClusterSecurityGroup:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description for the security group\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Specifies an arbitrary set of tags \(key–value pairs\) to associate
+            with this security group\. Use tags to manage your resources\.
+      required:
+        - Description
+    ClusterSecurityGroupIngress:
+      type: object
+      properties:
+        CIDRIP:
+          type: string
+          description: The IP range to be added the Amazon Redshift security group\.
+        ClusterSecurityGroupName:
+          type: string
+          description: The name of the security group to which the ingress rule is added\.
+        EC2SecurityGroupName:
+          type: string
+          description: >-
+            The EC2 security group to be added the Amazon Redshift security
+            group\.
+        EC2SecurityGroupOwnerId:
+          type: string
+          description: >-
+            The AWS account number of the owner of the security group specified
+            by the *EC2SecurityGroupName* parameter\. The AWS Access Key ID is
+            not an acceptable value\.    Example: `111122223333`   
+            Conditional\. If you specify the `EC2SecurityGroupName` property,
+            you must specify this property\.
+      required:
+        - ClusterSecurityGroupName
+    ClusterSubnetGroup:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description for the subnet group\.
+        SubnetIds:
+          type: array
+          description: >-
+            An array of VPC subnet IDs\. A maximum of 20 subnets can be modified
+            in a single request\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Specifies an arbitrary set of tags \(key–value pairs\) to associate
+            with this subnet group\. Use tags to manage your resources\.
+      required:
+        - Description
+        - SubnetIds
+    EndpointAccess:
+      type: object
+      properties:
+        ClusterIdentifier:
+          type: string
+          description: The cluster identifier of the cluster associated with the endpoint\.
+        EndpointName:
+          type: string
+          description: The name of the endpoint\.
+        ResourceOwner:
+          type: string
+          description: The AWS account ID of the owner of the cluster\.
+        SubnetGroupName:
+          type: string
+          description: >-
+            The subnet group name where Amazon Redshift chooses to deploy the
+            endpoint\.
+        VpcSecurityGroupIds:
+          type: array
+          description: >-
+            The security group that defines the ports, protocols, and sources
+            for inbound traffic that you are authorizing into your endpoint\.
+      required:
+        - ClusterIdentifier
+        - EndpointName
+        - SubnetGroupName
+        - VpcSecurityGroupIds
+    EndpointAuthorization:
+      type: object
+      properties:
+        Account:
+          type: string
+          description: >-
+            The AWS account ID of either the cluster owner \(grantor\) or
+            grantee\. If `Grantee` parameter is true, then the `Account` value
+            is of the grantor\.
+        ClusterIdentifier:
+          type: string
+          description: The cluster identifier\.
+        Force:
+          type: boolean
+          description: >-
+            Indicates whether to force the revoke action\. If true, the
+            Redshift\-managed VPC endpoints associated with the endpoint
+            authorization are also deleted\.
+        VpcIds:
+          type: array
+          description: The virtual private cloud \(VPC\) identifiers to grant access to\.
+      required:
+        - Account
+        - ClusterIdentifier
+    EventSubscription:
+      type: object
+      properties:
+        Enabled:
+          type: boolean
+          description: >-
+            A boolean value; set to `true` to activate the subscription, and set
+            to `false` to create the subscription but not activate it\.
+        EventCategories:
+          type: array
+          description: >-
+            Specifies the Amazon Redshift event categories to be published by
+            the event notification subscription\.   Values: configuration,
+            management, monitoring, security, pending
+        Severity:
+          type: string
+          description: >-
+            Specifies the Amazon Redshift event severity to be published by the
+            event notification subscription\.   Values: ERROR, INFO
+        SnsTopicArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the Amazon SNS topic used to
+            transmit the event notifications\. The ARN is created by Amazon SNS
+            when you create a topic and subscribe to it\.
+        SourceIds:
+          type: array
+          description: >-
+            A list of one or more identifiers of Amazon Redshift source
+            objects\. All of the objects must be of the same type as was
+            specified in the source type parameter\. The event subscription will
+            return only events generated by the specified objects\. If not
+            specified, then events are returned for all objects within the
+            source type specified\.   Example: my\-cluster\-1, my\-cluster\-2  
+            Example: my\-snapshot\-20131010
+        SourceType:
+          type: string
+          description: >-
+            The type of source that will be generating the events\. For example,
+            if you want to be notified of events generated by a cluster, you
+            would set this parameter to cluster\. If this value is not
+            specified, events are returned for all Amazon Redshift objects in
+            your AWS account\. You must specify a source type in order to
+            specify source IDs\.   Valid values: cluster,
+            cluster\-parameter\-group, cluster\-security\-group,
+            cluster\-snapshot, and scheduled\-action\.
+        SubscriptionName:
+          type: string
+          description: >-
+            The name of the event subscription to be created\.   Constraints:  
+            + Cannot be null, empty, or blank\. + Must contain from 1 to 255
+            alphanumeric characters or hyphens\. + First character must be a
+            letter\. + Cannot end with a hyphen or contain two consecutive
+            hyphens\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A list of tag instances\.
+      required:
+        - SubscriptionName
+    ScheduledAction:
+      type: object
+      properties:
+        Enable:
+          type: boolean
+          description: >-
+            If true, the schedule is enabled\. If false, the scheduled action
+            does not trigger\. For more information about `state` of the
+            scheduled action, see
+            [AWS::Redshift::ScheduledAction](#aws-resource-redshift-scheduledaction)\.
+        EndTime:
+          type: string
+          description: >-
+            The end time in UTC when the schedule is no longer active\. After
+            this time, the scheduled action does not trigger\.
+        IamRole:
+          type: string
+          description: >-
+            The IAM role to assume to run the scheduled action\. This IAM role
+            must have permission to run the Amazon Redshift API operation in the
+            scheduled action\. This IAM role must allow the Amazon Redshift
+            scheduler \(Principal scheduler\.redshift\.amazonaws\.com\) to
+            assume permissions on your behalf\. For more information about the
+            IAM role to use with the Amazon Redshift scheduler, see [Using
+            Identity\-Based Policies for Amazon
+            Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html)
+            in the *Amazon Redshift Cluster Management Guide*\.
+        Schedule:
+          type: string
+          description: >-
+            The schedule for a one\-time \(at format\) or recurring \(cron
+            format\) scheduled action\. Schedule invocations must be separated
+            by at least one hour\.   Format of at expressions is
+            "`at(yyyy-mm-ddThh:mm:ss)`"\. For example,
+            "`at(2016-03-04T17:27:00)`"\.   Format of cron expressions is
+            "`cron(Minutes Hours Day-of-month Month Day-of-week Year)`"\. For
+            example, "`cron(0 10 ? * MON *)`"\. For more information, see [Cron
+            Expressions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions)
+            in the *Amazon CloudWatch Events User Guide*\.
+        ScheduledActionDescription:
+          type: string
+          description: The description of the scheduled action\.
+        ScheduledActionName:
+          type: string
+          description: The name of the scheduled action\.
+        StartTime:
+          type: string
+          description: >-
+            The start time in UTC when the schedule is active\. Before this
+            time, the scheduled action does not trigger\.
+        TargetAction:
+          type: >-
+            [scheduledactiontype](aws-properties-redshift-scheduledaction-scheduledactiontype.md)
+          description: >-
+            A JSON format string of the Amazon Redshift API operation with input
+            parameters\.   
+            "`{\"ResizeCluster\":{\"NodeType\":\"ds2.8xlarge\",\"ClusterIdentifier\":\"my-test-cluster\",\"NumberOfNodes\":3}}`"\.
+      required:
+        - ScheduledActionName
+paths: {}

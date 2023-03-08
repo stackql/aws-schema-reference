@@ -1,0 +1,767 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Pinpoint
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ADMChannel:
+      type: object
+      properties:
+        ApplicationId:
+          type: string
+          description: >-
+            The unique identifier for the Amazon Pinpoint application that the
+            ADM channel applies to\.
+        ClientId:
+          type: string
+          description: >-
+            The Client ID that you received from Amazon to send messages by
+            using ADM\.
+        ClientSecret:
+          type: string
+          description: >-
+            The Client Secret that you received from Amazon to send messages by
+            using ADM\.
+        Enabled:
+          type: boolean
+          description: Specifies whether to enable the ADM channel for the application\.
+      required:
+        - ApplicationId
+        - ClientId
+        - ClientSecret
+    APNSChannel:
+      type: object
+      properties:
+        ApplicationId:
+          type: string
+          description: >-
+            The unique identifier for the Amazon Pinpoint application that the
+            APNs channel applies to\.
+        BundleId:
+          type: string
+          description: >-
+            The bundle identifier that's assigned to your iOS app\. This
+            identifier is used for APNs tokens\.
+        Certificate:
+          type: string
+          description: >-
+            The APNs client certificate that you received from Apple\. Specify
+            this value if you want Amazon Pinpoint to communicate with APNs by
+            using an APNs certificate\.
+        DefaultAuthenticationMethod:
+          type: string
+          description: >-
+            The default authentication method that you want Amazon Pinpoint to
+            use when authenticating with APNs\. Valid options are `key` or
+            `certificate`\.
+        Enabled:
+          type: boolean
+          description: Specifies whether to enable the APNs channel for the application\.
+        PrivateKey:
+          type: string
+          description: >-
+            The private key for the APNs client certificate that you want Amazon
+            Pinpoint to use to communicate with APNs\.
+        TeamId:
+          type: string
+          description: >-
+            The identifier that's assigned to your Apple Developer Account
+            team\. This identifier is used for APNs tokens\.
+        TokenKey:
+          type: string
+          description: The authentication key to use for APNs tokens\.
+        TokenKeyId:
+          type: string
+          description: >-
+            The key identifier that's assigned to your APNs signing key\.
+            Specify this value if you want Amazon Pinpoint to communicate with
+            APNs by using APNs tokens\.
+      required:
+        - ApplicationId
+    APNSSandboxChannel:
+      type: object
+      properties:
+        ApplicationId:
+          type: string
+          description: >-
+            The unique identifier for the Amazon Pinpoint application that the
+            APNs sandbox channel applies to\.
+        BundleId:
+          type: string
+          description: >-
+            The bundle identifier that's assigned to your iOS app\. This
+            identifier is used for APNs tokens\.
+        Certificate:
+          type: string
+          description: >-
+            The APNs client certificate that you received from Apple\. Specify
+            this value if you want Amazon Pinpoint to communicate with APNs by
+            using an APNs certificate\.
+        DefaultAuthenticationMethod:
+          type: string
+          description: >-
+            The default authentication method that you want Amazon Pinpoint to
+            use when authenticating with APNs\. Valid options are `key` or
+            `certificate`\.
+        Enabled:
+          type: boolean
+          description: >-
+            Specifies whether to enable the APNs Sandbox channel for the Amazon
+            Pinpoint application\.
+        PrivateKey:
+          type: string
+          description: >-
+            The private key for the APNs client certificate that you want Amazon
+            Pinpoint to use to communicate with APNs\.
+        TeamId:
+          type: string
+          description: >-
+            The identifier that's assigned to your Apple Developer Account
+            team\. This identifier is used for APNs tokens\.
+        TokenKey:
+          type: string
+          description: The authentication key to use for APNs tokens\.
+        TokenKeyId:
+          type: string
+          description: >-
+            The key identifier that's assigned to your APNs signing key\.
+            Specify this value if you want Amazon Pinpoint to communicate with
+            APNs by using APNs tokens\.
+      required:
+        - ApplicationId
+    APNSVoipChannel:
+      type: object
+      properties:
+        ApplicationId:
+          type: string
+          description: >-
+            The unique identifier for the Amazon Pinpoint application that the
+            APNs VoIP channel applies to\.
+        BundleId:
+          type: string
+          description: >-
+            The bundle identifier that's assigned to your iOS app\. This
+            identifier is used for APNs tokens\.
+        Certificate:
+          type: string
+          description: >-
+            The APNs client certificate that you received from Apple\. Specify
+            this value if you want Amazon Pinpoint to communicate with APNs by
+            using an APNs certificate\.
+        DefaultAuthenticationMethod:
+          type: string
+          description: >-
+            The default authentication method that you want Amazon Pinpoint to
+            use when authenticating with APNs\. Valid options are `key` or
+            `certificate`\.
+        Enabled:
+          type: boolean
+          description: >-
+            Specifies whether to enable the APNs VoIP channel for the Amazon
+            Pinpoint application\.
+        PrivateKey:
+          type: string
+          description: >-
+            The private key for the APNs client certificate that you want Amazon
+            Pinpoint to use to communicate with APNs\.
+        TeamId:
+          type: string
+          description: >-
+            The identifier that's assigned to your Apple Developer Account
+            team\. This identifier is used for APNs tokens\.
+        TokenKey:
+          type: string
+          description: The authentication key to use for APNs tokens\.
+        TokenKeyId:
+          type: string
+          description: >-
+            The key identifier that's assigned to your APNs signing key\.
+            Specify this value if you want Amazon Pinpoint to communicate with
+            APNs by using APNs tokens\.
+      required:
+        - ApplicationId
+    APNSVoipSandboxChannel:
+      type: object
+      properties:
+        ApplicationId:
+          type: string
+          description: >-
+            The unique identifier for the application that the APNs VoIP sandbox
+            channel applies to\.
+        BundleId:
+          type: string
+          description: >-
+            The bundle identifier that's assigned to your iOS app\. This
+            identifier is used for APNs tokens\.
+        Certificate:
+          type: string
+          description: >-
+            The APNs client certificate that you received from Apple\. Specify
+            this value if you want Amazon Pinpoint to communicate with the APNs
+            sandbox environment by using an APNs certificate\.
+        DefaultAuthenticationMethod:
+          type: string
+          description: >-
+            The default authentication method that you want Amazon Pinpoint to
+            use when authenticating with APNs\. Valid options are `key` or
+            `certificate`\.
+        Enabled:
+          type: boolean
+          description: >-
+            Specifies whether the APNs VoIP sandbox channel is enabled for the
+            application\.
+        PrivateKey:
+          type: string
+          description: >-
+            The private key for the APNs client certificate that you want Amazon
+            Pinpoint to use to communicate with the APNs sandbox environment\.
+        TeamId:
+          type: string
+          description: >-
+            The identifier that's assigned to your Apple developer account
+            team\. This identifier is used for APNs tokens\.
+        TokenKey:
+          type: string
+          description: The authentication key to use for APNs tokens\.
+        TokenKeyId:
+          type: string
+          description: >-
+            The key identifier that's assigned to your APNs signing key\.
+            Specify this value if you want Amazon Pinpoint to communicate with
+            the APNs sandbox environment by using APNs tokens\.
+      required:
+        - ApplicationId
+    App:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: The display name of the application\.
+        Tags:
+          type: object
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - Name
+    ApplicationSettings:
+      type: object
+      properties:
+        ApplicationId:
+          type: string
+          description: The unique identifier for the Amazon Pinpoint application\.
+        CampaignHook:
+          type: >-
+            [campaignhook](aws-properties-pinpoint-applicationsettings-campaignhook.md)
+          description: >-
+            The settings for the Lambda function to use by default as a code
+            hook for campaigns in the application\. To override these settings
+            for a specific campaign, use the Campaign resource to define custom
+            Lambda function settings for the campaign\.
+        CloudWatchMetricsEnabled:
+          type: boolean
+          description: >-
+            Specifies whether to enable application\-related alarms in Amazon
+            CloudWatch\.
+        Limits:
+          type: '[limits](aws-properties-pinpoint-applicationsettings-limits.md)'
+          description: >-
+            The default sending limits for campaigns in the application\. To
+            override these limits for a specific campaign, use the Campaign
+            resource to define custom limits for the campaign\.
+        QuietTime:
+          type: >-
+            [quiettime](aws-properties-pinpoint-applicationsettings-quiettime.md)
+          description: >-
+            The default quiet time for campaigns in the application\. Quiet time
+            is a specific time range when campaigns don't send messages to
+            endpoints, if all the following conditions are met:   \- The
+            `EndpointDemographic.Timezone` property of the endpoint is set to a
+            valid value\.   \- The current time in the endpoint's time zone is
+            later than or equal to the time specified by the `QuietTime.Start`
+            property for the application \(or a campaign that has custom quiet
+            time settings\)\.   \- The current time in the endpoint's time zone
+            is earlier than or equal to the time specified by the
+            `QuietTime.End` property for the application \(or a campaign that
+            has custom quiet time settings\)\.   If any of the preceding
+            conditions isn't met, the endpoint will receive messages from a
+            campaign, even if quiet time is enabled\.   To override the default
+            quiet time settings for a specific campaign, use the Campaign
+            resource to define a custom quiet time for the campaign\.
+      required:
+        - ApplicationId
+    BaiduChannel:
+      type: object
+      properties:
+        ApiKey:
+          type: string
+          description: >-
+            The API key that you received from the Baidu Cloud Push service to
+            communicate with the service\.
+        ApplicationId:
+          type: string
+          description: >-
+            The unique identifier for the Amazon Pinpoint application that
+            you're configuring the Baidu channel for\.
+        Enabled:
+          type: boolean
+          description: Specifies whether to enable the Baidu channel for the application\.
+        SecretKey:
+          type: string
+          description: >-
+            The secret key that you received from the Baidu Cloud Push service
+            to communicate with the service\.
+      required:
+        - ApiKey
+        - ApplicationId
+        - SecretKey
+    Campaign:
+      type: object
+      properties:
+        AdditionalTreatments:
+          type: >-
+            list of
+            [writetreatmentresource](aws-properties-pinpoint-campaign-writetreatmentresource.md)
+          description: >-
+            An array of requests that defines additional treatments for the
+            campaign, in addition to the default treatment for the campaign\.
+        ApplicationId:
+          type: string
+          description: >-
+            The unique identifier for the Amazon Pinpoint application that the
+            campaign is associated with\.
+        CampaignHook:
+          type: '[campaignhook](aws-properties-pinpoint-campaign-campaignhook.md)'
+          description: Specifies the Lambda function to use as a code hook for a campaign\.
+        CustomDeliveryConfiguration:
+          type: >-
+            [customdeliveryconfiguration](aws-properties-pinpoint-campaign-customdeliveryconfiguration.md)
+          description: >-
+            The delivery configuration settings for sending the treatment
+            through a custom channel\. This object is required if the
+            `MessageConfiguration` object for the treatment specifies a
+            `CustomMessage` object\.
+        Description:
+          type: string
+          description: A custom description of the campaign\.
+        HoldoutPercent:
+          type: integer
+          description: >-
+            The allocated percentage of users \(segment members\) who shouldn't
+            receive messages from the campaign\.
+        IsPaused:
+          type: boolean
+          description: >-
+            Specifies whether to pause the campaign\. A paused campaign doesn't
+            run unless you resume it by changing this value to `false`\. If you
+            restart a campaign, the campaign restarts from the beginning and not
+            at the point you paused it\.
+        Limits:
+          type: '[limits](aws-properties-pinpoint-campaign-limits.md)'
+          description: The messaging limits for the campaign\.
+        MessageConfiguration:
+          type: >-
+            [messageconfiguration](aws-properties-pinpoint-campaign-messageconfiguration.md)
+          description: The message configuration settings for the campaign\.
+        Name:
+          type: string
+          description: The name of the campaign\.
+        Priority:
+          type: integer
+          description: >-
+            An integer between 1 and 5, inclusive, that represents the priority
+            of the in\-app message campaign, where 1 is the highest priority and
+            5 is the lowest\. If there are multiple messages scheduled to be
+            displayed at the same time, the priority determines the order in
+            which those messages are displayed\.
+        Schedule:
+          type: '[schedule](aws-properties-pinpoint-campaign-schedule.md)'
+          description: The schedule settings for the campaign\.
+        SegmentId:
+          type: string
+          description: >-
+            The unique identifier for the segment to associate with the
+            campaign\.
+        SegmentVersion:
+          type: integer
+          description: The version of the segment to associate with the campaign\.
+        Tags:
+          type: object
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        TemplateConfiguration:
+          type: >-
+            [templateconfiguration](aws-properties-pinpoint-campaign-templateconfiguration.md)
+          description: The message template to use for the treatment\.
+        TreatmentDescription:
+          type: string
+          description: A custom description of the default treatment for the campaign\.
+        TreatmentName:
+          type: string
+          description: >-
+            A custom name of the default treatment for the campaign, if the
+            campaign has multiple treatments\. A *treatment* is a variation of a
+            campaign that's used for A/B testing\.
+      required:
+        - ApplicationId
+        - Name
+        - Schedule
+        - SegmentId
+    EmailChannel:
+      type: object
+      properties:
+        ApplicationId:
+          type: string
+          description: >-
+            The unique identifier for the Amazon Pinpoint application that
+            you're specifying the email channel for\.
+        ConfigurationSet:
+          type: string
+          description: >-
+            The [Amazon SES configuration
+            set](https://docs.aws.amazon.com/ses/latest/APIReference/API_ConfigurationSet.html)
+            that you want to apply to messages that you send through the
+            channel\.
+        Enabled:
+          type: boolean
+          description: Specifies whether to enable the email channel for the application\.
+        FromAddress:
+          type: string
+          description: >-
+            The verified email address that you want to send email from when you
+            send email through the channel\.
+        Identity:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the identity, verified with
+            Amazon Simple Email Service \(Amazon SES\), that you want to use
+            when you send email through the channel\.
+        RoleArn:
+          type: string
+          description: >-
+            The ARN of the AWS Identity and Access Management \(IAM\) role that
+            you want Amazon Pinpoint to use when it submits email\-related event
+            data for the channel\.
+      required:
+        - ApplicationId
+        - FromAddress
+        - Identity
+    EmailTemplate:
+      type: object
+      properties:
+        DefaultSubstitutions:
+          type: string
+          description: >-
+            A JSON object that specifies the default values to use for message
+            variables in the message template\. This object is a set of
+            key\-value pairs\. Each key defines a message variable in the
+            template\. The corresponding value defines the default value for
+            that variable\. When you create a message that's based on the
+            template, you can override these defaults with message\-specific and
+            address\-specific variables and values\.
+        HtmlPart:
+          type: string
+          description: >-
+            The message body, in HTML format, to use in email messages that are
+            based on the message template\. We recommend using HTML format for
+            email clients that render HTML content\. You can include links,
+            formatted text, and more in an HTML message\.
+        Subject:
+          type: string
+          description: >-
+            The subject line, or title, to use in email messages that are based
+            on the message template\.
+        Tags:
+          type: object
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        TemplateDescription:
+          type: string
+          description: A custom description of the message template\.
+        TemplateName:
+          type: string
+          description: The name of the message template\.
+        TextPart:
+          type: string
+          description: >-
+            The message body, in plain text format, to use in email messages
+            that are based on the message template\. We recommend using plain
+            text format for email clients that don't render HTML content and
+            clients that are connected to high\-latency networks, such as mobile
+            devices\.
+      required:
+        - Subject
+        - TemplateName
+    EventStream:
+      type: object
+      properties:
+        ApplicationId:
+          type: string
+          description: >-
+            The unique identifier for the Amazon Pinpoint application that you
+            want to export data from\.
+        DestinationStreamArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the Amazon Kinesis data stream
+            or Amazon Kinesis Data Firehose delivery stream that you want to
+            publish event data to\.   For a Kinesis data stream, the ARN format
+            is: `arn:aws:kinesis:region:account-id:stream/stream_name `    For a
+            Kinesis Data Firehose delivery stream, the ARN format is:
+            `arn:aws:firehose:region:account-id:deliverystream/stream_name `
+        RoleArn:
+          type: string
+          description: >-
+            The AWS Identity and Access Management \(IAM\) role that authorizes
+            Amazon Pinpoint to publish event data to the stream in your AWS
+            account\.
+      required:
+        - ApplicationId
+        - DestinationStreamArn
+        - RoleArn
+    GCMChannel:
+      type: object
+      properties:
+        ApiKey:
+          type: string
+          description: >-
+            The Web API key, also called the *server key*, that you received
+            from Google to communicate with Google services\.
+        ApplicationId:
+          type: string
+          description: >-
+            The unique identifier for the Amazon Pinpoint application that the
+            GCM channel applies to\.
+        Enabled:
+          type: boolean
+          description: >-
+            Specifies whether to enable the GCM channel for the Amazon Pinpoint
+            application\.
+      required:
+        - ApiKey
+        - ApplicationId
+    InAppTemplate:
+      type: object
+      properties:
+        Content:
+          type: >-
+            list of
+            [inappmessagecontent](aws-properties-pinpoint-inapptemplate-inappmessagecontent.md)
+          description: >-
+            An object that contains information about the content of an in\-app
+            message, including its title and body text, text colors, background
+            colors, images, buttons, and behaviors\.
+        CustomConfig:
+          type: object
+          description: >-
+            Custom data, in the form of key\-value pairs, that is included in an
+            in\-app messaging payload\.
+        Layout:
+          type: string
+          description: >-
+            A string that determines the appearance of the in\-app message\. You
+            can specify one of the following:   +  `BOTTOM_BANNER` – a message
+            that appears as a banner at the bottom of the page\. +  `TOP_BANNER`
+            – a message that appears as a banner at the top of the page\. + 
+            `OVERLAYS` – a message that covers entire screen\. +  `MOBILE_FEED`
+            – a message that appears in a window in front of the page\. + 
+            `MIDDLE_BANNER` – a message that appears as a banner in the middle
+            of the page\. +  `CAROUSEL` – a scrollable layout of up to five
+            unique messages\.
+        Tags:
+          type: object
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        TemplateDescription:
+          type: string
+          description: An optional description of the in\-app template\.
+        TemplateName:
+          type: string
+          description: The name of the in\-app message template\.
+      required:
+        - TemplateName
+    PushTemplate:
+      type: object
+      properties:
+        ADM:
+          type: >-
+            [androidpushnotificationtemplate](aws-properties-pinpoint-pushtemplate-androidpushnotificationtemplate.md)
+          description: >-
+            The message template to use for the ADM \(Amazon Device Messaging\)
+            channel\. This message template overrides the default template for
+            push notification channels \(`Default`\)\.
+        APNS:
+          type: >-
+            [apnspushnotificationtemplate](aws-properties-pinpoint-pushtemplate-apnspushnotificationtemplate.md)
+          description: >-
+            The message template to use for the APNs \(Apple Push Notification
+            service\) channel\. This message template overrides the default
+            template for push notification channels \(`Default`\)\.
+        Baidu:
+          type: >-
+            [androidpushnotificationtemplate](aws-properties-pinpoint-pushtemplate-androidpushnotificationtemplate.md)
+          description: >-
+            The message template to use for the Baidu \(Baidu Cloud Push\)
+            channel\. This message template overrides the default template for
+            push notification channels \(`Default`\)\.
+        Default:
+          type: >-
+            [defaultpushnotificationtemplate](aws-properties-pinpoint-pushtemplate-defaultpushnotificationtemplate.md)
+          description: The default message template to use for push notification channels\.
+        DefaultSubstitutions:
+          type: string
+          description: >-
+            A JSON object that specifies the default values to use for message
+            variables in the message template\. This object is a set of
+            key\-value pairs\. Each key defines a message variable in the
+            template\. The corresponding value defines the default value for
+            that variable\. When you create a message that's based on the
+            template, you can override these defaults with message\-specific and
+            address\-specific variables and values\.
+        GCM:
+          type: >-
+            [androidpushnotificationtemplate](aws-properties-pinpoint-pushtemplate-androidpushnotificationtemplate.md)
+          description: >-
+            The message template to use for the GCM channel, which is used to
+            send notifications through the Firebase Cloud Messaging \(FCM\),
+            formerly Google Cloud Messaging \(GCM\), service\. This message
+            template overrides the default template for push notification
+            channels \(`Default`\)\.
+        Tags:
+          type: object
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        TemplateDescription:
+          type: string
+          description: A custom description of the message template\.
+        TemplateName:
+          type: string
+          description: The name of the message template\.
+      required:
+        - TemplateName
+    Segment:
+      type: object
+      properties:
+        ApplicationId:
+          type: string
+          description: >-
+            The unique identifier for the Amazon Pinpoint application that the
+            segment is associated with\.
+        Dimensions:
+          type: >-
+            [segmentdimensions](aws-properties-pinpoint-segment-segmentdimensions.md)
+          description: The criteria that define the dimensions for the segment\.
+        Name:
+          type: string
+          description: >-
+            The name of the segment\.   A segment must have a name otherwise it
+            will not appear in the Amazon Pinpoint console\.
+        SegmentGroups:
+          type: '[segmentgroups](aws-properties-pinpoint-segment-segmentgroups.md)'
+          description: >-
+            The segment group to use and the dimensions to apply to the group's
+            base segments in order to build the segment\. A segment group can
+            consist of zero or more base segments\. Your request can include
+            only one segment group\.
+        Tags:
+          type: object
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - ApplicationId
+        - Name
+    SMSChannel:
+      type: object
+      properties:
+        ApplicationId:
+          type: string
+          description: >-
+            The unique identifier for the Amazon Pinpoint application that the
+            SMS channel applies to\.
+        Enabled:
+          type: boolean
+          description: Specifies whether to enable the SMS channel for the application\.
+        SenderId:
+          type: string
+          description: >-
+            The identity that you want to display on recipients' devices when
+            they receive messages from the SMS channel\.   SenderIDs are only
+            supported in certain countries and regions\. For more information,
+            see [Supported Countries and
+            Regions](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-sms-countries.html)
+            in the *Amazon Pinpoint User Guide*\.
+        ShortCode:
+          type: string
+          description: >-
+            The registered short code that you want to use when you send
+            messages through the SMS channel\.   For information about obtaining
+            a dedicated short code for sending SMS messages, see [Requesting
+            Dedicated Short Codes for SMS Messaging with Amazon
+            Pinpoint](https://docs.aws.amazon.com/pinpoint/latest/userguide/channels-sms-awssupport-short-code.html)
+            in the *Amazon Pinpoint User Guide*\.
+      required:
+        - ApplicationId
+    SmsTemplate:
+      type: object
+      properties:
+        Body:
+          type: string
+          description: >-
+            The message body to use in text messages that are based on the
+            message template\.
+        DefaultSubstitutions:
+          type: string
+          description: >-
+            A JSON object that specifies the default values to use for message
+            variables in the message template\. This object is a set of
+            key\-value pairs\. Each key defines a message variable in the
+            template\. The corresponding value defines the default value for
+            that variable\. When you create a message that's based on the
+            template, you can override these defaults with message\-specific and
+            address\-specific variables and values\.
+        Tags:
+          type: object
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        TemplateDescription:
+          type: string
+          description: A custom description of the message template\.
+        TemplateName:
+          type: string
+          description: The name of the message template\.
+      required:
+        - Body
+        - TemplateName
+    VoiceChannel:
+      type: object
+      properties:
+        ApplicationId:
+          type: string
+          description: >-
+            The unique identifier for the Amazon Pinpoint application that the
+            voice channel applies to\.
+        Enabled:
+          type: boolean
+          description: Specifies whether to enable the voice channel for the application\.
+      required:
+        - ApplicationId
+paths: {}

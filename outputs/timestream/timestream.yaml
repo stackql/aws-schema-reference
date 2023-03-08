@@ -1,0 +1,159 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Timestream
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Database:
+      type: object
+      properties:
+        DatabaseName:
+          type: string
+          description: The name of the Timestream database\.
+        KmsKeyId:
+          type: string
+          description: >-
+            The identifier of the AWS KMS key used to encrypt the data stored in
+            the database\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags to add to the database\.
+    ScheduledQuery:
+      type: object
+      properties:
+        ClientToken:
+          type: string
+          description: >-
+            Using a ClientToken makes the call to CreateScheduledQuery
+            idempotent, in other words, making the same request repeatedly will
+            produce the same result\. Making multiple identical
+            CreateScheduledQuery requests has the same effect as making a single
+            request\.    +  If CreateScheduledQuery is called without a
+            `ClientToken`, the Query SDK generates a `ClientToken` on your
+            behalf\. +  After 8 hours, any request with the same `ClientToken`
+            is treated as a new request\.
+        ErrorReportConfiguration:
+          type: >-
+            [errorreportconfiguration](aws-properties-timestream-scheduledquery-errorreportconfiguration.md)
+          description: >-
+            Configuration for error reporting\. Error reports will be generated
+            when a problem is encountered when writing the query results\.
+        KmsKeyId:
+          type: string
+          description: >-
+            The Amazon KMS key used to encrypt the scheduled query resource,
+            at\-rest\. If the Amazon KMS key is not specified, the scheduled
+            query resource will be encrypted with a Timestream owned Amazon KMS
+            key\. To specify a KMS key, use the key ID, key ARN, alias name, or
+            alias ARN\. When using an alias name, prefix the name with
+            *alias/*   If ErrorReportConfiguration uses `SSE_KMS` as encryption
+            type, the same KmsKeyId is used to encrypt the error report at
+            rest\.
+        NotificationConfiguration:
+          type: >-
+            [notificationconfiguration](aws-properties-timestream-scheduledquery-notificationconfiguration.md)
+          description: >-
+            Notification configuration for the scheduled query\. A notification
+            is sent by Timestream when a query run finishes, when the state is
+            updated or when you delete it\.
+        QueryString:
+          type: string
+          description: >-
+            The query string to run\. Parameter names can be specified in the
+            query string `@` character followed by an identifier\. The named
+            Parameter `@scheduled_runtime` is reserved and can be used in the
+            query to get the time at which the query is scheduled to run\.   The
+            timestamp calculated according to the ScheduleConfiguration
+            parameter, will be the value of `@scheduled_runtime` paramater for
+            each query run\. For example, consider an instance of a scheduled
+            query executing on 2021\-12\-01 00:00:00\. For this instance, the
+            `@scheduled_runtime` parameter is initialized to the timestamp
+            2021\-12\-01 00:00:00 when invoking the query\.
+        ScheduleConfiguration:
+          type: >-
+            [scheduleconfiguration](aws-properties-timestream-scheduledquery-scheduleconfiguration.md)
+          description: Schedule configuration\.
+        ScheduledQueryExecutionRoleArn:
+          type: string
+          description: >-
+            The ARN for the IAM role that Timestream will assume when running
+            the scheduled query\.
+        ScheduledQueryName:
+          type: string
+          description: >-
+            A name for the query\. Scheduled query names must be unique within
+            each Region\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A list of key\-value pairs to label the scheduled query\.
+        TargetConfiguration:
+          type: >-
+            [targetconfiguration](aws-properties-timestream-scheduledquery-targetconfiguration.md)
+          description: Scheduled query target store configuration\.
+      required:
+        - ErrorReportConfiguration
+        - NotificationConfiguration
+        - QueryString
+        - ScheduleConfiguration
+        - ScheduledQueryExecutionRoleArn
+    Table:
+      type: object
+      properties:
+        DatabaseName:
+          type: string
+          description: The name of the Timestream database that contains this table\.
+        MagneticStoreWriteProperties:
+          description: >-
+            Contains properties to set on the table when enabling magnetic store
+            writes\.   This object has the following attributes:   +
+            *EnableMagneticStoreWrites*: A `boolean` flag to enable magnetic
+            store writes\. + *MagneticStoreRejectedDataLocation*: The location
+            to write error reports for records rejected, asynchronously, during
+            magnetic store writes\. Only `S3Configuration` objects are allowed\.
+            The `S3Configuration` object has the following attributes:    +
+            *BucketName*: The name of the S3 bucket\.   + *EncryptionOption*:
+            The encryption option for the S3 location\. Valid values are S3
+            server\-side encryption with an S3 managed key \(`SSE_S3`\) or AWS
+            managed key \(` SSE_KMS`\)\.   + *KmsKeyId*: The AWS KMS key ID to
+            use when encrypting with an AWS managed key\.   + *ObjectKeyPrefix*:
+            The prefix to use option for the objects stored in S3\.
+        undefined:
+          type: >-
+            [retentionproperties](aws-properties-timestream-table-retentionproperties.md)
+          description: >-
+            ``` Type: AWS::Timestream::Table DependsOn: TestDatabase
+            Properties:     TableName: "TestTable"     DatabaseName:
+            "TestDatabase"     RetentionProperties:        
+            MemoryStoreRetentionPeriodInHours: "24"        
+            MagneticStoreRetentionPeriodInDays: "7" ```
+        RetentionProperties:
+          description: >-
+            The retention duration for the memory store and magnetic store\.
+            This object has the following attributes:   +
+            *MemoryStoreRetentionPeriodInHours*: Retention duration for memory
+            store, in hours\. + *MagneticStoreRetentionPeriodInDays*: Retention
+            duration for magnetic store, in days\. Both attributes are of type
+            `string`\. Both attributes are **required** when
+            `RetentionProperties` is specified\.   See the following examples:  
+            **JSON**
+        TableName:
+          type: string
+          description: The name of the Timestream table\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags to add to the table
+      required:
+        - DatabaseName
+paths: {}

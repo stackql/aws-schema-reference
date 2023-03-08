@@ -1,0 +1,363 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: ElasticLoadBalancingV2
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Listener:
+      type: object
+      properties:
+        AlpnPolicy:
+          type: array
+          description: >-
+            \[TLS listener\] The name of the Application\-Layer Protocol
+            Negotiation \(ALPN\) policy\.
+        Certificates:
+          type: >-
+            list of
+            [certificate](aws-properties-elasticloadbalancingv2-listener-certificate.md)
+          description: >-
+            The default SSL server certificate for a secure listener\. You must
+            provide exactly one certificate if the listener protocol is HTTPS or
+            TLS\.   To create a certificate list for a secure listener, use
+            [AWS::ElasticLoadBalancingV2::ListenerCertificate](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-listenercertificate.html)\.
+        DefaultActions:
+          type: >-
+            list of
+            [action](aws-properties-elasticloadbalancingv2-listener-action.md)
+          description: >-
+            The actions for the default rule\. You cannot define a condition for
+            a default rule\.   To create additional rules for an Application
+            Load Balancer, use
+            [AWS::ElasticLoadBalancingV2::ListenerRule](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-elasticloadbalancingv2-listenerrule.html)\.
+        LoadBalancerArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the load balancer\.
+        Port:
+          type: integer
+          description: >-
+            The port on which the load balancer is listening\. You cannot
+            specify a port for a Gateway Load Balancer\.
+        Protocol:
+          type: string
+          description: >-
+            The protocol for connections from clients to the load balancer\. For
+            Application Load Balancers, the supported protocols are HTTP and
+            HTTPS\. For Network Load Balancers, the supported protocols are TCP,
+            TLS, UDP, and TCP\_UDP\. You can’t specify the UDP or TCP\_UDP
+            protocol if dual\-stack mode is enabled\. You cannot specify a
+            protocol for a Gateway Load Balancer\.
+        SslPolicy:
+          type: string
+          description: >-
+            \[HTTPS and TLS listeners\] The security policy that defines which
+            protocols and ciphers are supported\.   For more information, see
+            [Security
+            policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies)
+            in the *Application Load Balancers Guide* and [Security
+            policies](https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies)
+            in the *Network Load Balancers Guide*\.
+      required:
+        - DefaultActions
+        - LoadBalancerArn
+    ListenerCertificate:
+      type: object
+      properties:
+        Certificates:
+          type: >-
+            list of
+            [certificate](aws-properties-elasticloadbalancingv2-listener-certificates.md)
+          description: The certificate\. You can specify one certificate per resource\.
+        ListenerArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the listener\.
+      required:
+        - Certificates
+        - ListenerArn
+    ListenerRule:
+      type: object
+      properties:
+        Actions:
+          type: >-
+            list of
+            [action](aws-properties-elasticloadbalancingv2-listenerrule-action.md)
+          description: >-
+            The actions\.   The rule must include exactly one of the following
+            types of actions: `forward`, `fixed-response`, or `redirect`, and it
+            must be the last action to be performed\. If the rule is for an
+            HTTPS listener, it can also optionally include an authentication
+            action\.
+        Conditions:
+          type: >-
+            list of
+            [rulecondition](aws-properties-elasticloadbalancingv2-listenerrule-rulecondition.md)
+          description: >-
+            The conditions\.   The rule can optionally include up to one of each
+            of the following conditions: `http-request-method`, `host-header`,
+            `path-pattern`, and `source-ip`\. A rule can also optionally include
+            one or more of each of the following conditions: `http-header` and
+            `query-string`\.
+        ListenerArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the listener\.
+        Priority:
+          type: integer
+          description: >-
+            The rule priority\. A listener can't have multiple rules with the
+            same priority\.   If you try to reorder rules by updating their
+            priorities, do not specify a new priority if an existing rule
+            already uses this priority, as this can cause an error\. If you need
+            to reuse a priority with a different rule, you must remove it as a
+            priority first, and then specify it in a subsequent update\.
+      required:
+        - Actions
+        - Conditions
+        - ListenerArn
+        - Priority
+    LoadBalancer:
+      type: object
+      properties:
+        IpAddressType:
+          type: string
+          description: >-
+            The IP address type\. The possible values are `ipv4` \(for IPv4
+            addresses\) and `dualstack` \(for IPv4 and IPv6 addresses\)\. You
+            can’t specify `dualstack` for a load balancer with a UDP or TCP\_UDP
+            listener\.
+        LoadBalancerAttributes:
+          type: >-
+            list of
+            [loadbalancerattribute](aws-properties-elasticloadbalancingv2-loadbalancer-loadbalancerattributes.md)
+          description: The load balancer attributes\.
+        Name:
+          type: string
+          description: >-
+            The name of the load balancer\. This name must be unique per region
+            per account, can have a maximum of 32 characters, must contain only
+            alphanumeric characters or hyphens, must not begin or end with a
+            hyphen, and must not begin with "internal\-"\.   If you don't
+            specify a name, AWS CloudFormation generates a unique physical ID
+            for the load balancer\. If you specify a name, you cannot perform
+            updates that require replacement of this resource, but you can
+            perform other updates\. To replace the resource, specify a new
+            name\.
+        Scheme:
+          type: string
+          description: >-
+            The nodes of an Internet\-facing load balancer have public IP
+            addresses\. The DNS name of an Internet\-facing load balancer is
+            publicly resolvable to the public IP addresses of the nodes\.
+            Therefore, Internet\-facing load balancers can route requests from
+            clients over the internet\.   The nodes of an internal load balancer
+            have only private IP addresses\. The DNS name of an internal load
+            balancer is publicly resolvable to the private IP addresses of the
+            nodes\. Therefore, internal load balancers can route requests only
+            from clients with access to the VPC for the load balancer\.   The
+            default is an Internet\-facing load balancer\.   You cannot specify
+            a scheme for a Gateway Load Balancer\.
+        SecurityGroups:
+          type: array
+          description: >-
+            \[Application Load Balancers\] The IDs of the security groups for
+            the load balancer\.
+        SubnetMappings:
+          type: >-
+            list of
+            [subnetmapping](aws-properties-elasticloadbalancingv2-loadbalancer-subnetmapping.md)
+          description: >-
+            The IDs of the public subnets\. You can specify only one subnet per
+            Availability Zone\. You must specify either subnets or subnet
+            mappings, but not both\.   \[Application Load Balancers\] You must
+            specify subnets from at least two Availability Zones\. You cannot
+            specify Elastic IP addresses for your subnets\.   \[Application Load
+            Balancers on Outposts\] You must specify one Outpost subnet\.  
+            \[Application Load Balancers on Local Zones\] You can specify
+            subnets from one or more Local Zones\.   \[Network Load Balancers\]
+            You can specify subnets from one or more Availability Zones\. You
+            can specify one Elastic IP address per subnet if you need static IP
+            addresses for your internet\-facing load balancer\. For internal
+            load balancers, you can specify one private IP address per subnet
+            from the IPv4 range of the subnet\. For internet\-facing load
+            balancer, you can specify one IPv6 address per subnet\.   \[Gateway
+            Load Balancers\] You can specify subnets from one or more
+            Availability Zones\. You cannot specify Elastic IP addresses for
+            your subnets\.
+        Subnets:
+          type: array
+          description: >-
+            The IDs of the public subnets\. You can specify only one subnet per
+            Availability Zone\. You must specify either subnets or subnet
+            mappings, but not both\. To specify an Elastic IP address, specify
+            subnet mappings instead of subnets\.   \[Application Load
+            Balancers\] You must specify subnets from at least two Availability
+            Zones\.   \[Application Load Balancers on Outposts\] You must
+            specify one Outpost subnet\.   \[Application Load Balancers on Local
+            Zones\] You can specify subnets from one or more Local Zones\.  
+            \[Network Load Balancers\] You can specify subnets from one or more
+            Availability Zones\.   \[Gateway Load Balancers\] You can specify
+            subnets from one or more Availability Zones\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags to assign to the load balancer\.
+        Type:
+          type: string
+          description: The type of load balancer\. The default is `application`\.
+    TargetGroup:
+      type: object
+      properties:
+        HealthCheckEnabled:
+          type: boolean
+          description: >-
+            Indicates whether health checks are enabled\. If the target type is
+            `lambda`, health checks are disabled by default but can be enabled\.
+            If the target type is `instance`, `ip`, or `alb`, health checks are
+            always enabled and cannot be disabled\.
+        HealthCheckIntervalSeconds:
+          type: integer
+          description: >-
+            The approximate amount of time, in seconds, between health checks of
+            an individual target\. The range is 5\-300\. If the target group
+            protocol is TCP, TLS, UDP, TCP\_UDP, HTTP or HTTPS, the default is
+            30 seconds\. If the target group protocol is GENEVE, the default is
+            10 seconds\. If the target type is `lambda`, the default is 35
+            seconds\.
+        HealthCheckPath:
+          type: string
+          description: >-
+            \[HTTP/HTTPS health checks\] The destination for health checks on
+            the targets\.   \[HTTP1 or HTTP2 protocol version\] The ping path\.
+            The default is /\.   \[GRPC protocol version\] The path of a custom
+            health check method with the format /package\.service/method\. The
+            default is /AWS\.ALB/healthcheck\.
+        HealthCheckPort:
+          type: string
+          description: >-
+            The port the load balancer uses when performing health checks on
+            targets\. If the protocol is HTTP, HTTPS, TCP, TLS, UDP, or
+            TCP\_UDP, the default is `traffic-port`, which is the port on which
+            each target receives traffic from the load balancer\. If the
+            protocol is GENEVE, the default is port 80\.
+        HealthCheckProtocol:
+          type: string
+          description: >-
+            The protocol the load balancer uses when performing health checks on
+            targets\. For Application Load Balancers, the default is HTTP\. For
+            Network Load Balancers and Gateway Load Balancers, the default is
+            TCP\. The TCP protocol is not supported for health checks if the
+            protocol of the target group is HTTP or HTTPS\. The GENEVE, TLS,
+            UDP, and TCP\_UDP protocols are not supported for health checks\.
+        HealthCheckTimeoutSeconds:
+          type: integer
+          description: >-
+            The amount of time, in seconds, during which no response from a
+            target means a failed health check\. The range is 2–120 seconds\.
+            For target groups with a protocol of HTTP, the default is 6
+            seconds\. For target groups with a protocol of TCP, TLS or HTTPS,
+            the default is 10 seconds\. For target groups with a protocol of
+            GENEVE, the default is 5 seconds\. If the target type is `lambda`,
+            the default is 30 seconds\.
+        HealthyThresholdCount:
+          type: integer
+          description: >-
+            The number of consecutive health check successes required before
+            considering a target healthy\. The range is 2\-10\. If the target
+            group protocol is TCP, TCP\_UDP, UDP, TLS, HTTP or HTTPS, the
+            default is 5\. For target groups with a protocol of GENEVE, the
+            default is 5\. If the target type is `lambda`, the default is 5\.
+        IpAddressType:
+          type: string
+          description: >-
+            The type of IP address used for this target group\. The possible
+            values are `ipv4` and `ipv6`\. This is an optional parameter\. If
+            not specified, the IP address type defaults to `ipv4`\.
+        Matcher:
+          type: >-
+            [matcher](aws-properties-elasticloadbalancingv2-targetgroup-matcher.md)
+          description: >-
+            \[HTTP/HTTPS health checks\] The HTTP or gRPC codes to use when
+            checking for a successful response from a target\. For target groups
+            with a protocol of TCP, TCP\_UDP, UDP or TLS the range is 200\-599\.
+            For target groups with a protocol of HTTP or HTTPS, the range is
+            200\-499\. For target groups with a protocol of GENEVE, the range is
+            200\-399\.
+        Name:
+          type: string
+          description: >-
+            The name of the target group\.   This name must be unique per region
+            per account, can have a maximum of 32 characters, must contain only
+            alphanumeric characters or hyphens, and must not begin or end with a
+            hyphen\.
+        Port:
+          type: integer
+          description: >-
+            The port on which the targets receive traffic\. This port is used
+            unless you specify a port override when registering the target\. If
+            the target is a Lambda function, this parameter does not apply\. If
+            the protocol is GENEVE, the supported port is 6081\.
+        Protocol:
+          type: string
+          description: >-
+            The protocol to use for routing traffic to the targets\. For
+            Application Load Balancers, the supported protocols are HTTP and
+            HTTPS\. For Network Load Balancers, the supported protocols are TCP,
+            TLS, UDP, or TCP\_UDP\. For Gateway Load Balancers, the supported
+            protocol is GENEVE\. A TCP\_UDP listener must be associated with a
+            TCP\_UDP target group\. If the target is a Lambda function, this
+            parameter does not apply\.
+        ProtocolVersion:
+          type: string
+          description: >-
+            \[HTTP/HTTPS protocol\] The protocol version\. The possible values
+            are `GRPC`, `HTTP1`, and `HTTP2`\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags\.
+        TargetGroupAttributes:
+          type: >-
+            list of
+            [targetgroupattribute](aws-properties-elasticloadbalancingv2-targetgroup-targetgroupattribute.md)
+          description: The attributes\.
+        Targets:
+          type: >-
+            list of
+            [targetdescription](aws-properties-elasticloadbalancingv2-targetgroup-targetdescription.md)
+          description: The targets\.
+        TargetType:
+          type: string
+          description: >-
+            The type of target that you must specify when registering targets
+            with this target group\. You can't specify targets for a target
+            group using more than one target type\.   +  `instance` \- Register
+            targets by instance ID\. This is the default value\. +  `ip` \-
+            Register targets by IP address\. You can specify IP addresses from
+            the subnets of the virtual private cloud \(VPC\) for the target
+            group, the RFC 1918 range \(10\.0\.0\.0/8, 172\.16\.0\.0/12, and
+            192\.168\.0\.0/16\), and the RFC 6598 range \(100\.64\.0\.0/10\)\.
+            You can't specify publicly routable IP addresses\. +  `lambda` \-
+            Register a single Lambda function as a target\. +  `alb` \- Register
+            a single Application Load Balancer as a target\.
+        UnhealthyThresholdCount:
+          type: integer
+          description: >-
+            The number of consecutive health check failures required before
+            considering a target unhealthy\. The range is 2\-10\. If the target
+            group protocol is TCP, TCP\_UDP, UDP, TLS, HTTP or HTTPS, the
+            default is 2\. For target groups with a protocol of GENEVE, the
+            default is 2\. If the target type is `lambda`, the default is 5\.
+        VpcId:
+          type: string
+          description: >-
+            The identifier of the virtual private cloud \(VPC\)\. If the target
+            is a Lambda function, this parameter does not apply\. Otherwise,
+            this parameter is required\.
+paths: {}

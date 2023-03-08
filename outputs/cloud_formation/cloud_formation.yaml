@@ -1,0 +1,628 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: CloudFormation
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    CustomResource:
+      type: object
+      properties:
+        ServiceToken:
+          type: string
+          description: >-
+            Only one property is defined by AWS for a custom resource:
+            `ServiceToken`\. All other properties are defined by the service
+            provider\. The service token that was given to the template
+            developer by the service provider to access the service, such as an
+            Amazon SNS topic ARN or Lambda function ARN\. The service token must
+            be from the same Region in which you are creating the stack\.  
+            Updates aren't supported\.
+      required:
+        - ServiceToken
+    HookDefaultVersion:
+      type: object
+      properties:
+        TypeName:
+          type: string
+          description: >-
+            The name of the hook\.   You must specify either `TypeVersionArn`,
+            or `TypeName` and `VersionId`\.
+        TypeVersionArn:
+          type: string
+          description: >-
+            The version ID of the type configuration\.   You must specify either
+            `TypeVersionArn`, or `TypeName` and `VersionId`\.
+        VersionId:
+          type: string
+          description: >-
+            The version ID of the type specified\.   You must specify either
+            `TypeVersionArn`, or `TypeName` and `VersionId`\.
+    HookTypeConfig:
+      type: object
+      properties:
+        Configuration:
+          type: string
+          description: >-
+            Specifies the activated hook type configuration, in this AWS account
+            and AWS Region\.   You must specify either `TypeName` and
+            `Configuration` or `TypeARN` and `Configuration`\.
+        ConfigurationAlias:
+          type: string
+          description: >-
+            Specifies the activated hook type configuration, in this AWS account
+            and AWS Region\.   Defaults to `default` alias\. Hook types
+            currently support default configuration alias\.
+        TypeArn:
+          type: string
+          description: >-
+            The Amazon Resource Number \(ARN\) for the hook to set
+            `Configuration` for\.   You must specify either `TypeName` and
+            `Configuration` or `TypeARN` and `Configuration`\.
+        TypeName:
+          type: string
+          description: >-
+            The unique name for your hook\. Specifies a three\-part namespace
+            for your hook, with a recommended pattern of
+            `Organization::Service::Hook`\.   You must specify either `TypeName`
+            and `Configuration` or `TypeARN` and `Configuration`\.
+    HookVersion:
+      type: object
+      properties:
+        ExecutionRoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the task execution role that
+            grants the hook permission\.
+        LoggingConfig:
+          type: >-
+            [loggingconfig](aws-properties-cloudformation-hookversion-loggingconfig.md)
+          description: Contains logging configuration information for an extension\.
+        SchemaHandlerPackage:
+          type: string
+          description: >-
+            A URL to the Amazon S3 bucket containing the hook project package
+            that contains the necessary files for the hook you want to
+            register\.   For information on generating a schema handler package
+            for the resource you want to register, see
+            [submit](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-cli-submit.html)
+            in the *CloudFormation CLI User Guide for Extension Development*\.  
+            The user registering the resource must be able to access the package
+            in the S3 bucket\. That's, the user must have
+            [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
+            permissions for the schema handler package\. For more information,
+            see [Actions, Resources, and Condition Keys for Amazon
+            S3](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazons3.html)
+            in the *AWS Identity and Access Management User Guide*\.
+        TypeName:
+          type: string
+          description: >-
+            The unique name for your hook\. Specifies a three\-part namespace
+            for your hook, with a recommended pattern of
+            `Organization::Service::Hook`\.   The following organization
+            namespaces are reserved and can't be used in your hook type names:  
+            +  `Alexa`  +  `AMZN`  +  `Amazon`  +  `ASK`  +  `AWS`  +  `Custom` 
+            +  `Dev`
+      required:
+        - SchemaHandlerPackage
+        - TypeName
+    Macro:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description of the macro\.
+        FunctionName:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the underlying AWS Lambda
+            function that you want AWS CloudFormation to invoke when the macro
+            is run\.
+        LogGroupName:
+          type: string
+          description: >-
+            The CloudWatch Logs group to which AWS CloudFormation sends error
+            logging information when invoking the macro's underlying AWS Lambda
+            function\.
+        LogRoleARN:
+          type: string
+          description: >-
+            The ARN of the role AWS CloudFormation should assume when sending
+            log entries to CloudWatch Logs\.
+        Name:
+          type: string
+          description: >-
+            The name of the macro\. The name of the macro must be unique across
+            all macros in the account\.
+      required:
+        - FunctionName
+        - Name
+    ModuleDefaultVersion:
+      type: object
+      properties:
+        Arn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the module version to set as the
+            default version\.   Conditional: You must specify either `Arn`, or
+            `ModuleName` and `VersionId`\.
+        ModuleName:
+          type: string
+          description: >-
+            The name of the module\.   Conditional: You must specify either
+            `Arn`, or `ModuleName` and `VersionId`\.
+        VersionId:
+          type: string
+          description: >-
+            The ID for the specific version of the module\.   Conditional: You
+            must specify either `Arn`, or `ModuleName` and `VersionId`\.
+    ModuleVersion:
+      type: object
+      properties:
+        ModuleName:
+          type: string
+          description: The name of the module being registered\.
+        ModulePackage:
+          type: string
+          description: >-
+            A URL to the S3 bucket containing the package that contains the
+            template fragment and schema files for the module version to
+            register\.   The user registering the module version must be able to
+            access the module package in the S3 bucket\. That's, the user needs
+            to have
+            [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
+            permissions for the package\. For more information, see [Actions,
+            Resources, and Condition Keys for Amazon
+            S3](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazons3.html)
+            in the *AWS Identity and Access Management User Guide*\.
+      required:
+        - ModuleName
+        - ModulePackage
+    PublicTypeVersion:
+      type: object
+      properties:
+        Arn:
+          type: string
+          description: >-
+            The Amazon Resource Number \(ARN\) of the extension\.   Conditional:
+            You must specify `Arn`, or `TypeName` and `Type`\.
+        LogDeliveryBucket:
+          type: string
+          description: >-
+            The S3 bucket to which CloudFormation delivers the contract test
+            execution logs\.   CloudFormation delivers the logs by the time
+            contract testing has completed and the extension has been assigned a
+            test type status of `PASSED` or `FAILED`\.   The user initiating the
+            stack operation must be able to access items in the specified S3
+            bucket\. Specifically, the user needs the following permissions:   +
+            GetObject + PutObject For more information, see [Actions, Resources,
+            and Condition Keys for Amazon
+            S3](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazons3.html)
+            in the *AWS Identity and Access Management User Guide*\.
+        PublicVersionNumber:
+          type: string
+          description: >-
+            The version number to assign to this version of the extension\.  
+            Use the following format, and adhere to semantic versioning when
+            assigning a version number to your extension:   
+            `MAJOR.MINOR.PATCH`    For more information, see [Semantic
+            Versioning 2\.0\.0](https://semver.org/)\.   If you don't specify a
+            version number, CloudFormation increments the version number by one
+            minor version release\.   You cannot specify a version number the
+            first time you publish a type\. AWS CloudFormation automatically
+            sets the first version number to be `1.0.0`\.
+        Type:
+          type: string
+          description: >-
+            The type of the extension to test\.   Conditional: You must specify
+            `Arn`, or `TypeName` and `Type`\.
+        TypeName:
+          type: string
+          description: >-
+            The name of the extension to test\.   Conditional: You must specify
+            `Arn`, or `TypeName` and `Type`\.
+    Publisher:
+      type: object
+      properties:
+        AcceptTermsAndConditions:
+          type: boolean
+          description: >-
+            Whether you accept the [Terms and
+            Conditions](https://cloudformation-registry-documents.s3.amazonaws.com/Terms_and_Conditions_for_AWS_CloudFormation_Registry_Publishers.pdf)
+            for publishing extensions in the CloudFormation registry\. You must
+            accept the terms and conditions in order to register to publish
+            public extensions to the CloudFormation registry\.   The default is
+            `false`\.
+        ConnectionArn:
+          type: string
+          description: >-
+            If you are using a Bitbucket or GitHub account for identity
+            verification, the Amazon Resource Name \(ARN\) for your connection
+            to that account\.   For more information, see [Registering your
+            account to publish CloudFormation
+            extensions](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/publish-extension.html#publish-extension-prereqs)
+            in the *CloudFormation CLI User Guide*\.
+      required:
+        - AcceptTermsAndConditions
+    ResourceDefaultVersion:
+      type: object
+      properties:
+        TypeName:
+          type: string
+          description: >-
+            The name of the resource\.   Conditional: You must specify either
+            `TypeVersionArn`, or `TypeName` and `VersionId`\.
+        TypeVersionArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the resource version\.  
+            Conditional: You must specify either `TypeVersionArn`, or `TypeName`
+            and `VersionId`\.
+        VersionId:
+          type: string
+          description: >-
+            The ID of a specific version of the resource\. The version ID is the
+            value at the end of the Amazon Resource Name \(ARN\) assigned to the
+            resource version when it's registered\.   Conditional: You must
+            specify either `TypeVersionArn`, or `TypeName` and `VersionId`\.
+    ResourceVersion:
+      type: object
+      properties:
+        ExecutionRoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the IAM role for CloudFormation
+            to assume when invoking the resource\. If your resource calls AWS
+            APIs in any of its handlers, you must create an *[IAM execution
+            role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)*
+            that includes the necessary permissions to call those AWS APIs, and
+            provision that execution role in your account\. When CloudFormation
+            needs to invoke the resource type handler, CloudFormation assumes
+            this execution role to create a temporary session token, which it
+            then passes to the resource type handler, thereby supplying your
+            resource type with the appropriate credentials\.
+        LoggingConfig:
+          type: >-
+            [loggingconfig](aws-properties-cloudformation-resourceversion-loggingconfig.md)
+          description: Logging configuration information for a resource\.
+        SchemaHandlerPackage:
+          type: string
+          description: >-
+            A URL to the S3 bucket containing the resource project package that
+            contains the necessary files for the resource you want to
+            register\.   For information on generating a schema handler package
+            for the resource you want to register, see
+            [submit](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-cli-submit.html)
+            in the *CloudFormation CLI User Guide*\.   The user registering the
+            resource must be able to access the package in the S3 bucket\. That
+            is, the user needs to have
+            [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
+            permissions for the schema handler package\. For more information,
+            see [Actions, Resources, and Condition Keys for Amazon
+            S3](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazons3.html)
+            in the *AWS Identity and Access Management User Guide*\.
+        TypeName:
+          type: string
+          description: >-
+            The name of the resource being registered\.   We recommend that
+            resource names adhere to the following pattern:
+            *company\_or\_organization*::*service*::*type*\.   The following
+            organization namespaces are reserved and can't be used in your
+            resource names:   + `Alexa` + `AMZN` + `Amazon` + `AWS` + `Custom` +
+            `Dev`
+      required:
+        - SchemaHandlerPackage
+        - TypeName
+    Stack:
+      type: object
+      properties:
+        NotificationARNs:
+          type: array
+          description: >-
+            The Amazon Simple Notification Service \(Amazon SNS\) topic ARNs to
+            publish stack related events\. You can find your Amazon SNS topic
+            ARNs using the Amazon SNS console or your Command Line Interface
+            \(CLI\)\.
+        Parameters:
+          type: map of string
+          description: >-
+            The set value pairs that represent the parameters passed to
+            CloudFormation when this nested stack is created\. Each parameter
+            has a name corresponding to a parameter defined in the embedded
+            template and a value representing the value that you want to set for
+            the parameter\.   If you use the `Ref` function to pass a parameter
+            value to a nested stack, comma\-delimited list parameters must be of
+            type `String`\. In other words, you can't pass values that are of
+            type `CommaDelimitedList` to nested stacks\. Conditional\. Required
+            if the nested stack requires input parameters\.   Whether an update
+            causes interruptions depends on the resources that are being
+            updated\. An update never causes a nested stack to be replaced\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Key\-value pairs to associate with this stack\. AWS CloudFormation
+            also propagates these tags to the resources created in the stack\. A
+            maximum number of 50 tags can be specified\.
+        TemplateURL:
+          type: string
+          description: >-
+            Location of file containing the template body\. The URL must point
+            to a template \(max size: 460,800 bytes\) that's located in an
+            Amazon S3 bucket\. For more information, see [Template
+            anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html)\.  
+            Whether an update causes interruptions depends on the resources that
+            are being updated\. An update never causes a nested stack to be
+            replaced\.
+        TimeoutInMinutes:
+          type: integer
+          description: >-
+            The length of time, in minutes, that CloudFormation waits for the
+            nested stack to reach the `CREATE_COMPLETE` state\. The default is
+            no timeout\. When CloudFormation detects that the nested stack has
+            reached the `CREATE_COMPLETE` state, it marks the nested stack
+            resource as `CREATE_COMPLETE` in the parent stack and resumes
+            creating the parent stack\. If the timeout period expires before the
+            nested stack reaches `CREATE_COMPLETE`, CloudFormation marks the
+            nested stack as failed and rolls back both the nested stack and
+            parent stack\.   Updates aren't supported\.
+      required:
+        - TemplateURL
+    StackSet:
+      type: object
+      properties:
+        AdministrationRoleARN:
+          type: string
+          description: >-
+            The Amazon Resource Number \(ARN\) of the IAM role to use to create
+            this stack set\. Specify an IAM role only if you are using
+            customized administrator roles to control which users or groups can
+            manage specific stack sets within the same administrator account\.  
+            Use customized administrator roles to control which users or groups
+            can manage specific stack sets within the same administrator
+            account\. For more information, see [Prerequisites: Granting
+            Permissions for Stack Set
+            Operations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html)
+            in the *AWS CloudFormation User Guide*\.
+        AutoDeployment:
+          type: >-
+            [autodeployment](aws-properties-cloudformation-stackset-autodeployment.md)
+          description: >-
+            \[`Service-managed` permissions\] Describes whether StackSets
+            automatically deploys to AWS Organizations accounts that are added
+            to a target organization or organizational unit \(OU\)\.
+        CallAs:
+          description: >-
+            \[Service\-managed permissions\] Specifies whether you are acting as
+            an account administrator in the organization's management account or
+            as a delegated administrator in a member account\.   By default,
+            `SELF` is specified\. Use `SELF` for stack sets with self\-managed
+            permissions\.   + To create a stack set with service\-managed
+            permissions while signed in to the management account, specify
+            `SELF`\. + To create a stack set with service\-managed permissions
+            while signed in to a delegated administrator account, specify
+            `DELEGATED_ADMIN`\.
+        undefined:
+          type: string
+          description: >-
+            Your AWS account must be registered as a delegated admin in the
+            management account\. For more information, see [Register a delegated
+            administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html)
+            in the *AWS CloudFormation User Guide*\. Stack sets with
+            service\-managed permissions are created in the management account,
+            including stack sets that are created by delegated administrators\.
+        Capabilities:
+          type: array
+          description: >-
+            The capabilities that are allowed in the stack set\. Some stack set
+            templates might include resources that can affect permissions in
+            your AWS account—for example, by creating new AWS Identity and
+            Access Management \(IAM\) users\. For more information, see
+            [Acknowledging IAM Resources in AWS CloudFormation
+            Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities)\.
+        Description:
+          type: string
+          description: A description of the stack set\.
+        ExecutionRoleName:
+          type: string
+          description: >-
+            The name of the IAM execution role to use to create the stack set\.
+            If you don't specify an execution role, AWS CloudFormation uses the
+            `AWSCloudFormationStackSetExecutionRole` role for the stack set
+            operation\.
+        ManagedExecution:
+          type: >-
+            [managedexecution](aws-properties-cloudformation-stackset-managedexecution.md)
+          description: >-
+            Describes whether StackSets performs non\-conflicting operations
+            concurrently and queues conflicting operations\.   When active,
+            StackSets performs non\-conflicting operations concurrently and
+            queues conflicting operations\. After conflicting operations finish,
+            StackSets starts queued operations in request order\.   If there are
+            already running or queued operations, StackSets queues all incoming
+            operations even if they are non\-conflicting\.   You can't modify
+            your stack set's execution configuration while there are running or
+            queued operations for that stack set\. When inactive \(default\),
+            StackSets performs one operation at a time in request order\.
+        OperationPreferences:
+          type: >-
+            [operationpreferences](aws-properties-cloudformation-stackset-operationpreferences.md)
+          description: >-
+            The user\-specified preferences for how AWS CloudFormation performs
+            a stack set operation\.
+        Parameters:
+          type: >-
+            list of
+            [parameter](aws-properties-cloudformation-stackset-parameter.md)
+          description: The input parameters for the stack set template\.
+        PermissionModel:
+          type: string
+          description: >-
+            Describes how the IAM roles required for stack set operations are
+            created\.   + With `SELF_MANAGED` permissions, you must create the
+            administrator and execution roles required to deploy to target
+            accounts\. For more information, see [Grant Self\-Managed Stack Set
+            Permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-self-managed.html)\.
+            + With `SERVICE_MANAGED` permissions, StackSets automatically
+            creates the IAM roles required to deploy to accounts managed by AWS
+            Organizations\. For more information, see [Grant Service\-Managed
+            Stack Set
+            Permissions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs-service-managed.html)\.
+            The `PermissionModel` property is required\.
+        StackInstancesGroup:
+          type: >-
+            list of
+            [stackinstances](aws-properties-cloudformation-stackset-stackinstances.md)
+          description: >-
+            A group of stack instances with parameters in some specific accounts
+            and Regions\.
+        StackSetName:
+          type: string
+          description: >-
+            The name to associate with the stack set\. The name must be unique
+            in the Region where you create your stack set\.   The `StackSetName`
+            property is required\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The key\-value pairs to associate with this stack set and the stacks
+            created from it\. AWS CloudFormation also propagates these tags to
+            supported resources that are created in the stacks\. A maximum
+            number of 50 tags can be specified\.
+        TemplateBody:
+          type: string
+          description: >-
+            The structure that contains the template body, with a minimum length
+            of 1 byte and a maximum length of 51,200 bytes\.   You must include
+            either `TemplateURL` or `TemplateBody` in a StackSet, but you can't
+            use both\. Dynamic references in the `TemplateBody` may not work
+            correctly in all cases\. It's recommended to pass templates
+            containing dynamic references through `TemplateUrl` instead\.
+        TemplateURL:
+          type: string
+          description: >-
+            Location of file containing the template body\. The URL must point
+            to a template \(max size: 460,800 bytes\) that's located in an
+            Amazon S3 bucket\.   You must include either `TemplateURL` or
+            `TemplateBody` in a StackSet, but you can't use both\.
+      required:
+        - PermissionModel
+        - StackSetName
+    TypeActivation:
+      type: object
+      properties:
+        AutoUpdate:
+          type: boolean
+          description: >-
+            Whether to automatically update the extension in this account and
+            region when a new *minor* version is published by the extension
+            publisher\. Major versions released by the publisher must be
+            manually updated\.   The default is `true`\.
+        ExecutionRoleArn:
+          type: string
+          description: >-
+            The name of the IAM execution role to use to activate the
+            extension\.
+        LoggingConfig:
+          type: >-
+            [loggingconfig](aws-properties-cloudformation-typeactivation-loggingconfig.md)
+          description: Specifies logging configuration information for an extension\.
+        MajorVersion:
+          type: string
+          description: >-
+            The major version of this extension you want to activate, if
+            multiple major versions are available\. The default is the latest
+            major version\. CloudFormation uses the latest available *minor*
+            version of the major version selected\.   You can specify
+            `MajorVersion` or `VersionBump`, but not both\.
+        PublicTypeArn:
+          type: string
+          description: >-
+            The Amazon Resource Number \(ARN\) of the public extension\.  
+            Conditional: You must specify `PublicTypeArn`, or `TypeName`,
+            `Type`, and `PublisherId`\.
+        PublisherId:
+          type: string
+          description: >-
+            The ID of the extension publisher\.   Conditional: You must specify
+            `PublicTypeArn`, or `TypeName`, `Type`, and `PublisherId`\.
+        Type:
+          type: string
+          description: >-
+            The extension type\.   Conditional: You must specify
+            `PublicTypeArn`, or `TypeName`, `Type`, and `PublisherId`\.
+        TypeName:
+          type: string
+          description: >-
+            The name of the extension\.   Conditional: You must specify
+            `PublicTypeArn`, or `TypeName`, `Type`, and `PublisherId`\.
+        TypeNameAlias:
+          type: string
+          description: >-
+            An alias to assign to the public extension, in this account and
+            region\. If you specify an alias for the extension, CloudFormation
+            treats the alias as the extension type name within this account and
+            region\. You must use the alias to refer to the extension in your
+            templates, API calls, and CloudFormation console\.   An extension
+            alias must be unique within a given account and region\. You can
+            activate the same public resource multiple times in the same account
+            and region, using different type name aliases\.
+        VersionBump:
+          type: string
+          description: >-
+            Manually updates a previously\-activated type to a new major or
+            minor version, if available\. You can also use this parameter to
+            update the value of `AutoUpdate`\.   +  `MAJOR`: CloudFormation
+            updates the extension to the newest major version, if one is
+            available\. +  `MINOR`: CloudFormation updates the extension to the
+            newest minor version, if one is available\.
+    WaitCondition:
+      type: object
+      properties:
+        Count:
+          type: integer
+          description: >-
+            The number of success signals that CloudFormation must receive
+            before it continues the stack creation process\. When the wait
+            condition receives the requisite number of success signals,
+            CloudFormation resumes the creation of the stack\. If the wait
+            condition doesn't receive the specified number of success signals
+            before the Timeout period expires, CloudFormation assumes that the
+            wait condition has failed and rolls the stack back\.   Updates
+            aren't supported\.
+        Handle:
+          type: string
+          description: >-
+            A reference to the wait condition handle used to signal this wait
+            condition\. Use the `Ref` intrinsic function to specify an
+            [AWS::CloudFormation::WaitConditionHandle](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-waitconditionhandle.html)
+            resource\.   Anytime you add a WaitCondition resource during a stack
+            update, you must associate the wait condition with a new
+            WaitConditionHandle resource\. Don't reuse an old wait condition
+            handle that has already been defined in the template\. If you reuse
+            a wait condition handle, the wait condition might evaluate old
+            signals from a previous create or update stack command\.   Updates
+            aren't supported\.
+        Timeout:
+          type: string
+          description: >-
+            The length of time \(in seconds\) to wait for the number of signals
+            that the `Count` property specifies\. `Timeout` is a minimum\-bound
+            property, meaning the timeout occurs no sooner than the time you
+            specify, but can occur shortly thereafter\. The maximum time that
+            can be specified for this property is 12 hours \(43200 seconds\)\.  
+            Updates aren't supported\.
+    WaitConditionHandle:
+      type: object
+      properties:
+        undefined:
+          description: '**Note**   Updates aren''t supported for this resource\.'
+paths: {}

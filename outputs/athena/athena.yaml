@@ -1,0 +1,132 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Athena
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    DataCatalog:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description of the data catalog\.
+        Name:
+          type: string
+          description: >-
+            The name of the data catalog\. The catalog name must be unique for
+            the AWS account and can use a maximum of 128 alphanumeric,
+            underscore, at sign, or hyphen characters\.
+        Parameters:
+          description: >-
+            Specifies the Lambda function or functions to use for the data
+            catalog\. The mapping used depends on the catalog type\.    + The
+            `HIVE` data catalog type uses the following syntax\. The
+            `metadata-function` parameter is required\. `The sdk-version`
+            parameter is optional and defaults to the currently supported
+            version\.
+        undefined:
+          type: map of string
+          description: >-
+            `catalog-id=catalog_id`   + The `GLUE` data catalog type also
+            applies to the default `AwsDataCatalog` that already exists in your
+            account, of which you can have only one and cannot modify\.   +
+            Queries that specify a GLUE data catalog other than the default
+            `AwsDataCatalog` must be run on Athena engine version 2\.   + In
+            Regions where Athena engine version 2 is not available, creating new
+            GLUE data catalogs results in an `INVALID_INPUT` error\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags \(key\-value pairs\) to associate with this resource\.
+        Type:
+          type: string
+          description: >-
+            The type of data catalog: `LAMBDA` for a federated catalog, `GLUE`
+            for AWS Glue Catalog, or `HIVE` for an external hive metastore\.
+      required:
+        - Name
+        - Type
+    NamedQuery:
+      type: object
+      properties:
+        Database:
+          type: string
+          description: The database to which the query belongs\.
+        Description:
+          type: string
+          description: The query description\.
+        Name:
+          type: string
+          description: The query name\.
+        QueryString:
+          type: string
+          description: The SQL statements that make up the query\.
+        WorkGroup:
+          type: string
+          description: The name of the workgroup that contains the named query\.
+      required:
+        - Database
+        - QueryString
+    PreparedStatement:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the prepared statement\.
+        QueryStatement:
+          type: string
+          description: The query string for the prepared statement\.
+        StatementName:
+          type: string
+          description: The name of the prepared statement\.
+        WorkGroup:
+          type: string
+          description: The workgroup to which the prepared statement belongs\.
+      required:
+        - QueryStatement
+        - StatementName
+        - WorkGroup
+    WorkGroup:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The workgroup description\.
+        Name:
+          type: string
+          description: The workgroup name\.
+        RecursiveDeleteOption:
+          type: boolean
+          description: >-
+            The option to delete a workgroup and its contents even if the
+            workgroup contains any named queries\. The default is false\.
+        State:
+          type: string
+          description: 'The state of the workgroup: ENABLED or DISABLED\.'
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags \(key\-value pairs\) to associate with this resource\.
+        WorkGroupConfiguration:
+          type: >-
+            [workgroupconfiguration](aws-properties-athena-workgroup-workgroupconfiguration.md)
+          description: >-
+            The configuration of the workgroup, which includes the location in
+            Amazon S3 where query results are stored, the encryption option, if
+            any, used for query results, whether Amazon CloudWatch Metrics are
+            enabled for the workgroup, and the limit for the amount of bytes
+            scanned \(cutoff\) per query, if it is specified\. The
+            [EnforceWorkGroupConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-athena-workgroup-workgroupconfiguration.html#cfn-athena-workgroup-workgroupconfiguration-enforceworkgroupconfiguration)
+            option determines whether workgroup settings override client\-side
+            query settings\.
+      required:
+        - Name
+paths: {}

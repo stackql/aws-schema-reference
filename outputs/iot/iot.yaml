@@ -1,0 +1,703 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: IoT
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    AccountAuditConfiguration:
+      type: object
+      properties:
+        AccountId:
+          type: string
+          description: >-
+            The ID of the account\. You can use the expression `!Sub
+            "${AWS::AccountId}"` to use your account ID\.
+        AuditCheckConfigurations:
+          type: >-
+            [auditcheckconfigurations](aws-properties-iot-accountauditconfiguration-auditcheckconfigurations.md)
+          description: >-
+            Specifies which audit checks are enabled and disabled for this
+            account\.   Some data collection might start immediately when
+            certain checks are enabled\. When a check is disabled, any data
+            collected so far in relation to the check is deleted\. To disable a
+            check, set the value of the `Enabled:` key to `false`\.   If an
+            enabled check is removed from the template, it will also be
+            disabled\.   You can't disable a check if it's used by any scheduled
+            audit\. You must delete the check from the scheduled audit or delete
+            the scheduled audit itself to disable the check\.   For more
+            information on avialbe auidt checks see
+            [AWS::IoT::AccountAuditConfiguration
+            AuditCheckConfigurations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iot-accountauditconfiguration-auditcheckconfigurations.html)
+        AuditNotificationTargetConfigurations:
+          type: >-
+            [auditnotificationtargetconfigurations](aws-properties-iot-accountauditconfiguration-auditnotificationtargetconfigurations.md)
+          description: >-
+            Information about the targets to which audit notifications are
+            sent\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the role that grants permission
+            to AWS IoT to access information about your devices, policies,
+            certificates, and other items as required when performing an audit\.
+      required:
+        - AccountId
+        - AuditCheckConfigurations
+        - RoleArn
+    Authorizer:
+      type: object
+      properties:
+        AuthorizerFunctionArn:
+          type: string
+          description: The authorizer's Lambda function ARN\.
+        AuthorizerName:
+          type: string
+          description: The authorizer name\.
+        EnableCachingForHttp:
+          type: boolean
+          description: Property description not available\.
+        SigningDisabled:
+          type: boolean
+          description: >-
+            Specifies whether AWS IoT validates the token signature in an
+            authorization request\.
+        Status:
+          type: string
+          description: >-
+            The status of the authorizer\.   Valid values: `ACTIVE` \|
+            `INACTIVE`
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Metadata which can be used to manage the custom authorizer\.   For
+            URI Request parameters use format:
+            \.\.\.key1=value1&key2=value2\.\.\.   For the CLI command\-line
+            parameter use format: &&tags "key1=value1&key2=value2\.\.\."   For
+            the cli\-input\-json file use format: "tags":
+            "key1=value1&key2=value2\.\.\."
+        TokenKeyName:
+          type: string
+          description: The key used to extract the token from the HTTP headers\.
+        TokenSigningPublicKeys:
+          type: map of string
+          description: >-
+            The public keys used to validate the token signature returned by
+            your custom authentication service\.
+      required:
+        - AuthorizerFunctionArn
+    CACertificate:
+      type: object
+      properties:
+        AutoRegistrationStatus:
+          type: string
+          description: >-
+            Whether the CA certificate is configured for auto registration of
+            device certificates\. Valid values are "ENABLE" and "DISABLE"\.
+        CACertificatePem:
+          type: string
+          description: The certificate data in PEM format\.
+        CertificateMode:
+          type: string
+          description: >-
+            The mode of the CA\.    All the device certificates that are
+            registered using this CA will be registered in the same mode as the
+            CA\. For more information about certificate mode for device
+            certificates, see [certificate
+            mode](https://docs.aws.amazon.com/iot/latest/apireference/API_CertificateDescription.html#iot-Type-CertificateDescription-certificateMode)\.  
+            Valid values are "DEFAULT" and "SNI\_ONLY"\.
+        RegistrationConfig:
+          type: >-
+            [registrationconfig](aws-properties-iot-cacertificate-registrationconfig.md)
+          description: Information about the registration configuration\.
+        RemoveAutoRegistration:
+          type: boolean
+          description: If true, removes auto registration\.
+        Status:
+          type: string
+          description: >-
+            The status of the CA certificate\.   Valid values are "ACTIVE" and
+            "INACTIVE"\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        VerificationCertificatePem:
+          type: string
+          description: The private key verification certificate\.
+      required:
+        - CACertificatePem
+        - Status
+    Certificate:
+      type: object
+      properties:
+        CACertificatePem:
+          type: string
+          description: >-
+            The CA certificate used to sign the device certificate being
+            registered, not available when CertificateMode is SNI\_ONLY\.
+        CertificateMode:
+          type: string
+          description: >-
+            Specifies which mode of certificate registration to use with this
+            resource\. Valid options are DEFAULT with CaCertificatePem and
+            CertificatePem, SNI\_ONLY with CertificatePem, and Default with
+            CertificateSigningRequest\.   `DEFAULT`: A certificate in `DEFAULT`
+            mode is either generated by AWS IoT Core or registered with an
+            issuer certificate authority \(CA\)\. Devices with certificates in
+            `DEFAULT` mode aren't required to send the Server Name Indication
+            \(SNI\) extension when connecting to AWS IoT Core\. However, to use
+            features such as custom domains and VPC endpoints, we recommend that
+            you use the SNI extension when connecting to AWS IoT Core\.  
+            `SNI_ONLY`: A certificate in `SNI_ONLY` mode is registered without
+            an issuer CA\. Devices with certificates in `SNI_ONLY` mode must
+            send the SNI extension when connecting to AWS IoT Core\.
+        CertificatePem:
+          type: string
+          description: >-
+            The certificate data in PEM format\. Requires SNI\_ONLY for the
+            certificate mode or the accompanying CACertificatePem for
+            registration\.
+        CertificateSigningRequest:
+          type: string
+          description: The certificate signing request \(CSR\)\.
+        Status:
+          type: string
+          description: >-
+            The status of the certificate\.   Valid values are ACTIVE, INACTIVE,
+            REVOKED, PENDING\_TRANSFER, and PENDING\_ACTIVATION\.   The status
+            value REGISTER\_INACTIVE is deprecated and should not be used\.
+      required:
+        - Status
+    CustomMetric:
+      type: object
+      properties:
+        DisplayName:
+          type: string
+          description: >-
+            The friendly name in the console for the custom metric\. This name
+            doesn't have to be unique\. Don't use this name as the metric
+            identifier in the device metric report\. You can update the friendly
+            name after you define it\.
+        MetricName:
+          type: string
+          description: >-
+            The name of the custom metric\. This will be used in the metric
+            report submitted from the device/thing\. The name can't begin with
+            `aws:`\. You can’t change the name after you define it\.
+        MetricType:
+          type: string
+          description: >-
+            The type of the custom metric\. Types include `string-list`,
+            `ip-address-list`, `number-list`, and `number`\.    The type
+            `number` only takes a single metric value as an input, but when you
+            submit the metrics value in the DeviceMetrics report, you must pass
+            it as an array with a single value\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Metadata that can be used to manage the custom metric\.
+      required:
+        - MetricType
+    Dimension:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: A unique identifier for the dimension\.
+        StringValues:
+          type: array
+          description: >-
+            Specifies the value or list of values for the dimension\. For
+            `TOPIC_FILTER` dimensions, this is a pattern used to match the MQTT
+            topic \(for example, "admin/\#"\)\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Metadata that can be used to manage the dimension\.
+        Type:
+          type: string
+          description: 'Specifies the type of dimension\. Supported types: `TOPIC_FILTER.`'
+      required:
+        - StringValues
+        - Type
+    DomainConfiguration:
+      type: object
+      properties:
+        AuthorizerConfig:
+          type: >-
+            [authorizerconfig](aws-properties-iot-domainconfiguration-authorizerconfig.md)
+          description: An object that specifies the authorization service for a domain\.
+        DomainConfigurationName:
+          type: string
+          description: >-
+            The name of the domain configuration\. This value must be unique to
+            a region\.
+        DomainConfigurationStatus:
+          type: string
+          description: >-
+            The status to which the domain configuration should be updated\.  
+            Valid values: `ENABLED` \| `DISABLED`
+        DomainName:
+          type: string
+          description: The name of the domain\.
+        ServerCertificateArns:
+          type: array
+          description: >-
+            The ARNs of the certificates that AWS IoT passes to the device
+            during the TLS handshake\. Currently you can specify only one
+            certificate ARN\. This value is not required for AWS\-managed
+            domains\.
+        ServiceType:
+          type: string
+          description: >-
+            The type of service delivered by the endpoint\.    AWS IoT Core
+            currently supports only the `DATA` service type\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Metadata which can be used to manage the domain configuration\.  
+            For URI Request parameters use format:
+            \.\.\.key1=value1&key2=value2\.\.\.   For the CLI command\-line
+            parameter use format: &&tags "key1=value1&key2=value2\.\.\."   For
+            the cli\-input\-json file use format: "tags":
+            "key1=value1&key2=value2\.\.\."
+        ValidationCertificateArn:
+          type: string
+          description: >-
+            The certificate used to validate the server certificate and prove
+            domain name ownership\. This certificate must be signed by a public
+            certificate authority\. This value is not required for AWS\-managed
+            domains\.
+    FleetMetric:
+      type: object
+      properties:
+        AggregationField:
+          type: string
+          description: The field to aggregate\.
+        AggregationType:
+          type: '[aggregationtype](aws-properties-iot-fleetmetric-aggregationtype.md)'
+          description: The type of the aggregation query\.
+        Description:
+          type: string
+          description: The fleet metric description\.
+        IndexName:
+          type: string
+          description: The name of the index to search\.
+        MetricName:
+          type: string
+          description: The name of the fleet metric to create\.
+        Period:
+          type: integer
+          description: >-
+            The time in seconds between fleet metric emissions\. Range \[60\(1
+            min\), 86400\(1 day\)\] and must be multiple of 60\.
+        QueryString:
+          type: string
+          description: The search query string\.
+        QueryVersion:
+          type: string
+          description: The query version\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Metadata which can be used to manage the fleet metric\.
+        Unit:
+          type: string
+          description: >-
+            Used to support unit transformation such as milliseconds to
+            seconds\. Must be a unit supported by CW metric\. Default to null\.
+      required:
+        - MetricName
+    JobTemplate:
+      type: object
+      properties:
+        AbortConfig:
+          type: '[abortconfig](aws-properties-iot-jobtemplate-abortconfig.md)'
+          description: The criteria that determine when and how a job abort takes place\.
+        Description:
+          type: string
+          description: A description of the job template\.
+        Document:
+          type: string
+          description: >-
+            The job document\.   Required if you don't specify a value for
+            `documentSource`\.
+        DocumentSource:
+          type: string
+          description: >-
+            An S3 link to the job document to use in the template\. Required if
+            you don't specify a value for `document`\.   If the job document
+            resides in an S3 bucket, you must use a placeholder link when
+            specifying the document\.   The placeholder link is of the following
+            form:   
+            `${aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}`   
+            where *bucket* is your bucket name and *key* is the object in the
+            bucket to which you are linking\.
+        JobArn:
+          type: string
+          description: The ARN of the job to use as the basis for the job template\.
+        JobExecutionsRetryConfig:
+          type: >-
+            [jobexecutionsretryconfig](aws-properties-iot-jobtemplate-jobexecutionsretryconfig.md)
+          description: Allows you to create the criteria to retry a job\.
+        JobExecutionsRolloutConfig:
+          type: >-
+            [jobexecutionsrolloutconfig](aws-properties-iot-jobtemplate-jobexecutionsrolloutconfig.md)
+          description: Allows you to create a staged rollout of a job\.
+        JobTemplateId:
+          type: string
+          description: >-
+            A unique identifier for the job template\. We recommend using a
+            UUID\. Alpha\-numeric characters, "\-", and "\_" are valid for use
+            here\.
+        PresignedUrlConfig:
+          type: >-
+            [presignedurlconfig](aws-properties-iot-jobtemplate-presignedurlconfig.md)
+          description: Configuration for pre\-signed S3 URLs\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Metadata that can be used to manage the job template\.
+        TimeoutConfig:
+          type: '[timeoutconfig](aws-properties-iot-jobtemplate-timeoutconfig.md)'
+          description: >-
+            Specifies the amount of time each device has to finish its execution
+            of the job\. A timer is started when the job execution status is set
+            to `IN_PROGRESS`\. If the job execution status is not set to another
+            terminal state before the timer expires, it will be automatically
+            set to `TIMED_OUT`\.
+      required:
+        - Description
+        - JobTemplateId
+    Logging:
+      type: object
+      properties:
+        AccountId:
+          type: string
+          description: The account ID\.
+        DefaultLogLevel:
+          type: string
+          description: >-
+            The default log level\. Valid Values: `DEBUG | INFO | ERROR | WARN |
+            DISABLED`
+        RoleArn:
+          type: string
+          description: The role ARN used for the log\.
+      required:
+        - AccountId
+        - DefaultLogLevel
+        - RoleArn
+    MitigationAction:
+      type: object
+      properties:
+        ActionName:
+          type: string
+          description: The friendly name of the mitigation action\.
+        ActionParams:
+          type: '[actionparams](aws-properties-iot-mitigationaction-actionparams.md)'
+          description: >-
+            The set of parameters for this mitigation action\. The parameters
+            vary, depending on the kind of action you apply\.
+        RoleArn:
+          type: string
+          description: The IAM role ARN used to apply this mitigation action\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Metadata that can be used to manage the mitigation action\.
+      required:
+        - ActionParams
+        - RoleArn
+    Policy:
+      type: object
+      properties:
+        PolicyDocument:
+          type: object
+          description: The JSON document that describes the policy\.
+        PolicyName:
+          type: string
+          description: The policy name\.
+      required:
+        - PolicyDocument
+    PolicyPrincipalAttachment:
+      type: object
+      properties:
+        PolicyName:
+          type: string
+          description: The name of the AWS IoT policy\.
+        Principal:
+          type: string
+          description: >-
+            The principal, which can be a certificate ARN \(as returned from the
+            `CreateCertificate` operation\) or an Amazon Cognito ID\.
+      required:
+        - PolicyName
+        - Principal
+    ProvisioningTemplate:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the fleet provisioning template\.
+        Enabled:
+          type: boolean
+          description: True to enable the fleet provisioning template, otherwise false\.
+        PreProvisioningHook:
+          type: >-
+            [provisioninghook](aws-properties-iot-provisioningtemplate-provisioninghook.md)
+          description: Creates a pre\-provisioning hook template\.
+        ProvisioningRoleArn:
+          type: string
+          description: >-
+            The role ARN for the role associated with the fleet provisioning
+            template\. This IoT role grants permission to provision a device\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Metadata that can be used to manage the fleet provisioning
+            template\.
+        TemplateBody:
+          type: string
+          description: >-
+            The JSON formatted contents of the fleet provisioning template
+            version\.
+        TemplateName:
+          type: string
+          description: The name of the fleet provisioning template\.
+        TemplateType:
+          type: string
+          description: The type of the provisioning template\.
+      required:
+        - ProvisioningRoleArn
+        - TemplateBody
+    ResourceSpecificLogging:
+      type: object
+      properties:
+        LogLevel:
+          type: string
+          description: >-
+            The default log level\.Valid Values: `DEBUG | INFO | ERROR | WARN |
+            DISABLED`
+        TargetName:
+          type: string
+          description: The target name\.
+        TargetType:
+          type: string
+          description: 'The target type\. Valid Values: `DEFAULT | THING_GROUP`'
+      required:
+        - LogLevel
+        - TargetName
+        - TargetType
+    RoleAlias:
+      type: object
+      properties:
+        CredentialDurationSeconds:
+          type: integer
+          description: The number of seconds for which the credential is valid\.
+        RoleAlias:
+          type: string
+          description: The role alias\.
+        RoleArn:
+          type: string
+          description: The role ARN\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - RoleArn
+    ScheduledAudit:
+      type: object
+      properties:
+        DayOfMonth:
+          type: string
+          description: >-
+            The day of the month on which the scheduled audit is run \(if the
+            `frequency` is "MONTHLY"\)\. If days 29\-31 are specified, and the
+            month does not have that many days, the audit takes place on the
+            "LAST" day of the month\.
+        DayOfWeek:
+          type: string
+          description: >-
+            The day of the week on which the scheduled audit is run \(if the
+            `frequency` is "WEEKLY" or "BIWEEKLY"\)\.
+        Frequency:
+          type: string
+          description: How often the scheduled audit occurs\.
+        ScheduledAuditName:
+          type: string
+          description: The name of the scheduled audit\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Metadata that can be used to manage the scheduled audit\.
+        TargetCheckNames:
+          type: array
+          description: >-
+            Which checks are performed during the scheduled audit\. Checks must
+            be enabled for your account\. \(Use
+            `DescribeAccountAuditConfiguration` to see the list of all checks,
+            including those that are enabled or use
+            `UpdateAccountAuditConfiguration` to select which checks are
+            enabled\.\)    The following checks are currently aviable:    +
+            `AUTHENTICATED_COGNITO_ROLE_OVERLY_PERMISSIVE_CHECK` +
+            `CA_CERTIFICATE_EXPIRING_CHECK` + `CA_CERTIFICATE_KEY_QUALITY_CHECK`
+            + `CONFLICTING_CLIENT_IDS_CHECK` +
+            `DEVICE_CERTIFICATE_EXPIRING_CHECK` +
+            `DEVICE_CERTIFICATE_KEY_QUALITY_CHECK` +
+            `DEVICE_CERTIFICATE_SHARED_CHECK` +
+            `IOT_POLICY_OVERLY_PERMISSIVE_CHECK` +
+            `IOT_ROLE_ALIAS_ALLOWS_ACCESS_TO_UNUSED_SERVICES_CHECK` +
+            `IOT_ROLE_ALIAS_OVERLY_PERMISSIVE_CHECK` + `LOGGING_DISABLED_CHECK`
+            + `REVOKED_CA_CERTIFICATE_STILL_ACTIVE_CHECK` +
+            `REVOKED_DEVICE_CERTIFICATE_STILL_ACTIVE_CHECK` +
+            `UNAUTHENTICATED_COGNITO_ROLE_OVERLY_PERMISSIVE_CHECK`
+      required:
+        - Frequency
+        - TargetCheckNames
+    SecurityProfile:
+      type: object
+      properties:
+        AdditionalMetricsToRetainV2:
+          type: >-
+            list of
+            [metrictoretain](aws-properties-iot-securityprofile-metrictoretain.md)
+          description: >-
+            A list of metrics whose data is retained \(stored\)\. By default,
+            data is retained for any metric used in the profile's `behaviors`,
+            but it's also retained for any metric specified here\. Can be used
+            with custom metrics; can't be used with dimensions\.
+        AlertTargets:
+          type: >-
+            map of
+            [alerttarget](aws-properties-iot-securityprofile-alerttarget.md)
+          description: >-
+            Specifies the destinations to which alerts are sent\. \(Alerts are
+            always sent to the console\.\) Alerts are generated when a device
+            \(thing\) violates a behavior\.
+        Behaviors:
+          type: list of [behavior](aws-properties-iot-securityprofile-behavior.md)
+          description: >-
+            Specifies the behaviors that, when violated by a device \(thing\),
+            cause an alert\.
+        SecurityProfileDescription:
+          type: string
+          description: A description of the security profile\.
+        SecurityProfileName:
+          type: string
+          description: The name you gave to the security profile\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Metadata that can be used to manage the security profile\.
+        TargetArns:
+          type: array
+          description: >-
+            The ARN of the target \(thing group\) to which the security profile
+            is attached\.
+    Thing:
+      type: object
+      properties:
+        AttributePayload:
+          type: '[attributepayload](aws-properties-iot-thing-attributepayload.md)'
+          description: >-
+            A string that contains up to three key value pairs\. Maximum length
+            of 800\. Duplicates not allowed\.
+        ThingName:
+          type: string
+          description: >-
+            The name of the thing to update\.   You can't change a thing's
+            name\. To change a thing's name, you must create a new thing, give
+            it the new name, and then delete the old thing\.
+    ThingPrincipalAttachment:
+      type: object
+      properties:
+        Principal:
+          type: string
+          description: >-
+            The principal, which can be a certificate ARN \(as returned from the
+            `CreateCertificate` operation\) or an Amazon Cognito ID\.
+        ThingName:
+          type: string
+          description: The name of the AWS IoT thing\.
+      required:
+        - Principal
+        - ThingName
+    TopicRule:
+      type: object
+      properties:
+        RuleName:
+          type: string
+          description: The name of the rule\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Metadata which can be used to manage the topic rule\.   For URI
+            Request parameters use format: \.\.\.key1=value1&key2=value2\.\.\.  
+            For the CLI command\-line parameter use format: \-\-tags
+            "key1=value1&key2=value2\.\.\."   For the cli\-input\-json file use
+            format: "tags": "key1=value1&key2=value2\.\.\."
+        TopicRulePayload:
+          type: '[topicrulepayload](aws-properties-iot-topicrule-topicrulepayload.md)'
+          description: The rule payload\.
+      required:
+        - TopicRulePayload
+    TopicRuleDestination:
+      type: object
+      properties:
+        HttpUrlProperties:
+          type: >-
+            [httpurldestinationsummary](aws-properties-iot-topicruledestination-httpurldestinationsummary.md)
+          description: Properties of the HTTP URL\.
+        Status:
+          type: string
+          description: >-
+            IN\_PROGRESS   A topic rule destination was created but has not been
+            confirmed\. You can set status to `IN_PROGRESS` by calling
+            `UpdateTopicRuleDestination`\. Calling `UpdateTopicRuleDestination`
+            causes a new confirmation challenge to be sent to your confirmation
+            endpoint\.   ENABLED   Confirmation was completed, and traffic to
+            this destination is allowed\. You can set status to `DISABLED` by
+            calling `UpdateTopicRuleDestination`\.   DISABLED   Confirmation was
+            completed, and traffic to this destination is not allowed\. You can
+            set status to `ENABLED` by calling `UpdateTopicRuleDestination`\.  
+            ERROR   Confirmation could not be completed; for example, if the
+            confirmation timed out\. You can call `GetTopicRuleDestination` for
+            details about the error\. You can set status to `IN_PROGRESS` by
+            calling `UpdateTopicRuleDestination`\. Calling
+            `UpdateTopicRuleDestination` causes a new confirmation challenge to
+            be sent to your confirmation endpoint\.
+        VpcProperties:
+          type: >-
+            [vpcdestinationproperties](aws-properties-iot-topicruledestination-vpcdestinationproperties.md)
+          description: Properties of the virtual private cloud \(VPC\) connection\.
+paths: {}

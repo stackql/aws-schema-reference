@@ -1,0 +1,52 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: FIS
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ExperimentTemplate:
+      type: object
+      properties:
+        Actions:
+          type: >-
+            map of
+            [experimenttemplateaction](aws-properties-fis-experimenttemplate-experimenttemplateaction.md)
+          description: The actions for the experiment\.
+        Description:
+          type: string
+          description: A description for the experiment template\.
+        LogConfiguration:
+          type: >-
+            [experimenttemplatelogconfiguration](aws-properties-fis-experimenttemplate-experimenttemplatelogconfiguration.md)
+          description: The configuration for experiment logging\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of an IAM role that grants the AWS
+            FIS service permission to perform service actions on your behalf\.
+        StopConditions:
+          type: >-
+            list of
+            [experimenttemplatestopcondition](aws-properties-fis-experimenttemplate-experimenttemplatestopcondition.md)
+          description: The stop conditions\.
+        Tags:
+          type: map of string
+          description: The tags to apply to the experiment template\.
+        Targets:
+          type: >-
+            map of
+            [experimenttemplatetarget](aws-properties-fis-experimenttemplate-experimenttemplatetarget.md)
+          description: The targets for the experiment\.
+      required:
+        - Description
+        - RoleArn
+        - StopConditions
+        - Tags
+        - Targets
+paths: {}

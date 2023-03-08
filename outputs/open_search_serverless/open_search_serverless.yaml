@@ -1,0 +1,118 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: OpenSearchServerless
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    AccessPolicy:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the policy\.
+        Name:
+          type: string
+          description: The name of the policy\.
+        Policy:
+          type: string
+          description: The JSON policy document without any whitespaces\.
+        Type:
+          type: string
+          description: The type of access policy\. Currently the only option is `data`\.
+    Collection:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description of the collection\.
+        Name:
+          type: string
+          description: >-
+            The name of the collection\.   Collection names must meet the
+            following criteria:   + Starts with a lowercase letter + Unique to
+            your account and AWS Region + Contains between 3 and 28 characters +
+            Contains only lowercase letters a\-z, the numbers 0\-9, and the
+            hyphen \(\-\)
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An arbitrary set of tags \(key–value pairs\) to associate with the
+            collection\.   For more information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        Type:
+          type: string
+          description: >-
+            The type of collection\. Possible values are `SEARCH` and
+            `TIMESERIES`\. For more information, see [Choosing a collection
+            type](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-overview.html#serverless-usecase)\.
+      required:
+        - Name
+    SecurityConfig:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the security configuration\.
+        Name:
+          type: string
+          description: The name of the security configuration\.
+        SamlOptions:
+          type: >-
+            [samlconfigoptions](aws-properties-opensearchserverless-securityconfig-samlconfigoptions.md)
+          description: >-
+            SAML options for the security configuration in the form of a
+            key\-value map\.
+        Type:
+          type: string
+          description: >-
+            The type of security configuration\. Currently the only option is
+            `saml`\.
+    SecurityPolicy:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the security policy\.
+        Name:
+          type: string
+          description: The name of the policy\.
+        Policy:
+          type: string
+          description: The JSON policy document without any whitespaces\.
+        Type:
+          type: string
+          description: >-
+            The type of security policy\. Can be either `encryption` or
+            `network`\.
+      required:
+        - Policy
+    VpcEndpoint:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: The name of the endpoint\.
+        SecurityGroupIds:
+          type: array
+          description: >-
+            The unique identifiers of the security groups that define the ports,
+            protocols, and sources for inbound traffic that you are authorizing
+            into your endpoint\.
+        SubnetIds:
+          type: array
+          description: The ID of the subnets from which you access OpenSearch Serverless\.
+        VpcId:
+          type: string
+          description: The ID of the VPC from which you access OpenSearch Serverless\.
+      required:
+        - Name
+        - VpcId
+paths: {}

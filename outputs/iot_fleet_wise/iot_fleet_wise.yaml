@@ -1,0 +1,218 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: IoTFleetWise
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Campaign:
+      type: object
+      properties:
+        Action:
+          type: string
+          description: Property description not available\.
+        CollectionScheme:
+          type: >-
+            [collectionscheme](aws-properties-iotfleetwise-campaign-collectionscheme.md)
+          description: Property description not available\.
+        Compression:
+          type: string
+          description: Property description not available\.
+        DataExtraDimensions:
+          type: array
+          description: Property description not available\.
+        Description:
+          type: string
+          description: The description of the campaign\.
+        DiagnosticsMode:
+          type: string
+          description: Property description not available\.
+        ExpiryTime:
+          type: string
+          description: Property description not available\.
+        Name:
+          type: string
+          description: The name of a campaign\.
+        PostTriggerCollectionDuration:
+          type: double
+          description: Property description not available\.
+        Priority:
+          type: integer
+          description: Property description not available\.
+        SignalCatalogArn:
+          type: string
+          description: The ARN of the signal catalog associated with the campaign\.
+        SignalsToCollect:
+          type: >-
+            list of
+            [signalinformation](aws-properties-iotfleetwise-campaign-signalinformation.md)
+          description: Property description not available\.
+        SpoolingMode:
+          type: string
+          description: Property description not available\.
+        StartTime:
+          type: string
+          description: Property description not available\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Property description not available\.
+        TargetArn:
+          type: string
+          description: The ARN of a vehicle or fleet to which the campaign is deployed\.
+      required:
+        - Action
+        - CollectionScheme
+        - Name
+        - SignalCatalogArn
+        - TargetArn
+    DecoderManifest:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A brief description of the decoder manifest\.
+        ModelManifestArn:
+          type: string
+          description: >-
+            The ARN of a vehicle model \(model manifest\) associated with the
+            decoder manifest\.
+        Name:
+          type: string
+          description: The name of the decoder manifest\.
+        NetworkInterfaces:
+          type: >-
+            list of
+            [networkinterfacesitems](aws-properties-iotfleetwise-decodermanifest-networkinterfacesitems.md)
+          description: Property description not available\.
+        SignalDecoders:
+          type: >-
+            list of
+            [signaldecodersitems](aws-properties-iotfleetwise-decodermanifest-signaldecodersitems.md)
+          description: Property description not available\.
+        Status:
+          type: string
+          description: >-
+            The state of the decoder manifest\. If the status is `ACTIVE`, the
+            decoder manifest can't be edited\. If the status is marked `DRAFT`,
+            you can edit the decoder manifest\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Property description not available\.
+      required:
+        - ModelManifestArn
+        - Name
+    Fleet:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A brief description of the fleet\.
+        Id:
+          type: string
+          description: The unique ID of the fleet\.
+        SignalCatalogArn:
+          type: string
+          description: The ARN of the signal catalog associated with the fleet\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Property description not available\.
+      required:
+        - Id
+        - SignalCatalogArn
+    ModelManifest:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A brief description of the vehicle model\.
+        Name:
+          type: string
+          description: The name of the vehicle model\.
+        Nodes:
+          type: array
+          description: Property description not available\.
+        SignalCatalogArn:
+          type: string
+          description: The ARN of the signal catalog associated with the vehicle model\.
+        Status:
+          type: string
+          description: >-
+            The state of the vehicle model\. If the status is `ACTIVE`, the
+            vehicle model can't be edited\. If the status is `DRAFT`, you can
+            edit the vehicle model\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Property description not available\.
+      required:
+        - Name
+        - SignalCatalogArn
+    SignalCatalog:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: Property description not available\.
+        Name:
+          type: string
+          description: The name of the signal catalog\.
+        NodeCounts:
+          type: >-
+            [nodecounts](aws-properties-iotfleetwise-signalcatalog-nodecounts.md)
+          description: Property description not available\.
+        Nodes:
+          type: list of [node](aws-properties-iotfleetwise-signalcatalog-node.md)
+          description: Property description not available\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Property description not available\.
+    Vehicle:
+      type: object
+      properties:
+        AssociationBehavior:
+          type: string
+          description: >-
+            An option to create a new AWS IoT thing when creating a vehicle, or
+            to validate an existing thing as a vehicle\.
+        Attributes:
+          type: map of string
+          description: >-
+            Static information about a vehicle in a key\-value pair\. For
+            example: `"engine Type"` : `"v6"`
+        DecoderManifestArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of a decoder manifest associated
+            with the vehicle to create\.
+        ModelManifestArn:
+          type: string
+          description: >-
+            The ARN of the vehicle model \(model manifest\) to create the
+            vehicle from\.
+        Name:
+          type: string
+          description: Property description not available\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Metadata which can be used to manage the vehicle\.
+      required:
+        - DecoderManifestArn
+        - ModelManifestArn
+        - Name
+paths: {}

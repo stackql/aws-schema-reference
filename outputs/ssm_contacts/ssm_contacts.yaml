@@ -1,0 +1,72 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: SSMContacts
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Contact:
+      type: object
+      properties:
+        Alias:
+          type: string
+          description: >-
+            The unique and identifiable alias of the contact or escalation
+            plan\.
+        DisplayName:
+          type: string
+          description: The full name of the contact or escalation plan\.
+        Plan:
+          type: list of [stage](aws-properties-ssmcontacts-contact-stage.md)
+          description: >-
+            A list of stages\. A contact has an engagement plan with stages that
+            contact specified contact channels\. An escalation plan uses stages
+            that contact specified contacts\.
+        Type:
+          type: string
+          description: >-
+            Refers to the type of contact\. A single contact is type `PERSONAL`
+            and an escalation plan is type `ESCALATION`\.
+      required:
+        - Alias
+        - DisplayName
+        - Plan
+        - Type
+    ContactChannel:
+      type: object
+      properties:
+        ChannelAddress:
+          type: string
+          description: >-
+            The details that Incident Manager uses when trying to engage the
+            contact channel\.
+        ChannelName:
+          type: string
+          description: The name of the contact channel\.
+        ChannelType:
+          type: string
+          description: >-
+            The type of the contact channel\. Incident Manager supports three
+            contact methods:   + SMS + VOICE + EMAIL
+        ContactId:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the contact you are adding the
+            contact channel to\.
+        DeferActivation:
+          type: boolean
+          description: >-
+            If you want to activate the channel at a later time, you can choose
+            to defer activation\. Incident Manager can't engage your contact
+            channel until it has been activated\.
+      required:
+        - ChannelAddress
+        - ChannelName
+        - ChannelType
+        - ContactId
+paths: {}

@@ -1,0 +1,401 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: EKS
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Addon:
+      type: object
+      properties:
+        AddonName:
+          type: string
+          description: The name of the add\-on\.
+        AddonVersion:
+          type: string
+          description: The version of the add\-on\.
+        ClusterName:
+          type: string
+          description: The name of the cluster\.
+        ConfigurationValues:
+          type: string
+          description: The configuration values that you provided\.
+        PreserveOnDelete:
+          type: boolean
+          description: >-
+            Specifying this option preserves the add\-on software on your
+            cluster but Amazon EKS stops managing any settings for the add\-on\.
+            If an IAM account is associated with the add\-on, it isn't removed\.
+        ResolveConflicts:
+          type: string
+          description: >-
+            How to resolve field value conflicts for an Amazon EKS add\-on\.
+            Conflicts are handled based on the value you choose:   +  **None** –
+            If the self\-managed version of the add\-on is installed on your
+            cluster, Amazon EKS doesn't change the value\. Creation of the
+            add\-on might fail\. +  **Overwrite** – If the self\-managed version
+            of the add\-on is installed on your cluster and the Amazon EKS
+            default value is different than the existing value, Amazon EKS
+            changes the value to the Amazon EKS default value\. +  **Preserve**
+            – Not supported\. You can set this value when updating an add\-on
+            though\. For more information, see
+            [UpdateAddon](https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateAddon.html)\.
+            If you don't currently have the self\-managed version of the add\-on
+            installed on your cluster, the Amazon EKS add\-on is installed\.
+            Amazon EKS sets all values to default values, regardless of the
+            option that you specify\.
+        ServiceAccountRoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of an existing IAM role to bind to
+            the add\-on's service account\. The role must be assigned the IAM
+            permissions required by the add\-on\. If you don't specify an
+            existing IAM role, then the add\-on uses the permissions assigned to
+            the node IAM role\. For more information, see [Amazon EKS node IAM
+            role](https://docs.aws.amazon.com/eks/latest/userguide/create-node-role.html)
+            in the *Amazon EKS User Guide*\.   To specify an existing IAM role,
+            you must have an IAM OpenID Connect \(OIDC\) provider created for
+            your cluster\. For more information, see [Enabling IAM roles for
+            service accounts on your
+            cluster](https://docs.aws.amazon.com/eks/latest/userguide/enable-iam-roles-for-service-accounts.html)
+            in the *Amazon EKS User Guide*\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The metadata that you apply to the add\-on to assist with
+            categorization and organization\. Each tag consists of a key and an
+            optional value, both of which you define\. Add\-on tags do not
+            propagate to any other resources associated with the cluster\.
+      required:
+        - AddonName
+        - ClusterName
+    Cluster:
+      type: object
+      properties:
+        EncryptionConfig:
+          type: >-
+            [list](aws-properties-eks-cluster-encryptionconfig.md) of
+            [encryptionconfig](aws-properties-eks-cluster-encryptionconfig.md)
+          description: The encryption configuration for the cluster\.
+        KubernetesNetworkConfig:
+          type: >-
+            [kubernetesnetworkconfig](aws-properties-eks-cluster-kubernetesnetworkconfig.md)
+          description: The Kubernetes network configuration for the cluster\.
+        Logging:
+          type: '[logging](aws-properties-eks-cluster-logging.md)'
+          description: The logging configuration for your cluster\.
+        Name:
+          type: string
+          description: The unique name to give to your cluster\.
+        OutpostConfig:
+          type: '[outpostconfig](aws-properties-eks-cluster-outpostconfig.md)'
+          description: >-
+            An object representing the configuration of your local Amazon EKS
+            cluster on an AWS Outpost\. This object isn't available for clusters
+            on the AWS cloud\.
+        ResourcesVpcConfig:
+          type: >-
+            [resourcesvpcconfig](aws-properties-eks-cluster-resourcesvpcconfig.md)
+          description: >-
+            The VPC configuration that's used by the cluster control plane\.
+            Amazon EKS VPC resources have specific requirements to work properly
+            with Kubernetes\. For more information, see [Cluster VPC
+            Considerations](https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html)
+            and [Cluster Security Group
+            Considerations](https://docs.aws.amazon.com/eks/latest/userguide/sec-group-reqs.html)
+            in the *Amazon EKS User Guide*\. You must specify at least two
+            subnets\. You can specify up to five security groups, but we
+            recommend that you use a dedicated security group for your cluster
+            control plane\.   Updates require replacement of the
+            `SecurityGroupIds` and `SubnetIds` sub\-properties\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the IAM role that provides
+            permissions for the Kubernetes control plane to make calls to AWS
+            API operations on your behalf\. For more information, see [Amazon
+            EKS Service IAM
+            Role](https://docs.aws.amazon.com/eks/latest/userguide/service_IAM_role.html)
+            in the * *Amazon EKS User Guide* *\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The metadata that you apply to the cluster to assist with
+            categorization and organization\. Each tag consists of a key and an
+            optional value, both of which you define\. Cluster tags don't
+            propagate to any other resources associated with the cluster\.   You
+            must have the `eks:TagResource` and `eks:UntagResource` permissions
+            in your IAM user or IAM role used to manage the CloudFormation
+            stack\. If you don't have these permissions, there might be
+            unexpected behavior with stack\-level tags propagating to the
+            resource during resource creation and update\.
+        Version:
+          type: string
+          description: >-
+            The desired Kubernetes version for your cluster\. If you don't
+            specify a value here, the default version available in Amazon EKS is
+            used\.   The default version might not be the latest version
+            available\.
+      required:
+        - ResourcesVpcConfig
+        - RoleArn
+    FargateProfile:
+      type: object
+      properties:
+        ClusterName:
+          type: string
+          description: The name of the Amazon EKS cluster to apply the Fargate profile to\.
+        FargateProfileName:
+          type: string
+          description: The name of the Fargate profile\.
+        PodExecutionRoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the pod execution role to use
+            for pods that match the selectors in the Fargate profile\. The pod
+            execution role allows Fargate infrastructure to register with your
+            cluster as a node, and it provides read access to Amazon ECR image
+            repositories\. For more information, see [Pod Execution
+            Role](https://docs.aws.amazon.com/eks/latest/userguide/pod-execution-role.html)
+            in the *Amazon EKS User Guide*\.
+        Selectors:
+          type: list of [selector](aws-properties-eks-fargateprofile-selector.md)
+          description: >-
+            The selectors to match for pods to use this Fargate profile\. Each
+            selector must have an associated namespace\. Optionally, you can
+            also specify labels for a namespace\. You may specify up to five
+            selectors in a Fargate profile\.
+        Subnets:
+          type: array
+          description: >-
+            The IDs of subnets to launch your pods into\. At this time, pods
+            running on Fargate are not assigned public IP addresses, so only
+            private subnets \(with no direct route to an Internet Gateway\) are
+            accepted for this parameter\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The metadata to apply to the Fargate profile to assist with
+            categorization and organization\. Each tag consists of a key and an
+            optional value\. You define both\. Fargate profile tags do not
+            propagate to any other resources associated with the Fargate
+            profile, such as the pods that are scheduled with it\.
+      required:
+        - ClusterName
+        - PodExecutionRoleArn
+        - Selectors
+    IdentityProviderConfig:
+      type: object
+      properties:
+        ClusterName:
+          type: string
+          description: The cluster that the configuration is associated to\.
+        IdentityProviderConfigName:
+          type: string
+          description: The name of the configuration\.
+        Oidc:
+          type: >-
+            [oidcidentityproviderconfig](aws-properties-eks-identityproviderconfig-oidcidentityproviderconfig.md)
+          description: >-
+            An object representing an OpenID Connect \(OIDC\) identity provider
+            configuration\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The metadata to apply to the provider configuration to assist with
+            categorization and organization\. Each tag consists of a key and an
+            optional value\. You define both\.
+        Type:
+          type: string
+          description: >-
+            The type of the identity provider configuration\. The only type
+            available is `oidc`\.
+      required:
+        - ClusterName
+        - Type
+    Nodegroup:
+      type: object
+      properties:
+        AmiType:
+          type: string
+          description: >-
+            The AMI type for your node group\. If you specify `launchTemplate`,
+            and your launch template uses a custom AMI, then don't specify
+            `amiType`, or the node group deployment will fail\. If your launch
+            template uses a Windows custom AMI, then add
+            `eks:kube-proxy-windows` to your Windows nodes `rolearn` in the
+            `aws-auth` `ConfigMap`\. For more information about using launch
+            templates with Amazon EKS, see [Launch template
+            support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
+            in the *Amazon EKS User Guide*\.
+        CapacityType:
+          type: string
+          description: The capacity type of your managed node group\.
+        ClusterName:
+          type: string
+          description: The name of the cluster to create the node group in\.
+        DiskSize:
+          type: integer
+          description: >-
+            The root device disk size \(in GiB\) for your node group instances\.
+            The default disk size is 20 GiB for Linux and Bottlerocket\. The
+            default disk size is 50 GiB for Windows\. If you specify
+            `launchTemplate`, then don't specify `diskSize`, or the node group
+            deployment will fail\. For more information about using launch
+            templates with Amazon EKS, see [Launch template
+            support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
+            in the *Amazon EKS User Guide*\.
+        ForceUpdateEnabled:
+          type: boolean
+          description: >-
+            Force the update if the existing node group's pods are unable to be
+            drained due to a pod disruption budget issue\. If an update fails
+            because pods could not be drained, you can force the update after it
+            fails to terminate the old node whether or not any pods are running
+            on the node\.
+        InstanceTypes:
+          type: array
+          description: >-
+            Specify the instance types for a node group\. If you specify a GPU
+            instance type, make sure to also specify an applicable GPU AMI type
+            with the `amiType` parameter\. If you specify `launchTemplate`, then
+            you can specify zero or one instance type in your launch template
+            *or* you can specify 0\-20 instance types for `instanceTypes`\. If
+            however, you specify an instance type in your launch template *and*
+            specify any `instanceTypes`, the node group deployment will fail\.
+            If you don't specify an instance type in a launch template or for
+            `instanceTypes`, then `t3.medium` is used, by default\. If you
+            specify `Spot` for `capacityType`, then we recommend specifying
+            multiple values for `instanceTypes`\. For more information, see
+            [Managed node group capacity
+            types](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html#managed-node-group-capacity-types)
+            and [Launch template
+            support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
+            in the *Amazon EKS User Guide*\.
+        Labels:
+          type: map of string
+          description: >-
+            The Kubernetes labels applied to the nodes in the node group\.  
+            Only labels that are applied with the Amazon EKS API are shown
+            here\. There may be other Kubernetes labels applied to the nodes in
+            this group\.
+        LaunchTemplate:
+          type: >-
+            [launchtemplatespecification](aws-properties-eks-nodegroup-launchtemplatespecification.md)
+          description: >-
+            An object representing a node group's launch template
+            specification\. If specified, then do not specify `instanceTypes`,
+            `diskSize`, or `remoteAccess` and make sure that the launch template
+            meets the requirements in `launchTemplateSpecification`\.
+        NodegroupName:
+          type: string
+          description: The unique name to give your node group\.
+        NodeRole:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the IAM role to associate with
+            your node group\. The Amazon EKS worker node `kubelet` daemon makes
+            calls to AWS APIs on your behalf\. Nodes receive permissions for
+            these API calls through an IAM instance profile and associated
+            policies\. Before you can launch nodes and register them into a
+            cluster, you must create an IAM role for those nodes to use when
+            they are launched\. For more information, see [Amazon EKS node IAM
+            role](https://docs.aws.amazon.com/eks/latest/userguide/create-node-role.html)
+            in the * *Amazon EKS User Guide* *\. If you specify
+            `launchTemplate`, then don't specify
+            [https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_IamInstanceProfile.html](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_IamInstanceProfile.html)
+            in your launch template, or the node group deployment will fail\.
+            For more information about using launch templates with Amazon EKS,
+            see [Launch template
+            support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
+            in the *Amazon EKS User Guide*\.
+        ReleaseVersion:
+          type: string
+          description: >-
+            The AMI version of the Amazon EKS optimized AMI to use with your
+            node group \(for example, `1.14.7-YYYYMMDD`\)\. By default, the
+            latest available AMI version for the node group's current Kubernetes
+            version is used\. For more information, see [Amazon EKS optimized
+            Linux AMI
+            Versions](https://docs.aws.amazon.com/eks/latest/userguide/eks-linux-ami-versions.html)
+            in the *Amazon EKS User Guide*\.   Changing this value triggers an
+            update of the node group if one is available\. You can't update
+            other properties at the same time as updating `Release Version`\.
+        RemoteAccess:
+          type: '[remoteaccess](aws-properties-eks-nodegroup-remoteaccess.md)'
+          description: >-
+            The remote access configuration to use with your node group\. For
+            Linux, the protocol is SSH\. For Windows, the protocol is RDP\. If
+            you specify `launchTemplate`, then don't specify `remoteAccess`, or
+            the node group deployment will fail\. For more information about
+            using launch templates with Amazon EKS, see [Launch template
+            support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
+            in the *Amazon EKS User Guide*\.
+        ScalingConfig:
+          type: '[scalingconfig](aws-properties-eks-nodegroup-scalingconfig.md)'
+          description: >-
+            The scaling configuration details for the Auto Scaling group that is
+            created for your node group\.
+        Subnets:
+          type: array
+          description: >-
+            The subnets to use for the Auto Scaling group that is created for
+            your node group\. If you specify `launchTemplate`, then don't
+            specify
+            [https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateNetworkInterface.html](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateNetworkInterface.html)
+            in your launch template, or the node group deployment will fail\.
+            For more information about using launch templates with Amazon EKS,
+            see [Launch template
+            support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
+            in the *Amazon EKS User Guide*\.
+        Tags:
+          type: map of string
+          description: >-
+            The metadata applied to the node group to assist with categorization
+            and organization\. Each tag consists of a key and an optional
+            value\. You define both\. Node group tags do not propagate to any
+            other resources associated with the node group, such as the Amazon
+            EC2 instances or subnets\.
+        Taints:
+          type: list of [taint](aws-properties-eks-nodegroup-taint.md)
+          description: >-
+            The Kubernetes taints to be applied to the nodes in the node group
+            when they are created\. Effect is one of `No_Schedule`,
+            `Prefer_No_Schedule`, or `No_Execute`\. Kubernetes taints can be
+            used together with tolerations to control how workloads are
+            scheduled to your nodes\. For more information, see [Node taints on
+            managed node
+            groups](https://docs.aws.amazon.com/eks/latest/userguide/node-taints-managed-node-groups.html)\.
+        UpdateConfig:
+          type: '[updateconfig](aws-properties-eks-nodegroup-updateconfig.md)'
+          description: The node group update configuration\.
+        Version:
+          type: string
+          description: >-
+            The Kubernetes version to use for your managed nodes\. By default,
+            the Kubernetes version of the cluster is used, and this is the only
+            accepted specified value\. If you specify `launchTemplate`, and your
+            launch template uses a custom AMI, then don't specify `version`, or
+            the node group deployment will fail\. For more information about
+            using launch templates with Amazon EKS, see [Launch template
+            support](https://docs.aws.amazon.com/eks/latest/userguide/launch-templates.html)
+            in the *Amazon EKS User Guide*\.   You can't update other properties
+            at the same time as updating `Version`\.
+      required:
+        - ClusterName
+        - NodeRole
+        - Subnets
+paths: {}

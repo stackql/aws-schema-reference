@@ -1,0 +1,104 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Forecast
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Dataset:
+      type: object
+      properties:
+        DataFrequency:
+          type: string
+          description: >-
+            The frequency of data collection\. This parameter is required for
+            RELATED\_TIME\_SERIES datasets\.   Valid intervals are an integer
+            followed by Y \(Year\), M \(Month\), W \(Week\), D \(Day\), H
+            \(Hour\), and min \(Minute\)\. For example, "1D" indicates every day
+            and "15min" indicates every 15 minutes\. You cannot specify a value
+            that would overlap with the next larger frequency\. That means, for
+            example, you cannot specify a frequency of 60 minutes, because that
+            is equivalent to 1 hour\. The valid values for each frequency are
+            the following:   + Minute \- 1\-59 + Hour \- 1\-23 + Day \- 1\-6 +
+            Week \- 1\-4 + Month \- 1\-11 + Year \- 1 Thus, if you want every
+            other week forecasts, specify "2W"\. Or, if you want quarterly
+            forecasts, you specify "3M"\.
+        DatasetName:
+          type: string
+          description: The name of the dataset\.
+        DatasetType:
+          type: string
+          description: The dataset type\.
+        Domain:
+          type: string
+          description: The domain associated with the dataset\.
+        EncryptionConfig:
+          type: >-
+            [encryptionconfig](aws-properties-forecast-dataset-encryptionconfig.md)
+          description: >-
+            A Key Management Service \(KMS\) key and the Identity and Access
+            Management \(IAM\) role that Amazon Forecast can assume to access
+            the key\.
+        Schema:
+          type: '[schema](aws-properties-forecast-dataset-schema.md)'
+          description: >-
+            The schema for the dataset\. The schema attributes and their order
+            must match the fields in your data\. The dataset `Domain` and
+            `DatasetType` that you choose determine the minimum required fields
+            in your training data\. For information about the required fields
+            for a specific dataset domain and type, see [Dataset Domains and
+            Dataset
+            Types](https://docs.aws.amazon.com/forecast/latest/dg/howitworks-domains-ds-types.html)\.
+        Tags:
+          type: list of [tagsitems](aws-properties-forecast-dataset-tagsitems.md)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - DatasetName
+        - DatasetType
+        - Domain
+        - Schema
+    DatasetGroup:
+      type: object
+      properties:
+        DatasetArns:
+          type: array
+          description: >-
+            An array of Amazon Resource Names \(ARNs\) of the datasets that you
+            want to include in the dataset group\.
+        DatasetGroupName:
+          type: string
+          description: The name of the dataset group\.
+        Domain:
+          type: string
+          description: >-
+            The domain associated with the dataset group\. When you add a
+            dataset to a dataset group, this value and the value specified for
+            the `Domain` parameter of the
+            [CreateDataset](https://docs.aws.amazon.com/forecast/latest/dg/API_CreateDataset.html)
+            operation must match\.   The `Domain` and `DatasetType` that you
+            choose determine the fields that must be present in training data
+            that you import to a dataset\. For example, if you choose the
+            `RETAIL` domain and `TARGET_TIME_SERIES` as the `DatasetType`,
+            Amazon Forecast requires that `item_id`, `timestamp`, and `demand`
+            fields are present in your data\. For more information, see [Dataset
+            groups](https://docs.aws.amazon.com/forecast/latest/dg/howitworks-datasets-groups.html)\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - DatasetGroupName
+        - Domain
+paths: {}

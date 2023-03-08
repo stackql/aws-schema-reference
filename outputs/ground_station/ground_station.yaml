@@ -1,0 +1,105 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: GroundStation
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Config:
+      type: object
+      properties:
+        ConfigData:
+          type: '[configdata](aws-properties-groundstation-config-configdata.md)'
+          description: >-
+            Object containing the parameters of a config\. Only one subtype may
+            be specified per config\. See the subtype definitions for a
+            description of each config subtype\.
+        Name:
+          type: string
+          description: The name of the config object\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Tags assigned to a resource\.
+      required:
+        - ConfigData
+        - Name
+    DataflowEndpointGroup:
+      type: object
+      properties:
+        ContactPostPassDurationSeconds:
+          type: integer
+          description: Property description not available\.
+        ContactPrePassDurationSeconds:
+          type: integer
+          description: Property description not available\.
+        EndpointDetails:
+          type: >-
+            [list](aws-properties-groundstation-dataflowendpointgroup-endpointdetails.md)
+            of
+            [endpointdetails](aws-properties-groundstation-dataflowendpointgroup-endpointdetails.md)
+          description: >-
+            List of Endpoint Details, containing address and port for each
+            endpoint\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Tags assigned to a resource\.
+      required:
+        - EndpointDetails
+    MissionProfile:
+      type: object
+      properties:
+        ContactPostPassDurationSeconds:
+          type: integer
+          description: >-
+            Amount of time in seconds after a contact ends that you’d like to
+            receive a CloudWatch Event indicating the pass has finished\. For
+            more information on CloudWatch Events, see the [What Is CloudWatch
+            Events?](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/WhatIsCloudWatchEvents.html)
+        ContactPrePassDurationSeconds:
+          type: integer
+          description: >-
+            Amount of time in seconds prior to contact start that you'd like to
+            receive a CloudWatch Event indicating an upcoming pass\. For more
+            information on CloudWatch Events, see the [What Is CloudWatch
+            Events?](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/WhatIsCloudWatchEvents.html)
+        DataflowEdges:
+          type: >-
+            list of
+            [dataflowedge](aws-properties-groundstation-missionprofile-dataflowedge.md)
+          description: >-
+            A list containing lists of config ARNs\. Each list of config ARNs is
+            an edge, with a "from" config and a "to" config\.
+        MinimumViableContactDurationSeconds:
+          type: integer
+          description: >-
+            Minimum length of a contact in seconds that Ground Station will
+            return when listing contacts\. Ground Station will not return
+            contacts shorter than this duration\.
+        Name:
+          type: string
+          description: The name of the mission profile\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Tags assigned to the mission profile\.
+        TrackingConfigArn:
+          type: string
+          description: >-
+            The ARN of a tracking config objects that defines how to track the
+            satellite through the sky during a contact\.
+      required:
+        - DataflowEdges
+        - MinimumViableContactDurationSeconds
+        - Name
+        - TrackingConfigArn
+paths: {}

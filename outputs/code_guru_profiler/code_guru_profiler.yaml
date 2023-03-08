@@ -1,0 +1,54 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: CodeGuruProfiler
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ProfilingGroup:
+      type: object
+      properties:
+        AgentPermissions:
+          type: >-
+            [agentpermissions](aws-properties-codeguruprofiler-profilinggroup-agentpermissions.md)
+          description: >-
+            The agent permissions attached to this profiling group\. This action
+            group grants `ConfigureAgent` and `PostAgentProfile` permissions to
+            perform actions required by the profiling agent\. The Json consists
+            of key `Principals`\.   For more information, see [Resource\-based
+            policies in CodeGuru
+            Profiler](https://docs.aws.amazon.com/codeguru/latest/profiler-ug/resource-based-policies.html)
+            in the *Amazon CodeGuru Profiler user guide*,
+            [ConfigureAgent](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_ConfigureAgent.html),
+            and
+            [PostAgentProfile](https://docs.aws.amazon.com/codeguru/latest/profiler-api/API_PostAgentProfile.html)\.
+        AnomalyDetectionNotificationConfiguration:
+          type: >-
+            list of
+            [channel](aws-properties-codeguruprofiler-profilinggroup-channel.md)
+          description: Adds anomaly notifications for a profiling group\.
+        ComputePlatform:
+          type: string
+          description: >-
+            The compute platform of the profiling group\. Use `AWSLambda` if
+            your application runs on AWS Lambda\. Use `Default` if your
+            application runs on a compute platform that is not AWS Lambda, such
+            an Amazon EC2 instance, an on\-premises server, or a different
+            platform\. If not specified, `Default` is used\. This property is
+            immutable\.
+        ProfilingGroupName:
+          type: string
+          description: The name of the profiling group\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A list of tags to add to the created profiling group\.
+      required:
+        - ProfilingGroupName
+paths: {}

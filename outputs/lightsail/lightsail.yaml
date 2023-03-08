@@ -1,0 +1,590 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Lightsail
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Alarm:
+      type: object
+      properties:
+        AlarmName:
+          type: string
+          description: The name of the alarm\.
+        ComparisonOperator:
+          type: string
+          description: >-
+            The arithmetic operation to use when comparing the specified
+            statistic and threshold\.
+        ContactProtocols:
+          type: array
+          description: >-
+            The contact protocols for the alarm, such as `Email`, `SMS` \(text
+            messaging\), or both\.
+        DatapointsToAlarm:
+          type: integer
+          description: >-
+            The number of data points within the evaluation periods that must be
+            breaching to cause the alarm to go to the `ALARM` state\.
+        EvaluationPeriods:
+          type: integer
+          description: >-
+            The number of periods over which data is compared to the specified
+            threshold\.
+        MetricName:
+          type: string
+          description: The name of the metric associated with the alarm\.
+        MonitoredResourceName:
+          type: string
+          description: The name of the Lightsail resource that the alarm monitors\.
+        NotificationEnabled:
+          type: boolean
+          description: A Boolean value indicating whether the alarm is enabled\.
+        NotificationTriggers:
+          type: array
+          description: >-
+            The alarm states that trigger a notification\.   To specify the `OK`
+            and `INSUFFICIENT_DATA` values, you must also specify
+            `ContactProtocols` values\. Otherwise, the `OK` and
+            `INSUFFICIENT_DATA` values will not take effect and the stack will
+            drift\.
+        Threshold:
+          type: double
+          description: The value against which the specified statistic is compared\.
+        TreatMissingData:
+          type: string
+          description: >-
+            Specifies how the alarm handles missing data points\.   An alarm can
+            treat missing data in the following ways:   +  `breaching` \-
+            Assumes the missing data is not within the threshold\. Missing data
+            counts towards the number of times that the metric is not within the
+            threshold\. +  `notBreaching` \- Assumes the missing data is within
+            the threshold\. Missing data does not count towards the number of
+            times that the metric is not within the threshold\. +  `ignore` \-
+            Ignores the missing data\. Maintains the current alarm state\. + 
+            `missing` \- Missing data is treated as missing\.
+      required:
+        - AlarmName
+        - ComparisonOperator
+        - EvaluationPeriods
+        - MetricName
+        - MonitoredResourceName
+        - Threshold
+    Bucket:
+      type: object
+      properties:
+        AccessRules:
+          type: '[accessrules](aws-properties-lightsail-bucket-accessrules.md)'
+          description: An object that describes the access rules for the bucket\.
+        BucketName:
+          type: string
+          description: The name of the bucket\.
+        BundleId:
+          type: string
+          description: >-
+            The bundle ID for the bucket \(for example, `small_1_0`\)\.   A
+            bucket bundle specifies the monthly cost, storage space, and data
+            transfer quota for a bucket\.
+        ObjectVersioning:
+          type: boolean
+          description: >-
+            Indicates whether object versioning is enabled for the bucket\.  
+            The following options can be configured:   +  `Enabled` \- Object
+            versioning is enabled\. +  `Suspended` \- Object versioning was
+            previously enabled but is currently suspended\. Existing object
+            versions are retained\. +  `NeverEnabled` \- Object versioning has
+            never been enabled\.
+        ReadOnlyAccessAccounts:
+          type: array
+          description: >-
+            An array of AWS account IDs that have read\-only access to the
+            bucket\.
+        ResourcesReceivingAccess:
+          type: array
+          description: An array of Lightsail instances that have access to the bucket\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)
+            in the *AWS CloudFormation User Guide*\.   The `Value` of `Tags` is
+            optional for Lightsail resources\.
+      required:
+        - BucketName
+        - BundleId
+    Certificate:
+      type: object
+      properties:
+        CertificateName:
+          type: string
+          description: The name of the certificate\.
+        DomainName:
+          type: string
+          description: The domain name of the certificate\.
+        SubjectAlternativeNames:
+          type: array
+          description: >-
+            An array of strings that specify the alternate domains \(such as
+            `example.org`\) and subdomains \(such as `blog.example.com`\) of the
+            certificate\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)
+            in the *AWS CloudFormation User Guide*\.   The `Value` of `Tags` is
+            optional for Lightsail resources\.
+      required:
+        - CertificateName
+        - DomainName
+    Container:
+      type: object
+      properties:
+        ContainerServiceDeployment:
+          type: >-
+            [containerservicedeployment](aws-properties-lightsail-container-containerservicedeployment.md)
+          description: >-
+            An object that describes the current container deployment of the
+            container service\.
+        IsDisabled:
+          type: boolean
+          description: >-
+            A Boolean value indicating whether the container service is
+            disabled\.
+        Power:
+          type: string
+          description: >-
+            The power specification of the container service\.   The power
+            specifies the amount of RAM, the number of vCPUs, and the base price
+            of the container service\.
+        PublicDomainNames:
+          type: >-
+            list of
+            [publicdomainname](aws-properties-lightsail-container-publicdomainname.md)
+          description: >-
+            The public domain name of the container service, such as
+            `example.com` and `www.example.com`\.   You can specify up to four
+            public domain names for a container service\. The domain names that
+            you specify are used when you create a deployment with a container
+            that is configured as the public endpoint of your container
+            service\.   If you don't specify public domain names, then you can
+            use the default domain of the container service\.   You must create
+            and validate an SSL/TLS certificate before you can use public domain
+            names with your container service\. Use the
+            [AWS::Lightsail::Certificate](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lightsail-certificate.html)
+            resource to create a certificate for the public domain names that
+            you want to use with your container service\.
+        Scale:
+          type: integer
+          description: >-
+            The scale specification of the container service\.   The scale
+            specifies the allocated compute nodes of the container service\.
+        ServiceName:
+          type: string
+          description: The name of the container service\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)
+            in the *AWS CloudFormation User Guide*\.   The `Value` of `Tags` is
+            optional for Lightsail resources\.
+      required:
+        - Power
+        - Scale
+        - ServiceName
+    Database:
+      type: object
+      properties:
+        AvailabilityZone:
+          type: string
+          description: The Availability Zone for the database\.
+        BackupRetention:
+          type: boolean
+          description: >-
+            A Boolean value indicating whether automated backup retention is
+            enabled for the database\.
+        CaCertificateIdentifier:
+          type: string
+          description: The certificate associated with the database\.
+        MasterDatabaseName:
+          description: >-
+            The meaning of this parameter differs according to the database
+            engine you use\.    **MySQL**    The name of the database to create
+            when the Lightsail database resource is created\. If this parameter
+            isn't specified, no database is created in the database resource\.  
+            Constraints:   + Must contain 1\-64 letters or numbers\. + Must
+            begin with a letter\. Subsequent characters can be letters,
+            underscores, or numbers \(0\-9\)\. + Can't be a word reserved by the
+            specified database engine\.
+        undefined:
+          type: string
+          description: >-
+            For more information about reserved words in MySQL 5\.6 or 5\.7, see
+            the Keywords and Reserved Words articles for [PostgreSQL
+            9\.6](https://www.postgresql.org/docs/9.6/sql-keywords-appendix.html),
+            [PostgreSQL
+            10](https://www.postgresql.org/docs/10/sql-keywords-appendix.html),
+            [PostgreSQL
+            11](https://www.postgresql.org/docs/11/sql-keywords-appendix.html),
+            and [PostgreSQL
+            12](https://www.postgresql.org/docs/12/sql-keywords-appendix.html)\.
+        MasterUsername:
+          description: >-
+            The name for the primary user\.    **MySQL**    Constraints:   +
+            Required for MySQL\. + Must be 1\-16 letters or numbers\. Can
+            contain underscores\. + First character must be a letter\. + Can't
+            be a reserved word for the chosen database engine\.
+        MasterUserPassword:
+          type: string
+          description: >-
+            The password for the primary user of the database\. The password can
+            include any printable ASCII character except the following: /, ", or
+            @\. It cannot contain spaces\.   The `MasterUserPassword` and
+            `RotateMasterUserPassword` parameters cannot be used together in the
+            same template\.  **MySQL**    Constraints: Must contain 8\-41
+            characters\.    **PostgreSQL**    Constraints: Must contain 8\-128
+            characters\.
+        PreferredBackupWindow:
+          type: string
+          description: >-
+            The daily time range during which automated backups are created for
+            the database \(for example, `16:00-16:30`\)\.
+        PreferredMaintenanceWindow:
+          type: string
+          description: >-
+            The weekly time range during which system maintenance can occur for
+            the database, formatted as follows: `ddd:hh24:mi-ddd:hh24:mi`\. For
+            example, `Tue:17:00-Tue:17:30`\.
+        PubliclyAccessible:
+          type: boolean
+          description: >-
+            A Boolean value indicating whether the database is accessible to
+            anyone on the internet\.
+        RelationalDatabaseBlueprintId:
+          type: string
+          description: The blueprint ID for the database \(for example, `mysql_8_0`\)\.
+        RelationalDatabaseBundleId:
+          type: string
+          description: The bundle ID for the database \(for example, `medium_1_0`\)\.
+        RelationalDatabaseName:
+          type: string
+          description: The name of the instance\.
+        RelationalDatabaseParameters:
+          type: >-
+            list of
+            [relationaldatabaseparameter](aws-properties-lightsail-database-relationaldatabaseparameter.md)
+          description: An array of parameters for the database\.
+        RotateMasterUserPassword:
+          type: boolean
+          description: >-
+            A Boolean value indicating whether to change the primary user
+            password to a new, strong password generated by Lightsail\.   The
+            `RotateMasterUserPassword` and `MasterUserPassword` parameters
+            cannot be used together in the same template\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)
+            in the *AWS CloudFormation User Guide*\.   The `Value` of `Tags` is
+            optional for Lightsail resources\.
+      required:
+        - null
+        - null
+        - RelationalDatabaseBlueprintId
+        - RelationalDatabaseBundleId
+        - RelationalDatabaseName
+    Disk:
+      type: object
+      properties:
+        AddOns:
+          type: list of [addon](aws-properties-lightsail-disk-addon.md)
+          description: >-
+            An array of add\-ons for the disk\.   If the disk has an add\-on
+            enabled when performing a delete disk request, the add\-on is
+            automatically disabled before the disk is deleted\.
+        AvailabilityZone:
+          type: string
+          description: >-
+            The AWS Region and Availability Zone location for the disk \(for
+            example, `us-east-1a`\)\.
+        DiskName:
+          type: string
+          description: The name of the disk\.
+        SizeInGb:
+          type: integer
+          description: The size of the disk in GB\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)
+            in the *AWS CloudFormation User Guide*\.   The `Value` of `Tags` is
+            optional for Lightsail resources\.
+      required:
+        - DiskName
+        - SizeInGb
+    Distribution:
+      type: object
+      properties:
+        BundleId:
+          type: string
+          description: The ID of the bundle applied to the distribution\.
+        CacheBehaviors:
+          type: >-
+            list of
+            [cachebehaviorperpath](aws-properties-lightsail-distribution-cachebehaviorperpath.md)
+          description: >-
+            An array of objects that describe the per\-path cache behavior of
+            the distribution\.
+        CacheBehaviorSettings:
+          type: >-
+            [cachesettings](aws-properties-lightsail-distribution-cachesettings.md)
+          description: >-
+            An object that describes the cache behavior settings of the
+            distribution\.
+        CertificateName:
+          type: string
+          description: The name of the SSL/TLS certificate attached to the distribution\.
+        DefaultCacheBehavior:
+          type: >-
+            [cachebehavior](aws-properties-lightsail-distribution-cachebehavior.md)
+          description: >-
+            An object that describes the default cache behavior of the
+            distribution\.
+        DistributionName:
+          type: string
+          description: The name of the distribution
+        IpAddressType:
+          type: string
+          description: >-
+            The IP address type of the distribution\.   The possible values are
+            `ipv4` for IPv4 only, and `dualstack` for IPv4 and IPv6\.
+        IsEnabled:
+          type: boolean
+          description: A Boolean value indicating whether the distribution is enabled\.
+        Origin:
+          type: '[inputorigin](aws-properties-lightsail-distribution-inputorigin.md)'
+          description: >-
+            An object that describes the origin resource of the distribution,
+            such as a Lightsail instance, bucket, or load balancer\.   The
+            distribution pulls, caches, and serves content from the origin\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)
+            in the *AWS CloudFormation User Guide*\.   The `Value` of `Tags` is
+            optional for Lightsail resources\.
+      required:
+        - BundleId
+        - DefaultCacheBehavior
+        - DistributionName
+        - Origin
+    Instance:
+      type: object
+      properties:
+        AddOns:
+          type: list of [addon](aws-properties-lightsail-instance-addon.md)
+          description: >-
+            An array of add\-ons for the instance\.   If the instance has an
+            add\-on enabled when performing a delete instance request, the
+            add\-on is automatically disabled before the instance is deleted\.
+        AvailabilityZone:
+          type: string
+          description: The Availability Zone for the instance\.
+        BlueprintId:
+          type: string
+          description: >-
+            The blueprint ID for the instance \(for example,
+            `os_amlinux_2016_03`\)\.
+        BundleId:
+          type: string
+          description: The bundle ID for the instance \(for example, `micro_1_0`\)\.
+        Hardware:
+          type: '[hardware](aws-properties-lightsail-instance-hardware.md)'
+          description: >-
+            The hardware properties for the instance, such as the vCPU count,
+            attached disks, and amount of RAM\.   The instance restarts when
+            performing an attach disk or detach disk request\. This resets the
+            public IP address of your instance if a static IP isn't attached to
+            it\.
+        InstanceName:
+          type: string
+          description: The name of the instance\.
+        KeyPairName:
+          type: string
+          description: >-
+            The name of the key pair to use for the instance\.   If no key pair
+            name is specified, the Regional Lightsail default key pair is used\.
+        Location:
+          type: '[location](aws-properties-lightsail-instance-location.md)'
+          description: >-
+            The location for the instance, such as the AWS Region and
+            Availability Zone\.   The `Location` property is read\-only and
+            should not be specified in a create instance or update instance
+            request\.
+        Networking:
+          type: '[networking](aws-properties-lightsail-instance-networking.md)'
+          description: >-
+            The public ports and the monthly amount of data transfer allocated
+            for the instance\.
+        State:
+          type: '[state](aws-properties-lightsail-instance-state.md)'
+          description: >-
+            The status code and the state \(for example, `running`\) of the
+            instance\.   The `State` property is read\-only and should not be
+            specified in a create instance or update instance request\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)
+            in the *AWS CloudFormation User Guide*\.   The `Value` of `Tags` is
+            optional for Lightsail resources\.
+        UserData:
+          type: string
+          description: >-
+            The optional launch script for the instance\.   Specify a launch
+            script to configure an instance with additional user data\. For
+            example, you might want to specify `apt-get -y update` as a launch
+            script\.   Depending on the blueprint of your instance, the command
+            to get software on your instance varies\. Amazon Linux and CentOS
+            use `yum`, Debian and Ubuntu use `apt-get`, and FreeBSD uses `pkg`\.
+      required:
+        - BlueprintId
+        - BundleId
+        - InstanceName
+    LoadBalancer:
+      type: object
+      properties:
+        AttachedInstances:
+          type: array
+          description: The Lightsail instances to attach to the load balancer\.
+        HealthCheckPath:
+          type: string
+          description: >-
+            The path on the attached instance where the health check will be
+            performed\. If no path is specified, the load balancer tries to make
+            a request to the default \(root\) page \(`/index.html`\)\.
+        InstancePort:
+          type: integer
+          description: >-
+            The port that the load balancer uses to direct traffic to your
+            Lightsail instances\. For HTTP traffic, specify port `80`\. For
+            HTTPS traffic, specify port `443`\.
+        IpAddressType:
+          type: string
+          description: >-
+            The IP address type of the load balancer\.   The possible values are
+            `ipv4` for IPv4 only, and `dualstack` for both IPv4 and IPv6\.
+        LoadBalancerName:
+          type: string
+          description: The name of the load balancer\.
+        SessionStickinessEnabled:
+          type: boolean
+          description: >-
+            A Boolean value indicating whether session stickiness is enabled\.  
+            Enable session stickiness \(also known as *session affinity*\) to
+            bind a user's session to a specific instance\. This ensures that all
+            requests from the user during the session are sent to the same
+            instance\.
+        SessionStickinessLBCookieDurationSeconds:
+          type: string
+          description: >-
+            The time period, in seconds, after which the load balancer session
+            stickiness cookie should be considered stale\. If you do not specify
+            this parameter, the default value is 0, which indicates that the
+            sticky session should last for the duration of the browser session\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)
+            in the *AWS CloudFormation User Guide*\.   The `Value` of `Tags` is
+            optional for Lightsail resources\.
+        TlsPolicyName:
+          type: string
+          description: The name of the TLS security policy for the load balancer\.
+      required:
+        - InstancePort
+        - LoadBalancerName
+    LoadBalancerTlsCertificate:
+      type: object
+      properties:
+        CertificateAlternativeNames:
+          type: array
+          description: >-
+            An array of alternative domain names and subdomain names for your
+            SSL/TLS certificate\.   In addition to the primary domain name, you
+            can have up to nine alternative domain names\. Wildcards \(such as
+            `*.example.com`\) are not supported\.
+        CertificateDomainName:
+          type: string
+          description: >-
+            The domain name for the SSL/TLS certificate\. For example,
+            `example.com` or `www.example.com`\.
+        CertificateName:
+          type: string
+          description: The name of the SSL/TLS certificate\.
+        HttpsRedirectionEnabled:
+          type: boolean
+          description: >-
+            A Boolean value indicating whether HTTPS redirection is enabled for
+            the load balancer that the TLS certificate is attached to\.
+        IsAttached:
+          type: boolean
+          description: >-
+            A Boolean value indicating whether the SSL/TLS certificate is
+            attached to a Lightsail load balancer\.
+        LoadBalancerName:
+          type: string
+          description: >-
+            The name of the load balancer that the SSL/TLS certificate is
+            attached to\.
+      required:
+        - CertificateDomainName
+        - CertificateName
+        - LoadBalancerName
+    StaticIp:
+      type: object
+      properties:
+        AttachedTo:
+          type: string
+          description: The instance that the static IP is attached to\.
+        StaticIpName:
+          type: string
+          description: The name of the static IP\.
+      required:
+        - StaticIpName
+paths: {}

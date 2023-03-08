@@ -1,0 +1,763 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: AutoScaling
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    AutoScalingGroup:
+      type: object
+      properties:
+        AutoScalingGroupName:
+          type: string
+          description: >-
+            The name of the Auto Scaling group\. This name must be unique per
+            Region per account\.   The name can contain any ASCII character 33
+            to 126 including most punctuation characters, digits, and upper and
+            lowercased letters\.   You cannot use a colon \(:\) in the name\.
+        AvailabilityZones:
+          type: array
+          description: >-
+            A list of Availability Zones where instances in the Auto Scaling
+            group can be created\. Used for launching into the default VPC
+            subnet in each Availability Zone when not using the
+            `VPCZoneIdentifier` property, or for attaching a network interface
+            when an existing network interface ID is specified in a launch
+            template\.
+        CapacityRebalance:
+          type: boolean
+          description: >-
+            Indicates whether Capacity Rebalancing is enabled\. Otherwise,
+            Capacity Rebalancing is disabled\. When you turn on Capacity
+            Rebalancing, Amazon EC2 Auto Scaling attempts to launch a Spot
+            Instance whenever Amazon EC2 notifies that a Spot Instance is at an
+            elevated risk of interruption\. After launching a new instance, it
+            then terminates an old instance\. For more information, see [Use
+            Capacity Rebalancing to handle Amazon EC2 Spot
+            Interruptions](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-capacity-rebalancing.html)
+            in the in the *Amazon EC2 Auto Scaling User Guide*\.
+        Context:
+          type: string
+          description: Reserved\.
+        Cooldown:
+          type: string
+          description: >-
+            *Only needed if you use simple scaling policies\.*    The amount of
+            time, in seconds, between one scaling activity ending and another
+            one starting due to simple scaling policies\. For more information,
+            see [Scaling cooldowns for Amazon EC2 Auto
+            Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/Cooldown.html)
+            in the *Amazon EC2 Auto Scaling User Guide*\.   Default: `300`
+            seconds
+        DefaultInstanceWarmup:
+          type: integer
+          description: >-
+            The amount of time, in seconds, until a new instance is considered
+            to have finished initializing and resource consumption to become
+            stable after it enters the `InService` state\.    During an instance
+            refresh, Amazon EC2 Auto Scaling waits for the warm\-up period after
+            it replaces an instance before it moves on to replacing the next
+            instance\. Amazon EC2 Auto Scaling also waits for the warm\-up
+            period before aggregating the metrics for new instances with
+            existing instances in the Amazon CloudWatch metrics that are used
+            for scaling, resulting in more reliable usage data\. For more
+            information, see [Set the default instance warmup for an Auto
+            Scaling
+            group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-default-instance-warmup.html)
+            in the *Amazon EC2 Auto Scaling User Guide*\.   To manage various
+            warm\-up settings at the group level, we recommend that you set the
+            default instance warmup, *even if it is set to 0 seconds*\. To
+            remove a value that you previously set, include the property but
+            specify `-1` for the value\. However, we strongly recommend keeping
+            the default instance warmup enabled by specifying a value of `0` or
+            other nominal value\. Default: None
+        DesiredCapacity:
+          type: string
+          description: >-
+            The desired capacity is the initial capacity of the Auto Scaling
+            group at the time of its creation and the capacity it attempts to
+            maintain\. It can scale beyond this capacity if you configure
+            automatic scaling\.   The number must be greater than or equal to
+            the minimum size of the group and less than or equal to the maximum
+            size of the group\. If you do not specify a desired capacity when
+            creating the stack, the default is the minimum size of the group\.  
+            CloudFormation marks the Auto Scaling group as successful \(by
+            setting its status to CREATE\_COMPLETE\) when the desired capacity
+            is reached\. However, if a maximum Spot price is set in the launch
+            template or launch configuration that you specified, then desired
+            capacity is not used as a criteria for success\. Whether your
+            request is fulfilled depends on Spot Instance capacity and your
+            maximum price\.
+        DesiredCapacityType:
+          type: string
+          description: >-
+            The unit of measurement for the value specified for desired
+            capacity\. Amazon EC2 Auto Scaling supports `DesiredCapacityType`
+            for attribute\-based instance type selection only\. For more
+            information, see [Creating an Auto Scaling group using
+            attribute\-based instance type
+            selection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html)
+            in the *Amazon EC2 Auto Scaling User Guide*\.   By default, Amazon
+            EC2 Auto Scaling specifies `units`, which translates into number of
+            instances\.   Valid values: `units` \| `vcpu` \| `memory-mib`
+        HealthCheckGracePeriod:
+          type: integer
+          description: >-
+            The amount of time, in seconds, that Amazon EC2 Auto Scaling waits
+            before checking the health status of an EC2 instance that has come
+            into service and marking it unhealthy due to a failed health check\.
+            This is useful if your instances do not immediately pass their
+            health checks after they enter the `InService` state\. For more
+            information, see [Set the health check grace period for an Auto
+            Scaling
+            group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/health-check-grace-period.html)
+            in the *Amazon EC2 Auto Scaling User Guide*\.   Default: `0` seconds
+        HealthCheckType:
+          type: string
+          description: >-
+            Determines whether any additional health checks are performed on the
+            instances in this group\. Amazon EC2 health checks are always on\.
+            For more information, see [Health checks for Auto Scaling
+            instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/healthcheck.html)
+            in the *Amazon EC2 Auto Scaling User Guide*\.   The valid values are
+            `EC2` \(default\), `ELB`, and `VPC_LATTICE`\. The `VPC_LATTICE`
+            health check type is reserved for use with VPC Lattice, which is in
+            preview release and is subject to change\.
+        InstanceId:
+          type: string
+          description: >-
+            The ID of the instance used to base the launch configuration on\.
+            For more information, see [Create an Auto Scaling group using an EC2
+            instance](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-from-instance.html)
+            in the *Amazon EC2 Auto Scaling User Guide*\.   If you specify
+            `LaunchTemplate`, `MixedInstancesPolicy`, or
+            `LaunchConfigurationName`, don't specify `InstanceId`\.
+        LaunchConfigurationName:
+          type: string
+          description: >-
+            The name of the launch configuration to use to launch instances\.  
+            Required only if you don't specify `LaunchTemplate`,
+            `MixedInstancesPolicy`, or `InstanceId`\.
+        LaunchTemplate:
+          type: >-
+            [launchtemplatespecification](aws-properties-autoscaling-autoscalinggroup-launchtemplatespecification.md)
+          description: >-
+            Information used to specify the launch template and version to use
+            to launch instances\. You can alternatively associate a launch
+            template to the Auto Scaling group by specifying a
+            `MixedInstancesPolicy`\. For more information about creating launch
+            templates, see [Create a launch template for an Auto Scaling
+            group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-template.html)
+            in the *Amazon EC2 Auto Scaling User Guide*\.   If you omit this
+            property, you must specify `MixedInstancesPolicy`,
+            `LaunchConfigurationName`, or `InstanceId`\.
+        LifecycleHookSpecificationList:
+          type: >-
+            list of
+            [lifecyclehookspecification](aws-properties-autoscaling-autoscalinggroup-lifecyclehookspecification.md)
+          description: >-
+            One or more lifecycle hooks to add to the Auto Scaling group before
+            instances are launched\.
+        LoadBalancerNames:
+          type: array
+          description: >-
+            A list of Classic Load Balancers associated with this Auto Scaling
+            group\. For Application Load Balancers, Network Load Balancers, and
+            Gateway Load Balancer, specify the `TargetGroupARNs` property
+            instead\.
+        MaxInstanceLifetime:
+          type: integer
+          description: >-
+            The maximum amount of time, in seconds, that an instance can be in
+            service\. The default is null\. If specified, the value must be
+            either 0 or a number equal to or greater than 86,400 seconds \(1
+            day\)\. For more information, see [Replacing Auto Scaling instances
+            based on maximum instance
+            lifetime](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-max-instance-lifetime.html)
+            in the *Amazon EC2 Auto Scaling User Guide*\.
+        MaxSize:
+          type: string
+          description: >-
+            The maximum size of the group\.   With a mixed instances policy that
+            uses instance weighting, Amazon EC2 Auto Scaling may need to go
+            above `MaxSize` to meet your capacity requirements\. In this event,
+            Amazon EC2 Auto Scaling will never go above `MaxSize` by more than
+            your largest instance weight \(weights that define how many units
+            each instance contributes to the desired capacity of the group\)\.
+        MetricsCollection:
+          type: >-
+            [list](aws-properties-as-metricscollection.md) of
+            [metricscollection](aws-properties-as-metricscollection.md)
+          description: >-
+            Enables the monitoring of group metrics of an Auto Scaling group\.
+            By default, these metrics are disabled\.
+        MinSize:
+          type: string
+          description: The minimum size of the group\.
+        MixedInstancesPolicy:
+          type: >-
+            [mixedinstancespolicy](aws-properties-autoscaling-autoscalinggroup-mixedinstancespolicy.md)
+          description: >-
+            An embedded object that specifies a mixed instances policy\.   The
+            policy includes properties that not only define the distribution of
+            On\-Demand Instances and Spot Instances, the maximum price to pay
+            for Spot Instances \(optional\), and how the Auto Scaling group
+            allocates instance types to fulfill On\-Demand and Spot capacities,
+            but also the properties that specify the instance configuration
+            information—the launch template and instance types\. The policy can
+            also include a weight for each instance type and different launch
+            templates for individual instance types\.   For more information,
+            see [Auto Scaling groups with multiple instance types and purchase
+            options](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-mixed-instances-groups.html)
+            in the *Amazon EC2 Auto Scaling User Guide*\.
+        NewInstancesProtectedFromScaleIn:
+          type: boolean
+          description: >-
+            Indicates whether newly launched instances are protected from
+            termination by Amazon EC2 Auto Scaling when scaling in\. For more
+            information about preventing instances from terminating on scale in,
+            see [Using instance scale\-in
+            protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html)
+            in the *Amazon EC2 Auto Scaling User Guide*\.
+        NotificationConfigurations:
+          type: >-
+            list of
+            [notificationconfiguration](aws-properties-as-notificationconfigurations.md)
+          description: >-
+            Configures an Auto Scaling group to send notifications when
+            specified events take place\.
+        PlacementGroup:
+          type: string
+          description: >-
+            The name of the placement group into which to launch your
+            instances\. For more information, see [Placement
+            groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html)
+            in the *Amazon EC2 User Guide for Linux Instances*\.   A *cluster*
+            placement group is a logical grouping of instances within a single
+            Availability Zone\. You cannot specify multiple Availability Zones
+            and a cluster placement group\.
+        ServiceLinkedRoleARN:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the service\-linked role that
+            the Auto Scaling group uses to call other AWS service on your
+            behalf\. By default, Amazon EC2 Auto Scaling uses a service\-linked
+            role named `AWSServiceRoleForAutoScaling`, which it creates if it
+            does not exist\. For more information, see [Service\-linked
+            roles](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-service-linked-role.html)
+            in the *Amazon EC2 Auto Scaling User Guide*\.
+        Tags:
+          type: list of [tagproperty](aws-properties-as-tags.md)
+          description: >-
+            One or more tags\. You can tag your Auto Scaling group and propagate
+            the tags to the Amazon EC2 instances it launches\. Tags are not
+            propagated to Amazon EBS volumes\. To add tags to Amazon EBS
+            volumes, specify the tags in a launch template but use caution\. If
+            the launch template specifies an instance tag with a key that is
+            also specified for the Auto Scaling group, Amazon EC2 Auto Scaling
+            overrides the value of that instance tag with the value specified by
+            the Auto Scaling group\. For more information, see [Tag Auto Scaling
+            groups and
+            instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-tagging.html)
+            in the *Amazon EC2 Auto Scaling User Guide*\.
+        TargetGroupARNs:
+          type: array
+          description: >-
+            The Amazon Resource Names \(ARN\) of the Elastic Load Balancing
+            target groups to associate with the Auto Scaling group\. Instances
+            are registered as targets with the target groups\. The target groups
+            receive incoming traffic and route requests to one or more
+            registered targets\. For more information, see [Use Elastic Load
+            Balancing to distribute traffic across the instances in your Auto
+            Scaling
+            group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/autoscaling-load-balancer.html)
+            in the *Amazon EC2 Auto Scaling User Guide*\.
+        TerminationPolicies:
+          type: array
+          description: >-
+            A policy or a list of policies that are used to select the instance
+            to terminate\. These policies are executed in the order that you
+            list them\. For more information, see [Work with Amazon EC2 Auto
+            Scaling termination
+            policies](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-termination-policies.html)
+            in the *Amazon EC2 Auto Scaling User Guide*\.   Valid values:
+            `Default` \| `AllocationStrategy` \| `ClosestToNextInstanceHour` \|
+            `NewestInstance` \| `OldestInstance` \| `OldestLaunchConfiguration`
+            \| `OldestLaunchTemplate` \|
+            `arn:aws:lambda:region:account-id:function:my-function:my-alias`
+        VPCZoneIdentifier:
+          type: array
+          description: >-
+            A list of subnet IDs for a virtual private cloud \(VPC\) where
+            instances in the Auto Scaling group can be created\.   If this
+            resource specifies public subnets and is also in a VPC that is
+            defined in the same stack template, you must use the [DependsOn
+            attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html)
+            to declare a dependency on the [VPC\-gateway
+            attachment](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ec2-vpc-gateway-attachment.html)\.  
+            When you update `VPCZoneIdentifier`, this retains the same Auto
+            Scaling group and replaces old instances with new ones, according to
+            the specified subnets\. You can optionally specify how
+            CloudFormation handles these updates by using an [UpdatePolicy
+            attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-updatepolicy.html)\.
+            Required to launch instances into a nondefault VPC\. If you specify
+            `VPCZoneIdentifier` with `AvailabilityZones`, the subnets that you
+            specify for this property must reside in those Availability Zones\.
+      required:
+        - MaxSize
+        - MinSize
+    LaunchConfiguration:
+      type: object
+      properties:
+        AssociatePublicIpAddress:
+          type: boolean
+          description: >-
+            Specifies whether to assign a public IPv4 address to the group's
+            instances\. If the instance is launched into a default subnet, the
+            default is to assign a public IPv4 address, unless you disabled the
+            option to assign a public IPv4 address on the subnet\. If the
+            instance is launched into a nondefault subnet, the default is not to
+            assign a public IPv4 address, unless you enabled the option to
+            assign a public IPv4 address on the subnet\.   If you specify
+            `true`, each instance in the Auto Scaling group receives a unique
+            public IPv4 address\. For more information, see [Launching Auto
+            Scaling instances in a
+            VPC](https://docs.aws.amazon.com/autoscaling/ec2/userguide/asg-in-vpc.html)
+            in the *Amazon EC2 Auto Scaling User Guide*\.   If you specify this
+            property, you must specify at least one subnet for
+            `VPCZoneIdentifier` when you create your group\.
+        BlockDeviceMappings:
+          type: >-
+            list of
+            [blockdevicemapping](aws-properties-autoscaling-launchconfiguration-blockdevicemapping.md)
+          description: >-
+            The block device mapping entries that define the block devices to
+            attach to the instances at launch\. By default, the block devices
+            specified in the block device mapping for the AMI are used\. For
+            more information, see [Block device
+            mappings](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html)
+            in the *Amazon EC2 User Guide for Linux Instances*\.
+        ClassicLinkVPCId:
+          type: string
+          description: Available for backward compatibility\.
+        ClassicLinkVPCSecurityGroups:
+          type: array
+          description: Available for backward compatibility\.
+        EbsOptimized:
+          type: boolean
+          description: >-
+            Specifies whether the launch configuration is optimized for EBS I/O
+            \(`true`\) or not \(`false`\)\. The optimization provides dedicated
+            throughput to Amazon EBS and an optimized configuration stack to
+            provide optimal I/O performance\. This optimization is not available
+            with all instance types\. Additional fees are incurred when you
+            enable EBS optimization for an instance type that is not
+            EBS\-optimized by default\. For more information, see [Amazon
+            EBS\-optimized
+            instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSOptimized.html)
+            in the *Amazon EC2 User Guide for Linux Instances*\.   The default
+            value is `false`\.
+        IamInstanceProfile:
+          type: string
+          description: >-
+            The name or the Amazon Resource Name \(ARN\) of the instance profile
+            associated with the IAM role for the instance\. The instance profile
+            contains the IAM role\. For more information, see [IAM role for
+            applications that run on Amazon EC2
+            instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/us-iam-role.html)
+            in the *Amazon EC2 Auto Scaling User Guide*\.
+        ImageId:
+          type: string
+          description: >-
+            The ID of the Amazon Machine Image \(AMI\) that was assigned during
+            registration\. For more information, see [Finding a Linux
+            AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/finding-an-ami.html)
+            in the *Amazon EC2 User Guide for Linux Instances*\.   If you
+            specify `InstanceId`, an `ImageId` is not required\.
+        InstanceId:
+          type: string
+          description: >-
+            The ID of the Amazon EC2 instance to use to create the launch
+            configuration\. When you use an instance to create a launch
+            configuration, all properties are derived from the instance with the
+            exception of `BlockDeviceMapping` and `AssociatePublicIpAddress`\.
+            You can override any properties from the instance by specifying them
+            in the launch configuration\.
+        InstanceMonitoring:
+          type: boolean
+          description: >-
+            Controls whether instances in this group are launched with detailed
+            \(`true`\) or basic \(`false`\) monitoring\.   The default value is
+            `true` \(enabled\)\.   When detailed monitoring is enabled, Amazon
+            CloudWatch generates metrics every minute and your account is
+            charged a fee\. When you disable detailed monitoring, CloudWatch
+            generates metrics every 5 minutes\. For more information, see
+            [Configure Monitoring for Auto Scaling
+            Instances](https://docs.aws.amazon.com/autoscaling/latest/userguide/enable-as-instance-metrics.html)
+            in the *Amazon EC2 Auto Scaling User Guide*\.
+        InstanceType:
+          type: string
+          description: >-
+            Specifies the instance type of the EC2 instance\. For information
+            about available instance types, see [Available instance
+            types](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#AvailableInstanceTypes)
+            in the *Amazon EC2 User Guide for Linux Instances*\.   If you
+            specify `InstanceId`, an `InstanceType` is not required\.
+        KernelId:
+          type: string
+          description: >-
+            The ID of the kernel associated with the AMI\.   We recommend that
+            you use PV\-GRUB instead of kernels and RAM disks\. For more
+            information, see [User provided
+            kernels](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html)
+            in the *Amazon EC2 User Guide for Linux Instances*\.
+        KeyName:
+          type: string
+          description: >-
+            The name of the key pair\. For more information, see [Amazon EC2 key
+            pairs and Linux
+            instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
+            in the *Amazon EC2 User Guide for Linux Instances*\.
+        LaunchConfigurationName:
+          type: string
+          description: >-
+            The name of the launch configuration\. This name must be unique per
+            Region per account\.
+        MetadataOptions:
+          type: >-
+            [metadataoptions](aws-properties-autoscaling-launchconfiguration-metadataoptions.md)
+          description: >-
+            The metadata options for the instances\. For more information, see
+            [Configuring the Instance Metadata
+            Options](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-config.html#launch-configurations-imds)
+            in the *Amazon EC2 Auto Scaling User Guide*\.
+        PlacementTenancy:
+          type: string
+          description: >-
+            The tenancy of the instance, either `default` or `dedicated`\. An
+            instance with `dedicated` tenancy runs on isolated, single\-tenant
+            hardware and can only be launched into a VPC\. To launch dedicated
+            instances into a shared tenancy VPC \(a VPC with the instance
+            placement tenancy attribute set to `default`\), you must set the
+            value of this property to `dedicated`\. For more information, see
+            [Configuring instance tenancy with Amazon EC2 Auto
+            Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-dedicated-instances.html)
+            in the *Amazon EC2 Auto Scaling User Guide*\.   If you specify
+            `PlacementTenancy`, you must specify at least one subnet for
+            `VPCZoneIdentifier` when you create your group\.   Valid values:
+            `default` \| `dedicated`
+        RamDiskId:
+          type: string
+          description: >-
+            The ID of the RAM disk to select\.   We recommend that you use
+            PV\-GRUB instead of kernels and RAM disks\. For more information,
+            see [User provided
+            kernels](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html)
+            in the *Amazon EC2 User Guide for Linux Instances*\.
+        SecurityGroups:
+          type: array
+          description: >-
+            A list that contains the security groups to assign to the instances
+            in the Auto Scaling group\. The list can contain both the IDs of
+            existing security groups and references to
+            [SecurityGroup](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html)
+            resources created in the template\.   For more information, see
+            [Control traffic to resources using security
+            groups](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html)
+            in the *Amazon Virtual Private Cloud User Guide*\.
+        SpotPrice:
+          type: string
+          description: >-
+            The maximum hourly price to be paid for any Spot Instance launched
+            to fulfill the request\. Spot Instances are launched when the price
+            you specify exceeds the current Spot price\. For more information,
+            see [Request Spot Instances for fault\-tolerant and flexible
+            applications](https://docs.aws.amazon.com/autoscaling/ec2/userguide/launch-template-spot-instances.html)
+            in the *Amazon EC2 Auto Scaling User Guide*\.   Valid Range: Minimum
+            value of 0\.001   When you change your maximum price by creating a
+            new launch configuration, running instances will continue to run as
+            long as the maximum price for those running instances is higher than
+            the current Spot price\.
+        UserData:
+          type: string
+          description: >-
+            The Base64\-encoded user data to make available to the launched EC2
+            instances\. For more information, see [Instance metadata and user
+            data](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html)
+            in the *Amazon EC2 User Guide for Linux Instances*\.
+    LifecycleHook:
+      type: object
+      properties:
+        AutoScalingGroupName:
+          type: string
+          description: The name of the Auto Scaling group\.
+        DefaultResult:
+          type: string
+          description: >-
+            The action the Auto Scaling group takes when the lifecycle hook
+            timeout elapses or if an unexpected failure occurs\. The default
+            value is `ABANDON`\.   Valid values: `CONTINUE` \| `ABANDON`
+        HeartbeatTimeout:
+          type: integer
+          description: >-
+            The maximum time, in seconds, that can elapse before the lifecycle
+            hook times out\. The range is from `30` to `7200` seconds\. The
+            default value is `3600` seconds \(1 hour\)\.
+        LifecycleHookName:
+          type: string
+          description: The name of the lifecycle hook\.
+        LifecycleTransition:
+          type: string
+          description: >-
+            The lifecycle transition\. For Auto Scaling groups, there are two
+            major lifecycle transitions\.   + To create a lifecycle hook for
+            scale\-out events, specify `autoscaling:EC2_INSTANCE_LAUNCHING`\. +
+            To create a lifecycle hook for scale\-in events, specify
+            `autoscaling:EC2_INSTANCE_TERMINATING`\.
+        NotificationMetadata:
+          type: string
+          description: >-
+            Additional information that you want to include any time Amazon EC2
+            Auto Scaling sends a message to the notification target\.
+        NotificationTargetARN:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the notification target that
+            Amazon EC2 Auto Scaling sends notifications to when an instance is
+            in a wait state for the lifecycle hook\. You can specify an Amazon
+            SNS topic or an Amazon SQS queue\.
+        RoleARN:
+          type: string
+          description: >-
+            The ARN of the IAM role that allows the Auto Scaling group to
+            publish to the specified notification target\. For information about
+            creating this role, see [Configure a notification target for a
+            lifecycle
+            hook](https://docs.aws.amazon.com/autoscaling/ec2/userguide/prepare-for-lifecycle-notifications.html#lifecycle-hook-notification-target)
+            in the *Amazon EC2 Auto Scaling User Guide*\.   Valid only if the
+            notification target is an Amazon SNS topic or an Amazon SQS queue\.
+      required:
+        - AutoScalingGroupName
+        - LifecycleTransition
+    ScalingPolicy:
+      type: object
+      properties:
+        AdjustmentType:
+          type: string
+          description: >-
+            Specifies how the scaling adjustment is interpreted \(for example,
+            an absolute number or a percentage\)\. The valid values are
+            `ChangeInCapacity`, `ExactCapacity`, and
+            `PercentChangeInCapacity`\.   Required if the policy type is
+            `StepScaling` or `SimpleScaling`\. For more information, see
+            [Scaling adjustment
+            types](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html#as-scaling-adjustment)
+            in the *Amazon EC2 Auto Scaling User Guide*\.
+        AutoScalingGroupName:
+          type: string
+          description: The name of the Auto Scaling group\.
+        Cooldown:
+          type: string
+          description: >-
+            A cooldown period, in seconds, that applies to a specific simple
+            scaling policy\. When a cooldown period is specified here, it
+            overrides the default cooldown\.   Valid only if the policy type is
+            `SimpleScaling`\. For more information, see [Scaling cooldowns for
+            Amazon EC2 Auto
+            Scaling](https://docs.aws.amazon.com/autoscaling/ec2/userguide/Cooldown.html)
+            in the *Amazon EC2 Auto Scaling User Guide*\.   Default: None
+        EstimatedInstanceWarmup:
+          type: integer
+          description: >-
+            *Not needed if the default instance warmup is defined for the
+            group\.*    The estimated time, in seconds, until a newly launched
+            instance can contribute to the CloudWatch metrics\. This warm\-up
+            period applies to instances launched due to a specific target
+            tracking or step scaling policy\. When a warm\-up period is
+            specified here, it overrides the default instance warmup\.   Valid
+            only if the policy type is `TargetTrackingScaling` or
+            `StepScaling`\.   The default is to use the value for the default
+            instance warmup defined for the group\. If default instance warmup
+            is null, then `EstimatedInstanceWarmup` falls back to the value of
+            default cooldown\.
+        MetricAggregationType:
+          type: string
+          description: >-
+            The aggregation type for the CloudWatch metrics\. The valid values
+            are `Minimum`, `Maximum`, and `Average`\. If the aggregation type is
+            null, the value is treated as `Average`\.   Valid only if the policy
+            type is `StepScaling`\.
+        MinAdjustmentMagnitude:
+          type: integer
+          description: >-
+            The minimum value to scale by when the adjustment type is
+            `PercentChangeInCapacity`\. For example, suppose that you create a
+            step scaling policy to scale out an Auto Scaling group by 25 percent
+            and you specify a `MinAdjustmentMagnitude` of 2\. If the group has 4
+            instances and the scaling policy is performed, 25 percent of 4 is
+            1\. However, because you specified a `MinAdjustmentMagnitude` of 2,
+            Amazon EC2 Auto Scaling scales out the group by 2 instances\.  
+            Valid only if the policy type is `StepScaling` or `SimpleScaling`\.
+            For more information, see [Scaling adjustment
+            types](https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-scaling-simple-step.html#as-scaling-adjustment)
+            in the *Amazon EC2 Auto Scaling User Guide*\.   Some Auto Scaling
+            groups use instance weights\. In this case, set the
+            `MinAdjustmentMagnitude` to a value that is at least as large as
+            your largest instance weight\.
+        PolicyType:
+          type: string
+          description: >-
+            One of the following policy types:    +  `TargetTrackingScaling`  + 
+            `StepScaling`  +  `SimpleScaling` \(default\) +  `PredictiveScaling`
+        PredictiveScalingConfiguration:
+          type: >-
+            [predictivescalingconfiguration](aws-properties-autoscaling-scalingpolicy-predictivescalingconfiguration.md)
+          description: >-
+            A predictive scaling policy\. Provides support for predefined and
+            custom metrics\.   Predefined metrics include CPU utilization,
+            network in/out, and the Application Load Balancer request count\.  
+            Required if the policy type is `PredictiveScaling`\.
+        ScalingAdjustment:
+          type: integer
+          description: >-
+            The amount by which to scale, based on the specified adjustment
+            type\. A positive value adds to the current capacity while a
+            negative number removes from the current capacity\. For exact
+            capacity, you must specify a positive value\.   Required if the
+            policy type is `SimpleScaling`\. \(Not used with any other policy
+            type\.\)
+        StepAdjustments:
+          type: >-
+            list of
+            [stepadjustment](aws-properties-autoscaling-scalingpolicy-stepadjustment.md)
+          description: >-
+            A set of adjustments that enable you to scale based on the size of
+            the alarm breach\.   Required if the policy type is `StepScaling`\.
+            \(Not used with any other policy type\.\)
+        TargetTrackingConfiguration:
+          type: >-
+            [targettrackingconfiguration](aws-properties-autoscaling-scalingpolicy-targettrackingconfiguration.md)
+          description: >-
+            A target tracking scaling policy\. Provides support for predefined
+            or custom metrics\.   The following predefined metrics are
+            available:   +  `ASGAverageCPUUtilization`  + 
+            `ASGAverageNetworkIn`  +  `ASGAverageNetworkOut`  + 
+            `ALBRequestCountPerTarget`  If you specify
+            `ALBRequestCountPerTarget` for the metric, you must specify the
+            `ResourceLabel` property with the
+            `PredefinedMetricSpecification`\.   Required if the policy type is
+            `TargetTrackingScaling`\.
+      required:
+        - AutoScalingGroupName
+    ScheduledAction:
+      type: object
+      properties:
+        AutoScalingGroupName:
+          type: string
+          description: The name of the Auto Scaling group\.
+        DesiredCapacity:
+          type: integer
+          description: >-
+            The desired capacity is the initial capacity of the Auto Scaling
+            group after the scheduled action runs and the capacity it attempts
+            to maintain\. It can scale beyond this capacity if you add more
+            scaling conditions\.    You must specify at least one of the
+            following properties: `MaxSize`, `MinSize`, or `DesiredCapacity`\.
+        EndTime:
+          type: string
+          description: >-
+            The date and time for the recurring schedule to end, in UTC\. For
+            example, `"2021-06-01T00:00:00Z"`\.
+        MaxSize:
+          type: integer
+          description: The maximum size of the Auto Scaling group\.
+        MinSize:
+          type: integer
+          description: The minimum size of the Auto Scaling group\.
+        Recurrence:
+          type: string
+          description: >-
+            The recurring schedule for this action\. This format consists of
+            five fields separated by white spaces: \[Minute\] \[Hour\]
+            \[Day\_of\_Month\] \[Month\_of\_Year\] \[Day\_of\_Week\]\. The value
+            must be in quotes \(for example, `"30 0 1 1,6,12 *"`\)\. For more
+            information about this format, see [Crontab](http://crontab.org)\.  
+            When `StartTime` and `EndTime` are specified with `Recurrence`, they
+            form the boundaries of when the recurring action starts and
+            stops\.   Cron expressions use Universal Coordinated Time \(UTC\) by
+            default\.
+        StartTime:
+          type: string
+          description: >-
+            The date and time for this action to start, in
+            YYYY\-MM\-DDThh:mm:ssZ format in UTC/GMT only and in quotes \(for
+            example, `"2021-06-01T00:00:00Z"`\)\.   If you specify `Recurrence`
+            and `StartTime`, Amazon EC2 Auto Scaling performs the action at this
+            time, and then performs the action based on the specified
+            recurrence\.
+        TimeZone:
+          type: string
+          description: >-
+            Specifies the time zone for a cron expression\. If a time zone is
+            not provided, UTC is used by default\.    Valid values are the
+            canonical names of the IANA time zones, derived from the IANA Time
+            Zone Database \(such as `Etc/GMT+9` or `Pacific/Tahiti`\)\. For more
+            information, see
+            [https://en\.wikipedia\.org/wiki/List\_of\_tz\_database\_time\_zones](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)\.
+      required:
+        - AutoScalingGroupName
+    WarmPool:
+      type: object
+      properties:
+        AutoScalingGroupName:
+          type: string
+          description: The name of the Auto Scaling group\.
+        InstanceReusePolicy:
+          type: >-
+            [instancereusepolicy](aws-properties-autoscaling-warmpool-instancereusepolicy.md)
+          description: >-
+            Indicates whether instances in the Auto Scaling group can be
+            returned to the warm pool on scale in\. The default is to terminate
+            instances in the Auto Scaling group when the group scales in\.
+        MaxGroupPreparedCapacity:
+          type: integer
+          description: >-
+            Specifies the maximum number of instances that are allowed to be in
+            the warm pool or in any state except `Terminated` for the Auto
+            Scaling group\. This is an optional property\. Specify it only if
+            you do not want the warm pool size to be determined by the
+            difference between the group's maximum capacity and its desired
+            capacity\.    If a value for `MaxGroupPreparedCapacity` is not
+            specified, Amazon EC2 Auto Scaling launches and maintains the
+            difference between the group's maximum capacity and its desired
+            capacity\. If you specify a value for `MaxGroupPreparedCapacity`,
+            Amazon EC2 Auto Scaling uses the difference between the
+            `MaxGroupPreparedCapacity` and the desired capacity instead\.    The
+            size of the warm pool is dynamic\. Only when
+            `MaxGroupPreparedCapacity` and `MinSize` are set to the same value
+            does the warm pool have an absolute size\. If the desired capacity
+            of the Auto Scaling group is higher than the
+            `MaxGroupPreparedCapacity`, the capacity of the warm pool is 0,
+            unless you specify a value for `MinSize`\. To remove a value that
+            you previously set, include the property but specify \-1 for the
+            value\.
+        MinSize:
+          type: integer
+          description: >-
+            Specifies the minimum number of instances to maintain in the warm
+            pool\. This helps you to ensure that there is always a certain
+            number of warmed instances available to handle traffic spikes\.
+            Defaults to 0 if not specified\.
+        PoolState:
+          type: string
+          description: >-
+            Sets the instance state to transition to after the lifecycle actions
+            are complete\. Default is `Stopped`\.
+      required:
+        - AutoScalingGroupName
+paths: {}

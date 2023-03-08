@@ -1,0 +1,1339 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: SageMaker
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    App:
+      type: object
+      properties:
+        AppName:
+          type: string
+          description: The name of the app\.
+        AppType:
+          type: string
+          description: The type of app\.
+        DomainId:
+          type: string
+          description: The domain ID\.
+        ResourceSpec:
+          type: '[resourcespec](aws-properties-sagemaker-app-resourcespec.md)'
+          description: >-
+            Specifies the ARNs of a SageMaker image and SageMaker image version,
+            and the instance type that the version runs on\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        UserProfileName:
+          type: string
+          description: The user profile name\.
+      required:
+        - AppName
+        - AppType
+        - DomainId
+        - UserProfileName
+    AppImageConfig:
+      type: object
+      properties:
+        AppImageConfigName:
+          type: string
+          description: The name of the AppImageConfig\. Must be unique to your account\.
+        KernelGatewayImageConfig:
+          type: >-
+            [kernelgatewayimageconfig](aws-properties-sagemaker-appimageconfig-kernelgatewayimageconfig.md)
+          description: >-
+            The configuration for the file system and kernels in the SageMaker
+            image\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - AppImageConfigName
+    CodeRepository:
+      type: object
+      properties:
+        CodeRepositoryName:
+          type: string
+          description: The name of the Git repository\.
+        GitConfig:
+          type: '[gitconfig](aws-properties-sagemaker-coderepository-gitconfig.md)'
+          description: >-
+            Configuration details for the Git repository, including the URL
+            where it is located and the ARN of the AWS Secrets Manager secret
+            that contains the credentials used to access the repository\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: List of tags for Code Repository\.
+      required:
+        - GitConfig
+    DataQualityJobDefinition:
+      type: object
+      properties:
+        DataQualityAppSpecification:
+          type: >-
+            [dataqualityappspecification](aws-properties-sagemaker-dataqualityjobdefinition-dataqualityappspecification.md)
+          description: Specifies the container that runs the monitoring job\.
+        DataQualityBaselineConfig:
+          type: >-
+            [dataqualitybaselineconfig](aws-properties-sagemaker-dataqualityjobdefinition-dataqualitybaselineconfig.md)
+          description: Configures the constraints and baselines for the monitoring job\.
+        DataQualityJobInput:
+          type: >-
+            [dataqualityjobinput](aws-properties-sagemaker-dataqualityjobdefinition-dataqualityjobinput.md)
+          description: >-
+            A list of inputs for the monitoring job\. Currently endpoints are
+            supported as monitoring inputs\.
+        DataQualityJobOutputConfig:
+          type: >-
+            [monitoringoutputconfig](aws-properties-sagemaker-dataqualityjobdefinition-monitoringoutputconfig.md)
+          description: The output configuration for monitoring jobs\.
+        EndpointName:
+          type: string
+          description: Property description not available\.
+        JobDefinitionName:
+          type: string
+          description: The name for the monitoring job definition\.
+        JobResources:
+          type: >-
+            [monitoringresources](aws-properties-sagemaker-dataqualityjobdefinition-monitoringresources.md)
+          description: Identifies the resources to deploy for a monitoring job\.
+        NetworkConfig:
+          type: >-
+            [networkconfig](aws-properties-sagemaker-dataqualityjobdefinition-networkconfig.md)
+          description: Specifies networking configuration for the monitoring job\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of an IAM role that Amazon
+            SageMaker can assume to perform tasks on your behalf\.
+        StoppingCondition:
+          type: >-
+            [stoppingcondition](aws-properties-sagemaker-dataqualityjobdefinition-stoppingcondition.md)
+          description: >-
+            A time limit for how long the monitoring job is allowed to run
+            before stopping\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - DataQualityAppSpecification
+        - DataQualityJobInput
+        - DataQualityJobOutputConfig
+        - JobResources
+        - RoleArn
+    Device:
+      type: object
+      properties:
+        Device:
+          type: '[device](aws-properties-sagemaker-device-device.md)'
+          description: Edge device you want to create\.
+        DeviceFleetName:
+          type: string
+          description: The name of the fleet the device belongs to\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs that contain metadata to help you
+            categorize and organize your devices\. Each tag consists of a key
+            and a value, both of which you define\.
+      required:
+        - DeviceFleetName
+    DeviceFleet:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description of the fleet\.
+        DeviceFleetName:
+          type: string
+          description: Name of the device fleet\.
+        OutputConfig:
+          type: >-
+            [edgeoutputconfig](aws-properties-sagemaker-devicefleet-edgeoutputconfig.md)
+          description: >-
+            The output configuration for storing sample data collected by the
+            fleet\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) that has access to AWS Internet of
+            Things \(IoT\)\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs that contain metadata to help you
+            categorize and organize your device fleets\. Each tag consists of a
+            key and a value, both of which you define\.
+      required:
+        - DeviceFleetName
+        - OutputConfig
+        - RoleArn
+    Domain:
+      type: object
+      properties:
+        AppNetworkAccessType:
+          type: string
+          description: >-
+            Specifies the VPC used for non\-EFS traffic\. The default value is
+            `PublicInternetOnly`\.   + `PublicInternetOnly` \- Non\-EFS traffic
+            is through a VPC managed by Amazon SageMaker, which allows direct
+            internet access + `VpcOnly` \- All Studio traffic is through the
+            specified VPC and subnets
+        AppSecurityGroupManagement:
+          type: string
+          description: >-
+            The entity that creates and manages the required security groups for
+            inter\-app communication in `VpcOnly` mode\. Required when
+            `CreateDomain.AppNetworkAccessType` is `VpcOnly` and
+            `DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn`
+            is provided\.
+        AuthMode:
+          type: string
+          description: The mode of authentication that members use to access the Domain\.
+        DefaultSpaceSettings:
+          type: >-
+            [defaultspacesettings](aws-properties-sagemaker-domain-defaultspacesettings.md)
+          description: Property description not available\.
+        DefaultUserSettings:
+          type: '[usersettings](aws-properties-sagemaker-domain-usersettings.md)'
+          description: The default user settings\.
+        DomainName:
+          type: string
+          description: The domain name\.
+        DomainSettings:
+          type: '[domainsettings](aws-properties-sagemaker-domain-domainsettings.md)'
+          description: >-
+            A collection of settings that apply to the `SageMaker Domain`\.
+            These settings are specified through the `CreateDomain` API call\.
+        KmsKeyId:
+          type: string
+          description: >-
+            SageMaker uses AWS KMS to encrypt the EFS volume attached to the
+            Domain with an AWS managed customer master key \(CMK\) by default\.
+            For more control, specify a customer managed CMK\.
+        SubnetIds:
+          type: array
+          description: The VPC subnets that Studio uses for communication\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Tags to associated with the Domain\. Each tag consists of a key and
+            an optional value\. Tag keys must be unique per resource\. Tags are
+            searchable using the Search API\.    Tags that you specify for the
+            Domain are also added to all apps that are launched in the Domain\.
+        VpcId:
+          type: string
+          description: >-
+            The ID of the Amazon Virtual Private Cloud \(Amazon VPC\) that
+            Studio uses for communication\.
+      required:
+        - AuthMode
+        - DefaultUserSettings
+        - DomainName
+        - SubnetIds
+        - VpcId
+    Endpoint:
+      type: object
+      properties:
+        DeploymentConfig:
+          type: >-
+            [deploymentconfig](aws-properties-sagemaker-endpoint-deploymentconfig.md)
+          description: >-
+            The deployment configuration for an endpoint, which contains the
+            desired deployment strategy and rollback configurations\.
+        EndpointConfigName:
+          type: string
+          description: >-
+            The name of the
+            [AWS::SageMaker::EndpointConfig](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sagemaker-endpointconfig.html)
+            resource that specifies the configuration for the endpoint\. For
+            more information, see
+            [CreateEndpointConfig](https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateEndpointConfig.html)\.
+        EndpointName:
+          type: string
+          description: >-
+            The name of the endpoint\.The name must be unique within an AWS
+            Region in your AWS account\. The name is case\-insensitive in
+            `CreateEndpoint`, but the case is preserved and must be matched in
+            [https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_runtime_InvokeEndpoint.html](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_runtime_InvokeEndpoint.html)\.
+        ExcludeRetainedVariantProperties:
+          type: >-
+            list of
+            [variantproperty](aws-properties-sagemaker-endpoint-variantproperty.md)
+          description: >-
+            When you are updating endpoint resources with
+            [RetainAllVariantProperties](https://docs.aws.amazon.com/sagemaker/latest/dg/API_UpdateEndpoint.html#SageMaker-UpdateEndpoint-request-RetainAllVariantProperties)
+            whose value is set to `true`, `ExcludeRetainedVariantProperties`
+            specifies the list of type
+            [VariantProperty](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sagemaker-endpoint-variantproperty.html)
+            to override with the values provided by `EndpointConfig`\. If you
+            don't specify a value for `ExcludeAllVariantProperties`, no variant
+            properties are overridden\. Don't use this property when creating
+            new endpoint resources or when `RetainAllVariantProperties` is set
+            to `false`\.
+        RetainAllVariantProperties:
+          type: boolean
+          description: >-
+            When updating endpoint resources, enables or disables the retention
+            of variant properties, such as the instance count or the variant
+            weight\. To retain the variant properties of an endpoint when
+            updating it, set `RetainAllVariantProperties` to `true`\. To use the
+            variant properties specified in a new `EndpointConfig` call when
+            updating an endpoint, set `RetainAllVariantProperties` to `false`\.
+            Use this property only when updating endpoint resources, not when
+            creating new endpoint resources\.
+        RetainDeploymentConfig:
+          type: boolean
+          description: >-
+            Specifies whether to reuse the last deployment configuration\. The
+            default value is false \(the configuration is not reused\)\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of key\-value pairs to apply to this resource\.   For more
+            information, see [Resource
+            Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)
+            and [Using Cost Allocation
+            Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-what)
+            in the * AWS Billing and Cost Management User Guide*\.
+      required:
+        - EndpointConfigName
+    EndpointConfig:
+      type: object
+      properties:
+        AsyncInferenceConfig:
+          type: >-
+            [asyncinferenceconfig](aws-properties-sagemaker-endpointconfig-asyncinferenceconfig.md)
+          description: >-
+            Specifies configuration for how an endpoint performs asynchronous
+            inference\.
+        DataCaptureConfig:
+          type: >-
+            [datacaptureconfig](aws-properties-sagemaker-endpointconfig-datacaptureconfig.md)
+          description: >-
+            Specifies how to capture endpoint data for model monitor\. The data
+            capture configuration applies to all production variants hosted at
+            the endpoint\.
+        EndpointConfigName:
+          type: string
+          description: The name of the endpoint configuration\.
+        ExplainerConfig:
+          type: >-
+            [explainerconfig](aws-properties-sagemaker-endpointconfig-explainerconfig.md)
+          description: Property description not available\.
+        KmsKeyId:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of an AWS Key Management Service
+            key that Amazon SageMaker uses to encrypt data on the storage volume
+            attached to the ML compute instance that hosts the endpoint\.   +
+            Key ID: `1234abcd-12ab-34cd-56ef-1234567890ab` + Key ARN:
+            `arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`
+            + Alias name: `alias/ExampleAlias` + Alias name ARN:
+            `arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias` The KMS key
+            policy must grant permission to the IAM role that you specify in
+            your `CreateEndpoint`, `UpdateEndpoint` requests\. For more
+            information, refer to the AWS Key Management Service section [Using
+            Key Policies in AWS KMS
+            ](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html)  
+            Certain Nitro\-based instances include local storage, dependent on
+            the instance type\. Local storage volumes are encrypted using a
+            hardware module on the instance\. You can't request a `KmsKeyId`
+            when using an instance type with local storage\. If any of the
+            models that you specify in the `ProductionVariants` parameter use
+            nitro\-based instances with local storage, do not specify a value
+            for the `KmsKeyId` parameter\. If you specify a value for `KmsKeyId`
+            when using any nitro\-based instances with local storage, the call
+            to `CreateEndpointConfig` fails\.   For a list of instance types
+            that support local instance storage, see [Instance Store
+            Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes)\.  
+            For more information about local instance storage encryption, see
+            [SSD Instance Store
+            Volumes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssd-instance-store.html)\.
+        ProductionVariants:
+          type: >-
+            list of
+            [productionvariant](aws-properties-sagemaker-endpointconfig-productionvariant.md)
+          description: >-
+            A list of `ProductionVariant` objects, one for each model that you
+            want to host at this endpoint\.
+        ShadowProductionVariants:
+          type: >-
+            list of
+            [productionvariant](aws-properties-sagemaker-endpointconfig-productionvariant.md)
+          description: >-
+            Array of `ProductionVariant` objects\. There is one for each model
+            that you want to host at this endpoint in shadow mode with
+            production traffic replicated from the model specified on
+            `ProductionVariants`\. If you use this field, you can only specify
+            one variant for `ProductionVariants` and one variant for
+            `ShadowProductionVariants`\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of key\-value pairs to apply to this resource\.   For more
+            information, see [Resource
+            Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)
+            and [Using Cost Allocation
+            Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-what)\.
+      required:
+        - ProductionVariants
+    FeatureGroup:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A free form description of a `FeatureGroup`\.
+        EventTimeFeatureName:
+          type: string
+          description: >-
+            The name of the feature that stores the `EventTime` of a Record in a
+            `FeatureGroup`\.   A `EventTime` is point in time when a new event
+            occurs that corresponds to the creation or update of a `Record` in
+            `FeatureGroup`\. All `Records` in the `FeatureGroup` must have a
+            corresponding `EventTime`\.
+        FeatureDefinitions:
+          type: >-
+            list of
+            [featuredefinition](aws-properties-sagemaker-featuregroup-featuredefinition.md)
+          description: >-
+            A list of `Feature`s\. Each `Feature` must include a `FeatureName`
+            and a `FeatureType`\.    Valid `FeatureType`s are `Integral`,
+            `Fractional` and `String`\.     `FeatureName`s cannot be any of the
+            following: `is_deleted`, `write_time`, `api_invocation_time`\.   You
+            can create up to 2,500 `FeatureDefinition`s per `FeatureGroup`\.
+        FeatureGroupName:
+          type: string
+          description: The name of the `FeatureGroup`\.
+        OfflineStoreConfig:
+          type: >-
+            [offlinestoreconfig](aws-properties-sagemaker-featuregroup-offlinestoreconfig.md)
+          description: The configuration of an `OfflineStore`\.
+        OnlineStoreConfig:
+          type: >-
+            [onlinestoreconfig](aws-properties-sagemaker-featuregroup-onlinestoreconfig.md)
+          description: The configuration of an `OnlineStore`\.
+        RecordIdentifierFeatureName:
+          type: string
+          description: >-
+            The name of the `Feature` whose value uniquely identifies a `Record`
+            defined in the `FeatureGroup` `FeatureDefinitions`\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the IAM execution role used to
+            create the feature group\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Tags used to define a `FeatureGroup`\.
+      required:
+        - EventTimeFeatureName
+        - FeatureDefinitions
+        - FeatureGroupName
+        - RecordIdentifierFeatureName
+    Image:
+      type: object
+      properties:
+        ImageDescription:
+          type: string
+          description: The description of the image\.
+        ImageDisplayName:
+          type: string
+          description: The display name of the image\.
+        ImageName:
+          type: string
+          description: The name of the Image\. Must be unique by region in your account\.
+        ImageRoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of an IAM role that enables Amazon
+            SageMaker to perform tasks on your behalf\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A list of key\-value pairs to apply to this resource\.
+      required:
+        - ImageName
+        - ImageRoleArn
+    ImageVersion:
+      type: object
+      properties:
+        BaseImage:
+          type: string
+          description: The container image that the SageMaker image version is based on\.
+        ImageName:
+          type: string
+          description: The name of the parent image\.
+      required:
+        - BaseImage
+        - ImageName
+    Model:
+      type: object
+      properties:
+        Containers:
+          type: >-
+            list of
+            [containerdefinition](aws-properties-sagemaker-model-containerdefinition.md)
+          description: Specifies the containers in the inference pipeline\.
+        EnableNetworkIsolation:
+          type: boolean
+          description: >-
+            Isolates the model container\. No inbound or outbound network calls
+            can be made to or from the model container\.
+        ExecutionRoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the IAM role that SageMaker can
+            assume to access model artifacts and docker image for deployment on
+            ML compute instances or for batch transform jobs\. Deploying on ML
+            compute instances is part of model hosting\. For more information,
+            see [SageMaker
+            Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)\.   
+            To be able to pass this role to SageMaker, the caller of this API
+            must have the `iam:PassRole` permission\.
+        InferenceExecutionConfig:
+          type: >-
+            [inferenceexecutionconfig](aws-properties-sagemaker-model-inferenceexecutionconfig.md)
+          description: >-
+            Specifies details of how containers in a multi\-container endpoint
+            are called\.
+        ModelName:
+          type: string
+          description: The name of the new model\.
+        PrimaryContainer:
+          type: >-
+            [containerdefinition](aws-properties-sagemaker-model-containerdefinition.md)
+          description: >-
+            The location of the primary docker image containing inference code,
+            associated artifacts, and custom environment map that the inference
+            code uses when the model is deployed for predictions\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of key\-value pairs to apply to this resource\.   For more
+            information, see [Resource
+            Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)
+            and [Using Cost Allocation
+            Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-what)
+            in the *AWS Billing and Cost Management User Guide*\.
+        VpcConfig:
+          type: '[vpcconfig](aws-properties-sagemaker-model-vpcconfig.md)'
+          description: >-
+            A
+            [VpcConfig](https://docs.aws.amazon.com/sagemaker/latest/dg/API_VpcConfig.html)
+            object that specifies the VPC that you want your model to connect
+            to\. Control access to and from your model container by configuring
+            the VPC\. `VpcConfig` is used in hosting services and in batch
+            transform\. For more information, see [Protect Endpoints by Using an
+            Amazon Virtual Private
+            Cloud](https://docs.aws.amazon.com/sagemaker/latest/dg/host-vpc.html)
+            and [Protect Data in Batch Transform Jobs by Using an Amazon Virtual
+            Private
+            Cloud](https://docs.aws.amazon.com/sagemaker/latest/dg/batch-vpc.html)\.
+      required:
+        - ExecutionRoleArn
+    ModelBiasJobDefinition:
+      type: object
+      properties:
+        EndpointName:
+          type: string
+          description: Property description not available\.
+        JobDefinitionName:
+          type: string
+          description: >-
+            The name of the bias job definition\. The name must be unique within
+            an AWS Region in the AWS account\.
+        JobResources:
+          type: >-
+            [monitoringresources](aws-properties-sagemaker-modelbiasjobdefinition-monitoringresources.md)
+          description: Identifies the resources to deploy for a monitoring job\.
+        ModelBiasAppSpecification:
+          type: >-
+            [modelbiasappspecification](aws-properties-sagemaker-modelbiasjobdefinition-modelbiasappspecification.md)
+          description: >-
+            Configures the model bias job to run a specified Docker container
+            image\.
+        ModelBiasBaselineConfig:
+          type: >-
+            [modelbiasbaselineconfig](aws-properties-sagemaker-modelbiasjobdefinition-modelbiasbaselineconfig.md)
+          description: The baseline configuration for a model bias job\.
+        ModelBiasJobInput:
+          type: >-
+            [modelbiasjobinput](aws-properties-sagemaker-modelbiasjobdefinition-modelbiasjobinput.md)
+          description: Inputs for the model bias job\.
+        ModelBiasJobOutputConfig:
+          type: >-
+            [monitoringoutputconfig](aws-properties-sagemaker-modelbiasjobdefinition-monitoringoutputconfig.md)
+          description: The output configuration for monitoring jobs\.
+        NetworkConfig:
+          type: >-
+            [networkconfig](aws-properties-sagemaker-modelbiasjobdefinition-networkconfig.md)
+          description: Networking options for a model bias job\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of an IAM role that Amazon
+            SageMaker can assume to perform tasks on your behalf\.
+        StoppingCondition:
+          type: >-
+            [stoppingcondition](aws-properties-sagemaker-modelbiasjobdefinition-stoppingcondition.md)
+          description: >-
+            A time limit for how long the monitoring job is allowed to run
+            before stopping\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - JobResources
+        - ModelBiasAppSpecification
+        - ModelBiasJobInput
+        - ModelBiasJobOutputConfig
+        - RoleArn
+    ModelCard:
+      type: object
+      properties:
+        Content:
+          type: '[content](aws-properties-sagemaker-modelcard-content.md)'
+          description: >-
+            The content of the model card\. Content uses the [model card JSON
+            schema](https://docs.aws.amazon.com/sagemaker/latest/dg/model-cards.html#model-cards-json-schema)\.
+        CreatedBy:
+          type: '[usercontext](aws-properties-sagemaker-modelcard-usercontext.md)'
+          description: >-
+            Information about the user who created or modified one or more of
+            the following:   + Experiment + Trial + Trial component + Lineage
+            group + Project + Model Card
+        LastModifiedBy:
+          type: '[usercontext](aws-properties-sagemaker-modelcard-usercontext.md)'
+          description: Property description not available\.
+        ModelCardName:
+          type: string
+          description: The unique name of the model card\.
+        ModelCardStatus:
+          type: string
+          description: >-
+            The approval status of the model card within your organization\.
+            Different organizations might have different criteria for model card
+            review and approval\.   +  `Draft`: The model card is a work in
+            progress\. +  `PendingReview`: The model card is pending review\. + 
+            `Approved`: The model card is approved\. +  `Archived`: The model
+            card is archived\. No more updates should be made to the model card,
+            but it can still be exported\.
+        SecurityConfig:
+          type: >-
+            [securityconfig](aws-properties-sagemaker-modelcard-securityconfig.md)
+          description: The security configuration used to protect model card data\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Key\-value pairs used to manage metadata for the model card\.
+      required:
+        - Content
+        - ModelCardName
+        - ModelCardStatus
+    ModelExplainabilityJobDefinition:
+      type: object
+      properties:
+        EndpointName:
+          type: string
+          description: Property description not available\.
+        JobDefinitionName:
+          type: string
+          description: >-
+            The name of the model explainability job definition\. The name must
+            be unique within an AWS Region in the AWS account\.
+        JobResources:
+          type: >-
+            [monitoringresources](aws-properties-sagemaker-modelexplainabilityjobdefinition-monitoringresources.md)
+          description: Identifies the resources to deploy for a monitoring job\.
+        ModelExplainabilityAppSpecification:
+          type: >-
+            [modelexplainabilityappspecification](aws-properties-sagemaker-modelexplainabilityjobdefinition-modelexplainabilityappspecification.md)
+          description: >-
+            Configures the model explainability job to run a specified Docker
+            container image\.
+        ModelExplainabilityBaselineConfig:
+          type: >-
+            [modelexplainabilitybaselineconfig](aws-properties-sagemaker-modelexplainabilityjobdefinition-modelexplainabilitybaselineconfig.md)
+          description: The baseline configuration for a model explainability job\.
+        ModelExplainabilityJobInput:
+          type: >-
+            [modelexplainabilityjobinput](aws-properties-sagemaker-modelexplainabilityjobdefinition-modelexplainabilityjobinput.md)
+          description: Inputs for the model explainability job\.
+        ModelExplainabilityJobOutputConfig:
+          type: >-
+            [monitoringoutputconfig](aws-properties-sagemaker-modelexplainabilityjobdefinition-monitoringoutputconfig.md)
+          description: The output configuration for monitoring jobs\.
+        NetworkConfig:
+          type: >-
+            [networkconfig](aws-properties-sagemaker-modelexplainabilityjobdefinition-networkconfig.md)
+          description: Networking options for a model explainability job\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of an IAM role that Amazon
+            SageMaker can assume to perform tasks on your behalf\.
+        StoppingCondition:
+          type: >-
+            [stoppingcondition](aws-properties-sagemaker-modelexplainabilityjobdefinition-stoppingcondition.md)
+          description: >-
+            A time limit for how long the monitoring job is allowed to run
+            before stopping\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - JobResources
+        - ModelExplainabilityAppSpecification
+        - ModelExplainabilityJobInput
+        - ModelExplainabilityJobOutputConfig
+        - RoleArn
+    ModelPackage:
+      type: object
+      properties:
+        AdditionalInferenceSpecificationDefinition:
+          type: >-
+            [additionalinferencespecificationdefinition](aws-properties-sagemaker-modelpackage-additionalinferencespecificationdefinition.md)
+          description: >-
+            A structure of additional Inference Specification\. Additional
+            Inference Specification specifies details about inference jobs that
+            can be run with models based on this model package
+        AdditionalInferenceSpecifications:
+          type: >-
+            list of
+            [additionalinferencespecificationdefinition](aws-properties-sagemaker-modelpackage-additionalinferencespecificationdefinition.md)
+          description: An array of additional Inference Specification objects\.
+        AdditionalInferenceSpecificationsToAdd:
+          type: >-
+            list of
+            [additionalinferencespecificationdefinition](aws-properties-sagemaker-modelpackage-additionalinferencespecificationdefinition.md)
+          description: >-
+            An array of additional Inference Specification objects to be added
+            to the existing array\. The total number of additional Inference
+            Specification objects cannot exceed 15\. Each additional Inference
+            Specification object specifies artifacts based on this model package
+            that can be used on inference endpoints\. Generally used with
+            SageMaker Neo to store the compiled artifacts\.
+        ApprovalDescription:
+          type: string
+          description: A description provided when the model approval is set\.
+        CertifyForMarketplace:
+          type: boolean
+          description: >-
+            Whether the model package is to be certified to be listed on AWS
+            Marketplace\. For information about listing model packages on AWS
+            Marketplace, see [List Your Algorithm or Model Package on AWS
+            Marketplace](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-mkt-list.html)\.
+        ClientToken:
+          type: string
+          description: >-
+            A unique token that guarantees that the call to this API is
+            idempotent\.
+        CreatedBy:
+          type: '[usercontext](aws-properties-sagemaker-modelpackage-usercontext.md)'
+          description: >-
+            Information about the user who created or modified an experiment,
+            trial, trial component, lineage group, or project\.
+        CustomerMetadataProperties:
+          type: map of string
+          description: The metadata properties for the model package\.
+        Domain:
+          type: string
+          description: >-
+            The machine learning domain of your model package and its
+            components\. Common machine learning domains include computer vision
+            and natural language processing\.
+        DriftCheckBaselines:
+          type: >-
+            [driftcheckbaselines](aws-properties-sagemaker-modelpackage-driftcheckbaselines.md)
+          description: >-
+            Represents the drift check baselines that can be used when the model
+            monitor is set using the model package\.
+        Environment:
+          type: map of string
+          description: >-
+            The environment variables to set in the Docker container\. Each key
+            and value in the `Environment` string to string map can have length
+            of up to 1024\. We support up to 16 entries in the map\.
+        InferenceSpecification:
+          type: >-
+            [inferencespecification](aws-properties-sagemaker-modelpackage-inferencespecification.md)
+          description: >-
+            Defines how to perform inference generation after a training job is
+            run\.
+        LastModifiedBy:
+          type: '[usercontext](aws-properties-sagemaker-modelpackage-usercontext.md)'
+          description: >-
+            Information about the user who created or modified an experiment,
+            trial, trial component, lineage group, or project\.
+        LastModifiedTime:
+          type: string
+          description: The last time the model package was modified\.
+        MetadataProperties:
+          type: >-
+            [metadataproperties](aws-properties-sagemaker-modelpackage-metadataproperties.md)
+          description: >-
+            Metadata properties of the tracking entity, trial, or trial
+            component\.
+        ModelApprovalStatus:
+          type: string
+          description: >-
+            The approval status of the model\. This can be one of the following
+            values\.   +  `APPROVED` \- The model is approved +  `REJECTED` \-
+            The model is rejected\. +  `PENDING_MANUAL_APPROVAL` \- The model is
+            waiting for manual approval\.
+        ModelMetrics:
+          type: >-
+            [modelmetrics](aws-properties-sagemaker-modelpackage-modelmetrics.md)
+          description: Metrics for the model\.
+        ModelPackageDescription:
+          type: string
+          description: The description of the model package\.
+        ModelPackageGroupName:
+          type: string
+          description: The model group to which the model belongs\.
+        ModelPackageName:
+          type: string
+          description: The name of the model\.
+        ModelPackageStatusDetails:
+          type: >-
+            [modelpackagestatusdetails](aws-properties-sagemaker-modelpackage-modelpackagestatusdetails.md)
+          description: >-
+            Specifies the validation and image scan statuses of the model
+            package\.
+        ModelPackageStatusItem:
+          type: >-
+            [modelpackagestatusitem](aws-properties-sagemaker-modelpackage-modelpackagestatusitem.md)
+          description: Represents the overall status of a model package\.
+        ModelPackageVersion:
+          type: integer
+          description: The version number of a versioned model\.
+        SamplePayloadUrl:
+          type: string
+          description: >-
+            The Amazon Simple Storage Service path where the sample payload are
+            stored\. This path must point to a single gzip compressed tar
+            archive \(\.tar\.gz suffix\)\.
+        SourceAlgorithmSpecification:
+          type: >-
+            [sourcealgorithmspecification](aws-properties-sagemaker-modelpackage-sourcealgorithmspecification.md)
+          description: A list of algorithms that were used to create a model package\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of the tags associated with the model package\. For more
+            information, see [Tagging AWS
+            resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+            in the * AWS General Reference Guide*\.
+        Task:
+          type: string
+          description: >-
+            The machine learning task your model package accomplishes\. Common
+            machine learning tasks include object detection and image
+            classification\.
+        ValidationSpecification:
+          type: >-
+            [validationspecification](aws-properties-sagemaker-modelpackage-validationspecification.md)
+          description: >-
+            Specifies batch transform jobs that SageMaker runs to validate your
+            model package\.
+    ModelPackageGroup:
+      type: object
+      properties:
+        ModelPackageGroupDescription:
+          type: string
+          description: The description for the model group\.
+        ModelPackageGroupName:
+          type: string
+          description: The name of the model group\.
+        ModelPackageGroupPolicy:
+          type: object
+          description: >-
+            A resouce policy to control access to a model group\. For
+            information about resoure policies, see [Identity\-based policies
+            and resource\-based
+            policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_identity-vs-resource.html)
+            in the *AWS Identity and Access Management User Guide\.*\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - ModelPackageGroupName
+    ModelQualityJobDefinition:
+      type: object
+      properties:
+        EndpointName:
+          type: string
+          description: Property description not available\.
+        JobDefinitionName:
+          type: string
+          description: The name of the monitoring job definition\.
+        JobResources:
+          type: >-
+            [monitoringresources](aws-properties-sagemaker-modelqualityjobdefinition-monitoringresources.md)
+          description: Identifies the resources to deploy for a monitoring job\.
+        ModelQualityAppSpecification:
+          type: >-
+            [modelqualityappspecification](aws-properties-sagemaker-modelqualityjobdefinition-modelqualityappspecification.md)
+          description: Container image configuration object for the monitoring job\.
+        ModelQualityBaselineConfig:
+          type: >-
+            [modelqualitybaselineconfig](aws-properties-sagemaker-modelqualityjobdefinition-modelqualitybaselineconfig.md)
+          description: Specifies the constraints and baselines for the monitoring job\.
+        ModelQualityJobInput:
+          type: >-
+            [modelqualityjobinput](aws-properties-sagemaker-modelqualityjobdefinition-modelqualityjobinput.md)
+          description: >-
+            A list of the inputs that are monitored\. Currently endpoints are
+            supported\.
+        ModelQualityJobOutputConfig:
+          type: >-
+            [monitoringoutputconfig](aws-properties-sagemaker-modelqualityjobdefinition-monitoringoutputconfig.md)
+          description: The output configuration for monitoring jobs\.
+        NetworkConfig:
+          type: >-
+            [networkconfig](aws-properties-sagemaker-modelqualityjobdefinition-networkconfig.md)
+          description: Specifies the network configuration for the monitoring job\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of an IAM role that Amazon
+            SageMaker can assume to perform tasks on your behalf\.
+        StoppingCondition:
+          type: >-
+            [stoppingcondition](aws-properties-sagemaker-modelqualityjobdefinition-stoppingcondition.md)
+          description: >-
+            A time limit for how long the monitoring job is allowed to run
+            before stopping\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - JobResources
+        - ModelQualityAppSpecification
+        - ModelQualityJobInput
+        - ModelQualityJobOutputConfig
+        - RoleArn
+    MonitoringSchedule:
+      type: object
+      properties:
+        EndpointName:
+          type: string
+          description: The name of the endpoint using the monitoring schedule\.
+        FailureReason:
+          type: string
+          description: Contains the reason a monitoring job failed, if it failed\.
+        LastMonitoringExecutionSummary:
+          type: >-
+            [monitoringexecutionsummary](aws-properties-sagemaker-monitoringschedule-monitoringexecutionsummary.md)
+          description: Describes metadata on the last execution to run, if there was one\.
+        MonitoringScheduleConfig:
+          type: >-
+            [monitoringscheduleconfig](aws-properties-sagemaker-monitoringschedule-monitoringscheduleconfig.md)
+          description: >-
+            The configuration object that specifies the monitoring schedule and
+            defines the monitoring job\.
+        MonitoringScheduleName:
+          type: string
+          description: The name of the monitoring schedule\.
+        MonitoringScheduleStatus:
+          type: string
+          description: The status of the monitoring schedule\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - MonitoringScheduleConfig
+        - MonitoringScheduleName
+    NotebookInstance:
+      type: object
+      properties:
+        AcceleratorTypes:
+          type: array
+          description: >-
+            A list of Amazon Elastic Inference \(EI\) instance types to
+            associate with the notebook instance\. Currently, only one instance
+            type can be associated with a notebook instance\. For more
+            information, see [Using Elastic Inference in Amazon
+            SageMaker](https://docs.aws.amazon.com/sagemaker/latest/dg/ei.html)\.  
+            *Valid Values:* `ml.eia1.medium | ml.eia1.large | ml.eia1.xlarge |
+            ml.eia2.medium | ml.eia2.large | ml.eia2.xlarge`\.
+        AdditionalCodeRepositories:
+          type: array
+          description: >-
+            An array of up to three Git repositories associated with the
+            notebook instance\. These can be either the names of Git
+            repositories stored as resources in your account, or the URL of Git
+            repositories in [AWS
+            CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html)
+            or in any other Git repository\. These repositories are cloned at
+            the same level as the default repository of your notebook instance\.
+            For more information, see [Associating Git Repositories with
+            SageMaker Notebook
+            Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html)\.
+        DefaultCodeRepository:
+          type: string
+          description: >-
+            The Git repository associated with the notebook instance as its
+            default code repository\. This can be either the name of a Git
+            repository stored as a resource in your account, or the URL of a Git
+            repository in [AWS
+            CodeCommit](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html)
+            or in any other Git repository\. When you open a notebook instance,
+            it opens in the directory that contains this repository\. For more
+            information, see [Associating Git Repositories with SageMaker
+            Notebook
+            Instances](https://docs.aws.amazon.com/sagemaker/latest/dg/nbi-git-repo.html)\.
+        DirectInternetAccess:
+          type: string
+          description: >-
+            Sets whether SageMaker provides internet access to the notebook
+            instance\. If you set this to `Disabled` this notebook instance is
+            able to access resources only in your VPC, and is not be able to
+            connect to SageMaker training and endpoint services unless you
+            configure a NAT Gateway in your VPC\.   For more information, see
+            [Notebook Instances Are Internet\-Enabled by
+            Default](https://docs.aws.amazon.com/sagemaker/latest/dg/appendix-additional-considerations.html#appendix-notebook-and-internet-access)\.
+            You can set the value of this parameter to `Disabled` only if you
+            set a value for the `SubnetId` parameter\.
+        InstanceMetadataServiceConfiguration:
+          type: >-
+            [instancemetadataserviceconfiguration](aws-properties-sagemaker-notebookinstance-instancemetadataserviceconfiguration.md)
+          description: Information on the IMDS configuration of the notebook instance
+        InstanceType:
+          type: string
+          description: >-
+            The type of ML compute instance to launch for the notebook
+            instance\.   Expect some interruption of service if this parameter
+            is changed as CloudFormation stops a notebook instance and starts it
+            up again to update it\.
+        KmsKeyId:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of a AWS Key Management Service key
+            that SageMaker uses to encrypt data on the storage volume attached
+            to your notebook instance\. The KMS key you provide must be
+            enabled\. For information, see [Enabling and Disabling
+            Keys](https://docs.aws.amazon.com/kms/latest/developerguide/enabling-keys.html)
+            in the * AWS Key Management Service Developer Guide*\.
+        LifecycleConfigName:
+          type: string
+          description: >-
+            The name of a lifecycle configuration to associate with the notebook
+            instance\. For information about lifecycle configurations, see
+            [Customize a Notebook
+            Instance](https://docs.aws.amazon.com/sagemaker/latest/dg/notebook-lifecycle-config.html)
+            in the *Amazon SageMaker Developer Guide*\.
+        NotebookInstanceName:
+          type: string
+          description: The name of the new notebook instance\.
+        PlatformIdentifier:
+          type: string
+          description: >-
+            The platform identifier of the notebook instance runtime
+            environment\.
+        RoleArn:
+          type: string
+          description: >-
+            When you send any requests to AWS resources from the notebook
+            instance, SageMaker assumes this role to perform tasks on your
+            behalf\. You must grant this role necessary permissions so SageMaker
+            can perform these tasks\. The policy must allow the SageMaker
+            service principal \(sagemaker\.amazonaws\.com\) permissions to
+            assume this role\. For more information, see [SageMaker
+            Roles](https://docs.aws.amazon.com/sagemaker/latest/dg/sagemaker-roles.html)\.   
+            To be able to pass this role to SageMaker, the caller of this API
+            must have the `iam:PassRole` permission\.
+        RootAccess:
+          type: string
+          description: >-
+            Whether root access is enabled or disabled for users of the notebook
+            instance\. The default value is `Enabled`\.   Lifecycle
+            configurations need root access to be able to set up a notebook
+            instance\. Because of this, lifecycle configurations associated with
+            a notebook instance always run with root access even if you disable
+            root access for users\.
+        SecurityGroupIds:
+          type: array
+          description: >-
+            The VPC security group IDs, in the form sg\-xxxxxxxx\. The security
+            groups must be for the same VPC as specified in the subnet\.
+        SubnetId:
+          type: string
+          description: >-
+            The ID of the subnet in a VPC to which you would like to have a
+            connectivity from your ML compute instance\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of key\-value pairs to apply to this resource\.   For more
+            information, see [Resource
+            Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)
+            and [Using Cost Allocation
+            Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-what)\.  
+            You can add tags later by using the `CreateTags` API\.
+        VolumeSizeInGB:
+          type: integer
+          description: >-
+            The size, in GB, of the ML storage volume to attach to the notebook
+            instance\. The default value is 5 GB\.   Expect some interruption of
+            service if this parameter is changed as CloudFormation stops a
+            notebook instance and starts it up again to update it\.
+      required:
+        - InstanceType
+        - RoleArn
+    NotebookInstanceLifecycleConfig:
+      type: object
+      properties:
+        NotebookInstanceLifecycleConfigName:
+          type: string
+          description: The name of the lifecycle configuration\.
+        OnCreate:
+          type: >-
+            list of
+            [notebookinstancelifecyclehook](aws-properties-sagemaker-notebookinstancelifecycleconfig-notebookinstancelifecyclehook.md)
+          description: >-
+            A shell script that runs only once, when you create a notebook
+            instance\. The shell script must be a base64\-encoded string\.
+        OnStart:
+          type: >-
+            list of
+            [notebookinstancelifecyclehook](aws-properties-sagemaker-notebookinstancelifecycleconfig-notebookinstancelifecyclehook.md)
+          description: >-
+            A shell script that runs every time you start a notebook instance,
+            including when you create the notebook instance\. The shell script
+            must be a base64\-encoded string\.
+    Pipeline:
+      type: object
+      properties:
+        ParallelismConfiguration:
+          type: >-
+            [parallelismconfiguration](aws-properties-sagemaker-pipeline-parallelismconfiguration.md)
+          description: Property description not available\.
+        PipelineDefinition:
+          type: >-
+            [pipelinedefinition](aws-properties-sagemaker-pipeline-pipelinedefinition.md)
+          description: >-
+            The definition of the pipeline\. This can be either a JSON string or
+            an Amazon S3 location\.
+        PipelineDescription:
+          type: string
+          description: The description of the pipeline\.
+        PipelineDisplayName:
+          type: string
+          description: The display name of the pipeline\.
+        PipelineName:
+          type: string
+          description: The name of the pipeline\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the IAM role used to execute the
+            pipeline\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags of the pipeline\.
+      required:
+        - PipelineDefinition
+        - PipelineName
+        - RoleArn
+    Project:
+      type: object
+      properties:
+        ProjectDescription:
+          type: string
+          description: The description of the project\.
+        ProjectName:
+          type: string
+          description: The name of the project\.
+        ServiceCatalogProvisioningDetails:
+          type: >-
+            [servicecatalogprovisioningdetails](aws-properties-sagemaker-project-servicecatalogprovisioningdetails.md)
+          description: >-
+            The product ID and provisioning artifact ID to provision a service
+            catalog\. For information, see [What is AWS Service
+            Catalog](https://docs.aws.amazon.com/servicecatalog/latest/adminguide/introduction.html)\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of key\-value pairs to apply to this resource\.   For more
+            information, see [Resource
+            Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)
+            and [Using Cost Allocation
+            Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-what)
+            in the * AWS Billing and Cost Management User Guide*\.
+      required:
+        - ProjectName
+        - ServiceCatalogProvisioningDetails
+    Space:
+      type: object
+      properties:
+        DomainId:
+          type: string
+          description: The ID of the associated Domain\.
+        SpaceName:
+          type: string
+          description: The name of the space\.
+        SpaceSettings:
+          type: '[spacesettings](aws-properties-sagemaker-space-spacesettings.md)'
+          description: A collection of space settings\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - DomainId
+        - SpaceName
+    UserProfile:
+      type: object
+      properties:
+        DomainId:
+          type: string
+          description: The domain ID\.
+        SingleSignOnUserIdentifier:
+          type: string
+          description: >-
+            A specifier for the type of value specified in
+            SingleSignOnUserValue\. Currently, the only supported value is
+            "UserName"\. If the Domain's AuthMode is IAM Identity Center, this
+            field is required\. If the Domain's AuthMode is not IAM Identity
+            Center, this field cannot be specified\.
+        SingleSignOnUserValue:
+          type: string
+          description: >-
+            The username of the associated AWS Single Sign\-On User for this
+            UserProfile\. If the Domain's AuthMode is IAM Identity Center, this
+            field is required, and must match a valid username of a user in your
+            directory\. If the Domain's AuthMode is not IAM Identity Center,
+            this field cannot be specified\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   Tags that
+            you specify for the User Profile are also added to all apps that the
+            User Profile launches\.   For more information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        UserProfileName:
+          type: string
+          description: The user profile name\.
+        UserSettings:
+          type: '[usersettings](aws-properties-sagemaker-userprofile-usersettings.md)'
+          description: >-
+            A collection of settings that apply to users of Amazon SageMaker
+            Studio\.
+      required:
+        - DomainId
+        - UserProfileName
+    Workteam:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description of the work team\.
+        MemberDefinitions:
+          type: >-
+            list of
+            [memberdefinition](aws-properties-sagemaker-workteam-memberdefinition.md)
+          description: >-
+            A list of `MemberDefinition` objects that contains objects that
+            identify the workers that make up the work team\.    Workforces can
+            be created using Amazon Cognito or your own OIDC Identity Provider
+            \(IdP\)\. For private workforces created using Amazon Cognito use
+            `CognitoMemberDefinition`\. For workforces created using your own
+            OIDC identity provider \(IdP\) use `OidcMemberDefinition`\.
+        NotificationConfiguration:
+          type: >-
+            [notificationconfiguration](aws-properties-sagemaker-workteam-notificationconfiguration.md)
+          description: >-
+            Configures SNS notifications of available or expiring work items for
+            work teams\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: An array of key\-value pairs\.
+        WorkforceName:
+          type: string
+          description: Property description not available\.
+        WorkteamName:
+          type: string
+          description: The name of the work team\.
+paths: {}

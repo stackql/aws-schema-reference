@@ -1,0 +1,242 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: WAFRegional
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ByteMatchSet:
+      type: object
+      properties:
+        ByteMatchTuples:
+          type: >-
+            list of
+            [bytematchtuple](aws-properties-wafregional-bytematchset-bytematchtuple.md)
+          description: >-
+            Specifies the bytes \(typically a string that corresponds with ASCII
+            characters\) that you want AWS WAF to search for in web requests,
+            the location in requests that you want AWS WAF to search, and other
+            settings\.
+        Name:
+          type: string
+          description: >-
+            A friendly name or description of the `ByteMatchSet`\. You can't
+            change `Name` after you create a `ByteMatchSet`\.
+      required:
+        - Name
+    GeoMatchSet:
+      type: object
+      properties:
+        GeoMatchConstraints:
+          type: >-
+            list of
+            [geomatchconstraint](aws-properties-wafregional-geomatchset-geomatchconstraint.md)
+          description: >-
+            An array of `GeoMatchConstraint` objects, which contain the country
+            that you want AWS WAF to search for\.
+        Name:
+          type: string
+          description: >-
+            A friendly name or description of the
+            [AWS::WAFRegional::GeoMatchSet](#aws-resource-wafregional-geomatchset)\.
+            You can't change the name of an `GeoMatchSet` after you create it\.
+      required:
+        - Name
+    IPSet:
+      type: object
+      properties:
+        IPSetDescriptors:
+          type: >-
+            list of
+            [ipsetdescriptor](aws-properties-wafregional-ipset-ipsetdescriptor.md)
+          description: >-
+            The IP address type \(`IPV4` or `IPV6`\) and the IP address range
+            \(in CIDR notation\) that web requests originate from\.
+        Name:
+          type: string
+          description: >-
+            A friendly name or description of the `IPSet`\. You can't change the
+            name of an `IPSet` after you create it\.
+      required:
+        - Name
+    RateBasedRule:
+      type: object
+      properties:
+        MatchPredicates:
+          type: >-
+            list of
+            [predicate](aws-properties-wafregional-ratebasedrule-predicate.md)
+          description: >-
+            The `Predicates` object contains one `Predicate` element for each
+            `ByteMatchSet`, `IPSet`, or `SqlInjectionMatchSet>` object that you
+            want to include in a `RateBasedRule`\.
+        MetricName:
+          type: string
+          description: >-
+            A name for the metrics for a `RateBasedRule`\. The name can contain
+            only alphanumeric characters \(A\-Z, a\-z, 0\-9\), with maximum
+            length 128 and minimum length one\. It can't contain whitespace or
+            metric names reserved for AWS WAF, including "All" and
+            "Default\_Action\." You can't change the name of the metric after
+            you create the `RateBasedRule`\.
+        Name:
+          type: string
+          description: >-
+            A friendly name or description for a `RateBasedRule`\. You can't
+            change the name of a `RateBasedRule` after you create it\.
+        RateKey:
+          type: string
+          description: >-
+            The field that AWS WAF uses to determine if requests are likely
+            arriving from single source and thus subject to rate monitoring\.
+            The only valid value for `RateKey` is `IP`\. `IP` indicates that
+            requests arriving from the same IP address are subject to the
+            `RateLimit` that is specified in the `RateBasedRule`\.
+        RateLimit:
+          type: integer
+          description: >-
+            The maximum number of requests, which have an identical value in the
+            field specified by the `RateKey`, allowed in a five\-minute period\.
+            If the number of requests exceeds the `RateLimit` and the other
+            predicates specified in the rule are also met, AWS WAF triggers the
+            action that is specified for this rule\.
+      required:
+        - MetricName
+        - Name
+        - RateKey
+        - RateLimit
+    RegexPatternSet:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: >-
+            A friendly name or description of the
+            [AWS::WAFRegional::RegexPatternSet](#aws-resource-wafregional-regexpatternset)\.
+            You can't change `Name` after you create a `RegexPatternSet`\.
+        RegexPatternStrings:
+          type: array
+          description: >-
+            Specifies the regular expression \(regex\) patterns that you want
+            AWS WAF to search for, such as `B[a@]dB[o0]t`\.
+      required:
+        - Name
+        - RegexPatternStrings
+    Rule:
+      type: object
+      properties:
+        MetricName:
+          type: string
+          description: >-
+            A name for the metrics for this `Rule`\. The name can contain only
+            alphanumeric characters \(A\-Z, a\-z, 0\-9\), with maximum length
+            128 and minimum length one\. It can't contain whitespace or metric
+            names reserved for AWS WAF, including "All" and "Default\_Action\."
+            You can't change `MetricName` after you create the `Rule`\.
+        Name:
+          type: string
+          description: >-
+            The friendly name or description for the `Rule`\. You can't change
+            the name of a `Rule` after you create it\.
+        Predicates:
+          type: list of [predicate](aws-properties-wafregional-rule-predicate.md)
+          description: >-
+            The `Predicates` object contains one `Predicate` element for each
+            `ByteMatchSet`, `IPSet`, or `SqlInjectionMatchSet` object that you
+            want to include in a `Rule`\.
+      required:
+        - MetricName
+        - Name
+    SizeConstraintSet:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: The name, if any, of the `SizeConstraintSet`\.
+        SizeConstraints:
+          type: >-
+            list of
+            [sizeconstraint](aws-properties-wafregional-sizeconstraintset-sizeconstraint.md)
+          description: The size constraint and the part of the web request to check\.
+      required:
+        - Name
+    SqlInjectionMatchSet:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: The name, if any, of the `SqlInjectionMatchSet`\.
+        SqlInjectionMatchTuples:
+          type: >-
+            list of
+            [sqlinjectionmatchtuple](aws-properties-wafregional-sqlinjectionmatchset-sqlinjectionmatchtuple.md)
+          description: >-
+            Specifies the parts of web requests that you want to inspect for
+            snippets of malicious SQL code\.
+      required:
+        - Name
+    WebACL:
+      type: object
+      properties:
+        DefaultAction:
+          type: '[action](aws-properties-wafregional-webacl-action.md)'
+          description: >-
+            The action to perform if none of the `Rules` contained in the
+            `WebACL` match\. The action is specified by the `WafAction` object\.
+        MetricName:
+          type: string
+          description: >-
+            A name for the metrics for this `WebACL`\. The name can contain only
+            alphanumeric characters \(A\-Z, a\-z, 0\-9\), with maximum length
+            128 and minimum length one\. It can't contain whitespace or metric
+            names reserved for AWS WAF, including "All" and "Default\_Action\."
+            You can't change `MetricName` after you create the `WebACL`\.
+        Name:
+          type: string
+          description: >-
+            A friendly name or description of the `WebACL`\. You can't change
+            the name of a `WebACL` after you create it\.
+        Rules:
+          type: list of [rule](aws-properties-wafregional-webacl-rule.md)
+          description: >-
+            An array that contains the action for each `Rule` in a `WebACL`, the
+            priority of the `Rule`, and the ID of the `Rule`\.
+      required:
+        - DefaultAction
+        - MetricName
+        - Name
+    WebACLAssociation:
+      type: object
+      properties:
+        ResourceArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the resource to protect with the
+            web ACL\.
+        WebACLId:
+          type: string
+          description: A unique identifier \(ID\) for the web ACL\.
+      required:
+        - ResourceArn
+        - WebACLId
+    XssMatchSet:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: The name, if any, of the `XssMatchSet`\.
+        XssMatchTuples:
+          type: >-
+            list of
+            [xssmatchtuple](aws-properties-wafregional-xssmatchset-xssmatchtuple.md)
+          description: >-
+            Specifies the parts of web requests that you want to inspect for
+            cross\-site scripting attacks\.
+      required:
+        - Name
+paths: {}

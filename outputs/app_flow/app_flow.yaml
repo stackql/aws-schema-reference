@@ -1,0 +1,121 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: AppFlow
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Connector:
+      type: object
+      properties:
+        ConnectorLabel:
+          type: string
+          description: The label used for registering the connector\.
+        ConnectorProvisioningConfig:
+          type: >-
+            [connectorprovisioningconfig](aws-properties-appflow-connector-connectorprovisioningconfig.md)
+          description: The configuration required for registering the connector\.
+        ConnectorProvisioningType:
+          type: string
+          description: The provisioning type used to register the connector\.
+        Description:
+          type: string
+          description: A description of the connector entity field\.
+      required:
+        - ConnectorProvisioningConfig
+        - ConnectorProvisioningType
+    ConnectorProfile:
+      type: object
+      properties:
+        ConnectionMode:
+          type: string
+          description: Indicates the connection mode and if it is public or private\.
+        ConnectorLabel:
+          type: string
+          description: The label for the connector profile being created\.
+        ConnectorProfileConfig:
+          type: >-
+            [connectorprofileconfig](aws-properties-appflow-connectorprofile-connectorprofileconfig.md)
+          description: Defines the connector\-specific configuration and credentials\.
+        ConnectorProfileName:
+          type: string
+          description: >-
+            The name of the connector profile\. The name is unique for each
+            `ConnectorProfile` in the AWS account\.
+        ConnectorType:
+          type: string
+          description: The type of connector, such as Salesforce, Amplitude, and so on\.
+        KMSArn:
+          type: string
+          description: >-
+            The ARN \(Amazon Resource Name\) of the Key Management Service
+            \(KMS\) key you provide for encryption\. This is required if you do
+            not want to use the Amazon AppFlow\-managed KMS key\. If you don't
+            provide anything here, Amazon AppFlow uses the Amazon
+            AppFlow\-managed KMS key\.
+      required:
+        - ConnectionMode
+        - ConnectorProfileName
+        - ConnectorType
+    Flow:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A user\-entered description of the flow\.
+        DestinationFlowConfigList:
+          type: >-
+            list of
+            [destinationflowconfig](aws-properties-appflow-flow-destinationflowconfig.md)
+          description: >-
+            The configuration that controls how Amazon AppFlow places data in
+            the destination connector\.
+        FlowName:
+          type: string
+          description: >-
+            The specified name of the flow\. Spaces are not allowed\. Use
+            underscores \(\_\) or hyphens \(\-\) only\.
+        KMSArn:
+          type: string
+          description: >-
+            The ARN \(Amazon Resource Name\) of the Key Management Service
+            \(KMS\) key you provide for encryption\. This is required if you do
+            not want to use the Amazon AppFlow\-managed KMS key\. If you don't
+            provide anything here, Amazon AppFlow uses the Amazon
+            AppFlow\-managed KMS key\.
+        MetadataCatalogConfig:
+          type: >-
+            [metadatacatalogconfig](aws-properties-appflow-flow-metadatacatalogconfig.md)
+          description: Property description not available\.
+        SourceFlowConfig:
+          type: '[sourceflowconfig](aws-properties-appflow-flow-sourceflowconfig.md)'
+          description: >-
+            Contains information about the configuration of the source connector
+            used in the flow\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags used to organize, track, or control access for your flow\.
+        Tasks:
+          type: list of [task](aws-properties-appflow-flow-task.md)
+          description: >-
+            A list of tasks that Amazon AppFlow performs while transferring the
+            data in the flow run\.
+        TriggerConfig:
+          type: '[triggerconfig](aws-properties-appflow-flow-triggerconfig.md)'
+          description: >-
+            The trigger settings that determine how and when Amazon AppFlow runs
+            the specified flow\.
+      required:
+        - DestinationFlowConfigList
+        - FlowName
+        - SourceFlowConfig
+        - Tasks
+        - TriggerConfig
+paths: {}

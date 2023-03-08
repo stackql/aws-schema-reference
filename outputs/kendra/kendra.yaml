@@ -1,0 +1,189 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Kendra
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    DataSource:
+      type: object
+      properties:
+        CustomDocumentEnrichmentConfiguration:
+          type: >-
+            [customdocumentenrichmentconfiguration](aws-properties-kendra-datasource-customdocumentenrichmentconfiguration.md)
+          description: >-
+            Configuration information for altering document metadata and content
+            during the document ingestion process\.
+        DataSourceConfiguration:
+          type: >-
+            [datasourceconfiguration](aws-properties-kendra-datasource-datasourceconfiguration.md)
+          description: >-
+            Configuration information for an Amazon Kendra data source\. The
+            contents of the configuration depend on the type of data source\.
+            You can only specify one type of data source in the
+            configuration\.   You can't specify the `Configuration` parameter
+            when the `Type` parameter is set to `CUSTOM`\.   The `Configuration`
+            parameter is required for all other data sources\.
+        Description:
+          type: string
+          description: A description for the data source connector\.
+        IndexId:
+          type: string
+          description: >-
+            The identifier of the index you want to use with the data source
+            connector\.
+        Name:
+          type: string
+          description: The name of the data source\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of a role with permission to access
+            the data source\.   You can't specify the `RoleArn` parameter when
+            the `Type` parameter is set to `CUSTOM`\.   The `RoleArn` parameter
+            is required for all other data sources\.
+        Schedule:
+          type: string
+          description: >-
+            Sets the frequency that Amazon Kendra checks the documents in your
+            data source and updates the index\. If you don't set a schedule,
+            Amazon Kendra doesn't periodically update the index\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        Type:
+          type: string
+          description: The type of the data source\.
+      required:
+        - IndexId
+        - Name
+        - Type
+    Faq:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description for the FAQ\.
+        FileFormat:
+          type: string
+          description: >-
+            The format of the input file\. You can choose between a basic CSV
+            format, a CSV format that includes customs attributes in a header,
+            and a JSON format that includes custom attributes\.     The format
+            must match the format of the file stored in the S3 bucket identified
+            in the S3Path parameter\.    Valid values are:   + `CSV` +
+            `CSV_WITH_HEADER` + `JSON`
+        IndexId:
+          type: string
+          description: The identifier of the index that contains the FAQ\.
+        Name:
+          type: string
+          description: >-
+            The name that you assigned the FAQ when you created or updated the
+            FAQ\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of a role with permission to access
+            the S3 bucket that contains the FAQ\.
+        S3Path:
+          type: '[s3path](aws-properties-kendra-faq-s3path.md)'
+          description: >-
+            The Amazon Simple Storage Service \(Amazon S3\) location of the FAQ
+            input data\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - IndexId
+        - Name
+        - RoleArn
+        - S3Path
+    Index:
+      type: object
+      properties:
+        CapacityUnits:
+          type: >-
+            [capacityunitsconfiguration](aws-properties-kendra-index-capacityunitsconfiguration.md)
+          description: Property description not available\.
+        Description:
+          type: string
+          description: A description for the index\.
+        DocumentMetadataConfigurations:
+          type: >-
+            list of
+            [documentmetadataconfiguration](aws-properties-kendra-index-documentmetadataconfiguration.md)
+          description: >-
+            Specifies the properties of an index field\. You can add either a
+            custom or a built\-in field\. You can add and remove built\-in
+            fields at any time\. When a built\-in field is removed it's
+            configuration reverts to the default for the field\. Custom fields
+            can't be removed from an index after they are added\.
+        Edition:
+          type: string
+          description: >-
+            Indicates whether the index is a Enterprise Edition index or a
+            Developer Edition index\. Valid values are `DEVELOPER_EDITION` and
+            `ENTERPRISE_EDITION`\.
+        Name:
+          type: string
+          description: The name of the index\.
+        RoleArn:
+          type: string
+          description: >-
+            An IAM role that gives Amazon Kendra permissions to access your
+            Amazon CloudWatch logs and metrics\. This is also the role used when
+            you use the
+            [BatchPutDocument](https://docs.aws.amazon.com/kendra/latest/dg/BatchPutDocument.html)
+            operation to index documents from an Amazon S3 bucket\.
+        ServerSideEncryptionConfiguration:
+          type: >-
+            [serversideencryptionconfiguration](aws-properties-kendra-index-serversideencryptionconfiguration.md)
+          description: >-
+            The identifier of the AWS KMS customer managed key \(CMK\) to use to
+            encrypt data indexed by Amazon Kendra\. Amazon Kendra doesn't
+            support asymmetric CMKs\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        UserContextPolicy:
+          type: string
+          description: >-
+            The user context policy\.   ATTRIBUTE\_FILTER   + All indexed
+            content is searchable and displayable for all users\. If you want to
+            filter search results on user context, you can use the attribute
+            filters of `_user_id` and `_group_ids` or you can provide user and
+            group information in `UserContext`\. USER\_TOKEN   + Enables
+            token\-based user access control to filter search results on user
+            context\. All documents with no access control and all documents
+            accessible to the user will be searchable and displayable\.
+        UserTokenConfigurations:
+          type: >-
+            list of
+            [usertokenconfiguration](aws-properties-kendra-index-usertokenconfiguration.md)
+          description: Defines the type of user token used for the index\.
+      required:
+        - Edition
+        - Name
+        - RoleArn
+paths: {}

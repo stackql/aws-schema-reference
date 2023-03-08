@@ -1,0 +1,691 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: GameLift
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Alias:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A human\-readable description of the alias\.
+        Name:
+          type: string
+          description: >-
+            A descriptive label that is associated with an alias\. Alias names
+            do not need to be unique\.
+        RoutingStrategy:
+          type: '[routingstrategy](aws-properties-gamelift-alias-routingstrategy.md)'
+          description: >-
+            The routing configuration, including routing type and fleet target,
+            for the alias\.
+      required:
+        - Name
+        - RoutingStrategy
+    Build:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: >-
+            A descriptive label that is associated with a build\. Build names do
+            not need to be unique\.
+        OperatingSystem:
+          type: string
+          description: >-
+            The operating system that you built the game server binaries to run
+            on\. This value determines the type of fleet resources that you can
+            use for this build\. If your game build contains multiple
+            executables, they all must run on the same operating system\. If an
+            operating system is not specified when creating a build, GameLift
+            uses the default value \(WINDOWS\_2012\)\. This value cannot be
+            changed later\.
+        StorageLocation:
+          type: '[storagelocation](aws-properties-gamelift-build-storagelocation.md)'
+          description: >-
+            Information indicating where your game build files are stored\. Use
+            this parameter only when creating a build with files stored in an
+            Amazon S3 bucket that you own\. The storage location must specify an
+            Amazon S3 bucket name and key\. The location must also specify a
+            role ARN that you set up to allow Amazon GameLift to access your
+            Amazon S3 bucket\. The S3 bucket and your new build must be in the
+            same Region\.   If a `StorageLocation` is specified, the size of
+            your file can be found in your Amazon S3 bucket\. Amazon GameLift
+            will report a `SizeOnDisk` of 0\.
+        Version:
+          type: string
+          description: >-
+            Version information that is associated with this build\. Version
+            strings do not need to be unique\.
+    Fleet:
+      type: object
+      properties:
+        AnywhereConfiguration:
+          type: >-
+            [anywhereconfiguration](aws-properties-gamelift-fleet-anywhereconfiguration.md)
+          description: Property description not available\.
+        BuildId:
+          type: string
+          description: >-
+            A unique identifier for a build to be deployed on the new fleet\. If
+            you are deploying the fleet with a custom game build, you must
+            specify this property\. The build must have been successfully
+            uploaded to Amazon GameLift and be in a `READY` status\. This fleet
+            setting cannot be changed once the fleet is created\.
+        CertificateConfiguration:
+          type: >-
+            [certificateconfiguration](aws-properties-gamelift-fleet-certificateconfiguration.md)
+          description: >-
+            Prompts GameLift to generate a TLS/SSL certificate for the fleet\.
+            GameLift uses the certificates to encrypt traffic between game
+            clients and the game servers running on GameLift\. By default, the
+            `CertificateConfiguration` is `DISABLED`\. You can't change this
+            property after you create the fleet\.     AWS Certificate Manager
+            \(ACM\) certificates expire after 13 months\. Certificate expiration
+            can cause fleets to fail, preventing players from connecting to
+            instances in the fleet\. We recommend you replace fleets before 13
+            months, consider using fleet aliases for a smooth transition\.   ACM
+            isn't available in all AWS regions\. A fleet creation request with
+            certificate generation enabled in an unsupported Region, fails with
+            a 4xx error\. For more information about the supported Regions, see
+            [Supported
+            Regions](https://docs.aws.amazon.com/acm/latest/userguide/acm-regions.html)
+            in the * AWS Certificate Manager User Guide*\.
+        ComputeType:
+          type: string
+          description: >-
+            The type of compute resource used to host your game servers\. You
+            can use your own compute resources with GameLift Anywhere or use
+            Amazon EC2 instances with managed GameLift\.
+        Description:
+          type: string
+          description: A description for the fleet\.
+        DesiredEC2Instances:
+          type: integer
+          description: >-
+            The number of EC2 instances that you want this fleet to host\. When
+            creating a new fleet, GameLift automatically sets this value to "1"
+            and initiates a single instance\. Once the fleet is active, update
+            this value to trigger GameLift to add or remove instances from the
+            fleet\.
+        EC2InboundPermissions:
+          type: >-
+            list of
+            [ippermission](aws-properties-gamelift-fleet-ippermission.md)
+          description: >-
+            The allowed IP address ranges and port settings that allow inbound
+            traffic to access game sessions on this fleet\. If the fleet is
+            hosting a custom game build, this property must be set before
+            players can connect to game sessions\. For Realtime Servers fleets,
+            GameLift automatically sets TCP and UDP ranges\.
+        EC2InstanceType:
+          type: string
+          description: >-
+            The GameLift\-supported Amazon EC2 instance type to use for all
+            fleet instances\. Instance type determines the computing resources
+            that will be used to host your game servers, including CPU, memory,
+            storage, and networking capacity\. See [Amazon Elastic Compute Cloud
+            Instance Types](http://aws.amazon.com/ec2/instance-types/) for
+            detailed descriptions of Amazon EC2 instance types\.
+        FleetType:
+          type: string
+          description: >-
+            Indicates whether to use On\-Demand or Spot instances for this
+            fleet\. By default, this property is set to `ON_DEMAND`\. Learn more
+            about when to use [ On\-Demand versus Spot
+            Instances](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-ec2-instances.html#gamelift-ec2-instances-spot)\.
+            This property cannot be changed after the fleet is created\.
+        InstanceRoleARN:
+          type: string
+          description: >-
+            A unique identifier for an IAM role that manages access to your AWS
+            services\. With an instance role ARN set, any application that runs
+            on an instance in this fleet can assume the role, including install
+            scripts, server processes, and daemons \(background processes\)\.
+            Create a role or look up a role's ARN by using the [IAM
+            dashboard](https://console.aws.amazon.com/iam/) in the AWS
+            Management Console\. Learn more about using on\-box credentials for
+            your game servers at [ Access external resources from a game
+            server](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-resources.html)\.
+            This property cannot be changed after the fleet is created\.
+        Locations:
+          type: >-
+            list of
+            [locationconfiguration](aws-properties-gamelift-fleet-locationconfiguration.md)
+          description: >-
+            A set of remote locations to deploy additional instances to and
+            manage as part of the fleet\. This parameter can only be used when
+            creating fleets in AWS Regions that support multiple locations\. You
+            can add any GameLift\-supported AWS Region as a remote location, in
+            the form of an AWS Region code such as `us-west-2`\. To create a
+            fleet with instances in the home Region only, omit this parameter\.
+        MaxSize:
+          type: integer
+          description: >-
+            The maximum number of instances that are allowed in the specified
+            fleet location\. If this parameter is not set, the default is 1\.
+        MetricGroups:
+          type: array
+          description: >-
+            The name of an AWS CloudWatch metric group to add this fleet to\. A
+            metric group is used to aggregate the metrics for multiple fleets\.
+            You can specify an existing metric group name or set a new name to
+            create a new metric group\. A fleet can be included in only one
+            metric group at a time\.
+        MinSize:
+          type: integer
+          description: >-
+            The minimum number of instances that are allowed in the specified
+            fleet location\. If this parameter is not set, the default is 0\.
+        Name:
+          type: string
+          description: >-
+            A descriptive label that is associated with a fleet\. Fleet names do
+            not need to be unique\.
+        NewGameSessionProtectionPolicy:
+          type: string
+          description: >-
+            The status of termination protection for active game sessions on the
+            fleet\. By default, this property is set to `NoProtection`\.   + 
+            **NoProtection** \- Game sessions can be terminated during active
+            gameplay as a result of a scale\-down event\.  +  **FullProtection**
+            \- Game sessions in `ACTIVE` status cannot be terminated during a
+            scale\-down event\.
+        PeerVpcAwsAccountId:
+          type: string
+          description: >-
+            Used when peering your GameLift fleet with a VPC, the unique
+            identifier for the AWS account that owns the VPC\. You can find your
+            account ID in the AWS Management Console under account settings\.
+        PeerVpcId:
+          type: string
+          description: >-
+            A unique identifier for a VPC with resources to be accessed by your
+            GameLift fleet\. The VPC must be in the same Region as your fleet\.
+            To look up a VPC ID, use the [VPC
+            Dashboard](https://console.aws.amazon.com/vpc/) in the AWS
+            Management Console\. Learn more about VPC peering in [VPC Peering
+            with GameLift
+            Fleets](https://docs.aws.amazon.com/gamelift/latest/developerguide/vpc-peering.html)\.
+        ResourceCreationLimitPolicy:
+          type: >-
+            [resourcecreationlimitpolicy](aws-properties-gamelift-fleet-resourcecreationlimitpolicy.md)
+          description: >-
+            A policy that limits the number of game sessions that an individual
+            player can create on instances in this fleet within a specified span
+            of time\.
+        RuntimeConfiguration:
+          type: >-
+            [runtimeconfiguration](aws-properties-gamelift-fleet-runtimeconfiguration.md)
+          description: >-
+            Instructions for how to launch and maintain server processes on
+            instances in the fleet\. The runtime configuration defines one or
+            more server process configurations, each identifying a build
+            executable or Realtime script file and the number of processes of
+            that type to run concurrently\.    The `RuntimeConfiguration`
+            parameter is required unless the fleet is being configured using the
+            older parameters `ServerLaunchPath` and `ServerLaunchParameters`,
+            which are still supported for backward compatibility\.
+        ScriptId:
+          type: string
+          description: >-
+            The unique identifier for a Realtime configuration script to be
+            deployed on fleet instances\. You can use either the script ID or
+            ARN\. Scripts must be uploaded to GameLift prior to creating the
+            fleet\. This fleet property cannot be changed later\.   You can't
+            use the `!Ref` command to reference a script created with a
+            CloudFormation template for the fleet property `ScriptId`\. Instead,
+            use `Fn::GetAtt Script.Arn` or `Fn::GetAtt Script.Id` to retrieve
+            either of these properties as input for `ScriptId`\. Alternatively,
+            enter a `ScriptId` string manually\.
+      required:
+        - Name
+    GameServerGroup:
+      type: object
+      properties:
+        AutoScalingPolicy:
+          type: >-
+            [autoscalingpolicy](aws-properties-gamelift-gameservergroup-autoscalingpolicy.md)
+          description: >-
+            Configuration settings to define a scaling policy for the Auto
+            Scaling group that is optimized for game hosting\. The scaling
+            policy uses the metric `"PercentUtilizedGameServers"` to maintain a
+            buffer of idle game servers that can immediately accommodate new
+            games and players\. After the Auto Scaling group is created, update
+            this value directly in the Auto Scaling group using the AWS console
+            or APIs\.
+        BalancingStrategy:
+          type: string
+          description: >-
+            Indicates how GameLift FleetIQ balances the use of Spot Instances
+            and On\-Demand Instances in the game server group\. Method options
+            include the following:   +  `SPOT_ONLY` \- Only Spot Instances are
+            used in the game server group\. If Spot Instances are unavailable or
+            not viable for game hosting, the game server group provides no
+            hosting capacity until Spot Instances can again be used\. Until
+            then, no new instances are started, and the existing nonviable Spot
+            Instances are terminated \(after current gameplay ends\) and are not
+            replaced\. +  `SPOT_PREFERRED` \- \(default value\) Spot Instances
+            are used whenever available in the game server group\. If Spot
+            Instances are unavailable, the game server group continues to
+            provide hosting capacity by falling back to On\-Demand Instances\.
+            Existing nonviable Spot Instances are terminated \(after current
+            gameplay ends\) and are replaced with new On\-Demand Instances\. + 
+            `ON_DEMAND_ONLY` \- Only On\-Demand Instances are used in the game
+            server group\. No Spot Instances are used, even when available,
+            while this balancing strategy is in force\.
+        DeleteOption:
+          type: string
+          description: >-
+            The type of delete to perform\. To delete a game server group,
+            specify the `DeleteOption`\. Options include the following:   + 
+            `SAFE_DELETE` – \(default\) Terminates the game server group and
+            Amazon EC2 Auto Scaling group only when it has no game servers that
+            are in `UTILIZED` status\. +  `FORCE_DELETE` – Terminates the game
+            server group, including all active game servers regardless of their
+            utilization status, and the Amazon EC2 Auto Scaling group\.  + 
+            `RETAIN` – Does a safe delete of the game server group but retains
+            the Amazon EC2 Auto Scaling group as is\.
+        GameServerGroupName:
+          type: string
+          description: >-
+            A developer\-defined identifier for the game server group\. The name
+            is unique for each Region in each AWS account\.
+        GameServerProtectionPolicy:
+          type: string
+          description: >-
+            A flag that indicates whether instances in the game server group are
+            protected from early termination\. Unprotected instances that have
+            active game servers running might be terminated during a scale\-down
+            event, causing players to be dropped from the game\. Protected
+            instances cannot be terminated while there are active game servers
+            running except in the event of a forced game server group deletion
+            \(see \)\. An exception to this is with Spot Instances, which can be
+            terminated by AWS regardless of protection status\.
+        InstanceDefinitions:
+          type: >-
+            list of
+            [instancedefinition](aws-properties-gamelift-gameservergroup-instancedefinition.md)
+          description: >-
+            The set of Amazon EC2 instance types that GameLift FleetIQ can use
+            when balancing and automatically scaling instances in the
+            corresponding Auto Scaling group\.
+        LaunchTemplate:
+          type: >-
+            [launchtemplate](aws-properties-gamelift-gameservergroup-launchtemplate.md)
+          description: >-
+            The Amazon EC2 launch template that contains configuration settings
+            and game server code to be deployed to all instances in the game
+            server group\. You can specify the template using either the
+            template name or ID\. For help with creating a launch template, see
+            [Creating a Launch Template for an Auto Scaling
+            Group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-launch-template.html)
+            in the *Amazon Elastic Compute Cloud Auto Scaling User Guide*\.
+            After the Auto Scaling group is created, update this value directly
+            in the Auto Scaling group using the AWS console or APIs\.   If you
+            specify network interfaces in your launch template, you must
+            explicitly set the property `AssociatePublicIpAddress` to "true"\.
+            If no network interface is specified in the launch template,
+            GameLift FleetIQ uses your account's default VPC\.
+        MaxSize:
+          type: double
+          description: >-
+            The maximum number of instances allowed in the Amazon EC2 Auto
+            Scaling group\. During automatic scaling events, GameLift FleetIQ
+            and EC2 do not scale up the group above this maximum\. After the
+            Auto Scaling group is created, update this value directly in the
+            Auto Scaling group using the AWS console or APIs\.
+        MinSize:
+          type: double
+          description: >-
+            The minimum number of instances allowed in the Amazon EC2 Auto
+            Scaling group\. During automatic scaling events, GameLift FleetIQ
+            and Amazon EC2 do not scale down the group below this minimum\. In
+            production, this value should be set to at least 1\. After the Auto
+            Scaling group is created, update this value directly in the Auto
+            Scaling group using the AWS console or APIs\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name
+            \([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)\)
+            for an IAM role that allows Amazon GameLift to access your Amazon
+            EC2 Auto Scaling groups\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of labels to assign to the new game server group resource\.
+            Tags are developer\-defined key\-value pairs\. Tagging AWS resources
+            is useful for resource management, access management, and cost
+            allocation\. For more information, see [ Tagging AWS
+            Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+            in the * AWS General Reference*\. Once the resource is created, you
+            can use TagResource, UntagResource, and ListTagsForResource to add,
+            remove, and view tags, respectively\. The maximum tag limit may be
+            lower than stated\. See the AWS General Reference for actual tagging
+            limits\.
+        VpcSubnets:
+          type: array
+          description: >-
+            A list of virtual private cloud \(VPC\) subnets to use with
+            instances in the game server group\. By default, all GameLift
+            FleetIQ\-supported Availability Zones are used\. You can use this
+            parameter to specify VPCs that you've set up\. This property cannot
+            be updated after the game server group is created, and the
+            corresponding Auto Scaling group will always use the property value
+            that is set with this request, even if the Auto Scaling group is
+            updated directly\.
+      required:
+        - GameServerGroupName
+        - InstanceDefinitions
+        - LaunchTemplate
+        - RoleArn
+    GameSessionQueue:
+      type: object
+      properties:
+        CustomEventData:
+          type: string
+          description: >-
+            Information to be added to all events that are related to this game
+            session queue\.
+        Destinations:
+          type: >-
+            list of
+            [destination](aws-properties-gamelift-gamesessionqueue-destination.md)
+          description: >-
+            A list of fleets and/or fleet aliases that can be used to fulfill
+            game session placement requests in the queue\. Destinations are
+            identified by either a fleet ARN or a fleet alias ARN, and are
+            listed in order of placement preference\.
+        FilterConfiguration:
+          type: >-
+            [filterconfiguration](aws-properties-gamelift-gamesessionqueue-filterconfiguration.md)
+          description: >-
+            A list of locations where a queue is allowed to place new game
+            sessions\. Locations are specified in the form of AWS Region codes,
+            such as `us-west-2`\. If this parameter is not set, game sessions
+            can be placed in any queue location\.
+        Name:
+          type: string
+          description: >-
+            A descriptive label that is associated with game session queue\.
+            Queue names must be unique within each Region\.
+        NotificationTarget:
+          type: string
+          description: >-
+            An SNS topic ARN that is set up to receive game session placement
+            notifications\. See [ Setting up notifications for game session
+            placement](https://docs.aws.amazon.com/gamelift/latest/developerguide/queue-notification.html)\.
+        PlayerLatencyPolicies:
+          type: >-
+            list of
+            [playerlatencypolicy](aws-properties-gamelift-gamesessionqueue-playerlatencypolicy.md)
+          description: >-
+            A set of policies that act as a sliding cap on player latency\.
+            FleetIQ works to deliver low latency for most players in a game
+            session\. These policies ensure that no individual player can be
+            placed into a game with unreasonably high latency\. Use multiple
+            policies to gradually relax latency requirements a step at a time\.
+            Multiple policies are applied based on their maximum allowed
+            latency, starting with the lowest value\.
+        PriorityConfiguration:
+          type: >-
+            [priorityconfiguration](aws-properties-gamelift-gamesessionqueue-priorityconfiguration.md)
+          description: >-
+            Custom settings to use when prioritizing destinations and locations
+            for game session placements\. This configuration replaces the
+            FleetIQ default prioritization process\. Priority types that are not
+            explicitly named will be automatically applied at the end of the
+            prioritization process\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of labels to assign to the new game session queue resource\.
+            Tags are developer\-defined key\-value pairs\. Tagging AWS resources
+            are useful for resource management, access management and cost
+            allocation\. For more information, see [ Tagging AWS
+            Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+            in the * AWS General Reference*\. Once the resource is created, you
+            can use TagResource, UntagResource, and ListTagsForResource to add,
+            remove, and view tags\. The maximum tag limit may be lower than
+            stated\. See the AWS General Reference for actual tagging limits\.
+        TimeoutInSeconds:
+          type: integer
+          description: >-
+            The maximum time, in seconds, that a new game session placement
+            request remains in the queue\. When a request exceeds this time, the
+            game session placement changes to a `TIMED_OUT` status\.
+      required:
+        - Name
+    Location:
+      type: object
+      properties:
+        LocationName:
+          type: string
+          description: The location's name\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Property description not available\.
+      required:
+        - LocationName
+    MatchmakingConfiguration:
+      type: object
+      properties:
+        AcceptanceRequired:
+          type: boolean
+          description: >-
+            A flag that determines whether a match that was created with this
+            configuration must be accepted by the matched players\. To require
+            acceptance, set to `TRUE`\. With this option enabled, matchmaking
+            tickets use the status `REQUIRES_ACCEPTANCE` to indicate when a
+            completed potential match is waiting for player acceptance\.
+        AcceptanceTimeoutSeconds:
+          type: integer
+          description: >-
+            The length of time \(in seconds\) to wait for players to accept a
+            proposed match, if acceptance is required\.
+        AdditionalPlayerCount:
+          type: integer
+          description: >-
+            The number of player slots in a match to keep open for future
+            players\. For example, if the configuration's rule set specifies a
+            match for a single 12\-person team, and the additional player count
+            is set to 2, only 10 players are selected for the match\. This
+            parameter is not used if `FlexMatchMode` is set to `STANDALONE`\.
+        BackfillMode:
+          type: string
+          description: >-
+            The method used to backfill game sessions that are created with this
+            matchmaking configuration\. Specify `MANUAL` when your game manages
+            backfill requests manually or does not use the match backfill
+            feature\. Specify `AUTOMATIC` to have GameLift create a
+            `StartMatchBackfill` request whenever a game session has one or more
+            open slots\. Learn more about manual and automatic backfill in
+            [Backfill Existing Games with
+            FlexMatch](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-backfill.html)\.
+            Automatic backfill is not available when `FlexMatchMode` is set to
+            `STANDALONE`\.
+        CustomEventData:
+          type: string
+          description: >-
+            Information to add to all events related to the matchmaking
+            configuration\.
+        Description:
+          type: string
+          description: A description for the matchmaking configuration\.
+        FlexMatchMode:
+          type: string
+          description: >-
+            Indicates whether this matchmaking configuration is being used with
+            GameLift hosting or as a standalone matchmaking solution\.    + 
+            **STANDALONE** \- FlexMatch forms matches and returns match
+            information, including players and team assignments, in a [
+            MatchmakingSucceeded](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-events.html#match-events-matchmakingsucceeded)
+            event\. +  **WITH\_QUEUE** \- FlexMatch forms matches and uses the
+            specified GameLift queue to start a game session for the match\.
+        GameProperties:
+          type: >-
+            list of
+            [gameproperty](aws-properties-gamelift-matchmakingconfiguration-gameproperty.md)
+          description: >-
+            A set of custom properties for a game session, formatted as
+            key\-value pairs\. These properties are passed to a game server
+            process with a request to start a new game session\. See [ Start a
+            Game
+            Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)\.
+            This parameter is not used if `FlexMatchMode` is set to
+            `STANDALONE`\.
+        GameSessionData:
+          type: string
+          description: >-
+            A set of custom game session properties, formatted as a single
+            string value\. This data is passed to a game server process with a
+            request to start a new game session\. See [Start a Game
+            Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)\.
+            This parameter is not used if`FlexMatchMode` is set to
+            `STANDALONE`\.
+        GameSessionQueueArns:
+          type: array
+          description: >-
+            The Amazon Resource Name
+            \([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)\)
+            that is assigned to a GameLift game session queue resource and
+            uniquely identifies it\. ARNs are unique across all Regions\. Format
+            is `arn:aws:gamelift:<region>::gamesessionqueue/<queue name>`\.
+            Queues can be located in any Region\. Queues are used to start new
+            GameLift\-hosted game sessions for matches that are created with
+            this matchmaking configuration\. If `FlexMatchMode` is set to
+            `STANDALONE`, do not set this parameter\.
+        Name:
+          type: string
+          description: >-
+            A unique identifier for the matchmaking configuration\. This name is
+            used to identify the configuration associated with a matchmaking
+            request or ticket\.
+        NotificationTarget:
+          type: string
+          description: >-
+            An SNS topic ARN that is set up to receive matchmaking
+            notifications\. See [ Setting up notifications for
+            matchmaking](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-notification.html)
+            for more information\.
+        RequestTimeoutSeconds:
+          type: integer
+          description: >-
+            The maximum duration, in seconds, that a matchmaking ticket can
+            remain in process before timing out\. Requests that fail due to
+            timing out can be resubmitted as needed\.
+        RuleSetName:
+          type: string
+          description: >-
+            A unique identifier for the matchmaking rule set to use with this
+            configuration\. You can use either the rule set name or ARN value\.
+            A matchmaking configuration can only use rule sets that are defined
+            in the same Region\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of labels to assign to the new matchmaking configuration
+            resource\. Tags are developer\-defined key\-value pairs\. Tagging
+            AWS resources are useful for resource management, access management
+            and cost allocation\. For more information, see [ Tagging AWS
+            Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+            in the * AWS General Reference*\. Once the resource is created, you
+            can use TagResource, UntagResource, and ListTagsForResource to add,
+            remove, and view tags\. The maximum tag limit may be lower than
+            stated\. See the AWS General Reference for actual tagging limits\.
+      required:
+        - AcceptanceRequired
+        - Name
+        - RequestTimeoutSeconds
+        - RuleSetName
+    MatchmakingRuleSet:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: >-
+            A unique identifier for the matchmaking rule set\. A matchmaking
+            configuration identifies the rule set it uses by this name value\.
+            Note that the rule set name is different from the optional `name`
+            field in the rule set body\.
+        RuleSetBody:
+          type: string
+          description: >-
+            A collection of matchmaking rules, formatted as a JSON string\.
+            Comments are not allowed in JSON, but most elements support a
+            description field\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of labels to assign to the new matchmaking rule set
+            resource\. Tags are developer\-defined key\-value pairs\. Tagging
+            AWS resources are useful for resource management, access management
+            and cost allocation\. For more information, see [ Tagging AWS
+            Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+            in the * AWS General Reference*\. Once the resource is created, you
+            can use TagResource, UntagResource, and ListTagsForResource to add,
+            remove, and view tags\. The maximum tag limit may be lower than
+            stated\. See the AWS General Reference for actual tagging limits\.
+      required:
+        - Name
+        - RuleSetBody
+    Script:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: >-
+            A descriptive label that is associated with a script\. Script names
+            do not need to be unique\.
+        StorageLocation:
+          type: '[s3location](aws-properties-gamelift-script-s3location.md)'
+          description: >-
+            The location of the Amazon S3 bucket where a zipped file containing
+            your Realtime scripts is stored\. The storage location must specify
+            the Amazon S3 bucket name, the zip file name \(the "key"\), and a
+            role ARN that allows Amazon GameLift to access the Amazon S3 storage
+            location\. The S3 bucket must be in the same Region where you want
+            to create a new script\. By default, Amazon GameLift uploads the
+            latest version of the zip file; if you have S3 object versioning
+            turned on, you can use the `ObjectVersion` parameter to specify an
+            earlier version\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of labels to assign to the new script resource\. Tags are
+            developer\-defined key\-value pairs\. Tagging AWS resources are
+            useful for resource management, access management and cost
+            allocation\. For more information, see [ Tagging AWS
+            Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html)
+            in the * AWS General Reference*\. Once the resource is created, you
+            can use TagResource, UntagResource, and ListTagsForResource to add,
+            remove, and view tags\. The maximum tag limit may be lower than
+            stated\. See the AWS General Reference for actual tagging limits\.
+        Version:
+          type: string
+          description: >-
+            The version that is associated with a build or script\. Version
+            strings do not need to be unique\.
+      required:
+        - StorageLocation
+paths: {}

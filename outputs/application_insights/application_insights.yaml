@@ -1,0 +1,73 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: ApplicationInsights
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Application:
+      type: object
+      properties:
+        AutoConfigurationEnabled:
+          type: boolean
+          description: >-
+            If set to `true`, the application components will be configured with
+            the monitoring configuration recommended by Application Insights\.
+        ComponentMonitoringSettings:
+          type: >-
+            list of
+            [componentmonitoringsetting](aws-properties-applicationinsights-application-componentmonitoringsetting.md)
+          description: The monitoring settings of the components\.
+        CustomComponents:
+          type: >-
+            list of
+            [customcomponent](aws-properties-applicationinsights-application-customcomponent.md)
+          description: >-
+            Describes a custom component by grouping similar standalone
+            instances to monitor\.
+        CWEMonitorEnabled:
+          type: boolean
+          description: >-
+            Indicates whether Application Insights can listen to CloudWatch
+            events for the application resources, such as `instance terminated`,
+            `failed deployment`, and others\.
+        GroupingType:
+          type: string
+          description: >-
+            Application Insights can create applications based on a resource
+            group or on an account\. To create an account\-based application
+            using all of the resources in the account, set this parameter to
+            `ACCOUNT_BASED`\.
+        LogPatternSets:
+          type: >-
+            list of
+            [logpatternset](aws-properties-applicationinsights-application-logpatternset.md)
+          description: The log pattern sets\.
+        OpsCenterEnabled:
+          type: boolean
+          description: >-
+            Indicates whether Application Insights will create OpsItems for any
+            problem that is detected by Application Insights for an
+            application\.
+        OpsItemSNSTopicArn:
+          type: string
+          description: >-
+            The SNS topic provided to Application Insights that is associated
+            with the created OpsItems to receive SNS notifications for opsItem
+            updates\.
+        ResourceGroupName:
+          type: string
+          description: The name of the resource group used for the application\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: An array of `Tags`\.
+      required:
+        - ResourceGroupName
+paths: {}

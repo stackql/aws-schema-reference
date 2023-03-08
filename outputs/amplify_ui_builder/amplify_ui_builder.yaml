@@ -1,0 +1,188 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: AmplifyUIBuilder
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Component:
+      type: object
+      properties:
+        AppId:
+          type: string
+          description: The unique ID of the Amplify app associated with the component\.
+        BindingProperties:
+          description: >-
+            The information to connect a component's properties to data at
+            runtime\. You can't specify `tags` as a valid property for
+            `bindingProperties`\.
+        undefined:
+          type: >-
+            map of
+            [componentbindingpropertiesvalue](aws-properties-amplifyuibuilder-component-componentbindingpropertiesvalue.md)
+          description: ''
+        Children:
+          type: >-
+            list of
+            [componentchild](aws-properties-amplifyuibuilder-component-componentchild.md)
+          description: A list of the component's `ComponentChild` instances\.
+        CollectionProperties:
+          type: >-
+            map of
+            [componentdataconfiguration](aws-properties-amplifyuibuilder-component-componentdataconfiguration.md)
+          description: >-
+            The data binding configuration for the component's properties\. Use
+            this for a collection component\. You can't specify `tags` as a
+            valid property for `collectionProperties`\.
+        ComponentType:
+          type: string
+          description: >-
+            The type of the component\. This can be an Amplify custom UI
+            component or another custom component\.
+        EnvironmentName:
+          type: string
+          description: >-
+            The name of the backend environment that is a part of the Amplify
+            app\.
+        Events:
+          type: >-
+            map of
+            [componentevent](aws-properties-amplifyuibuilder-component-componentevent.md)
+          description: >-
+            Describes the events that can be raised on the component\. Use for
+            the workflow feature in Amplify Studio that allows you to bind
+            events and actions to components\.
+        Name:
+          type: string
+          description: The name of the component\.
+        Overrides:
+          type: object
+          description: >-
+            Describes the component's properties that can be overriden in a
+            customized instance of the component\. You can't specify `tags` as a
+            valid property for `overrides`\.
+        Properties:
+          type: >-
+            map of
+            [componentproperty](aws-properties-amplifyuibuilder-component-componentproperty.md)
+          description: >-
+            Describes the component's properties\. You can't specify `tags` as a
+            valid property for `properties`\.
+        SchemaVersion:
+          type: string
+          description: The schema version of the component when it was imported\.
+        SourceId:
+          type: string
+          description: >-
+            The unique ID of the component in its original source system, such
+            as Figma\.
+        Tags:
+          type: map of string
+          description: One or more key\-value pairs to use when tagging the component\.
+        Variants:
+          type: >-
+            list of
+            [componentvariant](aws-properties-amplifyuibuilder-component-componentvariant.md)
+          description: >-
+            A list of the component's variants\. A variant is a unique style
+            configuration of a main component\.
+      required:
+        - null
+        - ComponentType
+        - Name
+        - Overrides
+        - Properties
+        - Variants
+    Form:
+      type: object
+      properties:
+        AppId:
+          type: string
+          description: The unique ID of the Amplify app associated with the form\.
+        Cta:
+          type: '[formcta](aws-properties-amplifyuibuilder-form-formcta.md)'
+          description: Stores the call to action configuration for the form\.
+        DataType:
+          type: >-
+            [formdatatypeconfig](aws-properties-amplifyuibuilder-form-formdatatypeconfig.md)
+          description: The type of data source to use to create the form\.
+        EnvironmentName:
+          type: string
+          description: >-
+            The name of the backend environment that is a part of the Amplify
+            app\.
+        Fields:
+          type: >-
+            map of
+            [fieldconfig](aws-properties-amplifyuibuilder-form-fieldconfig.md)
+          description: Stores the information about the form's fields\.
+        FormActionType:
+          type: string
+          description: The operation to perform on the specified form\.
+        Name:
+          type: string
+          description: The name of the form\.
+        SchemaVersion:
+          type: string
+          description: The schema version of the form when it was imported\.
+        SectionalElements:
+          type: >-
+            map of
+            [sectionalelement](aws-properties-amplifyuibuilder-form-sectionalelement.md)
+          description: >-
+            Stores the visual helper elements for the form that are not
+            associated with any data\.
+        Style:
+          type: '[formstyle](aws-properties-amplifyuibuilder-form-formstyle.md)'
+          description: Stores the configuration for the form's style\.
+        Tags:
+          type: map of string
+          description: One or more key\-value pairs to use when tagging the form\.
+      required:
+        - DataType
+        - Fields
+        - FormActionType
+        - Name
+        - SchemaVersion
+        - SectionalElements
+        - Style
+    Theme:
+      type: object
+      properties:
+        AppId:
+          type: string
+          description: The unique ID for the Amplify app associated with the theme\.
+        EnvironmentName:
+          type: string
+          description: >-
+            The name of the backend environment that is a part of the Amplify
+            app\.
+        Name:
+          type: string
+          description: The name of the theme\.
+        Overrides:
+          type: >-
+            list of
+            [themevalues](aws-properties-amplifyuibuilder-theme-themevalues.md)
+          description: >-
+            Describes the properties that can be overriden to customize a
+            theme\.
+        Tags:
+          type: map of string
+          description: One or more key\-value pairs to use when tagging the theme\.
+        Values:
+          type: >-
+            list of
+            [themevalues](aws-properties-amplifyuibuilder-theme-themevalues.md)
+          description: >-
+            A list of key\-value pairs that defines the properties of the
+            theme\.
+      required:
+        - Name
+        - Values
+paths: {}

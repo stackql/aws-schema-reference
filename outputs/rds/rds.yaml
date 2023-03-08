@@ -1,0 +1,1918 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: RDS
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    DBCluster:
+      type: object
+      properties:
+        AllocatedStorage:
+          type: integer
+          description: >-
+            The amount of storage in gibibytes \(GiB\) to allocate to each DB
+            instance in the Multi\-AZ DB cluster\.   This setting is required to
+            create a Multi\-AZ DB cluster\.   Valid for: Multi\-AZ DB clusters
+            only
+        AssociatedRoles:
+          type: >-
+            list of
+            [dbclusterrole](aws-properties-rds-dbcluster-dbclusterrole.md)
+          description: >-
+            Provides a list of the AWS Identity and Access Management \(IAM\)
+            roles that are associated with the DB cluster\. IAM roles that are
+            associated with a DB cluster grant permission for the DB cluster to
+            access other Amazon Web Services on your behalf\.   Valid for:
+            Aurora DB clusters and Multi\-AZ DB clusters
+        AutoMinorVersionUpgrade:
+          type: boolean
+          description: >-
+            A value that indicates whether minor engine upgrades are applied
+            automatically to the DB cluster during the maintenance window\. By
+            default, minor engine upgrades are applied automatically\.   Valid
+            for: Multi\-AZ DB clusters only
+        AvailabilityZones:
+          type: array
+          description: >-
+            A list of Availability Zones \(AZs\) where instances in the DB
+            cluster can be created\. For information on AWS Regions and
+            Availability Zones, see [Choosing the Regions and Availability
+            Zones](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.RegionsAndAvailabilityZones.html)
+            in the *Amazon Aurora User Guide*\.    Valid for: Aurora DB clusters
+            only
+        BacktrackWindow:
+          type: integer
+          description: >-
+            The target backtrack window, in seconds\. To disable backtracking,
+            set this value to 0\.    Currently, Backtrack is only supported for
+            Aurora MySQL DB clusters\. Default: 0   Constraints:   + If
+            specified, this value must be set to a number from 0 to 259,200 \(72
+            hours\)\. Valid for: Aurora MySQL DB clusters only
+        BackupRetentionPeriod:
+          type: integer
+          description: >-
+            The number of days for which automated backups are retained\.  
+            Default: 1   Constraints:   + Must be a value from 1 to 35 Valid
+            for: Aurora DB clusters and Multi\-AZ DB clusters
+        CopyTagsToSnapshot:
+          type: boolean
+          description: >-
+            A value that indicates whether to copy all tags from the DB cluster
+            to snapshots of the DB cluster\. The default is not to copy them\.  
+            Valid for: Aurora DB clusters and Multi\-AZ DB clusters
+        DatabaseName:
+          type: string
+          description: >-
+            The name of your database\. If you don't provide a name, then Amazon
+            RDS won't create a database in this DB cluster\. For naming
+            constraints, see [Naming
+            Constraints](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_Limits.html#RDS_Limits.Constraints)
+            in the *Amazon Aurora User Guide*\.    Valid for: Aurora DB clusters
+            and Multi\-AZ DB clusters
+        DBClusterIdentifier:
+          type: string
+          description: >-
+            The DB cluster identifier\. This parameter is stored as a lowercase
+            string\.   Constraints:   + Must contain from 1 to 63 letters,
+            numbers, or hyphens\. + First character must be a letter\. + Can't
+            end with a hyphen or contain two consecutive hyphens\. Example:
+            `my-cluster1`    Valid for: Aurora DB clusters and Multi\-AZ DB
+            clusters
+        DBClusterInstanceClass:
+          type: string
+          description: >-
+            The compute and memory capacity of each DB instance in the Multi\-AZ
+            DB cluster, for example db\.m6gd\.xlarge\. Not all DB instance
+            classes are available in all AWS Regions, or for all database
+            engines\.   For the full list of DB instance classes and
+            availability for your engine, see [DB instance
+            class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html)
+            in the *Amazon RDS User Guide*\.   This setting is required to
+            create a Multi\-AZ DB cluster\.   Valid for: Multi\-AZ DB clusters
+            only
+        DBClusterParameterGroupName:
+          type: string
+          description: >-
+            The name of the DB cluster parameter group to associate with this DB
+            cluster\.   If you apply a parameter group to an existing DB
+            cluster, then its DB instances might need to reboot\. This can
+            result in an outage while the DB instances are rebooting\.   If you
+            apply a change to parameter group associated with a stopped DB
+            cluster, then the update stack waits until the DB cluster is
+            started\. To list all of the available DB cluster parameter group
+            names, use the following command:   `aws rds
+            describe-db-cluster-parameter-groups --query
+            "DBClusterParameterGroups[].DBClusterParameterGroupName" --output
+            text`   Valid for: Aurora DB clusters and Multi\-AZ DB clusters
+        DBInstanceParameterGroupName:
+          type: string
+          description: >-
+            The name of the DB parameter group to apply to all instances of the
+            DB cluster\.   When you apply a parameter group using the
+            `DBInstanceParameterGroupName` parameter, the DB cluster isn't
+            rebooted automatically\. Also, parameter changes are applied
+            immediately rather than during the next maintenance window\.
+            Default: The existing name setting   Constraints:   + The DB
+            parameter group must be in the same DB parameter group family as
+            this DB cluster\.
+        DBSubnetGroupName:
+          type: string
+          description: >-
+            A DB subnet group that you want to associate with this DB
+            cluster\.    If you are restoring a DB cluster to a point in time
+            with `RestoreType` set to `copy-on-write`, and don't specify a DB
+            subnet group name, then the DB cluster is restored with a default DB
+            subnet group\.   Valid for: Aurora DB clusters and Multi\-AZ DB
+            clusters
+        DBSystemId:
+          type: string
+          description: Reserved for future use\.
+        DeletionProtection:
+          type: boolean
+          description: >-
+            A value that indicates whether the DB cluster has deletion
+            protection enabled\. The database can't be deleted when deletion
+            protection is enabled\. By default, deletion protection is
+            disabled\.   Valid for: Aurora DB clusters and Multi\-AZ DB clusters
+        Domain:
+          type: string
+          description: >-
+            Indicates the directory ID of the Active Directory to create the DB
+            cluster\.   For Amazon Aurora DB clusters, Amazon RDS can use
+            Kerberos authentication to authenticate users that connect to the DB
+            cluster\.   For more information, see [Kerberos
+            authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/kerberos-authentication.html)
+            in the *Amazon Aurora User Guide*\.   Valid for: Aurora DB clusters
+            only
+        DomainIAMRoleName:
+          type: string
+          description: >-
+            Specifies the name of the IAM role to use when making API calls to
+            the Directory Service\.   Valid for: Aurora DB clusters only
+        EnableCloudwatchLogsExports:
+          type: array
+          description: >-
+            The list of log types that need to be enabled for exporting to
+            CloudWatch Logs\. The values in the list depend on the DB engine
+            being used\. For more information, see [ Publishing Database Logs to
+            Amazon CloudWatch
+            Logs](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch)
+            in the *Amazon Aurora User Guide*\.    **Aurora MySQL**    Valid
+            values: `audit`, `error`, `general`, `slowquery`     **Aurora
+            PostgreSQL**    Valid values: `postgresql`    Valid for: Aurora DB
+            clusters and Multi\-AZ DB clusters
+        EnableHttpEndpoint:
+          type: boolean
+          description: >-
+            A value that indicates whether to enable the HTTP endpoint for an
+            Aurora Serverless DB cluster\. By default, the HTTP endpoint is
+            disabled\.   When enabled, the HTTP endpoint provides a
+            connectionless web service API for running SQL queries on the Aurora
+            Serverless DB cluster\. You can also query your database from inside
+            the RDS console with the query editor\.   For more information, see
+            [Using the Data API for Aurora
+            Serverless](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/data-api.html)
+            in the *Amazon Aurora User Guide*\.   Valid for: Aurora DB clusters
+            only
+        EnableIAMDatabaseAuthentication:
+          type: boolean
+          description: >-
+            A value that indicates whether to enable mapping of AWS Identity and
+            Access Management \(IAM\) accounts to database accounts\. By
+            default, mapping is disabled\.   For more information, see [ IAM
+            Database
+            Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html)
+            in the *Amazon Aurora User Guide\.*    Valid for: Aurora DB clusters
+            only
+        Engine:
+          type: string
+          description: >-
+            The name of the database engine to be used for this DB cluster\.  
+            Valid Values:    + `aurora` \(for MySQL 5\.6\-compatible Aurora\) +
+            `aurora-mysql` \(for MySQL 5\.7\-compatible Aurora\) +
+            `aurora-postgresql` + `mysql` + `postgres` Valid for: Aurora DB
+            clusters and Multi\-AZ DB clusters
+        EngineMode:
+          type: string
+          description: >-
+            The DB engine mode of the DB cluster, either `provisioned`,
+            `serverless`, `parallelquery`, `global`, or `multimaster`\.   The
+            `parallelquery` engine mode isn't required for Aurora MySQL version
+            1\.23 and higher 1\.x versions, and version 2\.09 and higher 2\.x
+            versions\.   The `global` engine mode isn't required for Aurora
+            MySQL version 1\.22 and higher 1\.x versions, and `global` engine
+            mode isn't required for any 2\.x versions\.   The `multimaster`
+            engine mode only applies for DB clusters created with Aurora MySQL
+            version 5\.6\.10a\.   For Aurora PostgreSQL, the `global` engine
+            mode isn't required, and both the `parallelquery` and the
+            `multimaster` engine modes currently aren't supported\.  
+            Limitations and requirements apply to some DB engine modes\. For
+            more information, see the following sections in the *Amazon Aurora
+            User Guide*:   +  [ Limitations of Aurora
+            Serverless](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html#aurora-serverless.limitations) 
+            +  [ Limitations of Parallel
+            Query](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-mysql-parallel-query.html#aurora-mysql-parallel-query-limitations) 
+            +  [ Limitations of Aurora Global
+            Databases](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html#aurora-global-database.limitations) 
+            +  [ Limitations of Multi\-Master
+            Clusters](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-multi-master.html#aurora-multi-master-limitations) 
+            Valid for: Aurora DB clusters only
+        EngineVersion:
+          type: string
+          description: >-
+            The version number of the database engine to use\.   To list all of
+            the available engine versions for `aurora` \(for MySQL
+            5\.6\-compatible Aurora\), use the following command:   `aws rds
+            describe-db-engine-versions --engine aurora --query
+            "DBEngineVersions[].EngineVersion"`   To list all of the available
+            engine versions for `aurora-mysql` \(for MySQL 5\.7\-compatible
+            Aurora\), use the following command:   `aws rds
+            describe-db-engine-versions --engine aurora-mysql --query
+            "DBEngineVersions[].EngineVersion"`   To list all of the available
+            engine versions for `aurora-postgresql`, use the following
+            command:   `aws rds describe-db-engine-versions --engine
+            aurora-postgresql --query "DBEngineVersions[].EngineVersion"`  
+            Valid for: Aurora DB clusters and Multi\-AZ DB clusters
+        GlobalClusterIdentifier:
+          type: string
+          description: >-
+            If you are configuring an Aurora global database cluster and want
+            your Aurora DB cluster to be a secondary member in the global
+            database cluster, specify the global cluster ID of the global
+            database cluster\. To define the primary database cluster of the
+            global cluster, use the
+            [AWS::RDS::GlobalCluster](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-globalcluster.html)
+            resource\.     If you aren't configuring a global database cluster,
+            don't specify this property\.    To remove the DB cluster from a
+            global database cluster, specify an empty value for the
+            `GlobalClusterIdentifier` property\. For information about Aurora
+            global databases, see [ Working with Amazon Aurora Global
+            Databases](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-global-database.html)
+            in the *Amazon Aurora User Guide*\.   Valid for: Aurora DB clusters
+            only
+        Iops:
+          type: integer
+          description: >-
+            The amount of Provisioned IOPS \(input/output operations per
+            second\) to be initially allocated for each DB instance in the
+            Multi\-AZ DB cluster\.   For information about valid IOPS values,
+            see [Amazon RDS Provisioned IOPS
+            storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html#USER_PIOPS)
+            in the *Amazon RDS User Guide*\.   This setting is required to
+            create a Multi\-AZ DB cluster\.   Constraints: Must be a multiple
+            between \.5 and 50 of the storage amount for the DB cluster\.  
+            Valid for: Multi\-AZ DB clusters only
+        KmsKeyId:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the AWS KMS key that is used to
+            encrypt the database instances in the DB cluster, such as
+            `arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef`\.
+            If you enable the `StorageEncrypted` property but don't specify this
+            property, the default KMS key is used\. If you specify this
+            property, you must set the `StorageEncrypted` property to `true`\.  
+            If you specify the `SnapshotIdentifier` property, the
+            `StorageEncrypted` property value is inherited from the snapshot,
+            and if the DB cluster is encrypted, the specified `KmsKeyId`
+            property is used\.   Valid for: Aurora DB clusters and Multi\-AZ DB
+            clusters
+        ManageMasterUserPassword:
+          type: boolean
+          description: >-
+            A value that indicates whether to manage the master user password
+            with AWS Secrets Manager\.   For more information, see [Password
+            management with AWS Secrets
+            Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html)
+            in the *Amazon RDS User Guide* and [Password management with AWS
+            Secrets
+            Manager](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html)
+            in the *Amazon Aurora User Guide\.*    Constraints:   + Can't manage
+            the master user password with AWS Secrets Manager if
+            `MasterUserPassword` is specified\. Valid for: Aurora DB clusters
+            and Multi\-AZ DB clusters
+        MasterUsername:
+          type: string
+          description: >-
+            The name of the master user for the DB cluster\.   If you specify
+            the `SourceDBClusterIdentifier`, `SnapshotIdentifier`, or
+            `GlobalClusterIdentifier` property, don't specify this property\.
+            The value is inherited from the source DB cluster, the snapshot, or
+            the primary DB cluster for the global database cluster,
+            respectively\. Valid for: Aurora DB clusters and Multi\-AZ DB
+            clusters
+        MasterUserPassword:
+          type: string
+          description: >-
+            The master password for the DB instance\.   If you specify the
+            `SourceDBClusterIdentifier`, `SnapshotIdentifier`, or
+            `GlobalClusterIdentifier` property, don't specify this property\.
+            The value is inherited from the source DB cluster, the snapshot, or
+            the primary DB cluster for the global database cluster,
+            respectively\. Valid for: Aurora DB clusters and Multi\-AZ DB
+            clusters
+        MasterUserSecret:
+          type: '[masterusersecret](aws-properties-rds-dbcluster-masterusersecret.md)'
+          description: >-
+            Contains the secret managed by RDS in AWS Secrets Manager for the
+            master user password\.   For more information, see [Password
+            management with AWS Secrets
+            Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html)
+            in the *Amazon RDS User Guide* and [Password management with AWS
+            Secrets
+            Manager](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html)
+            in the *Amazon Aurora User Guide\.*
+        MonitoringInterval:
+          type: integer
+          description: >-
+            The interval, in seconds, between points when Enhanced Monitoring
+            metrics are collected for the DB cluster\. To turn off collecting
+            Enhanced Monitoring metrics, specify 0\. The default is 0\.   If
+            `MonitoringRoleArn` is specified, also set `MonitoringInterval` to a
+            value other than 0\.   Valid Values: `0, 1, 5, 10, 15, 30, 60`   
+            Valid for: Multi\-AZ DB clusters only
+        MonitoringRoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) for the IAM role that permits RDS
+            to send Enhanced Monitoring metrics to Amazon CloudWatch Logs\. An
+            example is `arn:aws:iam:123456789012:role/emaccess`\. For
+            information on creating a monitoring role, see [Setting up and
+            enabling Enhanced
+            Monitoring](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Monitoring.OS.html#USER_Monitoring.OS.Enabling)
+            in the *Amazon RDS User Guide*\.   If `MonitoringInterval` is set to
+            a value other than 0, supply a `MonitoringRoleArn` value\.   Valid
+            for: Multi\-AZ DB clusters only
+        NetworkType:
+          type: string
+          description: >-
+            The network type of the DB cluster\.   Valid values:   +  `IPV4`  + 
+            `DUAL`  The network type is determined by the `DBSubnetGroup`
+            specified for the DB cluster\. A `DBSubnetGroup` can support only
+            the IPv4 protocol or the IPv4 and IPv6 protocols \(`DUAL`\)\.   For
+            more information, see [ Working with a DB instance in a
+            VPC](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html)
+            in the *Amazon Aurora User Guide\.*    Valid for: Aurora DB clusters
+            only
+        PerformanceInsightsEnabled:
+          type: boolean
+          description: >-
+            A value that indicates whether to turn on Performance Insights for
+            the DB cluster\.   For more information, see [ Using Amazon
+            Performance
+            Insights](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html)
+            in the *Amazon RDS User Guide*\.   Valid for: Multi\-AZ DB clusters
+            only
+        PerformanceInsightsKmsKeyId:
+          type: string
+          description: >-
+            The AWS KMS key identifier for encryption of Performance Insights
+            data\.   The AWS KMS key identifier is the key ARN, key ID, alias
+            ARN, or alias name for the KMS key\.   If you don't specify a value
+            for `PerformanceInsightsKMSKeyId`, then Amazon RDS uses your default
+            KMS key\. There is a default KMS key for your AWS account\. Your AWS
+            account has a different default KMS key for each AWS Region\.  
+            Valid for: Multi\-AZ DB clusters only
+        PerformanceInsightsRetentionPeriod:
+          type: integer
+          description: >-
+            The number of days to retain Performance Insights data\. The default
+            is 7 days\. The following values are valid:   + 7 +  *month* \* 31,
+            where *month* is a number of months from 1\-23 + 731 For example,
+            the following values are valid:   + 93 \(3 months \* 31\) + 341 \(11
+            months \* 31\) + 589 \(19 months \* 31\) + 731 If you specify a
+            retention period such as 94, which isn't a valid value, RDS issues
+            an error\.   Valid for: Multi\-AZ DB clusters only
+        Port:
+          type: integer
+          description: >-
+            The port number on which the DB instances in the DB cluster accept
+            connections\.   Default:   + When `EngineMode` is `provisioned`,
+            `3306` \(for both Aurora MySQL and Aurora PostgreSQL\) + When
+            `EngineMode` is `serverless`:   + `3306` when `Engine` is `aurora`
+            or `aurora-mysql`   + `5432` when `Engine` is `aurora-postgresql`
+            The `No interruption` on update behavior only applies to DB
+            clusters\. If you are updating a DB instance, see
+            [Port](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-port)
+            for the AWS::RDS::DBInstance resource\. Valid for: Aurora DB
+            clusters and Multi\-AZ DB clusters
+        PreferredBackupWindow:
+          type: string
+          description: >-
+            The daily time range during which automated backups are created\.
+            For more information, see [ Backup
+            Window](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Backups.html#Aurora.Managing.Backups.BackupWindow)
+            in the *Amazon Aurora User Guide\.*    Constraints:   + Must be in
+            the format `hh24:mi-hh24:mi`\. + Must be in Universal Coordinated
+            Time \(UTC\)\. + Must not conflict with the preferred maintenance
+            window\. + Must be at least 30 minutes\. Valid for: Aurora DB
+            clusters and Multi\-AZ DB clusters
+        PreferredMaintenanceWindow:
+          type: string
+          description: >-
+            The weekly time range during which system maintenance can occur, in
+            Universal Coordinated Time \(UTC\)\.   Format:
+            `ddd:hh24:mi-ddd:hh24:mi`    The default is a 30\-minute window
+            selected at random from an 8\-hour block of time for each AWS
+            Region, occurring on a random day of the week\. To see the time
+            blocks available, see [ Adjusting the Preferred DB Cluster
+            Maintenance
+            Window](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_UpgradeDBInstance.Maintenance.html#AdjustingTheMaintenanceWindow.Aurora)
+            in the *Amazon Aurora User Guide\.*    Valid Days: Mon, Tue, Wed,
+            Thu, Fri, Sat, Sun\.   Constraints: Minimum 30\-minute window\.  
+            Valid for: Aurora DB clusters and Multi\-AZ DB clusters
+        PubliclyAccessible:
+          type: boolean
+          description: >-
+            A value that indicates whether the DB cluster is publicly
+            accessible\.   When the DB cluster is publicly accessible, its
+            Domain Name System \(DNS\) endpoint resolves to the private IP
+            address from within the DB cluster's virtual private cloud \(VPC\)\.
+            It resolves to the public IP address from outside of the DB
+            cluster's VPC\. Access to the DB cluster is ultimately controlled by
+            the security group it uses\. That public access isn't permitted if
+            the security group assigned to the DB cluster doesn't permit it\.  
+            When the DB cluster isn't publicly accessible, it is an internal DB
+            cluster with a DNS name that resolves to a private IP address\.  
+            Default: The default behavior varies depending on whether
+            `DBSubnetGroupName` is specified\.   If `DBSubnetGroupName` isn't
+            specified, and `PubliclyAccessible` isn't specified, the following
+            applies:   + If the default VPC in the target Region doesn’t have an
+            internet gateway attached to it, the DB cluster is private\. + If
+            the default VPC in the target Region has an internet gateway
+            attached to it, the DB cluster is public\. If `DBSubnetGroupName` is
+            specified, and `PubliclyAccessible` isn't specified, the following
+            applies:   + If the subnets are part of a VPC that doesn’t have an
+            internet gateway attached to it, the DB cluster is private\. + If
+            the subnets are part of a VPC that has an internet gateway attached
+            to it, the DB cluster is public\. Valid for: Multi\-AZ DB clusters
+            only
+        ReplicationSourceIdentifier:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the source DB instance or DB
+            cluster if this DB cluster is created as a read replica\.   Valid
+            for: Aurora DB clusters only
+        RestoreType:
+          type: string
+          description: >-
+            The type of restore to be performed\. You can specify one of the
+            following values:   +  `full-copy` \- The new DB cluster is restored
+            as a full copy of the source DB cluster\. +  `copy-on-write` \- The
+            new DB cluster is restored as a clone of the source DB cluster\.
+            Constraints: You can't specify `copy-on-write` if the engine version
+            of the source DB cluster is earlier than 1\.11\.   If you don't
+            specify a `RestoreType` value, then the new DB cluster is restored
+            as a full copy of the source DB cluster\.   Valid for: Aurora DB
+            clusters and Multi\-AZ DB clusters
+        ScalingConfiguration:
+          type: >-
+            [scalingconfiguration](aws-properties-rds-dbcluster-scalingconfiguration.md)
+          description: >-
+            The `ScalingConfiguration` property type specifies the scaling
+            configuration of an Aurora Serverless DB cluster\.   This property
+            is only supported for Aurora Serverless v1\. For Aurora Serverless
+            v2, use `ServerlessV2ScalingConfiguration` property\.   Valid for:
+            Aurora DB clusters only
+        ServerlessV2ScalingConfiguration:
+          type: >-
+            [serverlessv2scalingconfiguration](aws-properties-rds-dbcluster-serverlessv2scalingconfiguration.md)
+          description: >-
+            The `ServerlessV2ScalingConfiguration` property type specifies the
+            scaling configuration of an Aurora Serverless V2 DB cluster\.   
+            This property is only supported for Aurora Serverless v2\. For
+            Aurora Serverless v1, use `ScalingConfiguration` property\.   Valid
+            for: Aurora DB clusters only
+        SnapshotIdentifier:
+          type: string
+          description: >-
+            The identifier for the DB snapshot or DB cluster snapshot to restore
+            from\.   You can use either the name or the Amazon Resource Name
+            \(ARN\) to specify a DB cluster snapshot\. However, you can use only
+            the ARN to specify a DB snapshot\.   After you restore a DB cluster
+            with a `SnapshotIdentifier` property, you must specify the same
+            `SnapshotIdentifier` property for any future updates to the DB
+            cluster\. When you specify this property for an update, the DB
+            cluster is not restored from the snapshot again, and the data in the
+            database is not changed\. However, if you don't specify the
+            `SnapshotIdentifier` property, an empty DB cluster is created, and
+            the original DB cluster is deleted\. If you specify a property that
+            is different from the previous snapshot restore property, a new DB
+            cluster is restored from the specified `SnapshotIdentifier`
+            property, and the original DB cluster is deleted\.   If you specify
+            the `SnapshotIdentifier` property to restore a DB cluster \(as
+            opposed to specifying it for DB cluster updates\), then don't
+            specify the following properties:   + `GlobalClusterIdentifier` +
+            `MasterUsername` + `MasterUserPassword` +
+            `ReplicationSourceIdentifier` + `RestoreType` +
+            `SourceDBClusterIdentifier` + `SourceRegion` + `StorageEncrypted`
+            \(for an encrypted snapshot\) + `UseLatestRestorableTime`
+            Constraints:   + Must match the identifier of an existing Snapshot\.
+            Valid for: Aurora DB clusters and Multi\-AZ DB clusters
+        SourceDBClusterIdentifier:
+          type: string
+          description: >-
+            When restoring a DB cluster to a point in time, the identifier of
+            the source DB cluster from which to restore\.   Constraints:   +
+            Must match the identifier of an existing DBCluster\. Valid for:
+            Aurora DB clusters and Multi\-AZ DB clusters
+        SourceRegion:
+          type: string
+          description: >-
+            The AWS Region which contains the source DB cluster when replicating
+            a DB cluster\. For example, `us-east-1`\.    Valid for: Aurora DB
+            clusters only
+        StorageEncrypted:
+          type: boolean
+          description: >-
+            Indicates whether the DB cluster is encrypted\.   If you specify the
+            `KmsKeyId` property, then you must enable encryption\.   If you
+            specify the `SourceDBClusterIdentifier` property, don't specify this
+            property\. The value is inherited from the source DB cluster, and if
+            the DB cluster is encrypted, the specified `KmsKeyId` property is
+            used\.   If you specify the `SnapshotIdentifier` and the specified
+            snapshot is encrypted, don't specify this property\. The value is
+            inherited from the snapshot, and the specified `KmsKeyId` property
+            is used\.   If you specify the `SnapshotIdentifier` and the
+            specified snapshot isn't encrypted, you can use this property to
+            specify that the restored DB cluster is encrypted\. Specify the
+            `KmsKeyId` property for the KMS key to use for encryption\. If you
+            don't want the restored DB cluster to be encrypted, then don't set
+            this property or set it to `false`\.   Valid for: Aurora DB clusters
+            and Multi\-AZ DB clusters
+        StorageType:
+          type: string
+          description: >-
+            Specifies the storage type to be associated with the DB cluster\.  
+            This setting is required to create a Multi\-AZ DB cluster\.   Valid
+            values: `io1`    When specified, a value for the `Iops` parameter is
+            required\.   Default: `io1`    Valid for: Multi\-AZ DB clusters only
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An optional array of key\-value pairs to apply to this DB
+            cluster\.   Valid for: Aurora DB clusters and Multi\-AZ DB clusters
+        UseLatestRestorableTime:
+          type: boolean
+          description: >-
+            A value that indicates whether to restore the DB cluster to the
+            latest restorable backup time\. By default, the DB cluster is not
+            restored to the latest restorable backup time\.    Valid for: Aurora
+            DB clusters and Multi\-AZ DB clusters
+        VpcSecurityGroupIds:
+          type: array
+          description: >-
+            A list of EC2 VPC security groups to associate with this DB
+            cluster\.   If you plan to update the resource, don't specify VPC
+            security groups in a shared VPC\.   Valid for: Aurora DB clusters
+            and Multi\-AZ DB clusters
+    DBClusterParameterGroup:
+      type: object
+      properties:
+        DBClusterParameterGroupName:
+          type: string
+          description: >-
+            The name of the DB cluster parameter group\.   Constraints:   + Must
+            not match the name of an existing DB cluster parameter group\. If
+            you don't specify a value for `DBClusterParameterGroupName`
+            property, a name is automatically created for the DB cluster
+            paramter group\.   This value is stored as a lowercase string\.
+        Description:
+          type: string
+          description: A friendly description for this DB cluster parameter group\.
+        Family:
+          type: string
+          description: >-
+            The DB cluster parameter group family name\. A DB cluster parameter
+            group can be associated with one and only one DB cluster parameter
+            group family, and can be applied only to a DB cluster running a DB
+            engine and engine version compatible with that DB cluster parameter
+            group family\.   The DB cluster parameter group family can't be
+            changed when updating a DB cluster parameter group\. To list all of
+            the available parameter group families, use the following command:  
+            `aws rds describe-db-engine-versions --query
+            "DBEngineVersions[].DBParameterGroupFamily"`   The output contains
+            duplicates\.   For more information, see
+            `[CreateDBClusterParameterGroup](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBClusterParameterGroup.html)`\.
+        Parameters:
+          type: object
+          description: Provides a list of parameters for the DB cluster parameter group\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An optional array of key\-value pairs to apply to this DB cluster
+            parameter group\.
+      required:
+        - Description
+        - Family
+        - Parameters
+    DBInstance:
+      type: object
+      properties:
+        AllocatedStorage:
+          type: string
+          description: >-
+            The amount of storage in gibibytes \(GiB\) to be initially allocated
+            for the database instance\.   If any value is set in the `Iops`
+            parameter, `AllocatedStorage` must be at least 100 GiB, which
+            corresponds to the minimum Iops value of 1,000\. If you increase the
+            `Iops` value \(in 1,000 IOPS increments\), then you must also
+            increase the `AllocatedStorage` value \(in 100\-GiB increments\)\.  
+            **Amazon Aurora**    Not applicable\. Aurora cluster volumes
+            automatically grow as the amount of data in your database increases,
+            though you are only charged for the space that you use in an Aurora
+            cluster volume\.    **MySQL**    Constraints to the amount of
+            storage for each storage type are the following:    + General
+            Purpose \(SSD\) storage \(gp2\): Must be an integer from 20 to
+            65536\. + Provisioned IOPS storage \(io1\): Must be an integer from
+            100 to 65536\. + Magnetic storage \(standard\): Must be an integer
+            from 5 to 3072\.  **MariaDB**    Constraints to the amount of
+            storage for each storage type are the following:    + General
+            Purpose \(SSD\) storage \(gp2\): Must be an integer from 20 to
+            65536\. + Provisioned IOPS storage \(io1\): Must be an integer from
+            100 to 65536\. + Magnetic storage \(standard\): Must be an integer
+            from 5 to 3072\.  **PostgreSQL**    Constraints to the amount of
+            storage for each storage type are the following:    + General
+            Purpose \(SSD\) storage \(gp2\): Must be an integer from 20 to
+            65536\. + Provisioned IOPS storage \(io1\): Must be an integer from
+            100 to 65536\. + Magnetic storage \(standard\): Must be an integer
+            from 5 to 3072\.  **Oracle**    Constraints to the amount of storage
+            for each storage type are the following:    + General Purpose
+            \(SSD\) storage \(gp2\): Must be an integer from 20 to 65536\. +
+            Provisioned IOPS storage \(io1\): Must be an integer from 100 to
+            65536\. + Magnetic storage \(standard\): Must be an integer from 10
+            to 3072\.  **SQL Server**    Constraints to the amount of storage
+            for each storage type are the following:    + General Purpose
+            \(SSD\) storage \(gp2\):   + Enterprise and Standard editions: Must
+            be an integer from 20 to 16384\.   + Web and Express editions: Must
+            be an integer from 20 to 16384\. + Provisioned IOPS storage
+            \(io1\):   + Enterprise and Standard editions: Must be an integer
+            from 20 to 16384\.   + Web and Express editions: Must be an integer
+            from 20 to 16384\. + Magnetic storage \(standard\):   + Enterprise
+            and Standard editions: Must be an integer from 20 to 1024\.   + Web
+            and Express editions: Must be an integer from 20 to 1024\.
+        AllowMajorVersionUpgrade:
+          type: boolean
+          description: >-
+            A value that indicates whether major version upgrades are allowed\.
+            Changing this parameter doesn't result in an outage and the change
+            is asynchronously applied as soon as possible\.   Constraints: Major
+            version upgrades must be allowed when specifying a value for the
+            `EngineVersion` parameter that is a different major version than the
+            DB instance's current version\.
+        AssociatedRoles:
+          type: >-
+            list of
+            [dbinstancerole](aws-properties-rds-dbinstance-dbinstancerole.md)
+          description: >-
+            The AWS Identity and Access Management \(IAM\) roles associated with
+            the DB instance\.     **Amazon Aurora**    Not applicable\. The
+            associated roles are managed by the DB cluster\.
+        AutoMinorVersionUpgrade:
+          type: boolean
+          description: >-
+            A value that indicates whether minor engine upgrades are applied
+            automatically to the DB instance during the maintenance window\. By
+            default, minor engine upgrades are applied automatically\.
+        AvailabilityZone:
+          type: string
+          description: >-
+            The Availability Zone \(AZ\) where the database will be created\.
+            For information on AWS Regions and Availability Zones, see [Regions
+            and Availability
+            Zones](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html)\.   
+            **Amazon Aurora**    Each Aurora DB cluster hosts copies of its
+            storage in three separate Availability Zones\. Specify one of these
+            Availability Zones\. Aurora automatically chooses an appropriate
+            Availability Zone if you don't specify one\.   Default: A random,
+            system\-chosen Availability Zone in the endpoint's AWS Region\.  
+            Example: `us-east-1d`    Constraint: The `AvailabilityZone`
+            parameter can't be specified if the DB instance is a Multi\-AZ
+            deployment\. The specified Availability Zone must be in the same AWS
+            Region as the current endpoint\.
+        BackupRetentionPeriod:
+          type: integer
+          description: >-
+            The number of days for which automated backups are retained\.
+            Setting this parameter to a positive number enables backups\.
+            Setting this parameter to 0 disables automated backups\.   **Amazon
+            Aurora**   Not applicable\. The retention period for automated
+            backups is managed by the DB cluster\.   Default: 1   Constraints:  
+            + Must be a value from 0 to 35 + Can't be set to 0 if the DB
+            instance is a source to read replicas
+        CACertificateIdentifier:
+          type: string
+          description: >-
+            The identifier of the CA certificate for this DB instance\.  
+            Specifying or updating this property triggers a reboot\. For more
+            information about CA certificate identifiers for RDS DB engines, see
+            [ Rotating Your SSL/TLS
+            Certificate](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL-certificate-rotation.html)
+            in the *Amazon RDS User Guide*\.   For more information about CA
+            certificate identifiers for Aurora DB engines, see [ Rotating Your
+            SSL/TLS
+            Certificate](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL-certificate-rotation.html)
+            in the *Amazon Aurora User Guide*\.
+        CertificateDetails:
+          type: >-
+            [certificatedetails](aws-properties-rds-dbinstance-certificatedetails.md)
+          description: The details of the DB instance's server certificate\.
+        CertificateRotationRestart:
+          type: boolean
+          description: >-
+            A value that indicates whether the DB instance is restarted when you
+            rotate your SSL/TLS certificate\.   By default, the DB instance is
+            restarted when you rotate your SSL/TLS certificate\. The certificate
+            is not updated until the DB instance is restarted\.   Set this
+            parameter only if you are *not* using SSL/TLS to connect to the DB
+            instance\. If you are using SSL/TLS to connect to the DB instance,
+            follow the appropriate instructions for your DB engine to rotate
+            your SSL/TLS certificate:   + For more information about rotating
+            your SSL/TLS certificate for RDS DB engines, see [ Rotating Your
+            SSL/TLS
+            Certificate\.](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL-certificate-rotation.html)
+            in the *Amazon RDS User Guide\.*  + For more information about
+            rotating your SSL/TLS certificate for Aurora DB engines, see [
+            Rotating Your SSL/TLS
+            Certificate](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL-certificate-rotation.html)
+            in the *Amazon Aurora User Guide*\. This setting doesn't apply to
+            RDS Custom\.
+        CharacterSetName:
+          type: string
+          description: >-
+            For supported engines, indicates that the DB instance should be
+            associated with the specified character set\.    **Amazon
+            Aurora**    Not applicable\. The character set is managed by the DB
+            cluster\. For more information, see
+            [AWS::RDS::DBCluster](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-rds-dbcluster.html)\.
+        CopyTagsToSnapshot:
+          type: boolean
+          description: >-
+            A value that indicates whether to copy tags from the DB instance to
+            snapshots of the DB instance\. By default, tags are not copied\.   
+            **Amazon Aurora**    Not applicable\. Copying tags to snapshots is
+            managed by the DB cluster\. Setting this value for an Aurora DB
+            instance has no effect on the DB cluster setting\.
+        CustomIAMInstanceProfile:
+          type: string
+          description: >-
+            The instance profile associated with the underlying Amazon EC2
+            instance of an RDS Custom DB instance\. The instance profile must
+            meet the following requirements:   + The profile must exist in your
+            account\. + The profile must have an IAM role that Amazon EC2 has
+            permissions to assume\. + The instance profile name and the
+            associated IAM role name must start with the prefix `AWSRDSCustom`\.
+            For the list of permissions required for the IAM role, see [
+            Configure IAM and your
+            VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc)
+            in the *Amazon RDS User Guide*\.   This setting is required for RDS
+            Custom\.
+        DBClusterIdentifier:
+          type: string
+          description: The identifier of the DB cluster that the instance will belong to\.
+        DBClusterSnapshotIdentifier:
+          type: string
+          description: >-
+            The identifier for the RDS for MySQL Multi\-AZ DB cluster snapshot
+            to restore from\.   For more information on Multi\-AZ DB clusters,
+            see [ Multi\-AZ DB cluster
+            deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html)
+            in the *Amazon RDS User Guide*\.   Constraints:   + Must match the
+            identifier of an existing Multi\-AZ DB cluster snapshot\. + Can't be
+            specified when `DBSnapshotIdentifier` is specified\. + Must be
+            specified when `DBSnapshotIdentifier` isn't specified\. + If you are
+            restoring from a shared manual Multi\-AZ DB cluster snapshot, the
+            `DBClusterSnapshotIdentifier` must be the ARN of the shared
+            snapshot\. + Can't be the identifier of an Aurora DB cluster
+            snapshot\. + Can't be the identifier of an RDS for PostgreSQL
+            Multi\-AZ DB cluster snapshot\.
+        DBInstanceClass:
+          type: string
+          description: >-
+            The compute and memory capacity of the DB instance, for example,
+            `db.m4.large`\. Not all DB instance classes are available in all AWS
+            Regions, or for all database engines\.   For the full list of DB
+            instance classes, and availability for your engine, see [DB Instance
+            Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html)
+            in the *Amazon RDS User Guide\.* For more information about DB
+            instance class pricing and AWS Region support for DB instance
+            classes, see [Amazon RDS
+            Pricing](http://aws.amazon.com/rds/pricing/)\.
+        DBInstanceIdentifier:
+          type: string
+          description: >-
+            A name for the DB instance\. If you specify a name, AWS
+            CloudFormation converts it to lowercase\. If you don't specify a
+            name, AWS CloudFormation generates a unique physical ID and uses
+            that ID for the DB instance\. For more information, see [Name
+            Type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html)\.  
+            For information about constraints that apply to DB instance
+            identifiers, see [Naming constraints in Amazon
+            RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limits.Constraints)
+            in the *Amazon RDS User Guide*\.   If you specify a name, you can't
+            perform updates that require replacement of this resource\. You can
+            perform updates that require no or some interruption\. If you must
+            replace the resource, specify a new name\.
+        DBName:
+          type: string
+          description: >-
+            The meaning of this parameter differs according to the database
+            engine you use\.   If you specify the `[
+            DBSnapshotIdentifier](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-dbsnapshotidentifier)`
+            property, this property only applies to RDS for Oracle\.  **Amazon
+            Aurora**    Not applicable\. The database name is managed by the DB
+            cluster\.    **MySQL**    The name of the database to create when
+            the DB instance is created\. If this parameter is not specified, no
+            database is created in the DB instance\.   Constraints:   + Must
+            contain 1 to 64 letters or numbers\. + Can't be a word reserved by
+            the specified database engine  **MariaDB**    The name of the
+            database to create when the DB instance is created\. If this
+            parameter is not specified, no database is created in the DB
+            instance\.   Constraints:   + Must contain 1 to 64 letters or
+            numbers\. + Can't be a word reserved by the specified database
+            engine  **PostgreSQL**    The name of the database to create when
+            the DB instance is created\. If this parameter is not specified, the
+            default `postgres` database is created in the DB instance\.  
+            Constraints:   + Must begin with a letter\. Subsequent characters
+            can be letters, underscores, or digits \(0\-9\)\. + Must contain 1
+            to 63 characters\. + Can't be a word reserved by the specified
+            database engine  **Oracle**    The Oracle System ID \(SID\) of the
+            created DB instance\. If you specify `null`, the default value
+            `ORCL` is used\. You can't specify the string NULL, or any other
+            reserved word, for `DBName`\.    Default: `ORCL`    Constraints:   +
+            Can't be longer than 8 characters  **SQL Server**    Not
+            applicable\. Must be null\.
+        DBParameterGroupName:
+          type: string
+          description: >-
+            The name of an existing DB parameter group or a reference to an
+            [AWS::RDS::DBParameterGroup](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-dbparametergroup.html)
+            resource created in the template\.   To list all of the available DB
+            parameter group names, use the following command:   `aws rds
+            describe-db-parameter-groups --query
+            "DBParameterGroups[].DBParameterGroupName" --output text`   If any
+            of the data members of the referenced parameter group are changed
+            during an update, the DB instance might need to be restarted, which
+            causes some interruption\. If the parameter group contains static
+            parameters, whether they were changed or not, an update triggers a
+            reboot\. If you don't specify a value for `DBParameterGroupName`
+            property, the default DB parameter group for the specified engine
+            and engine version is used\.
+        DBSecurityGroups:
+          type: array
+          description: >-
+            A list of the DB security groups to assign to the DB instance\. The
+            list can include both the name of existing DB security groups or
+            references to AWS::RDS::DBSecurityGroup resources created in the
+            template\.    If you set DBSecurityGroups, you must not set
+            VPCSecurityGroups, and vice versa\. Also, note that the
+            DBSecurityGroups property exists only for backwards compatibility
+            with older regions and is no longer recommended for providing
+            security information to an RDS DB instance\. Instead, use
+            VPCSecurityGroups\.   If you specify this property, AWS
+            CloudFormation sends only the following properties \(if specified\)
+            to Amazon RDS during create operations:   + `AllocatedStorage` +
+            `AutoMinorVersionUpgrade` + `AvailabilityZone` +
+            `BackupRetentionPeriod` + `CharacterSetName` + `DBInstanceClass` +
+            `DBName` + `DBParameterGroupName` + `DBSecurityGroups` +
+            `DBSubnetGroupName` + `Engine` + `EngineVersion` + `Iops` +
+            `LicenseModel` + `MasterUsername` + `MasterUserPassword` + `MultiAZ`
+            + `OptionGroupName` + `PreferredBackupWindow` +
+            `PreferredMaintenanceWindow` All other properties are ignored\.
+            Specify a virtual private cloud \(VPC\) security group if you want
+            to submit other properties, such as `StorageType`,
+            `StorageEncrypted`, or `KmsKeyId`\. If you're already using the
+            `DBSecurityGroups` property, you can't use these other properties by
+            updating your DB instance to use a VPC security group\. You must
+            recreate the DB instance\.
+        DBSnapshotIdentifier:
+          type: string
+          description: >-
+            The name or Amazon Resource Name \(ARN\) of the DB snapshot that's
+            used to restore the DB instance\. If you're restoring from a shared
+            manual DB snapshot, you must specify the ARN of the snapshot\.   By
+            specifying this property, you can create a DB instance from the
+            specified DB snapshot\. If the `DBSnapshotIdentifier` property is an
+            empty string or the `AWS::RDS::DBInstance` declaration has no
+            `DBSnapshotIdentifier` property, AWS CloudFormation creates a new
+            database\. If the property contains a value \(other than an empty
+            string\), AWS CloudFormation creates a database from the specified
+            snapshot\. If a snapshot with the specified name doesn't exist, AWS
+            CloudFormation can't create the database and it rolls back the
+            stack\.   Some DB instance properties aren't valid when you restore
+            from a snapshot, such as the `MasterUsername` and
+            `MasterUserPassword` properties\. For information about the
+            properties that you can specify, see the
+            `RestoreDBInstanceFromDBSnapshot` action in the *Amazon RDS API
+            Reference*\.   After you restore a DB instance with a
+            `DBSnapshotIdentifier` property, you must specify the same
+            `DBSnapshotIdentifier` property for any future updates to the DB
+            instance\. When you specify this property for an update, the DB
+            instance is not restored from the DB snapshot again, and the data in
+            the database is not changed\. However, if you don't specify the
+            `DBSnapshotIdentifier` property, an empty DB instance is created,
+            and the original DB instance is deleted\. If you specify a property
+            that is different from the previous snapshot restore property, a new
+            DB instance is restored from the specified `DBSnapshotIdentifier`
+            property, and the original DB instance is deleted\.   If you specify
+            the `DBSnapshotIdentifier` property to restore a DB instance \(as
+            opposed to specifying it for DB instance updates\), then don't
+            specify the following properties:   + `CharacterSetName` +
+            `DBClusterIdentifier` + `DBName` + `DeleteAutomatedBackups` +
+            `EnablePerformanceInsights` + `KmsKeyId` + `MasterUsername` +
+            `MasterUserPassword` + `PerformanceInsightsKMSKeyId` +
+            `PerformanceInsightsRetentionPeriod` + `PromotionTier` +
+            `SourceDBInstanceIdentifier` + `SourceRegion` + `StorageEncrypted`
+            \(for an encrypted snapshot\) + `Timezone`  **Amazon Aurora**    Not
+            applicable\. Snapshot restore is managed by the DB cluster\.
+        DBSubnetGroupName:
+          type: string
+          description: >-
+            A DB subnet group to associate with the DB instance\. If you update
+            this value, the new subnet group must be a subnet group in a new
+            VPC\.    If there's no DB subnet group, then the DB instance isn't a
+            VPC DB instance\.   For more information about using Amazon RDS in a
+            VPC, see [Using Amazon RDS with Amazon Virtual Private Cloud
+            \(VPC\)](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.html)
+            in the *Amazon RDS User Guide*\.    **Amazon Aurora**   Not
+            applicable\. The DB subnet group is managed by the DB cluster\. If
+            specified, the setting must match the DB cluster setting\.
+        DeleteAutomatedBackups:
+          type: boolean
+          description: >-
+            A value that indicates whether to remove automated backups
+            immediately after the DB instance is deleted\. This parameter isn't
+            case\-sensitive\. The default is to remove automated backups
+            immediately after the DB instance is deleted\.   **Amazon Aurora**  
+            Not applicable\. When you delete a DB cluster, all automated backups
+            for that DB cluster are deleted and can't be recovered\. Manual DB
+            cluster snapshots of the DB cluster are not deleted\.
+        DeletionProtection:
+          type: boolean
+          description: >-
+            A value that indicates whether the DB instance has deletion
+            protection enabled\. The database can't be deleted when deletion
+            protection is enabled\. By default, deletion protection is
+            disabled\. For more information, see [ Deleting a DB
+            Instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html)\.    
+            **Amazon Aurora**    Not applicable\. You can enable or disable
+            deletion protection for the DB cluster\. For more information, see
+            `CreateDBCluster`\. DB instances in a DB cluster can be deleted even
+            when deletion protection is enabled for the DB cluster\.
+        Domain:
+          type: string
+          description: >-
+            The Active Directory directory ID to create the DB instance in\.
+            Currently, only Microsoft SQL Server, Oracle, and PostgreSQL DB
+            instances can be created in an Active Directory Domain\.   For more
+            information, see [ Kerberos
+            Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/kerberos-authentication.html)
+            in the *Amazon RDS User Guide*\.
+        DomainIAMRoleName:
+          type: string
+          description: >-
+            Specify the name of the IAM role to be used when making API calls to
+            the Directory Service\.   This setting doesn't apply to RDS
+            Custom\.    **Amazon Aurora**    Not applicable\. The domain is
+            managed by the DB cluster\.
+        EnableCloudwatchLogsExports:
+          type: array
+          description: >-
+            The list of log types that need to be enabled for exporting to
+            CloudWatch Logs\. The values in the list depend on the DB engine
+            being used\. For more information, see [Publishing Database Logs to
+            Amazon CloudWatch Logs
+            ](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_LogAccess.html#USER_LogAccess.Procedural.UploadtoCloudWatch)
+            in the *Amazon Relational Database Service User Guide*\.    **Amazon
+            Aurora**    Not applicable\. CloudWatch Logs exports are managed by
+            the DB cluster\.     **MariaDB**    Valid values: `audit`, `error`,
+            `general`, `slowquery`     **Microsoft SQL Server**    Valid values:
+            `agent`, `error`     **MySQL**    Valid values: `audit`, `error`,
+            `general`, `slowquery`     **Oracle**    Valid values: `alert`,
+            `audit`, `listener`, `trace`     **PostgreSQL**    Valid values:
+            `postgresql`, `upgrade`
+        EnableIAMDatabaseAuthentication:
+          type: boolean
+          description: >-
+            A value that indicates whether to enable mapping of AWS Identity and
+            Access Management \(IAM\) accounts to database accounts\. By
+            default, mapping is disabled\.   This property is supported for RDS
+            for MariaDB, RDS for MySQL, and RDS for PostgreSQL\. For more
+            information, see [ IAM Database Authentication for MariaDB, MySQL,
+            and
+            PostgreSQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.html)
+            in the *Amazon RDS User Guide\.*     **Amazon Aurora**    Not
+            applicable\. Mapping AWS IAM accounts to database accounts is
+            managed by the DB cluster\.
+        EnablePerformanceInsights:
+          type: boolean
+          description: >-
+            A value that indicates whether to enable Performance Insights for
+            the DB instance\. For more information, see [Using Amazon
+            Performance
+            Insights](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html)
+            in the *Amazon RDS User Guide*\.   This setting doesn't apply to RDS
+            Custom\.
+        Endpoint:
+          type: '[endpoint](aws-properties-rds-dbinstance-endpoint.md)'
+          description: >-
+            Specifies the connection endpoint\.   The endpoint might not be
+            shown for instances whose status is `creating`\.
+        Engine:
+          type: string
+          description: >-
+            The name of the database engine that you want to use for this DB
+            instance\.   When you are creating a DB instance, the `Engine`
+            property is required\. Valid Values:   + `aurora` \(for MySQL
+            5\.6\-compatible Aurora\) + `aurora-mysql` \(for MySQL
+            5\.7\-compatible Aurora\) + `aurora-postgresql` + `custom-oracle-ee`
+            + `custom-oracle-ee-cdb` + `custom-sqlserver-ee` +
+            `custom-sqlserver-se` + `custom-sqlserver-web` + `mariadb` + `mysql`
+            + `oracle-ee` + `oracle-ee-cdb` + `oracle-se2` + `oracle-se2-cdb` +
+            `postgres` + `sqlserver-ee` + `sqlserver-se` + `sqlserver-ex` +
+            `sqlserver-web`
+        EngineVersion:
+          type: string
+          description: >-
+            The version number of the database engine to use\.   For a list of
+            valid engine versions, use the `DescribeDBEngineVersions` action\.  
+            The following are the database engines and links to information
+            about the major and minor versions that are available with Amazon
+            RDS\. Not every database engine is available for every AWS
+            Region\.    **Amazon Aurora**    Not applicable\. The version number
+            of the database engine to be used by the DB instance is managed by
+            the DB cluster\.   **MariaDB**   See [MariaDB on Amazon RDS
+            Versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MariaDB.html#MariaDB.Concepts.VersionMgmt)
+            in the *Amazon RDS User Guide\.*   **Microsoft SQL Server**   See
+            [Microsoft SQL Server Versions on Amazon
+            RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.VersionSupport)
+            in the *Amazon RDS User Guide\.*   **MySQL**   See [MySQL on Amazon
+            RDS
+            Versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_MySQL.html#MySQL.Concepts.VersionMgmt)
+            in the *Amazon RDS User Guide\.*   **Oracle**   See [Oracle Database
+            Engine Release
+            Notes](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Appendix.Oracle.PatchComposition.html)
+            in the *Amazon RDS User Guide\.*   **PostgreSQL**   See [Supported
+            PostgreSQL Database
+            Versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts.General.DBVersions)
+            in the *Amazon RDS User Guide\.*
+        Iops:
+          type: integer
+          description: >-
+            The number of I/O operations per second \(IOPS\) that the database
+            provisions\. The value must be equal to or greater than 1000\.    If
+            you specify this property, you must follow the range of allowed
+            ratios of your requested IOPS rate to the amount of storage that you
+            allocate \(IOPS to allocated storage\)\. For example, you can
+            provision an Oracle database instance with 1000 IOPS and 200 GiB of
+            storage \(a ratio of 5:1\), or specify 2000 IOPS with 200 GiB of
+            storage \(a ratio of 10:1\)\. For more information, see [Amazon RDS
+            Provisioned IOPS Storage to Improve
+            Performance](https://docs.aws.amazon.com/AmazonRDS/latest/DeveloperGuide/CHAP_Storage.html#USER_PIOPS)
+            in the *Amazon RDS User Guide*\.   If you specify `io1` for the
+            `StorageType` property, then you must also specify the `Iops`
+            property\.
+        KmsKeyId:
+          type: string
+          description: >-
+            The ARN of the AWS KMS key that's used to encrypt the DB instance,
+            such as
+            `arn:aws:kms:us-east-1:012345678910:key/abcd1234-a123-456a-a12b-a123b4cd56ef`\.
+            If you enable the StorageEncrypted property but don't specify this
+            property, AWS CloudFormation uses the default KMS key\. If you
+            specify this property, you must set the StorageEncrypted property to
+            true\.    If you specify the `SourceDBInstanceIdentifier` property,
+            the value is inherited from the source DB instance if the read
+            replica is created in the same region\.   If you create an encrypted
+            read replica in a different AWS Region, then you must specify a KMS
+            key for the destination AWS Region\. KMS encryption keys are
+            specific to the region that they're created in, and you can't use
+            encryption keys from one region in another region\.   If you specify
+            the `SnapshotIdentifier` property, the `StorageEncrypted` property
+            value is inherited from the snapshot, and if the DB instance is
+            encrypted, the specified `KmsKeyId` property is used\.   If you
+            specify `DBSecurityGroups`, AWS CloudFormation ignores this
+            property\. To specify both a security group and this property, you
+            must use a VPC security group\. For more information about Amazon
+            RDS and VPC, see [Using Amazon RDS with Amazon
+            VPC](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html)
+            in the *Amazon RDS User Guide*\.    **Amazon Aurora**    Not
+            applicable\. The KMS key identifier is managed by the DB cluster\.
+        LicenseModel:
+          type: string
+          description: >-
+            License model information for this DB instance\.    Valid values:  
+            + Aurora MySQL \- `general-public-license` + Aurora PostgreSQL \-
+            `postgresql-license` + MariaDB \- `general-public-license` +
+            Microsoft SQL Server \- `license-included` + MySQL \-
+            `general-public-license` + Oracle \- `bring-your-own-license` or
+            `license-included` + PostgreSQL \- `postgresql-license` If you've
+            specified `DBSecurityGroups` and then you update the license model,
+            AWS CloudFormation replaces the underlying DB instance\. This will
+            incur some interruptions to database availability\.
+        ManageMasterUserPassword:
+          type: boolean
+          description: >-
+            A value that indicates whether to manage the master user password
+            with AWS Secrets Manager\.   For more information, see [Password
+            management with AWS Secrets
+            Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html)
+            in the *Amazon RDS User Guide\.*    Constraints:   + Can't manage
+            the master user password with AWS Secrets Manager if
+            `MasterUserPassword` is specified\.
+        MasterUsername:
+          type: string
+          description: >-
+            The master user name for the DB instance\.   If you specify the
+            `SourceDBInstanceIdentifier` or `DBSnapshotIdentifier` property,
+            don't specify this property\. The value is inherited from the source
+            DB instance or snapshot\.  **Amazon Aurora**    Not applicable\. The
+            name for the master user is managed by the DB cluster\.    
+            **MariaDB**    Constraints:   + Required for MariaDB\. + Must be 1
+            to 16 letters or numbers\. + Can't be a reserved word for the chosen
+            database engine\.  **Microsoft SQL Server**    Constraints:   +
+            Required for SQL Server\. + Must be 1 to 128 letters or numbers\. +
+            The first character must be a letter\. + Can't be a reserved word
+            for the chosen database engine\.  **MySQL**    Constraints:   +
+            Required for MySQL\. + Must be 1 to 16 letters or numbers\. + First
+            character must be a letter\. + Can't be a reserved word for the
+            chosen database engine\.  **Oracle**    Constraints:   + Required
+            for Oracle\. + Must be 1 to 30 letters or numbers\. + First
+            character must be a letter\. + Can't be a reserved word for the
+            chosen database engine\.  **PostgreSQL**    Constraints:   +
+            Required for PostgreSQL\. + Must be 1 to 63 letters or numbers\. +
+            First character must be a letter\. + Can't be a reserved word for
+            the chosen database engine\.
+        MasterUserPassword:
+          type: string
+          description: >-
+            The password for the master user\. The password can include any
+            printable ASCII character except "/", """, or "@"\.    **Amazon
+            Aurora**    Not applicable\. The password for the master user is
+            managed by the DB cluster\.    **MariaDB**    Constraints: Must
+            contain from 8 to 41 characters\.    **Microsoft SQL Server**   
+            Constraints: Must contain from 8 to 128 characters\.    **MySQL**   
+            Constraints: Must contain from 8 to 41 characters\.    **Oracle**   
+            Constraints: Must contain from 8 to 30 characters\.   
+            **PostgreSQL**    Constraints: Must contain from 8 to 128
+            characters\.
+        MasterUserSecret:
+          type: >-
+            [masterusersecret](aws-properties-rds-dbinstance-masterusersecret.md)
+          description: >-
+            Contains the secret managed by RDS in AWS Secrets Manager for the
+            master user password\.   For more information, see [Password
+            management with AWS Secrets
+            Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html)
+            in the *Amazon RDS User Guide\.*
+        MaxAllocatedStorage:
+          type: integer
+          description: >-
+            The upper limit in gibibytes \(GiB\) to which Amazon RDS can
+            automatically scale the storage of the DB instance\.   For more
+            information about this setting, including limitations that apply to
+            it, see [ Managing capacity automatically with Amazon RDS storage
+            autoscaling](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PIOPS.StorageTypes.html#USER_PIOPS.Autoscaling)
+            in the *Amazon RDS User Guide*\.   This setting doesn't apply to RDS
+            Custom\.    **Amazon Aurora**    Not applicable\. Storage is managed
+            by the DB cluster\.
+        MonitoringInterval:
+          type: integer
+          description: >-
+            The interval, in seconds, between points when Enhanced Monitoring
+            metrics are collected for the DB instance\. To disable collection of
+            Enhanced Monitoring metrics, specify 0\. The default is 0\.   If
+            `MonitoringRoleArn` is specified, then you must set
+            `MonitoringInterval` to a value other than 0\.   This setting
+            doesn't apply to RDS Custom\.   Valid Values: `0, 1, 5, 10, 15, 30,
+            60`
+        MonitoringRoleArn:
+          type: string
+          description: >-
+            The ARN for the IAM role that permits RDS to send enhanced
+            monitoring metrics to Amazon CloudWatch Logs\. For example,
+            `arn:aws:iam:123456789012:role/emaccess`\. For information on
+            creating a monitoring role, see [Setting Up and Enabling Enhanced
+            Monitoring](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Monitoring.OS.html#USER_Monitoring.OS.Enabling)
+            in the *Amazon RDS User Guide*\.   If `MonitoringInterval` is set to
+            a value other than 0, then you must supply a `MonitoringRoleArn`
+            value\.   This setting doesn't apply to RDS Custom\.
+        MultiAZ:
+          type: boolean
+          description: >-
+            Specifies whether the database instance is a Multi\-AZ DB instance
+            deployment\. You can't set the `AvailabilityZone` parameter if the
+            `MultiAZ` parameter is set to true\.    For more information, see [
+            Multi\-AZ deployments for high
+            availability](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.MultiAZ.html)
+            in the *Amazon RDS User Guide*\.    **Amazon Aurora**    Not
+            applicable\. Amazon Aurora storage is replicated across all of the
+            Availability Zones and doesn't require the `MultiAZ` option to be
+            set\.
+        NcharCharacterSetName:
+          type: string
+          description: >-
+            The name of the NCHAR character set for the Oracle DB instance\.  
+            This parameter doesn't apply to RDS Custom\.
+        NetworkType:
+          type: string
+          description: >-
+            The network type of the DB instance\.   Valid values:   +  `IPV4` 
+            +  `DUAL`  The network type is determined by the `DBSubnetGroup`
+            specified for the DB instance\. A `DBSubnetGroup` can support only
+            the IPv4 protocol or the IPv4 and IPv6 protocols \(`DUAL`\)\.   For
+            more information, see [ Working with a DB instance in a
+            VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html)
+            in the *Amazon RDS User Guide\.*
+        OptionGroupName:
+          type: string
+          description: >-
+            Indicates that the DB instance should be associated with the
+            specified option group\.   Permanent options, such as the TDE option
+            for Oracle Advanced Security TDE, can't be removed from an option
+            group\. Also, that option group can't be removed from a DB instance
+            once it is associated with a DB instance\.
+        PerformanceInsightsKMSKeyId:
+          type: string
+          description: >-
+            The AWS KMS key identifier for encryption of Performance Insights
+            data\.   The KMS key identifier is the key ARN, key ID, alias ARN,
+            or alias name for the KMS key\.   If you do not specify a value for
+            `PerformanceInsightsKMSKeyId`, then Amazon RDS uses your default KMS
+            key\. There is a default KMS key for your AWS account\. Your AWS
+            account has a different default KMS key for each AWS Region\.   For
+            information about enabling Performance Insights, see [
+            EnablePerformanceInsights](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-enableperformanceinsights)\.
+        PerformanceInsightsRetentionPeriod:
+          type: integer
+          description: >-
+            The amount of time, in days, to retain Performance Insights data\.
+            Valid values are 7 or 731 \(2 years\)\.    For information about
+            enabling Performance Insights, see [
+            EnablePerformanceInsights](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-enableperformanceinsights)\.
+        Port:
+          type: string
+          description: >-
+            The port number on which the database accepts connections\.   
+            **Amazon Aurora**    Not applicable\. The port number is managed by
+            the DB cluster\.
+        PreferredBackupWindow:
+          type: string
+          description: >-
+            The daily time range during which automated backups are created if
+            automated backups are enabled, using the `BackupRetentionPeriod`
+            parameter\. For more information, see [ Backup
+            Window](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html#USER_WorkingWithAutomatedBackups.BackupWindow)
+            in the *Amazon RDS User Guide\.*    Constraints:   + Must be in the
+            format `hh24:mi-hh24:mi`\. + Must be in Universal Coordinated Time
+            \(UTC\)\. + Must not conflict with the preferred maintenance
+            window\. + Must be at least 30 minutes\.  **Amazon Aurora**    Not
+            applicable\. The daily time range for creating automated backups is
+            managed by the DB cluster\.
+        PreferredMaintenanceWindow:
+          type: string
+          description: >-
+            The weekly time range during which system maintenance can occur, in
+            Universal Coordinated Time \(UTC\)\.   Format:
+            `ddd:hh24:mi-ddd:hh24:mi`    The default is a 30\-minute window
+            selected at random from an 8\-hour block of time for each AWS
+            Region, occurring on a random day of the week\. To see the time
+            blocks available, see [ Adjusting the Preferred DB Instance
+            Maintenance
+            Window](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_UpgradeDBInstance.Maintenance.html#AdjustingTheMaintenanceWindow)
+            in the *Amazon RDS User Guide\.*    This property applies when AWS
+            CloudFormation initially creates the DB instance\. If you use AWS
+            CloudFormation to update the DB instance, those updates are applied
+            immediately\. Constraints: Minimum 30\-minute window\.
+        ProcessorFeatures:
+          type: >-
+            list of
+            [processorfeature](aws-properties-rds-dbinstance-processorfeature.md)
+          description: >-
+            The number of CPU cores and the number of threads per core for the
+            DB instance class of the DB instance\.   This setting doesn't apply
+            to RDS Custom\.    **Amazon Aurora**    Not applicable\.
+        PromotionTier:
+          type: integer
+          description: >-
+            A value that specifies the order in which an Aurora Replica is
+            promoted to the primary instance after a failure of the existing
+            primary instance\. For more information, see [ Fault Tolerance for
+            an Aurora DB
+            Cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Backups.html#Aurora.Managing.FaultTolerance)
+            in the *Amazon Aurora User Guide*\.   This setting doesn't apply to
+            RDS Custom\.   Default: 1   Valid Values: 0 \- 15
+        PubliclyAccessible:
+          type: boolean
+          description: >-
+            Indicates whether the DB instance is an internet\-facing instance\.
+            If you specify true, AWS CloudFormation creates an instance with a
+            publicly resolvable DNS name, which resolves to a public IP
+            address\. If you specify false, AWS CloudFormation creates an
+            internal instance with a DNS name that resolves to a private IP
+            address\.    The default behavior value depends on your VPC setup
+            and the database subnet group\. For more information, see the
+            `PubliclyAccessible` parameter in the
+            [CreateDBInstance](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBInstance.html)
+            in the *Amazon RDS API Reference*\.
+        ReplicaMode:
+          type: string
+          description: >-
+            The open mode of an Oracle read replica\. For more information, see
+            [Working with Oracle Read Replicas for Amazon
+            RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/oracle-read-replicas.html)
+            in the *Amazon RDS User Guide*\.   This setting is only supported in
+            RDS for Oracle\.   Default: `open-read-only`   Valid Values:
+            `open-read-only` or `mounted`
+        RestoreTime:
+          type: string
+          description: >-
+            The date and time to restore from\.   Valid Values: Value must be a
+            time in Universal Coordinated Time \(UTC\) format   Constraints:   +
+            Must be before the latest restorable time for the DB instance +
+            Can't be specified if the `UseLatestRestorableTime` parameter is
+            enabled Example: `2009-09-07T23:45:00Z`
+        SourceDBInstanceAutomatedBackupsArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the replicated automated backups
+            from which to restore, for example,
+            `arn:aws:rds:useast-1:123456789012:auto-backup:ab-L2IJCEXJP7XQ7HOJ4SIEXAMPLE`\.  
+            This setting doesn't apply to RDS Custom\.
+        SourceDBInstanceIdentifier:
+          type: string
+          description: >-
+            If you want to create a read replica DB instance, specify the ID of
+            the source DB instance\. Each DB instance can have a limited number
+            of read replicas\. For more information, see [Working with Read
+            Replicas](https://docs.aws.amazon.com/AmazonRDS/latest/DeveloperGuide/USER_ReadRepl.html)
+            in the *Amazon RDS User Guide*\.   For information about constraints
+            that apply to DB instance identifiers, see [Naming constraints in
+            Amazon
+            RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Limits.html#RDS_Limits.Constraints)
+            in the *Amazon RDS User Guide*\.   The `SourceDBInstanceIdentifier`
+            property determines whether a DB instance is a read replica\. If you
+            remove the `SourceDBInstanceIdentifier` property from your template
+            and then update your stack, AWS CloudFormation promotes the Read
+            Replica to a standalone DB instance\.   + If you specify a source DB
+            instance that uses VPC security groups, we recommend that you
+            specify the `VPCSecurityGroups` property\. If you don't specify the
+            property, the read replica inherits the value of the
+            `VPCSecurityGroups` property from the source DB when you create the
+            replica\. However, if you update the stack, AWS CloudFormation
+            reverts the replica's `VPCSecurityGroups` property to the default
+            value because it's not defined in the stack's template\. This change
+            might cause unexpected issues\. + Read replicas don't support
+            deletion policies\. AWS CloudFormation ignores any deletion policy
+            that's associated with a read replica\. + If you specify
+            `SourceDBInstanceIdentifier`, don't specify the
+            `DBSnapshotIdentifier` property\. You can't create a read replica
+            from a snapshot\. + Don't set the `BackupRetentionPeriod`, `DBName`,
+            `MasterUsername`, `MasterUserPassword`, and `PreferredBackupWindow`
+            properties\. The database attributes are inherited from the source
+            DB instance, and backups are disabled for read replicas\. + If the
+            source DB instance is in a different region than the read replica,
+            specify the source region in `SourceRegion`, and specify an ARN for
+            a valid DB instance in `SourceDBInstanceIdentifier`\. For more
+            information, see [ Constructing a Amazon RDS Amazon Resource Name
+            \(ARN\)](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html#USER_Tagging.ARN)
+            in the *Amazon RDS User Guide*\. + For DB instances in Amazon Aurora
+            clusters, don't specify this property\. Amazon RDS automatically
+            assigns writer and reader DB instances\.
+        SourceDbiResourceId:
+          type: string
+          description: The resource ID of the source DB instance from which to restore\.
+        SourceRegion:
+          type: string
+          description: >-
+            The ID of the region that contains the source DB instance for the
+            read replica\.
+        StorageEncrypted:
+          type: boolean
+          description: >-
+            A value that indicates whether the DB instance is encrypted\. By
+            default, it isn't encrypted\.   If you specify the `KmsKeyId`
+            property, then you must enable encryption\.   If you specify the
+            `SourceDBInstanceIdentifier` property, don't specify this property\.
+            The value is inherited from the source DB instance, and if the DB
+            instance is encrypted, the specified `KmsKeyId` property is used\.  
+            If you specify the `SnapshotIdentifier` and the specified snapshot
+            is encrypted, don't specify this property\. The value is inherited
+            from the snapshot, and the specified `KmsKeyId` property is used\.  
+            If you specify the `SnapshotIdentifier` and the specified snapshot
+            isn't encrypted, you can use this property to specify that the
+            restored DB instance is encrypted\. Specify the `KmsKeyId` property
+            for the KMS key to use for encryption\. If you don't want the
+            restored DB instance to be encrypted, then don't set this property
+            or set it to `false`\.   **Amazon Aurora**   Not applicable\. The
+            encryption for DB instances is managed by the DB cluster\.
+        StorageThroughput:
+          type: integer
+          description: >-
+            Specifies the storage throughput value for the DB instance\. This
+            setting applies only to the `gp3` storage type\.    This setting
+            doesn't apply to RDS Custom or Amazon Aurora\.
+        StorageType:
+          type: string
+          description: >-
+            Specifies the storage type to be associated with the DB
+            instance\.    Valid values: ` gp2 | gp3 | io1 | standard`    The
+            `standard` value is also known as magnetic\.    If you specify `io1`
+            or `gp3`, you must also include a value for the `Iops`
+            parameter\.     Default: `io1` if the `Iops` parameter is specified,
+            otherwise `gp2`    For more information, see [Amazon RDS DB Instance
+            Storage](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_Storage.html)
+            in the *Amazon RDS User Guide*\.    **Amazon Aurora**    Not
+            applicable\. Aurora data is stored in the cluster volume, which is a
+            single, virtual volume that uses solid state drives \(SSDs\)\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: An optional array of key\-value pairs to apply to this DB instance\.
+        Timezone:
+          type: string
+          description: >-
+            The time zone of the DB instance\. The time zone parameter is
+            currently supported only by [Microsoft SQL
+            Server](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.TimeZone)\.
+        UseDefaultProcessorFeatures:
+          type: boolean
+          description: >-
+            A value that indicates whether the DB instance class of the DB
+            instance uses its default processor features\.   This setting
+            doesn't apply to RDS Custom\.
+        UseLatestRestorableTime:
+          type: boolean
+          description: >-
+            A value that indicates whether the DB instance is restored from the
+            latest backup time\. By default, the DB instance isn't restored from
+            the latest backup time\.   Constraints: Can't be specified if the
+            `RestoreTime` parameter is provided\.
+        VPCSecurityGroups:
+          type: array
+          description: >-
+            A list of the VPC security group IDs to assign to the DB instance\.
+            The list can include both the physical IDs of existing VPC security
+            groups and references to
+            [AWS::EC2::SecurityGroup](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-ec2-security-group.html)
+            resources created in the template\.   If you plan to update the
+            resource, don't specify VPC security groups in a shared VPC\.    If
+            you set `VPCSecurityGroups`, you must not set
+            [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-dbsecuritygroups](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-dbsecuritygroups),
+            and vice versa\.   You can migrate a DB instance in your stack from
+            an RDS DB security group to a VPC security group, but keep the
+            following in mind:   + You can't revert to using an RDS security
+            group after you establish a VPC security group membership\. + When
+            you migrate your DB instance to VPC security groups, if your stack
+            update rolls back because the DB instance update fails or because an
+            update fails in another AWS CloudFormation resource, the rollback
+            fails because it can't revert to an RDS security group\. + To use
+            the properties that are available when you use a VPC security group,
+            you must recreate the DB instance\. If you don't, AWS CloudFormation
+            submits only the property values that are listed in the
+            [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-dbsecuritygroups](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-rds-database-instance.html#cfn-rds-dbinstance-dbsecuritygroups)
+            property\. To avoid this situation, migrate your DB instance to
+            using VPC security groups only when that is the only change in your
+            stack template\.     **Amazon Aurora**    Not applicable\. The
+            associated list of EC2 VPC security groups is managed by the DB
+            cluster\. If specified, the setting must match the DB cluster
+            setting\.
+    DBParameterGroup:
+      type: object
+      properties:
+        DBParameterGroupName:
+          type: string
+          description: >-
+            The name of the DB parameter group\.   Constraints:   + Must be 1 to
+            255 letters, numbers, or hyphens\. + First character must be a
+            letter + Can't end with a hyphen or contain two consecutive hyphens
+            If you don't specify a value for `DBParameterGroupName` property, a
+            name is automatically created for the DB parameter group\.   This
+            value is stored as a lowercase string\.
+        Description:
+          type: string
+          description: >-
+            Provides the customer\-specified description for this DB parameter
+            group\.
+        Family:
+          type: string
+          description: >-
+            The DB parameter group family name\. A DB parameter group can be
+            associated with one and only one DB parameter group family, and can
+            be applied only to a DB instance running a DB engine and engine
+            version compatible with that DB parameter group family\.   The DB
+            parameter group family can't be changed when updating a DB parameter
+            group\. To list all of the available parameter group families, use
+            the following command:   `aws rds describe-db-engine-versions
+            --query "DBEngineVersions[].DBParameterGroupFamily"`   The output
+            contains duplicates\.   For more information, see
+            `[CreateDBParameterGroup](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBParameterGroup.html)`\.
+        Parameters:
+          type: object
+          description: >-
+            An array of parameter names and values for the parameter update\. At
+            least one parameter name and value must be supplied\. Subsequent
+            arguments are optional\.   For more information about DB parameters
+            and DB parameter groups for Amazon RDS DB engines, see [Working with
+            DB Parameter
+            Groups](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithParamGroups.html)
+            in the *Amazon RDS User Guide*\.   For more information about DB
+            cluster and DB instance parameters and parameter groups for Amazon
+            Aurora DB engines, see [ Working with DB Parameter Groups and DB
+            Cluster Parameter
+            Groups](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_WorkingWithParamGroups.html)
+            in the *Amazon Aurora User Guide*\.   AWS CloudFormation doesn't
+            support specifying an apply method for each individual parameter\.
+            The default apply method for each parameter is used\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An optional array of key\-value pairs to apply to this DB parameter
+            group\.   Currently, this is the only property that supports drift
+            detection\.
+      required:
+        - Description
+        - Family
+    DBProxy:
+      type: object
+      properties:
+        Auth:
+          type: list of [authformat](aws-properties-rds-dbproxy-authformat.md)
+          description: The authorization mechanism that the proxy uses\.
+        DBProxyName:
+          type: string
+          description: >-
+            The identifier for the proxy\. This name must be unique for all
+            proxies owned by your AWS account in the specified AWS Region\. An
+            identifier must begin with a letter and must contain only ASCII
+            letters, digits, and hyphens; it can't end with a hyphen or contain
+            two consecutive hyphens\.
+        DebugLogging:
+          type: boolean
+          description: >-
+            Whether the proxy includes detailed information about SQL statements
+            in its logs\. This information helps you to debug issues involving
+            SQL behavior or the performance and scalability of the proxy
+            connections\. The debug information includes the text of SQL
+            statements that you submit through the proxy\. Thus, only enable
+            this setting when needed for debugging, and only when you have
+            security measures in place to safeguard any sensitive information
+            that appears in the logs\.
+        EngineFamily:
+          type: string
+          description: >-
+            The kinds of databases that the proxy can connect to\. This value
+            determines which database network protocol the proxy recognizes when
+            it interprets network traffic to and from the database\. For Aurora
+            MySQL, RDS for MariaDB, and RDS for MySQL databases, specify
+            `MYSQL`\. For Aurora PostgreSQL and RDS for PostgreSQL databases,
+            specify `POSTGRESQL`\. For RDS for Microsoft SQL Server, specify
+            `SQLSERVER`\.
+        IdleClientTimeout:
+          type: integer
+          description: >-
+            The number of seconds that a connection to the proxy can be inactive
+            before the proxy disconnects it\. You can set this value higher or
+            lower than the connection timeout limit for the associated
+            database\.
+        RequireTLS:
+          type: boolean
+          description: >-
+            A Boolean parameter that specifies whether Transport Layer Security
+            \(TLS\) encryption is required for connections to the proxy\. By
+            enabling this setting, you can enforce encrypted TLS connections to
+            the proxy\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the IAM role that the proxy uses
+            to access secrets in AWS Secrets Manager\.
+        Tags:
+          type: list of [tagformat](aws-properties-rds-dbproxy-tagformat.md)
+          description: >-
+            An optional set of key\-value pairs to associate arbitrary data of
+            your choosing with the proxy\.
+        VpcSecurityGroupIds:
+          type: array
+          description: >-
+            One or more VPC security group IDs to associate with the new
+            proxy\.   If you plan to update the resource, don't specify VPC
+            security groups in a shared VPC\.
+        VpcSubnetIds:
+          type: array
+          description: One or more VPC subnet IDs to associate with the new proxy\.
+      required:
+        - Auth
+        - DBProxyName
+        - EngineFamily
+        - RoleArn
+        - VpcSubnetIds
+    DBProxyEndpoint:
+      type: object
+      properties:
+        DBProxyEndpointName:
+          type: string
+          description: The name of the DB proxy endpoint to create\.
+        DBProxyName:
+          type: string
+          description: >-
+            The name of the DB proxy associated with the DB proxy endpoint that
+            you create\.
+        Tags:
+          type: list of [tagformat](aws-properties-rds-dbproxyendpoint-tagformat.md)
+          description: >-
+            An optional set of key\-value pairs to associate arbitrary data of
+            your choosing with the proxy\.
+        VpcSecurityGroupIds:
+          type: array
+          description: >-
+            The VPC security group IDs for the DB proxy endpoint that you
+            create\. You can specify a different set of security group IDs than
+            for the original DB proxy\. The default is the default security
+            group for the VPC\.
+        VpcSubnetIds:
+          type: array
+          description: >-
+            The VPC subnet IDs for the DB proxy endpoint that you create\. You
+            can specify a different set of subnet IDs than for the original DB
+            proxy\.
+      required:
+        - DBProxyEndpointName
+        - DBProxyName
+        - VpcSubnetIds
+    DBProxyTargetGroup:
+      type: object
+      properties:
+        ConnectionPoolConfigurationInfo:
+          type: >-
+            [connectionpoolconfigurationinfoformat](aws-properties-rds-dbproxytargetgroup-connectionpoolconfigurationinfoformat.md)
+          description: >-
+            Settings that control the size and behavior of the connection pool
+            associated with a `DBProxyTargetGroup`\.
+        DBClusterIdentifiers:
+          type: array
+          description: One or more DB cluster identifiers\.
+        DBInstanceIdentifiers:
+          type: array
+          description: One or more DB instance identifiers\.
+        DBProxyName:
+          type: string
+          description: >-
+            The identifier of the `DBProxy` that is associated with the
+            `DBProxyTargetGroup`\.
+        TargetGroupName:
+          type: string
+          description: >-
+            The identifier for the target group\.   Currently, this property
+            must be set to `default`\.
+      required:
+        - DBProxyName
+        - TargetGroupName
+    DBSecurityGroup:
+      type: object
+      properties:
+        DBSecurityGroupIngress:
+          type: list of [ingress](aws-properties-rds-security-group-rule.md)
+          description: Ingress rules to be applied to the DB security group\.
+        EC2VpcId:
+          type: string
+          description: >-
+            The identifier of an Amazon VPC\. This property indicates the VPC
+            that this DB security group belongs to\.   The `EC2VpcId` property
+            is for backward compatibility with older regions, and is no longer
+            recommended for providing security information to an RDS DB
+            instance\.
+        GroupDescription:
+          type: string
+          description: Provides the description of the DB security group\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An optional array of key\-value pairs to apply to this DB security
+            group\.
+      required:
+        - DBSecurityGroupIngress
+        - GroupDescription
+    DBSecurityGroupIngress:
+      type: object
+      properties:
+        CIDRIP:
+          type: string
+          description: The IP range to authorize\.
+        DBSecurityGroupName:
+          type: string
+          description: The name of the DB security group to add authorization to\.
+        EC2SecurityGroupId:
+          type: string
+          description: >-
+            Id of the EC2 security group to authorize\. For VPC DB security
+            groups, `EC2SecurityGroupId` must be provided\. Otherwise,
+            `EC2SecurityGroupOwnerId` and either `EC2SecurityGroupName` or
+            `EC2SecurityGroupId` must be provided\.
+        EC2SecurityGroupName:
+          type: string
+          description: >-
+            Name of the EC2 security group to authorize\. For VPC DB security
+            groups, `EC2SecurityGroupId` must be provided\. Otherwise,
+            `EC2SecurityGroupOwnerId` and either `EC2SecurityGroupName` or
+            `EC2SecurityGroupId` must be provided\.
+        EC2SecurityGroupOwnerId:
+          type: string
+          description: >-
+            AWS account number of the owner of the EC2 security group specified
+            in the `EC2SecurityGroupName` parameter\. The AWS access key ID
+            isn't an acceptable value\. For VPC DB security groups,
+            `EC2SecurityGroupId` must be provided\. Otherwise,
+            `EC2SecurityGroupOwnerId` and either `EC2SecurityGroupName` or
+            `EC2SecurityGroupId` must be provided\.
+      required:
+        - DBSecurityGroupName
+    DBSubnetGroup:
+      type: object
+      properties:
+        DBSubnetGroupDescription:
+          type: string
+          description: The description for the DB subnet group\.
+        DBSubnetGroupName:
+          type: string
+          description: >-
+            The name for the DB subnet group\. This value is stored as a
+            lowercase string\.   Constraints: Must contain no more than 255
+            lowercase alphanumeric characters or hyphens\. Must not be
+            "Default"\.   Example: `mysubnetgroup`
+        SubnetIds:
+          type: array
+          description: The EC2 Subnet IDs for the DB subnet group\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An optional array of key\-value pairs to apply to this DB subnet
+            group\.
+      required:
+        - DBSubnetGroupDescription
+        - SubnetIds
+    EventSubscription:
+      type: object
+      properties:
+        Enabled:
+          type: boolean
+          description: >-
+            A value that indicates whether to activate the subscription\. If the
+            event notification subscription isn't activated, the subscription is
+            created but not active\.
+        EventCategories:
+          type: array
+          description: >-
+            A list of event categories for a particular source type
+            \(`SourceType`\) that you want to subscribe to\. You can see a list
+            of the categories for a given source type in the "Amazon RDS event
+            categories and event messages" section of the
+            [https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.Messages.html](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.Messages.html)
+            or the
+            [https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Events.Messages.html](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Events.Messages.html)\.
+            You can also see this list by using the `DescribeEventCategories`
+            operation\.
+        SnsTopicArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the SNS topic created for event
+            notification\. The ARN is created by Amazon SNS when you create a
+            topic and subscribe to it\.
+        SourceIds:
+          type: array
+          description: >-
+            The list of identifiers of the event sources for which events are
+            returned\. If not specified, then all sources are included in the
+            response\. An identifier must begin with a letter and must contain
+            only ASCII letters, digits, and hyphens\. It can't end with a hyphen
+            or contain two consecutive hyphens\.   Constraints:   + If a
+            `SourceIds` value is supplied, `SourceType` must also be provided\.
+            + If the source type is a DB instance, a `DBInstanceIdentifier`
+            value must be supplied\. + If the source type is a DB cluster, a
+            `DBClusterIdentifier` value must be supplied\. + If the source type
+            is a DB parameter group, a `DBParameterGroupName` value must be
+            supplied\. + If the source type is a DB security group, a
+            `DBSecurityGroupName` value must be supplied\. + If the source type
+            is a DB snapshot, a `DBSnapshotIdentifier` value must be supplied\.
+            + If the source type is a DB cluster snapshot, a
+            `DBClusterSnapshotIdentifier` value must be supplied\.
+        SourceType:
+          type: string
+          description: >-
+            The type of source that is generating the events\. For example, if
+            you want to be notified of events generated by a DB instance, set
+            this parameter to `db-instance`\. If this value isn't specified, all
+            events are returned\.   Valid values: `db-instance` \| `db-cluster`
+            \| `db-parameter-group` \| `db-security-group` \| `db-snapshot` \|
+            `db-cluster-snapshot`
+        SubscriptionName:
+          type: string
+          description: >-
+            The name of the subscription\.   Constraints: The name must be less
+            than 255 characters\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An optional array of key\-value pairs to apply to this
+            subscription\.
+      required:
+        - SnsTopicArn
+    GlobalCluster:
+      type: object
+      properties:
+        DeletionProtection:
+          type: boolean
+          description: >-
+            The deletion protection setting for the new global database\. The
+            global database can't be deleted when deletion protection is
+            enabled\.
+        Engine:
+          type: string
+          description: >-
+            The name of the database engine to be used for this DB cluster\.  
+            If this property isn't specified, the database engine is derived
+            from the source DB cluster specified by the
+            `SourceDBClusterIdentifier` property\.   If the
+            `SourceDBClusterIdentifier` property isn't specified, this property
+            is required\. If the `SourceDBClusterIdentifier` property is
+            specified, make sure this property isn't specified\.
+        EngineVersion:
+          type: string
+          description: The engine version of the Aurora global database\.
+        GlobalClusterIdentifier:
+          type: string
+          description: The cluster identifier of the global database cluster\.
+        SourceDBClusterIdentifier:
+          type: string
+          description: >-
+            The DB cluster identifier or Amazon Resource Name \(ARN\) to use as
+            the primary cluster of the global database\.    If the `Engine`
+            property isn't specified, this property is required\. If the
+            `Engine` property is specified, make sure this property isn't
+            specified\.
+        StorageEncrypted:
+          type: boolean
+          description: The storage encryption setting for the global database cluster\.
+    OptionGroup:
+      type: object
+      properties:
+        EngineName:
+          type: string
+          description: >-
+            Specifies the name of the engine that this option group should be
+            associated with\.   Valid Values:    + `mariadb` + `mysql` +
+            `oracle-ee` + `oracle-ee-cdb` + `oracle-se2` + `oracle-se2-cdb` +
+            `postgres` + `sqlserver-ee` + `sqlserver-se` + `sqlserver-ex` +
+            `sqlserver-web`
+        MajorEngineVersion:
+          type: string
+          description: >-
+            Specifies the major version of the engine that this option group
+            should be associated with\.
+        OptionConfigurations:
+          type: >-
+            list of
+            [optionconfiguration](aws-properties-rds-optiongroup-optionconfiguration.md)
+          description: A list of options and the settings for each option\.
+        OptionGroupDescription:
+          type: string
+          description: The description of the option group\.
+        OptionGroupName:
+          type: string
+          description: >-
+            The name of the option group to be created\.   Constraints:   + Must
+            be 1 to 255 letters, numbers, or hyphens + First character must be a
+            letter + Can't end with a hyphen or contain two consecutive hyphens
+            Example: `myoptiongroup`    If you don't specify a value for
+            `OptionGroupName` property, a name is automatically created for the
+            option group\.   This value is stored as a lowercase string\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An optional array of key\-value pairs to apply to this option
+            group\.
+      required:
+        - EngineName
+        - MajorEngineVersion
+        - OptionGroupDescription
+paths: {}

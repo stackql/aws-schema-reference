@@ -1,0 +1,388 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: ImageBuilder
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Component:
+      type: object
+      properties:
+        ChangeDescription:
+          type: string
+          description: >-
+            The change description of the component\. Describes what change has
+            been made in this version, or what makes this version different from
+            other versions of this component\.
+        Data:
+          type: string
+          description: >-
+            Component `data` contains inline YAML document content for the
+            component\. Alternatively, you can specify the `uri` of a YAML
+            document file stored in Amazon S3\. However, you cannot specify both
+            properties\.
+        Description:
+          type: string
+          description: Describes the contents of the component\.
+        KmsKeyId:
+          type: string
+          description: The ID of the KMS key that is used to encrypt this component\.
+        Name:
+          type: string
+          description: The name of the component\.
+        Platform:
+          type: string
+          description: The operating system platform of the component\.
+        SupportedOsVersions:
+          type: array
+          description: >-
+            The operating system \(OS\) version supported by the component\. If
+            the OS information is available, a prefix match is performed against
+            the base image OS version during image recipe creation\.
+        Tags:
+          type: map of string
+          description: The tags that apply to the component\.
+        Uri:
+          type: string
+          description: >-
+            The `uri` of a YAML component document file\. This must be an S3 URL
+            \(`s3://bucket/key`\), and the requester must have permission to
+            access the S3 bucket it points to\. If you use Amazon S3, you can
+            specify component content up to your service quota\.  
+            Alternatively, you can specify the YAML document inline, using the
+            component `data` property\. You cannot specify both properties\.
+        Version:
+          type: string
+          description: The component version\. For example, `1.0.0`\.
+      required:
+        - Name
+        - Platform
+        - Version
+    ContainerRecipe:
+      type: object
+      properties:
+        Components:
+          type: >-
+            list of
+            [componentconfiguration](aws-properties-imagebuilder-containerrecipe-componentconfiguration.md)
+          description: >-
+            Build and test components that are included in the container
+            recipe\. Recipes require a minimum of one build component, and can
+            have a maximum of 20 build and test components in any combination\.
+        ContainerType:
+          type: string
+          description: Specifies the type of container, such as Docker\.
+        Description:
+          type: string
+          description: The description of the container recipe\.
+        DockerfileTemplateData:
+          type: string
+          description: >-
+            Dockerfiles are text documents that are used to build Docker
+            containers, and ensure that they contain all of the elements
+            required by the application running inside\. The template data
+            consists of contextual variables where Image Builder places build
+            information or scripts, based on your container image recipe\.
+        DockerfileTemplateUri:
+          type: string
+          description: >-
+            The S3 URI for the Dockerfile that will be used to build your
+            container image\.
+        ImageOsVersionOverride:
+          type: string
+          description: Specifies the operating system version for the base image\.
+        InstanceConfiguration:
+          type: >-
+            [instanceconfiguration](aws-properties-imagebuilder-containerrecipe-instanceconfiguration.md)
+          description: >-
+            A group of options that can be used to configure an instance for
+            building and testing container images\.
+        KmsKeyId:
+          type: string
+          description: >-
+            Identifies which KMS key is used to encrypt the container image for
+            distribution to the target Region\.
+        Name:
+          type: string
+          description: The name of the container recipe\.
+        ParentImage:
+          type: string
+          description: The base image for the container recipe\.
+        PlatformOverride:
+          type: string
+          description: >-
+            Specifies the operating system platform when you use a custom base
+            image\.
+        Tags:
+          type: map of string
+          description: Tags that are attached to the container recipe\.
+        TargetRepository:
+          type: >-
+            [targetcontainerrepository](aws-properties-imagebuilder-containerrecipe-targetcontainerrepository.md)
+          description: The destination repository for the container image\.
+        Version:
+          type: string
+          description: >-
+            The semantic version of the container recipe\.   The semantic
+            version has four nodes: <major>\.<minor>\.<patch>/<build>\. You can
+            assign values for the first three, and can filter on all of
+            them\.    **Assignment:** For the first three nodes you can assign
+            any positive integer value, including zero, with an upper limit of
+            2^30\-1, or 1073741823 for each node\. Image Builder automatically
+            assigns the build number to the fourth node\.    **Patterns:** You
+            can use any numeric pattern that adheres to the assignment
+            requirements for the nodes that you can assign\. For example, you
+            might choose a software version pattern, such as 1\.0\.0, or a date,
+            such as 2021\.01\.01\.    **Filtering:** With semantic versioning,
+            you have the flexibility to use wildcards \(x\) to specify the most
+            recent versions or nodes when selecting the base image or components
+            for your recipe\. When you use a wildcard in any node, all nodes to
+            the right of the first wildcard must also be wildcards\.
+        WorkingDirectory:
+          type: string
+          description: The working directory for use during build and test workflows\.
+      required:
+        - Components
+        - ContainerType
+        - Name
+        - ParentImage
+        - TargetRepository
+        - Version
+    DistributionConfiguration:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of this distribution configuration\.
+        Distributions:
+          type: >-
+            list of
+            [distribution](aws-properties-imagebuilder-distributionconfiguration-distribution.md)
+          description: >-
+            The distributions of this distribution configuration formatted as an
+            array of Distribution objects\.
+        Name:
+          type: string
+          description: The name of this distribution configuration\.
+        Tags:
+          type: map of string
+          description: The tags of this distribution configuration\.
+      required:
+        - Distributions
+        - Name
+    Image:
+      type: object
+      properties:
+        ContainerRecipeArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the container recipe that is
+            used for this pipeline\.
+        DistributionConfigurationArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the distribution configuration\.
+        EnhancedImageMetadataEnabled:
+          type: boolean
+          description: >-
+            Indicates whether Image Builder collects additional information
+            about the image, such as the operating system \(OS\) version and
+            package list\.
+        ImageRecipeArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the image recipe\.
+        ImageScanningConfiguration:
+          type: >-
+            [imagescanningconfiguration](aws-properties-imagebuilder-image-imagescanningconfiguration.md)
+          description: Property description not available\.
+        ImageTestsConfiguration:
+          type: >-
+            [imagetestsconfiguration](aws-properties-imagebuilder-image-imagetestsconfiguration.md)
+          description: >-
+            The configuration settings for your image test components, which
+            includes a toggle that allows you to turn off tests, and a timeout
+            setting\.
+        InfrastructureConfigurationArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the infrastructure configuration
+            associated with this image pipeline\.
+        Tags:
+          type: map of string
+          description: The tags of the image\.
+      required:
+        - InfrastructureConfigurationArn
+    ImagePipeline:
+      type: object
+      properties:
+        ContainerRecipeArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the container recipe that is
+            used for this pipeline\.
+        Description:
+          type: string
+          description: The description of this image pipeline\.
+        DistributionConfigurationArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the distribution configuration
+            associated with this image pipeline\.
+        EnhancedImageMetadataEnabled:
+          type: boolean
+          description: >-
+            Collects additional information about the image being created,
+            including the operating system \(OS\) version and package list\.
+            This information is used to enhance the overall experience of using
+            EC2 Image Builder\. Enabled by default\.
+        ImageRecipeArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the image recipe associated with
+            this image pipeline\.
+        ImageScanningConfiguration:
+          type: >-
+            [imagescanningconfiguration](aws-properties-imagebuilder-imagepipeline-imagescanningconfiguration.md)
+          description: Property description not available\.
+        ImageTestsConfiguration:
+          type: >-
+            [imagetestsconfiguration](aws-properties-imagebuilder-imagepipeline-imagetestsconfiguration.md)
+          description: >-
+            The configuration of the image tests that run after image creation
+            to ensure the quality of the image that was created\.
+        InfrastructureConfigurationArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the infrastructure configuration
+            associated with this image pipeline\.
+        Name:
+          type: string
+          description: The name of the image pipeline\.
+        Schedule:
+          type: '[schedule](aws-properties-imagebuilder-imagepipeline-schedule.md)'
+          description: >-
+            The schedule of the image pipeline\. A schedule configures how often
+            and when a pipeline automatically creates a new image\.
+        Status:
+          type: string
+          description: The status of the image pipeline\.
+        Tags:
+          type: map of string
+          description: The tags of this image pipeline\.
+      required:
+        - InfrastructureConfigurationArn
+        - Name
+    ImageRecipe:
+      type: object
+      properties:
+        AdditionalInstanceConfiguration:
+          type: >-
+            [additionalinstanceconfiguration](aws-properties-imagebuilder-imagerecipe-additionalinstanceconfiguration.md)
+          description: >-
+            Before you create a new AMI, Image Builder launches temporary Amazon
+            EC2 instances to build and test your image configuration\. Instance
+            configuration adds a layer of control over those instances\. You can
+            define settings and add scripts to run when an instance is launched
+            from your AMI\.
+        BlockDeviceMappings:
+          type: >-
+            list of
+            [instanceblockdevicemapping](aws-properties-imagebuilder-imagerecipe-instanceblockdevicemapping.md)
+          description: >-
+            The block device mappings to apply when creating images from this
+            recipe\.
+        Components:
+          type: >-
+            list of
+            [componentconfiguration](aws-properties-imagebuilder-imagerecipe-componentconfiguration.md)
+          description: >-
+            The components of the image recipe\. Components are orchestration
+            documents that define a sequence of steps for downloading,
+            installing, configuring, and testing software packages\. They also
+            define validation and security hardening steps\. A component is
+            defined using a YAML document format\.
+        Description:
+          type: string
+          description: The description of the image recipe\.
+        Name:
+          type: string
+          description: The name of the image recipe\.
+        ParentImage:
+          type: string
+          description: >-
+            The parent image of the image recipe\. The string must be either an
+            Image ARN or an AMI ID\.
+        Tags:
+          type: map of string
+          description: The tags of the image recipe\.
+        Version:
+          type: string
+          description: The semantic version of the image recipe\.
+        WorkingDirectory:
+          type: string
+          description: The working directory to be used during build and test workflows\.
+      required:
+        - Components
+        - Name
+        - ParentImage
+        - Version
+    InfrastructureConfiguration:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the infrastructure configuration\.
+        InstanceMetadataOptions:
+          type: >-
+            [instancemetadataoptions](aws-properties-imagebuilder-infrastructureconfiguration-instancemetadataoptions.md)
+          description: >-
+            The instance metadata option settings for the infrastructure
+            configuration\.
+        InstanceProfileName:
+          type: string
+          description: The instance profile of the infrastructure configuration\.
+        InstanceTypes:
+          type: array
+          description: The instance types of the infrastructure configuration\.
+        KeyPair:
+          type: string
+          description: The Amazon EC2 key pair of the infrastructure configuration\.
+        Logging:
+          type: >-
+            [logging](aws-properties-imagebuilder-infrastructureconfiguration-logging.md)
+          description: >-
+            The logging configuration defines where Image Builder uploads your
+            logs\.
+        Name:
+          type: string
+          description: The name of the infrastructure configuration\.
+        ResourceTags:
+          type: map of string
+          description: The tags attached to the resource created by Image Builder\.
+        SecurityGroupIds:
+          type: array
+          description: The security group IDs of the infrastructure configuration\.
+        SnsTopicArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the SNS topic for the
+            infrastructure configuration\.
+        SubnetId:
+          type: string
+          description: The subnet ID of the infrastructure configuration\.
+        Tags:
+          type: map of string
+          description: The tags of the infrastructure configuration\.
+        TerminateInstanceOnFailure:
+          type: boolean
+          description: >-
+            The terminate instance on failure configuration of the
+            infrastructure configuration\.
+      required:
+        - InstanceProfileName
+        - Name
+paths: {}

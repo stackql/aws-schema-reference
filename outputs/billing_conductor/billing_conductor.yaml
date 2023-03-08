@@ -1,0 +1,156 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: BillingConductor
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    BillingGroup:
+      type: object
+      properties:
+        AccountGrouping:
+          type: >-
+            [accountgrouping](aws-properties-billingconductor-billinggroup-accountgrouping.md)
+          description: >-
+            The set of accounts that will be under the billing group\. The set
+            of accounts resemble the linked accounts in a consolidated family\.
+        ComputationPreference:
+          type: >-
+            [computationpreference](aws-properties-billingconductor-billinggroup-computationpreference.md)
+          description: >-
+            The preferences and settings that will be used to compute the AWS
+            charges for a billing group\.
+        Description:
+          type: string
+          description: The description of the billing group\.
+        Name:
+          type: string
+          description: The billing group's name\.
+        PrimaryAccountId:
+          type: string
+          description: The account ID that serves as the main account in a billing group\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Property description not available\.
+      required:
+        - AccountGrouping
+        - ComputationPreference
+        - Name
+        - PrimaryAccountId
+    CustomLineItem:
+      type: object
+      properties:
+        BillingGroupArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) that references the billing group
+            where the custom line item applies to\.
+        BillingPeriodRange:
+          type: >-
+            [billingperiodrange](aws-properties-billingconductor-customlineitem-billingperiodrange.md)
+          description: A time range for which the custom line item is effective\.
+        CustomLineItemChargeDetails:
+          type: >-
+            [customlineitemchargedetails](aws-properties-billingconductor-customlineitem-customlineitemchargedetails.md)
+          description: >-
+            The charge details of a custom line item\. It should contain only
+            one of `Flat` or `Percentage`\.
+        Description:
+          type: string
+          description: >-
+            The custom line item's description\. This is shown on the Bills page
+            in association with the charge value\.
+        Name:
+          type: string
+          description: The custom line item's name\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A map that contains tag keys and tag values that are attached to a
+            custom line item\.
+      required:
+        - BillingGroupArn
+        - Name
+    PricingPlan:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The pricing plan description\.
+        Name:
+          type: string
+          description: The name of a pricing plan\.
+        PricingRuleArns:
+          type: array
+          description: The `PricingRuleArns` that are associated with the Pricing Plan\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A map that contains tag keys and tag values that are attached to a
+            pricing plan\.
+      required:
+        - Name
+    PricingRule:
+      type: object
+      properties:
+        BillingEntity:
+          type: string
+          description: >-
+            The seller of services provided by AWS, their affiliates, or
+            third\-party providers selling services via AWS Marketplace\.
+        Description:
+          type: string
+          description: The pricing rule description\.
+        ModifierPercentage:
+          type: double
+          description: A percentage modifier applied on the public pricing rates\.
+        Name:
+          type: string
+          description: The name of a pricing rule\.
+        Operation:
+          type: string
+          description: Property description not available\.
+        Scope:
+          type: string
+          description: >-
+            The scope of pricing rule that indicates if it is globally
+            applicable, or if it is service\-specific\.
+        Service:
+          type: string
+          description: >-
+            If the `Scope` attribute is `SERVICE`, this attribute indicates
+            which service the `PricingRule` is applicable for\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A map that contains tag keys and tag values that are attached to a
+            pricing rule\.
+        Tiering:
+          type: '[tiering](aws-properties-billingconductor-pricingrule-tiering.md)'
+          description: The set of tiering configurations for the pricing rule\.
+        Type:
+          type: string
+          description: The type of pricing rule\.
+        UsageType:
+          type: string
+          description: >-
+            Usage Type is the unit that each service uses to measure the usage
+            of a specific type of resource\.
+      required:
+        - Name
+        - Scope
+        - Type
+paths: {}

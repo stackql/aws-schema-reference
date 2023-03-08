@@ -1,0 +1,134 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: DAX
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Cluster:
+      type: object
+      properties:
+        AvailabilityZones:
+          type: array
+          description: >-
+            The Availability Zones \(AZs\) in which the cluster nodes will
+            reside after the cluster has been created or updated\. If provided,
+            the length of this list must equal the `ReplicationFactor`
+            parameter\. If you omit this parameter, DAX will spread the nodes
+            across Availability Zones for the highest availability\.
+        ClusterEndpointEncryptionType:
+          type: string
+          description: >-
+            The encryption type of the cluster's endpoint\. Available values
+            are:   + `NONE` \- The cluster's endpoint will be unencrypted\. +
+            `TLS` \- The cluster's endpoint will be encrypted with Transport
+            Layer Security, and will provide an x509 certificate for
+            authentication\. The default value is `NONE`\.
+        ClusterName:
+          type: string
+          description: The name of the DAX cluster\.
+        Description:
+          type: string
+          description: The description of the cluster\.
+        IAMRoleARN:
+          type: string
+          description: >-
+            A valid Amazon Resource Name \(ARN\) that identifies an IAM role\.
+            At runtime, DAX will assume this role and use the role's permissions
+            to access DynamoDB on your behalf\.
+        NodeType:
+          type: string
+          description: >-
+            The node type for the nodes in the cluster\. \(All nodes in a DAX
+            cluster are of the same type\.\)
+        NotificationTopicARN:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the Amazon SNS topic to which
+            notifications will be sent\.   The Amazon SNS topic owner must be
+            same as the DAX cluster owner\.
+        ParameterGroupName:
+          type: string
+          description: The parameter group to be associated with the DAX cluster\.
+        PreferredMaintenanceWindow:
+          type: string
+          description: >-
+            A range of time when maintenance of DAX cluster software will be
+            performed\. For example: `sun:01:00-sun:09:00`\. Cluster maintenance
+            normally takes less than 30 minutes, and is performed automatically
+            within the maintenance window\.
+        ReplicationFactor:
+          type: integer
+          description: >-
+            The number of nodes in the DAX cluster\. A replication factor of 1
+            will create a single\-node cluster, without any read replicas\. For
+            additional fault tolerance, you can create a multiple node cluster
+            with one or more read replicas\. To do this, set `ReplicationFactor`
+            to a number between 3 \(one primary and two read replicas\) and 10
+            \(one primary and nine read replicas\)\. `If the AvailabilityZones`
+            parameter is provided, its length must equal the
+            `ReplicationFactor`\.    AWS recommends that you have at least two
+            read replicas per cluster\.
+        SecurityGroupIds:
+          type: array
+          description: >-
+            A list of security group IDs to be assigned to each node in the DAX
+            cluster\. \(Each of the security group ID is system\-generated\.\)  
+            If this parameter is not specified, DAX assigns the default VPC
+            security group to each node\.
+        SSESpecification:
+          type: '[ssespecification](aws-properties-dax-cluster-ssespecification.md)'
+          description: >-
+            Represents the settings used to enable server\-side encryption on
+            the cluster\.
+        SubnetGroupName:
+          type: string
+          description: >-
+            The name of the subnet group to be used for the replication
+            group\.   DAX clusters can only run in an Amazon VPC environment\.
+            All of the subnets that you specify in a subnet group must exist in
+            the same VPC\.
+        Tags:
+          type: object
+          description: A set of tags to associate with the DAX cluster\.
+      required:
+        - IAMRoleARN
+        - NodeType
+        - ReplicationFactor
+    ParameterGroup:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description of the parameter group\.
+        ParameterGroupName:
+          type: string
+          description: The name of the parameter group\.
+        ParameterNameValues:
+          type: object
+          description: >-
+            An array of name\-value pairs for the parameters in the group\. Each
+            element in the array represents a single parameter\.   
+            `record-ttl-millis` and `query-ttl-millis` are the only supported
+            parameter names\. For more details, see [Configuring TTL
+            Settings](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DAX.cluster-management.html#DAX.cluster-management.custom-settings.ttl)\.
+    SubnetGroup:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the subnet group\.
+        SubnetGroupName:
+          type: string
+          description: The name of the subnet group\.
+        SubnetIds:
+          type: array
+          description: A list of VPC subnet IDs for the subnet group\.
+      required:
+        - SubnetIds
+paths: {}

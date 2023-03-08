@@ -1,0 +1,117 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: StepFunctions
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Activity:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: >-
+            The name of the activity\.   A name must *not* contain:   + white
+            space + brackets `< > { } [ ]`  + wildcard characters `? *`  +
+            special characters `" # % \ ^ | ~ ` $ & , ; : /`  + control
+            characters \(`U+0000-001F`, `U+007F-009F`\) To enable logging with
+            CloudWatch Logs, the name should only contain 0\-9, A\-Z, a\-z, \-
+            and \_\.
+        Tags:
+          type: >-
+            list of
+            [tagsentry](aws-properties-stepfunctions-activity-tagsentry.md)
+          description: >-
+            The list of tags to add to a resource\.   Tags may only contain
+            Unicode letters, digits, white space, or these symbols: `_ . : / = +
+            - @`\.
+      required:
+        - Name
+    StateMachine:
+      type: object
+      properties:
+        Definition:
+          type: object
+          description: >-
+            The Amazon States Language definition of the state machine\. The
+            state machine definition must be in JSON or YAML, and the format of
+            the object must match the format of your AWS Step Functions template
+            file\. See [Amazon States
+            Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html)\.
+        DefinitionS3Location:
+          type: >-
+            [s3location](aws-properties-stepfunctions-statemachine-s3location.md)
+          description: >-
+            The name of the S3 bucket where the state machine definition is
+            stored\. The state machine definition must be a JSON or YAML file\.
+        DefinitionString:
+          type: string
+          description: >-
+            The Amazon States Language definition of the state machine\. The
+            state machine definition must be in JSON\. See [Amazon States
+            Language](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html)\.
+        DefinitionSubstitutions:
+          type: map of json
+          description: >-
+            A map \(string to string\) that specifies the mappings for
+            placeholder variables in the state machine definition\. This enables
+            the customer to inject values obtained at runtime, for example from
+            intrinsic functions, in the state machine definition\. Variables can
+            be template parameter names, resource logical IDs, resource
+            attributes, or a variable in a key\-value map\.
+        LoggingConfiguration:
+          type: >-
+            [loggingconfiguration](aws-properties-stepfunctions-statemachine-loggingconfiguration.md)
+          description: >-
+            Defines what execution history events are logged and where they are
+            logged\.   By default, the `level` is set to `OFF`\. For more
+            information see [Log
+            Levels](https://docs.aws.amazon.com/step-functions/latest/dg/cloudwatch-log-level.html)
+            in the AWS Step Functions User Guide\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the IAM role to use for this
+            state machine\.
+        StateMachineName:
+          type: string
+          description: >-
+            The name of the state machine\.    A name must *not* contain:   +
+            white space + brackets `< > { } [ ]`  + wildcard characters `? *`  +
+            special characters `" # % \ ^ | ~ ` $ & , ; : /`  + control
+            characters \(`U+0000-001F`, `U+007F-009F`\) If you specify a name,
+            you cannot perform updates that require replacement of this
+            resource\. You can perform updates that require no or some
+            interruption\. If you must replace the resource, specify a new
+            name\.
+        StateMachineType:
+          type: string
+          description: >-
+            Determines whether a `STANDARD` or `EXPRESS` state machine is
+            created\. The default is `STANDARD`\. You cannot update the `type`
+            of a state machine once it has been created\. For more information
+            on `STANDARD` and `EXPRESS` workflows, see [Standard Versus Express
+            Workflows](https://docs.aws.amazon.com/step-functions/latest/dg/concepts-standard-vs-express.html)
+            in the AWS Step Functions Developer Guide\.
+        Tags:
+          type: >-
+            list of
+            [tagsentry](aws-properties-stepfunctions-statemachine-tagsentry.md)
+          description: >-
+            The list of tags to add to a resource\.   Tags may only contain
+            Unicode letters, digits, white space, or these symbols: `_ . : / = +
+            - @`\.
+        TracingConfiguration:
+          type: >-
+            [tracingconfiguration](aws-properties-stepfunctions-statemachine-tracingconfiguration.md)
+          description: >-
+            Selects whether or not the state machine's AWS X\-Ray tracing is
+            enabled\.
+      required:
+        - RoleArn
+paths: {}

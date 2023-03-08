@@ -1,0 +1,86 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: ServiceCatalogAppRegistry
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Application:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the application\.
+        Name:
+          type: string
+          description: >-
+            The name of the application\. The name must be unique in the region
+            in which you are creating the application\.
+        Tags:
+          type: map of string
+          description: Key\-value pairs you can use to associate with the application\.
+      required:
+        - Name
+    AttributeGroup:
+      type: object
+      properties:
+        Attributes:
+          type: object
+          description: >-
+            A JSON string in the form of nested key\-value pairs that represent
+            the attributes in the group and describes an application and its
+            components\.
+        Description:
+          type: string
+          description: The description of the attribute group that the user provides\.
+        Name:
+          type: string
+          description: The name of the attribute group\.
+        Tags:
+          type: map of string
+          description: Key\-value pairs you can use to associate with the attribute group\.
+      required:
+        - Attributes
+        - Name
+    AttributeGroupAssociation:
+      type: object
+      properties:
+        Application:
+          type: string
+          description: The name or ID of the application\.
+        AttributeGroup:
+          type: string
+          description: >-
+            The name or ID of the attribute group that holds the attributes to
+            describe the application\.   For more information about using the
+            `Ref` function, see
+            [Ref](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref.html)\.
+      required:
+        - Application
+        - AttributeGroup
+    ResourceAssociation:
+      type: object
+      properties:
+        Application:
+          type: string
+          description: The name or ID of the application\.
+        Resource:
+          type: string
+          description: >-
+            The name or ID of the resource of which the application will be
+            associated\.
+        ResourceType:
+          type: string
+          description: >-
+            The type of resource of which the application will be associated\.
+            Possible values: CFN\_STACK\.
+      required:
+        - Application
+        - Resource
+        - ResourceType
+paths: {}

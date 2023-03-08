@@ -1,0 +1,76 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Budgets
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Budget:
+      type: object
+      properties:
+        Budget:
+          type: '[budgetdata](aws-properties-budgets-budget-budgetdata.md)'
+          description: The budget object that you want to create\.
+        NotificationsWithSubscribers:
+          type: >-
+            list of
+            [notificationwithsubscribers](aws-properties-budgets-budget-notificationwithsubscribers.md)
+          description: >-
+            A notification that you want to associate with a budget\. A budget
+            can have up to five notifications, and each notification can have
+            one SNS subscriber and up to 10 email subscribers\. If you include
+            notifications and subscribers in your `CreateBudget` call, AWS
+            creates the notifications and subscribers for you\.
+      required:
+        - Budget
+    BudgetsAction:
+      type: object
+      properties:
+        ActionThreshold:
+          type: >-
+            [actionthreshold](aws-properties-budgets-budgetsaction-actionthreshold.md)
+          description: The trigger threshold of the action\.
+        ActionType:
+          type: string
+          description: >-
+            The type of action\. This defines the type of tasks that can be
+            carried out by this action\. This field also determines the format
+            for definition\.
+        ApprovalModel:
+          type: string
+          description: This specifies if the action needs manual or automatic approval\.
+        BudgetName:
+          type: string
+          description: >-
+            A string that represents the budget name\. ":" and "\\" characters
+            aren't allowed\.
+        Definition:
+          type: '[definition](aws-properties-budgets-budgetsaction-definition.md)'
+          description: Specifies all of the type\-specific parameters\.
+        ExecutionRoleArn:
+          type: string
+          description: >-
+            The role passed for action execution and reversion\. Roles and
+            actions must be in the same account\.
+        NotificationType:
+          type: string
+          description: The type of a notification\.
+        Subscribers:
+          type: >-
+            list of
+            [subscriber](aws-properties-budgets-budgetsaction-subscriber.md)
+          description: A list of subscribers\.
+      required:
+        - ActionThreshold
+        - ActionType
+        - BudgetName
+        - Definition
+        - ExecutionRoleArn
+        - NotificationType
+        - Subscribers
+paths: {}

@@ -1,0 +1,230 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: GuardDuty
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Detector:
+      type: object
+      properties:
+        DataSources:
+          type: >-
+            [cfndatasourceconfigurations](aws-properties-guardduty-detector-cfndatasourceconfigurations.md)
+          description: Describes which data sources will be enabled for the detector\.
+        Enable:
+          type: boolean
+          description: Specifies whether the detector is to be enabled on creation\.
+        FindingPublishingFrequency:
+          type: string
+          description: Specifies how frequently updated findings are exported\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags to be added to a new detector resource\. Each tag consists
+            of a key and an optional value, both of which you define\.   For
+            more information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - Enable
+    Filter:
+      type: object
+      properties:
+        Action:
+          type: string
+          description: >-
+            Specifies the action that is to be applied to the findings that
+            match the filter\.
+        Description:
+          type: string
+          description: >-
+            The description of the filter\. Valid special characters include
+            period \(\.\), underscore \(\_\), dash \(\-\), and whitespace\. The
+            new line character is considered to be an invalid input for
+            description\.
+        DetectorId:
+          type: string
+          description: >-
+            The ID of the detector belonging to the GuardDuty account that you
+            want to create a filter for\.
+        FindingCriteria:
+          type: >-
+            [findingcriteria](aws-properties-guardduty-filter-findingcriteria.md)
+          description: >-
+            Represents the criteria to be used in the filter for querying
+            findings\.
+        Name:
+          type: string
+          description: >-
+            The name of the filter\. Valid characters include period \(\.\),
+            underscore \(\_\), dash \(\-\), and alphanumeric characters\. A
+            whitespace is considered to be an invalid character\.
+        Rank:
+          type: integer
+          description: >-
+            Specifies the position of the filter in the list of current
+            filters\. Also specifies the order in which this filter is applied
+            to the findings\. The minimum value for this property is 1 and the
+            maximum is 100\.   By default, filters may not be created in the
+            same order as they are ranked\. To ensure that the filters are
+            created in the expected order, you can use an optional attribute,
+            [DependsOn](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html),
+            with the following syntax: `"DependsOn":[ "ObjectName" ]`\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags to be added to a new filter resource\. Each tag consists of
+            a key and an optional value, both of which you define\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - Action
+        - Description
+        - DetectorId
+        - FindingCriteria
+        - Name
+        - Rank
+    IPSet:
+      type: object
+      properties:
+        Activate:
+          type: boolean
+          description: Indicates whether or not GuardDuty uses the `IPSet`\.
+        DetectorId:
+          type: string
+          description: >-
+            The unique ID of the detector of the GuardDuty account that you want
+            to create an IPSet for\.
+        Format:
+          type: string
+          description: The format of the file that contains the IPSet\.
+        Location:
+          type: string
+          description: The URI of the file that contains the IPSet\.
+        Name:
+          type: string
+          description: >-
+            The user\-friendly name to identify the IPSet\.    Allowed
+            characters are alphanumeric, whitespace, dash \(\-\), and
+            underscores \(\_\)\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags to be added to a new IP set resource\. Each tag consists of
+            a key and an optional value, both of which you define\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - Activate
+        - DetectorId
+        - Format
+        - Location
+    Master:
+      type: object
+      properties:
+        DetectorId:
+          type: string
+          description: The unique ID of the detector of the GuardDuty member account\.
+        InvitationId:
+          type: string
+          description: >-
+            The ID of the invitation that is sent to the account designated as a
+            member account\. You can find the invitation ID by using the
+            ListInvitation action of the GuardDuty API\.
+        MasterId:
+          type: string
+          description: >-
+            The AWS account ID of the account designated as the GuardDuty
+            administrator account\.
+      required:
+        - DetectorId
+        - MasterId
+    Member:
+      type: object
+      properties:
+        DetectorId:
+          type: string
+          description: >-
+            The ID of the detector associated with the GuardDuty service to add
+            the member to\.
+        DisableEmailNotification:
+          type: boolean
+          description: >-
+            Specifies whether or not to disable email notification for the
+            member account that you invite\.
+        Email:
+          type: string
+          description: The email address associated with the member account\.
+        MemberId:
+          type: string
+          description: The AWS account ID of the account to designate as a member\.
+        Message:
+          type: string
+          description: >-
+            The invitation message that you want to send to the accounts that
+            you're inviting to GuardDuty as members\.
+        Status:
+          type: string
+          description: >-
+            You can use the `Status` property to update the status of the
+            relationship between the member account and its administrator
+            account\. Valid values are `Created` and `Invited` when using an
+            `AWS::GuardDuty::Member` resource\. If the value for this property
+            is not provided or set to `Created`, a member account is created but
+            not invited\. If the value of this property is set to `Invited`, a
+            member account is created and invited\.
+      required:
+        - DetectorId
+        - Email
+        - MemberId
+    ThreatIntelSet:
+      type: object
+      properties:
+        Activate:
+          type: boolean
+          description: >-
+            A Boolean value that indicates whether GuardDuty is to start using
+            the uploaded ThreatIntelSet\.
+        DetectorId:
+          type: string
+          description: >-
+            The unique ID of the detector of the GuardDuty account that you want
+            to create a threatIntelSet for\.
+        Format:
+          type: string
+          description: The format of the file that contains the ThreatIntelSet\.
+        Location:
+          type: string
+          description: The URI of the file that contains the ThreatIntelSet\.
+        Name:
+          type: string
+          description: >-
+            A user\-friendly ThreatIntelSet name displayed in all findings that
+            are generated by activity that involves IP addresses included in
+            this ThreatIntelSet\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags to be added to a new threat list resource\. Each tag
+            consists of a key and an optional value, both of which you
+            define\.   For more information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - Activate
+        - DetectorId
+        - Format
+        - Location
+paths: {}

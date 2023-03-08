@@ -1,0 +1,232 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: MemoryDB
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ACL:
+      type: object
+      properties:
+        ACLName:
+          type: string
+          description: The name of the Access Control List\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        UserNames:
+          type: array
+          description: The list of users that belong to the Access Control List\.
+      required:
+        - ACLName
+    Cluster:
+      type: object
+      properties:
+        ACLName:
+          type: string
+          description: The name of the Access Control List to associate with the cluster\.
+        AutoMinorVersionUpgrade:
+          type: boolean
+          description: >-
+            When set to true, the cluster will automatically receive minor
+            engine version upgrades after launch\.
+        ClusterEndpoint:
+          type: '[endpoint](aws-properties-memorydb-cluster-endpoint.md)'
+          description: The cluster's configuration endpoint\.
+        ClusterName:
+          type: string
+          description: The name of the cluster\.
+        DataTiering:
+          type: string
+          description: >-
+            Enables data tiering\. Data tiering is only supported for
+            replication groups using the r6gd node type\. This parameter must be
+            set to true when using r6gd nodes\. For more information, see [Data
+            tiering](https://docs.aws.amazon.com/memorydb/latest/devguide/data-tiering.html)\.
+        Description:
+          type: string
+          description: A description of the cluster\.
+        EngineVersion:
+          type: string
+          description: The Redis engine version used by the cluster\.
+        FinalSnapshotName:
+          type: string
+          description: >-
+            The user\-supplied name of a final cluster snapshot\. This is the
+            unique name that identifies the snapshot\. MemoryDB creates the
+            snapshot, and then deletes the cluster immediately afterward\.
+        KmsKeyId:
+          type: string
+          description: The ID of the KMS key used to encrypt the cluster\.
+        MaintenanceWindow:
+          type: string
+          description: >-
+            Specifies the weekly time range during which maintenance on the
+            cluster is performed\. It is specified as a range in the format
+            `ddd:hh24:mi-ddd:hh24:mi` \(24H Clock UTC\)\. The minimum
+            maintenance window is a 60 minute period\.
+        NodeType:
+          type: string
+          description: The cluster's node type\.
+        NumReplicasPerShard:
+          type: integer
+          description: The number of replicas to apply to each shard\.
+        NumShards:
+          type: integer
+          description: The number of shards in the cluster\.
+        ParameterGroupName:
+          type: string
+          description: The name of the parameter group used by the cluster\.
+        Port:
+          type: integer
+          description: The port used by the cluster\.
+        SecurityGroupIds:
+          type: array
+          description: A list of security group names to associate with this cluster\.
+        SnapshotArns:
+          type: array
+          description: >-
+            A list of Amazon Resource Names \(ARN\) that uniquely identify the
+            RDB snapshot files stored in Amazon S3\. The snapshot files are used
+            to populate the new cluster\. The Amazon S3 object name in the ARN
+            cannot contain any commas\.
+        SnapshotName:
+          type: string
+          description: >-
+            The name of a snapshot from which to restore data into the new
+            cluster\. The snapshot status changes to restoring while the new
+            cluster is being created\.
+        SnapshotRetentionLimit:
+          type: integer
+          description: >-
+            The number of days for which MemoryDB retains automatic snapshots
+            before deleting them\. For example, if you set
+            SnapshotRetentionLimit to 5, a snapshot that was taken today is
+            retained for 5 days before being deleted\.
+        SnapshotWindow:
+          type: string
+          description: >-
+            The daily time range \(in UTC\) during which MemoryDB begins taking
+            a daily snapshot of your shard\. Example: 05:00\-09:00 If you do not
+            specify this parameter, MemoryDB automatically chooses an
+            appropriate time range\.
+        SnsTopicArn:
+          type: string
+          description: >-
+            When you pass the logical ID of this resource to the intrinsic `Ref`
+            function, Ref returns the ARN of the SNS topic, such as
+            `arn:aws:memorydb:us-east-1:123456789012:mySNSTopic`
+        SnsTopicStatus:
+          type: string
+          description: The SNS topic must be in Active status to receive notifications\.
+        SubnetGroupName:
+          type: string
+          description: The name of the subnet group used by the cluster\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        TLSEnabled:
+          type: boolean
+          description: A flag to indicate if In\-transit encryption is enabled\.
+      required:
+        - ACLName
+        - ClusterName
+        - NodeType
+    ParameterGroup:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description of the parameter group\.
+        Family:
+          type: string
+          description: >-
+            The name of the parameter group family that this parameter group is
+            compatible with\.
+        ParameterGroupName:
+          type: string
+          description: The name of the parameter group\.
+        Parameters:
+          type: object
+          description: Returns the detailed parameter list for the parameter group\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - Family
+        - ParameterGroupName
+    SubnetGroup:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description of the subnet group\.
+        SubnetGroupName:
+          type: string
+          description: The name of the subnet group to be used for the cluster\.
+        SubnetIds:
+          type: array
+          description: A list of Amazon VPC subnet IDs for the subnet group\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - SubnetGroupName
+        - SubnetIds
+    User:
+      type: object
+      properties:
+        AccessString:
+          type: string
+          description: Access permissions string used for this user\.
+        AuthenticationMode:
+          description: >-
+            Denotes whether the user requires a password to authenticate\.  
+            **Example:**
+        undefined:
+          type: >-
+            [authenticationmode](aws-properties-memorydb-user-authenticationmode.md)
+          description: >-
+            AuthenticationMode:      {          "Passwords":
+            ["1234567890123456"],          "Type": "Password"      } ```
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        UserName:
+          type: string
+          description: The name of the user\.
+      required:
+        - AccessString
+        - null
+        - UserName
+paths: {}

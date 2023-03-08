@@ -1,0 +1,78 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: ResilienceHub
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    App:
+      type: object
+      properties:
+        AppAssessmentSchedule:
+          type: string
+          description: Assessment execution schedule with 'Daily' or 'Disabled' values\.
+        AppTemplateBody:
+          type: string
+          description: A string containing a full Resilience Hub app template body\.
+        Description:
+          type: string
+          description: The optional description for an app\.
+        Name:
+          type: string
+          description: The name for the application\.
+        ResiliencyPolicyArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the resiliency policy\.
+        ResourceMappings:
+          type: >-
+            list of
+            [resourcemapping](aws-properties-resiliencehub-app-resourcemapping.md)
+          description: An array of ResourceMapping objects\.
+        Tags:
+          type: map of string
+          description: >-
+            The tags assigned to the resource\. A tag is a label that you assign
+            to an AWS resource\. Each tag consists of a key/value pair\.
+      required:
+        - AppTemplateBody
+        - Name
+        - ResourceMappings
+    ResiliencyPolicy:
+      type: object
+      properties:
+        DataLocationConstraint:
+          type: string
+          description: >-
+            Specifies a high\-level geographical location constraint for where
+            your resilience policy data can be stored\.
+        Policy:
+          type: >-
+            map of
+            [failurepolicy](aws-properties-resiliencehub-resiliencypolicy-failurepolicy.md)
+          description: The resiliency policy\.
+        PolicyDescription:
+          type: string
+          description: The description for the policy\.
+        PolicyName:
+          type: string
+          description: The name of the policy
+        Tags:
+          type: map of string
+          description: >-
+            The tags assigned to the resource\. A tag is a label that you assign
+            to an AWS resource\. Each tag consists of a key/value pair\.
+        Tier:
+          type: string
+          description: >-
+            The tier for this resiliency policy, ranging from the highest
+            severity \(`MissionCritical`\) to lowest \(`NonCritical`\)\.
+      required:
+        - Policy
+        - PolicyName
+        - Tier
+paths: {}

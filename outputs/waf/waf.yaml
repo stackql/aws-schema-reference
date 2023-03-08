@@ -1,0 +1,154 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: WAF
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ByteMatchSet:
+      type: object
+      properties:
+        ByteMatchTuples:
+          type: >-
+            list of
+            [bytematchtuple](aws-properties-waf-bytematchset-bytematchtuples.md)
+          description: >-
+            Specifies the bytes \(typically a string that corresponds with ASCII
+            characters\) that you want AWS WAF to search for in web requests,
+            the location in requests that you want AWS WAF to search, and other
+            settings\.
+        Name:
+          type: string
+          description: >-
+            The name of the `ByteMatchSet`\. You can't change `Name` after you
+            create a `ByteMatchSet`\.
+      required:
+        - Name
+    IPSet:
+      type: object
+      properties:
+        IPSetDescriptors:
+          type: >-
+            list of
+            [ipsetdescriptor](aws-properties-waf-ipset-ipsetdescriptors.md)
+          description: >-
+            The IP address type \(`IPV4` or `IPV6`\) and the IP address range
+            \(in CIDR notation\) that web requests originate from\. If the
+            `WebACL` is associated with an Amazon CloudFront distribution and
+            the viewer did not use an HTTP proxy or a load balancer to send the
+            request, this is the value of the c\-ip field in the CloudFront
+            access logs\.
+        Name:
+          type: string
+          description: >-
+            The name of the `IPSet`\. You can't change the name of an `IPSet`
+            after you create it\.
+      required:
+        - Name
+    Rule:
+      type: object
+      properties:
+        MetricName:
+          type: string
+          description: >-
+            The name of the metrics for this `Rule`\. The name can contain only
+            alphanumeric characters \(A\-Z, a\-z, 0\-9\), with maximum length
+            128 and minimum length one\. It can't contain whitespace or metric
+            names reserved for AWS WAF, including "All" and "Default\_Action\."
+            You can't change `MetricName` after you create the `Rule`\.
+        Name:
+          type: string
+          description: >-
+            The friendly name or description for the `Rule`\. You can't change
+            the name of a `Rule` after you create it\.
+        Predicates:
+          type: list of [predicate](aws-properties-waf-rule-predicates.md)
+          description: >-
+            The `Predicates` object contains one `Predicate` element for each
+            `ByteMatchSet`, `IPSet`, or `SqlInjectionMatchSet` object that you
+            want to include in a `Rule`\.
+      required:
+        - MetricName
+        - Name
+    SizeConstraintSet:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: The name, if any, of the `SizeConstraintSet`\.
+        SizeConstraints:
+          type: >-
+            list of
+            [sizeconstraint](aws-properties-waf-sizeconstraintset-sizeconstraint.md)
+          description: The size constraint and the part of the web request to check\.
+      required:
+        - Name
+        - SizeConstraints
+    SqlInjectionMatchSet:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: The name, if any, of the `SqlInjectionMatchSet`\.
+        SqlInjectionMatchTuples:
+          type: >-
+            list of
+            [sqlinjectionmatchtuple](aws-properties-waf-sqlinjectionmatchset-sqlinjectionmatchtuples.md)
+          description: >-
+            Specifies the parts of web requests that you want to inspect for
+            snippets of malicious SQL code\.
+      required:
+        - Name
+    WebACL:
+      type: object
+      properties:
+        DefaultAction:
+          type: '[wafaction](aws-properties-waf-webacl-action.md)'
+          description: >-
+            The action to perform if none of the `Rules` contained in the
+            `WebACL` match\. The action is specified by the `WafAction` object\.
+        MetricName:
+          type: string
+          description: >-
+            The name of the metrics for this `WebACL`\. The name can contain
+            only alphanumeric characters \(A\-Z, a\-z, 0\-9\), with maximum
+            length 128 and minimum length one\. It can't contain whitespace or
+            metric names reserved for AWS WAF, including "All" and
+            "Default\_Action\." You can't change `MetricName` after you create
+            the `WebACL`\.
+        Name:
+          type: string
+          description: >-
+            A friendly name or description of the `WebACL`\. You can't change
+            the name of a `WebACL` after you create it\.
+        Rules:
+          type: list of [activatedrule](aws-properties-waf-webacl-rules.md)
+          description: >-
+            An array that contains the action for each `Rule` in a `WebACL`, the
+            priority of the `Rule`, and the ID of the `Rule`\.
+      required:
+        - DefaultAction
+        - MetricName
+        - Name
+    XssMatchSet:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: The name, if any, of the `XssMatchSet`\.
+        XssMatchTuples:
+          type: >-
+            list of
+            [xssmatchtuple](aws-properties-waf-xssmatchset-xssmatchtuple.md)
+          description: >-
+            Specifies the parts of web requests that you want to inspect for
+            cross\-site scripting attacks\.
+      required:
+        - Name
+        - XssMatchTuples
+paths: {}

@@ -1,0 +1,195 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: AmazonMQ
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Broker:
+      type: object
+      properties:
+        AuthenticationStrategy:
+          type: string
+          description: >-
+            Optional\. The authentication strategy used to secure the broker\.
+            The default is `SIMPLE`\.
+        AutoMinorVersionUpgrade:
+          type: boolean
+          description: >-
+            Enables automatic upgrades to new minor versions for brokers, as new
+            broker engine versions are released and supported by Amazon MQ\.
+            Automatic upgrades occur during the scheduled maintenance window of
+            the broker or after a manual broker reboot\.
+        BrokerName:
+          type: string
+          description: >-
+            The name of the broker\. This value must be unique in your AWS
+            account, 1\-50 characters long, must contain only letters, numbers,
+            dashes, and underscores, and must not contain white spaces,
+            brackets, wildcard characters, or special characters\.    Do not add
+            personally identifiable information \(PII\) or other confidential or
+            sensitive information in broker names\. Broker names are accessible
+            to other AWS services, including CCloudWatch Logs\. Broker names are
+            not intended to be used for private or sensitive data\.
+        Configuration:
+          type: '[configurationid](aws-properties-amazonmq-broker-configurationid.md)'
+          description: >-
+            A list of information about the configuration\. Does not apply to
+            RabbitMQ brokers\.
+        DeploymentMode:
+          type: string
+          description: >-
+            The deployment mode of the broker\. Available values:   +
+            `SINGLE_INSTANCE` + `ACTIVE_STANDBY_MULTI_AZ` + `CLUSTER_MULTI_AZ`
+        EncryptionOptions:
+          type: >-
+            [encryptionoptions](aws-properties-amazonmq-broker-encryptionoptions.md)
+          description: >-
+            Encryption options for the broker\. Does not apply to RabbitMQ
+            brokers\.
+        EngineType:
+          type: string
+          description: >-
+            The type of broker engine\. Currently, Amazon MQ supports `ACTIVEMQ`
+            and `RABBITMQ`\.
+        EngineVersion:
+          type: string
+          description: >-
+            The version of the broker engine\. For a list of supported engine
+            versions, see
+            [Engine](https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html)
+            in the *Amazon MQ Developer Guide*\.
+        HostInstanceType:
+          type: string
+          description: The broker's instance type\.
+        LdapServerMetadata:
+          type: >-
+            [ldapservermetadata](aws-properties-amazonmq-broker-ldapservermetadata.md)
+          description: >-
+            Optional\. The metadata of the LDAP server used to authenticate and
+            authorize connections to the broker\. Does not apply to RabbitMQ
+            brokers\.
+        Logs:
+          type: '[loglist](aws-properties-amazonmq-broker-loglist.md)'
+          description: Enables Amazon CloudWatch logging for brokers\.
+        MaintenanceWindowStartTime:
+          type: >-
+            [maintenancewindow](aws-properties-amazonmq-broker-maintenancewindow.md)
+          description: >-
+            The scheduled time period relative to UTC during which Amazon MQ
+            begins to apply pending updates or patches to the broker\.
+        PubliclyAccessible:
+          type: boolean
+          description: >-
+            Enables connections from applications outside of the VPC that hosts
+            the broker's subnets\.
+        SecurityGroups:
+          type: array
+          description: >-
+            The list of rules \(1 minimum, 125 maximum\) that authorize
+            connections to brokers\.
+        StorageType:
+          type: string
+          description: The broker's storage type\.
+        SubnetIds:
+          type: array
+          description: >-
+            The list of groups that define which subnets and IP ranges the
+            broker can use from different Availability Zones\. If you specify
+            more than one subnet, the subnets must be in different Availability
+            Zones\. Amazon MQ will not be able to create VPC endpoints for your
+            broker with multiple subnets in the same Availability Zone\. A
+            SINGLE\_INSTANCE deployment requires one subnet \(for example, the
+            default subnet\)\. An ACTIVE\_STANDBY\_MULTI\_AZ deployment
+            \(ACTIVEMQ\) requires two subnets\. A CLUSTER\_MULTI\_AZ deployment
+            \(RABBITMQ\) has no subnet requirements when deployed with public
+            accessibility, deployment without public accessibility requires at
+            least one subnet\.    If you specify subnets in a shared VPC for a
+            RabbitMQ broker, the associated VPC to which the specified subnets
+            belong must be owned by your AWS account\. Amazon MQ will not be
+            able to create VPC enpoints in VPCs that are not owned by your AWS
+            account\.
+        Tags:
+          type: list of [tagsentry](aws-properties-amazonmq-broker-tagsentry.md)
+          description: >-
+            An array of key\-value pairs\. For more information, see [Using Cost
+            Allocation
+            Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html)
+            in the *Billing and Cost Management User Guide*\.
+        Users:
+          type: list of [user](aws-properties-amazonmq-broker-user.md)
+          description: >-
+            The list of broker users \(persons or applications\) who can access
+            queues and topics\. For Amazon MQ for RabbitMQ brokers, one and only
+            one administrative user is accepted and created when a broker is
+            first provisioned\. All subsequent RabbitMQ users are created by via
+            the RabbitMQ web console or by using the RabbitMQ management API\.
+      required:
+        - AutoMinorVersionUpgrade
+        - BrokerName
+        - DeploymentMode
+        - EngineType
+        - EngineVersion
+        - HostInstanceType
+        - PubliclyAccessible
+        - Users
+    Configuration:
+      type: object
+      properties:
+        AuthenticationStrategy:
+          type: string
+          description: >-
+            Optional\. The authentication strategy associated with the
+            configuration\. The default is `SIMPLE`\.
+        Data:
+          type: string
+          description: The base64\-encoded XML configuration\.
+        Description:
+          type: string
+          description: The description of the configuration\.
+        EngineType:
+          type: string
+          description: >-
+            The type of broker engine\. Note: Currently, Amazon MQ only supports
+            ACTIVEMQ for creating and editing broker configurations\.
+        EngineVersion:
+          type: string
+          description: >-
+            The version of the broker engine\. For a list of supported engine
+            versions, see
+            [https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html](https://docs.aws.amazon.com/amazon-mq/latest/developer-guide/broker-engine.html)
+        Name:
+          type: string
+          description: >-
+            The name of the configuration\. This value can contain only
+            alphanumeric characters, dashes, periods, underscores, and tildes
+            \(\- \. \_ \~\)\. This value must be 1\-150 characters long\.
+        Tags:
+          type: >-
+            list of
+            [tagsentry](aws-properties-amazonmq-configuration-tagsentry.md)
+          description: Create tags when creating the configuration\.
+      required:
+        - Data
+        - EngineType
+        - EngineVersion
+        - Name
+    ConfigurationAssociation:
+      type: object
+      properties:
+        Broker:
+          type: string
+          description: The broker to associate with a configuration\.
+        Configuration:
+          type: >-
+            [configurationid](aws-properties-amazonmq-configurationassociation-configurationid.md)
+          description: The configuration to associate with a broker\.
+      required:
+        - Broker
+        - Configuration
+paths: {}

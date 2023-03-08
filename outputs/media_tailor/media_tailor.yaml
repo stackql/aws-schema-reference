@@ -1,0 +1,76 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: MediaTailor
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    PlaybackConfiguration:
+      type: object
+      properties:
+        AdDecisionServerUrl:
+          type: string
+          description: Property description not available\.
+        AvailSuppression:
+          type: >-
+            [availsuppression](aws-properties-mediatailor-playbackconfiguration-availsuppression.md)
+          description: Property description not available\.
+        Bumper:
+          type: '[bumper](aws-properties-mediatailor-playbackconfiguration-bumper.md)'
+          description: Property description not available\.
+        CdnConfiguration:
+          type: >-
+            [cdnconfiguration](aws-properties-mediatailor-playbackconfiguration-cdnconfiguration.md)
+          description: Property description not available\.
+        ConfigurationAliases:
+          type: map of json
+          description: >-
+            The player parameters and aliases used as dynamic variables during
+            session initialization\. For more information, see [Domain
+            Variables](https://docs.aws.amazon.com/mediatailor/latest/ug/variables-domain.html)\.
+        DashConfiguration:
+          type: >-
+            [dashconfiguration](aws-properties-mediatailor-playbackconfiguration-dashconfiguration.md)
+          description: Property description not available\.
+        HlsConfiguration:
+          type: >-
+            [hlsconfiguration](aws-properties-mediatailor-playbackconfiguration-hlsconfiguration.md)
+          description: The configuration for HLS content\.
+        LivePreRollConfiguration:
+          type: >-
+            [liveprerollconfiguration](aws-properties-mediatailor-playbackconfiguration-liveprerollconfiguration.md)
+          description: Property description not available\.
+        ManifestProcessingRules:
+          type: >-
+            [manifestprocessingrules](aws-properties-mediatailor-playbackconfiguration-manifestprocessingrules.md)
+          description: Property description not available\.
+        Name:
+          type: string
+          description: Property description not available\.
+        PersonalizationThresholdSeconds:
+          type: integer
+          description: Property description not available\.
+        SlateAdUrl:
+          type: string
+          description: Property description not available\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Property description not available\.
+        TranscodeProfileName:
+          type: string
+          description: Property description not available\.
+        VideoContentSourceUrl:
+          type: string
+          description: Property description not available\.
+      required:
+        - AdDecisionServerUrl
+        - Name
+        - VideoContentSourceUrl
+paths: {}

@@ -1,0 +1,34 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: EMRContainers
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    VirtualCluster:
+      type: object
+      properties:
+        ContainerProvider:
+          type: >-
+            [containerprovider](aws-properties-emrcontainers-virtualcluster-containerprovider.md)
+          description: The container provider of the virtual cluster\.
+        Name:
+          type: string
+          description: The name of the virtual cluster\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - ContainerProvider
+        - Name
+paths: {}

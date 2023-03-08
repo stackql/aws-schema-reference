@@ -1,0 +1,149 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: OpenSearchService
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Domain:
+      type: object
+      properties:
+        AccessPolicies:
+          type: object
+          description: >-
+            An AWS Identity and Access Management \(IAM\) policy document that
+            specifies who can access the OpenSearch Service domain and their
+            permissions\. For more information, see [Configuring access
+            policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/ac.html#ac-creating)
+            in the *Amazon OpenSearch Service Developer Guide*\.
+        AdvancedOptions:
+          type: map of string
+          description: >-
+            Additional options to specify for the OpenSearch Service domain\.
+            For more information, see
+            [AdvancedOptions](https://docs.aws.amazon.com/opensearch-service/latest/APIReference/API_CreateDomain.html#API_CreateDomain_RequestBody)
+            in the OpenSearch Service API reference\.
+        AdvancedSecurityOptions:
+          type: >-
+            [advancedsecurityoptionsinput](aws-properties-opensearchservice-domain-advancedsecurityoptionsinput.md)
+          description: >-
+            Specifies options for fine\-grained access control and SAML
+            authentication\.   If you specify advanced security options, you
+            must also enable node\-to\-node encryption
+            \([NodeToNodeEncryptionOptions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opensearchservice-domain-nodetonodeencryptionoptions.html)\)
+            and encryption at rest
+            \([EncryptionAtRestOptions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opensearchservice-domain-encryptionatrestoptions.html)\)\.
+            You must also enable `EnforceHTTPS` within
+            [DomainEndpointOptions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-opensearchservice-domain-domainendpointoptions.html),
+            which requires HTTPS for all traffic to the domain\.
+        ClusterConfig:
+          type: >-
+            [clusterconfig](aws-properties-opensearchservice-domain-clusterconfig.md)
+          description: Container for the cluster configuration of a domain\.
+        CognitoOptions:
+          type: >-
+            [cognitooptions](aws-properties-opensearchservice-domain-cognitooptions.md)
+          description: >-
+            Configures OpenSearch Service to use Amazon Cognito authentication
+            for OpenSearch Dashboards\.
+        DomainEndpointOptions:
+          type: >-
+            [domainendpointoptions](aws-properties-opensearchservice-domain-domainendpointoptions.md)
+          description: >-
+            Specifies additional options for the domain endpoint, such as
+            whether to require HTTPS for all traffic or whether to use a custom
+            endpoint rather than the default endpoint\.
+        DomainName:
+          type: string
+          description: >-
+            A name for the OpenSearch Service domain\. The name must have a
+            minimum length of 3 and a maximum length of 28\. If you don't
+            specify a name, AWS CloudFormation generates a unique physical ID
+            and uses that ID for the domain name\. For more information, see
+            [Name
+            Type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html)\.  
+            Required when creating a new domain\.   If you specify a name, you
+            can't perform updates that require replacement of this resource\.
+            You can perform updates that require no or some interruption\. If
+            you must replace the resource, specify a new name\.
+        EBSOptions:
+          type: '[ebsoptions](aws-properties-opensearchservice-domain-ebsoptions.md)'
+          description: >-
+            The configurations of Amazon Elastic Block Store \(Amazon EBS\)
+            volumes that are attached to data nodes in the OpenSearch Service
+            domain\. For more information, see [EBS volume size
+            limits](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/limits.html#ebsresource)
+            in the *Amazon OpenSearch Service Developer Guide*\.
+        EncryptionAtRestOptions:
+          type: >-
+            [encryptionatrestoptions](aws-properties-opensearchservice-domain-encryptionatrestoptions.md)
+          description: >-
+            Whether the domain should encrypt data at rest, and if so, the AWS
+            KMS key to use\. See [Encryption of data at rest for Amazon
+            OpenSearch
+            Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/encryption-at-rest.html)\.
+        EngineVersion:
+          type: string
+          description: >-
+            The version of OpenSearch to use\. The value must be in the format
+            `OpenSearch_X.Y` or `Elasticsearch_X.Y`\. If not specified, the
+            latest version of OpenSearch is used\. For information about the
+            versions that OpenSearch Service supports, see [Supported versions
+            of OpenSearch and
+            Elasticsearch](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/what-is.html#choosing-version)
+            in the *Amazon OpenSearch Service Developer Guide*\.   If you set
+            the
+            [EnableVersionUpgrade](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-updatepolicy.html#cfn-attributes-updatepolicy-upgradeopensearchdomain)
+            update policy to `true`, you can update `EngineVersion` without
+            interruption\. When `EnableVersionUpgrade` is set to `false`, or is
+            not specified, updating `EngineVersion` results in
+            [replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)\.
+        LogPublishingOptions:
+          type: >-
+            map of
+            [logpublishingoption](aws-properties-opensearchservice-domain-logpublishingoption.md)
+          description: >-
+            An object with one or more of the following keys:
+            `SEARCH_SLOW_LOGS`, `ES_APPLICATION_LOGS`, `INDEX_SLOW_LOGS`,
+            `AUDIT_LOGS`, depending on the types of logs you want to publish\.
+            Each key needs a valid `LogPublishingOption` value\. For the full
+            syntax, see the
+            [examples](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opensearchservice-domain.html#aws-resource-opensearchservice-domain--examples)\.
+        NodeToNodeEncryptionOptions:
+          type: >-
+            [nodetonodeencryptionoptions](aws-properties-opensearchservice-domain-nodetonodeencryptionoptions.md)
+          description: >-
+            Specifies whether node\-to\-node encryption is enabled\. See
+            [Node\-to\-node encryption for Amazon OpenSearch
+            Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/ntn.html)\.
+        SnapshotOptions:
+          type: >-
+            [snapshotoptions](aws-properties-opensearchservice-domain-snapshotoptions.md)
+          description: >-
+            **DEPRECATED**\. The automated snapshot configuration for the
+            OpenSearch Service domain indexes\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An arbitrary set of tags \(key–value pairs\) to associate with the
+            OpenSearch Service domain\.
+        VPCOptions:
+          type: '[vpcoptions](aws-properties-opensearchservice-domain-vpcoptions.md)'
+          description: >-
+            The virtual private cloud \(VPC\) configuration for the OpenSearch
+            Service domain\. For more information, see [Launching your Amazon
+            OpenSearch Service domains within a
+            VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html)
+            in the *Amazon OpenSearch Service Developer Guide*\.   If you remove
+            this entity altogether, along with its associated properties, it
+            causes a replacement\. You might encounter this scenario if you're
+            updating your security configuration from a VPC to a public
+            endpoint\.
+paths: {}

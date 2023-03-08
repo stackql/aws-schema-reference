@@ -1,0 +1,35 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: InspectorV2
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Filter:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description of the filter\.
+        FilterAction:
+          type: string
+          description: >-
+            The action that is to be applied to the findings that match the
+            filter\.
+        FilterCriteria:
+          type: >-
+            [filtercriteria](aws-properties-inspectorv2-filter-filtercriteria.md)
+          description: Details on the filter criteria associated with this filter\.
+        Name:
+          type: string
+          description: The name of the filter\.
+      required:
+        - FilterAction
+        - FilterCriteria
+        - Name
+paths: {}

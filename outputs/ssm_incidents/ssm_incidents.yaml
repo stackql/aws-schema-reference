@@ -1,0 +1,81 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: SSMIncidents
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ReplicationSet:
+      type: object
+      properties:
+        DeletionProtected:
+          type: boolean
+          description: >-
+            Determines if the replication set deletion protection is enabled or
+            not\. If deletion protection is enabled, you can't delete the last
+            Region in the replication set\.
+        Regions:
+          type: >-
+            list of
+            [replicationregion](aws-properties-ssmincidents-replicationset-replicationregion.md)
+          description: Specifies the Regions of the replication set\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A list of tags to add to the replication set\.
+      required:
+        - Regions
+    ResponsePlan:
+      type: object
+      properties:
+        Actions:
+          type: list of [action](aws-properties-ssmincidents-responseplan-action.md)
+          description: >-
+            The actions that the response plan starts at the beginning of an
+            incident\.
+        ChatChannel:
+          type: >-
+            [chatchannel](aws-properties-ssmincidents-responseplan-chatchannel.md)
+          description: >-
+            The AWS Chatbot chat channel used for collaboration during an
+            incident\.
+        DisplayName:
+          type: string
+          description: The human readable name of the response plan\.
+        Engagements:
+          type: array
+          description: >-
+            The Amazon Resource Name \(ARN\) for the contacts and escalation
+            plans that the response plan engages during an incident\.
+        IncidentTemplate:
+          type: >-
+            [incidenttemplate](aws-properties-ssmincidents-responseplan-incidenttemplate.md)
+          description: Details used to create an incident when using this response plan\.
+        Integrations:
+          type: >-
+            list of
+            [integration](aws-properties-ssmincidents-responseplan-integration.md)
+          description: >-
+            Information about third\-party services integrated into the response
+            plan\.
+        Name:
+          type: string
+          description: The name of the response plan\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - IncidentTemplate
+        - Name
+paths: {}

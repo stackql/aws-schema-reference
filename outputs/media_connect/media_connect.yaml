@@ -1,0 +1,260 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: MediaConnect
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Flow:
+      type: object
+      properties:
+        AvailabilityZone:
+          type: string
+          description: >-
+            The Availability Zone that you want to create the flow in\. These
+            options are limited to the Availability Zones within the current AWS
+            Region\.
+        Name:
+          type: string
+          description: The name of the flow\.
+        Source:
+          type: '[source](aws-properties-mediaconnect-flow-source.md)'
+          description: The settings for the source that you want to use for the new flow\.
+        SourceFailoverConfig:
+          type: '[failoverconfig](aws-properties-mediaconnect-flow-failoverconfig.md)'
+          description: The settings for source failover\.
+      required:
+        - Name
+        - Source
+    FlowEntitlement:
+      type: object
+      properties:
+        DataTransferSubscriberFeePercent:
+          type: integer
+          description: >-
+            The percentage of the entitlement data transfer fee that you want
+            the subscriber to be responsible for\.
+        Description:
+          type: string
+          description: >-
+            A description of the entitlement\. This description appears only on
+            the MediaConnect console and is not visible outside of the current
+            AWS account\.
+        Encryption:
+          type: >-
+            [encryption](aws-properties-mediaconnect-flowentitlement-encryption.md)
+          description: >-
+            The type of encryption that MediaConnect will use on the output that
+            is associated with the entitlement\.
+        EntitlementStatus:
+          type: string
+          description: >-
+            An indication of whether the new entitlement should be enabled or
+            disabled as soon as it is created\. If you don’t specify the
+            entitlementStatus field in your request, MediaConnect sets it to
+            ENABLED\.
+        FlowArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the flow\.
+        Name:
+          type: string
+          description: >-
+            The name of the entitlement\. This value must be unique within the
+            current flow\.
+        Subscribers:
+          type: array
+          description: >-
+            The AWS account IDs that you want to share your content with\. The
+            receiving accounts \(subscribers\) will be allowed to create their
+            own flows using your content as the source\.
+      required:
+        - Description
+        - FlowArn
+        - Name
+        - Subscribers
+    FlowOutput:
+      type: object
+      properties:
+        CidrAllowList:
+          type: array
+          description: >-
+            The range of IP addresses that are allowed to initiate output
+            requests to this flow\. Format the IP addresses as a Classless
+            Inter\-Domain Routing \(CIDR\) block; for example, 10\.0\.0\.0/16\.
+        Description:
+          type: string
+          description: >-
+            A description of the output\. This description is not visible
+            outside of the current AWS account even if the account grants
+            entitlements to other accounts\.
+        Destination:
+          type: string
+          description: The IP address where you want to send the output\.
+        Encryption:
+          type: '[encryption](aws-properties-mediaconnect-flowoutput-encryption.md)'
+          description: The encryption credentials that you want to use for the output\.
+        FlowArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the flow this output is attached
+            to\.
+        MaxLatency:
+          type: integer
+          description: >-
+            The maximum latency in milliseconds\. This parameter applies only to
+            RIST\-based, Zixi\-based, and Fujitsu\-based streams\.
+        MinLatency:
+          type: integer
+          description: >-
+            The minimum latency in milliseconds for SRT\-based streams\. In
+            streams that use the SRT protocol, this value that you set on your
+            MediaConnect source or output represents the minimal potential
+            latency of that connection\. The latency of the stream is set to the
+            highest number between the sender’s minimum latency and the
+            receiver’s minimum latency\.
+        Name:
+          type: string
+          description: The name of the VPC interface\.
+        Port:
+          type: integer
+          description: >-
+            The port to use when MediaConnect distributes content to the
+            output\.
+        Protocol:
+          type: string
+          description: The protocol to use for the output\.
+        RemoteId:
+          type: string
+          description: >-
+            The identifier that is assigned to the Zixi receiver\. This
+            parameter applies only to outputs that use Zixi pull\.
+        SmoothingLatency:
+          type: integer
+          description: >-
+            The smoothing latency in milliseconds for RIST, RTP, and RTP\-FEC
+            streams\.
+        StreamId:
+          type: string
+          description: >-
+            The stream ID that you want to use for this transport\. This
+            parameter applies only to Zixi and SRT caller\-based streams\.
+        VpcInterfaceAttachment:
+          type: >-
+            [vpcinterfaceattachment](aws-properties-mediaconnect-flowoutput-vpcinterfaceattachment.md)
+          description: The VPC interface that you want to send your output to\.
+      required:
+        - FlowArn
+        - Protocol
+    FlowSource:
+      type: object
+      properties:
+        Decryption:
+          type: '[encryption](aws-properties-mediaconnect-flowsource-encryption.md)'
+          description: >-
+            The type of encryption that is used on the content ingested from the
+            source\.
+        Description:
+          type: string
+          description: >-
+            A description of the source\. This description is not visible
+            outside of the current AWS account\.
+        EntitlementArn:
+          type: string
+          description: >-
+            The ARN of the entitlement that allows you to subscribe to the
+            flow\. The entitlement is set by the content originator, and the ARN
+            is generated as part of the originator's flow\.
+        FlowArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the flow this source is
+            connected to\. The flow must have Failover enabled to add an
+            additional source\.
+        IngestPort:
+          type: integer
+          description: >-
+            The port that the flow listens on for incoming content\. If the
+            protocol of the source is Zixi, the port must be set to 2088\.
+        MaxBitrate:
+          type: integer
+          description: The maximum bitrate for RIST, RTP, and RTP\-FEC streams\.
+        MaxLatency:
+          type: integer
+          description: >-
+            The maximum latency in milliseconds\. This parameter applies only to
+            RIST\-based, Zixi\-based, and Fujitsu\-based streams\.
+        Name:
+          type: string
+          description: The name of the source\.
+        Protocol:
+          type: string
+          description: >-
+            The protocol that the source uses to deliver the content to
+            MediaConnect\. Adding additional sources to an existing flow
+            requires Failover to be enabled\. When you enable Failover, the
+            additional source must use the same protocol as the existing
+            source\. Only the following protocols support failover: Zixi\-push,
+            RTP\-FEC, RTP, and RIST\.
+        StreamId:
+          type: string
+          description: >-
+            The stream ID that you want to use for this transport\. This
+            parameter applies only to Zixi and SRT caller\-based streams\.
+        VpcInterfaceName:
+          type: string
+          description: The name of the VPC interface that you want to send your output to\.
+        WhitelistCidr:
+          type: string
+          description: >-
+            The range of IP addresses that are allowed to contribute content to
+            your source\. Format the IP addresses as a Classless Inter\-Domain
+            Routing \(CIDR\) block; for example, 10\.0\.0\.0/16\.
+      required:
+        - Description
+        - Name
+    FlowVpcInterface:
+      type: object
+      properties:
+        FlowArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the flow\.
+        Name:
+          type: string
+          description: >-
+            The name of the VPC Interface\. This value must be unique within the
+            current flow\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the role that you created when
+            you set up MediaConnect as a trusted service\.
+        SecurityGroupIds:
+          type: array
+          description: >-
+            The VPC security groups that you want MediaConnect to use for your
+            VPC configuration\. You must include at least one security group in
+            the request\.
+        SubnetId:
+          type: string
+          description: >-
+            The subnet IDs that you want to use for your VPC interface\.   A
+            range of IP addresses in your VPC\. When you create your VPC, you
+            specify a range of IPv4 addresses for the VPC in the form of a
+            Classless Inter\-Domain Routing \(CIDR\) block; for example,
+            10\.0\.0\.0/16\. This is the primary CIDR block for your VPC\. When
+            you create a subnet for your VPC, you specify the CIDR block for the
+            subnet, which is a subset of the VPC CIDR block\.   The subnets that
+            you use across all VPC interfaces on the flow must be in the same
+            Availability Zone as the flow\.
+      required:
+        - FlowArn
+        - Name
+        - RoleArn
+        - SecurityGroupIds
+        - SubnetId
+paths: {}

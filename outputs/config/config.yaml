@@ -1,0 +1,381 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Config
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    AggregationAuthorization:
+      type: object
+      properties:
+        AuthorizedAccountId:
+          type: string
+          description: >-
+            The 12\-digit account ID of the account authorized to aggregate
+            data\.
+        AuthorizedAwsRegion:
+          type: string
+          description: The region authorized to collect aggregated data\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: An array of tag object\.
+      required:
+        - AuthorizedAccountId
+        - AuthorizedAwsRegion
+    ConfigRule:
+      type: object
+      properties:
+        ConfigRuleName:
+          type: string
+          description: >-
+            A name for the AWS Config rule\. If you don't specify a name, AWS
+            CloudFormation generates a unique physical ID and uses that ID for
+            the rule name\. For more information, see [Name
+            Type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html)\.
+        Description:
+          type: string
+          description: The description that you provide for the AWS Config rule\.
+        InputParameters:
+          type: object
+          description: >-
+            A string, in JSON format, that is passed to the AWS Config rule
+            Lambda function\.
+        MaximumExecutionFrequency:
+          type: string
+          description: >-
+            The maximum frequency with which AWS Config runs evaluations for a
+            rule\. You can specify a value for `MaximumExecutionFrequency`
+            when:   + You are using an AWS managed rule that is triggered at a
+            periodic frequency\. + Your custom rule is triggered when AWS Config
+            delivers the configuration snapshot\. For more information, see
+            [ConfigSnapshotDeliveryProperties](https://docs.aws.amazon.com/config/latest/APIReference/API_ConfigSnapshotDeliveryProperties.html)\.
+            By default, rules with a periodic trigger are evaluated every 24
+            hours\. To change the frequency, specify a valid value for the
+            `MaximumExecutionFrequency` parameter\.
+        Scope:
+          type: '[scope](aws-properties-config-configrule-scope.md)'
+          description: >-
+            Defines which resources can trigger an evaluation for the rule\. The
+            scope can include one or more resource types, a combination of one
+            resource type and one resource ID, or a combination of a tag key and
+            value\. Specify a scope to constrain the resources that can trigger
+            an evaluation for the rule\. If you do not specify a scope,
+            evaluations are triggered when any resource in the recording group
+            changes\.   The scope can be empty\.
+        Source:
+          type: '[source](aws-properties-config-configrule-source.md)'
+          description: >-
+            Provides the rule owner \(` AWS ` for managed rules, `CUSTOM_POLICY`
+            for Custom Policy rules, and `CUSTOM_LAMBDA` for Custom Lambda
+            rules\), the rule identifier, and the notifications that cause the
+            function to evaluate your AWS resources\.
+      required:
+        - Source
+    ConfigurationAggregator:
+      type: object
+      properties:
+        AccountAggregationSources:
+          type: >-
+            list of
+            [accountaggregationsource](aws-properties-config-configurationaggregator-accountaggregationsource.md)
+          description: Provides a list of source accounts and regions to be aggregated\.
+        ConfigurationAggregatorName:
+          type: string
+          description: The name of the aggregator\.
+        OrganizationAggregationSource:
+          type: >-
+            [organizationaggregationsource](aws-properties-config-configurationaggregator-organizationaggregationsource.md)
+          description: Provides an organization and list of regions to be aggregated\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: An array of tag object\.
+    ConfigurationRecorder:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: >-
+            A name for the configuration recorder\. If you don't specify a name,
+            AWS CloudFormation CloudFormation generates a unique physical ID and
+            uses that ID for the configuration recorder name\. For more
+            information, see [Name
+            Type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html)\.  
+            After you create a configuration recorder, you cannot rename it\. If
+            you don't want a name that AWS CloudFormation generates, specify a
+            value for this property\.  Updates are not supported\.
+        RecordingGroup:
+          type: >-
+            [recordinggroup](aws-properties-config-configurationrecorder-recordinggroup.md)
+          description: >-
+            Indicates whether to record configurations for all supported
+            resources or for a list of resource types\. The resource types that
+            you list must be supported by AWS Config\.
+        RoleARN:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the IAM \(IAM\) role that is
+            used to make read or write requests to the delivery channel that you
+            specify and to get configuration details for supported AWS
+            resources\. For more information, see [Permissions for the IAM Role
+            Assigned](https://docs.aws.amazon.com/config/latest/developerguide/iamrole-permissions.html)
+            to AWS Config in the AWS Config Developer Guide\.
+      required:
+        - RoleARN
+    ConformancePack:
+      type: object
+      properties:
+        ConformancePackInputParameters:
+          type: >-
+            list of
+            [conformancepackinputparameter](aws-properties-config-conformancepack-conformancepackinputparameter.md)
+          description: A list of ConformancePackInputParameter objects\.
+        ConformancePackName:
+          type: string
+          description: Name of the conformance pack you want to create\.
+        DeliveryS3Bucket:
+          type: string
+          description: >-
+            The name of the Amazon S3 bucket where AWS Config stores conformance
+            pack templates\.
+        DeliveryS3KeyPrefix:
+          type: string
+          description: The prefix for the Amazon S3 bucket\.
+        TemplateBody:
+          type: string
+          description: >-
+            A string containing full conformance pack template body\. Structure
+            containing the template body with a minimum length of 1 byte and a
+            maximum length of 51,200 bytes\.   You can only use a YAML template
+            with two resource types: config rule \(`AWS::Config::ConfigRule`\)
+            and a remediation action
+            \(`AWS::Config::RemediationConfiguration`\)\.
+        TemplateS3Uri:
+          type: string
+          description: >-
+            Location of file containing the template body
+            \(s3://bucketname/prefix\)\. The uri must point to the conformance
+            pack template \(max size: 300 KB\) that is located in an Amazon S3
+            bucket\.   You must have access to read Amazon S3 bucket\.
+        TemplateSSMDocumentDetails:
+          type: >-
+            [templatessmdocumentdetails](aws-properties-config-conformancepack-templatessmdocumentdetails.md)
+          description: Property description not available\.
+      required:
+        - ConformancePackName
+    DeliveryChannel:
+      type: object
+      properties:
+        ConfigSnapshotDeliveryProperties:
+          type: >-
+            [configsnapshotdeliveryproperties](aws-properties-config-deliverychannel-configsnapshotdeliveryproperties.md)
+          description: >-
+            The options for how often AWS Config delivers configuration
+            snapshots to the Amazon S3 bucket\.
+        Name:
+          type: string
+          description: >-
+            A name for the delivery channel\. If you don't specify a name, AWS
+            CloudFormation generates a unique physical ID and uses that ID for
+            the delivery channel name\. For more information, see [Name
+            Type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html)\.   
+            Updates are not supported\. To change the name, you must run two
+            separate updates\. In the first update, delete this resource, and
+            then recreate it with a new name in the second update\.
+        S3BucketName:
+          type: string
+          description: >-
+            The name of the Amazon S3 bucket to which AWS Config delivers
+            configuration snapshots and configuration history files\.   If you
+            specify a bucket that belongs to another AWS account, that bucket
+            must have policies that grant access permissions to AWS Config\. For
+            more information, see [Permissions for the Amazon S3
+            Bucket](https://docs.aws.amazon.com/config/latest/developerguide/s3-bucket-policy.html)
+            in the * AWS Config Developer Guide*\.
+        S3KeyPrefix:
+          type: string
+          description: The prefix for the specified Amazon S3 bucket\.
+        S3KmsKeyArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the AWS Key Management Service
+            \(AWS KMS \) AWS KMS key \(KMS key\) used to encrypt objects
+            delivered by AWS Config\. Must belong to the same Region as the
+            destination S3 bucket\.
+        SnsTopicARN:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the Amazon SNS topic to which
+            AWS Config sends notifications about configuration changes\.   If
+            you choose a topic from another account, the topic must have
+            policies that grant access permissions to AWS Config\. For more
+            information, see [Permissions for the Amazon SNS
+            Topic](https://docs.aws.amazon.com/config/latest/developerguide/sns-topic-policy.html)
+            in the * AWS Config Developer Guide*\.
+      required:
+        - S3BucketName
+    OrganizationConfigRule:
+      type: object
+      properties:
+        ExcludedAccounts:
+          type: array
+          description: >-
+            A comma\-separated list of accounts excluded from organization AWS
+            Config rule\.
+        OrganizationConfigRuleName:
+          type: string
+          description: The name that you assign to organization AWS Config rule\.
+        OrganizationCustomPolicyRuleMetadata:
+          type: >-
+            [organizationcustompolicyrulemetadata](aws-properties-config-organizationconfigrule-organizationcustompolicyrulemetadata.md)
+          description: >-
+            An object that specifies metadata for your organization's AWS Config
+            Custom Policy rule\. The metadata includes the runtime system in
+            use, which accounts have debug logging enabled, and other custom
+            rule metadata, such as resource type, resource ID of AWS resource,
+            and organization trigger types that initiate AWS Config to evaluate
+            AWS resources against a rule\.
+        OrganizationCustomRuleMetadata:
+          type: >-
+            [organizationcustomrulemetadata](aws-properties-config-organizationconfigrule-organizationcustomrulemetadata.md)
+          description: An `OrganizationCustomRuleMetadata` object\.
+        OrganizationManagedRuleMetadata:
+          type: >-
+            [organizationmanagedrulemetadata](aws-properties-config-organizationconfigrule-organizationmanagedrulemetadata.md)
+          description: An `OrganizationManagedRuleMetadata` object\.
+      required:
+        - OrganizationConfigRuleName
+    OrganizationConformancePack:
+      type: object
+      properties:
+        ConformancePackInputParameters:
+          type: >-
+            list of
+            [conformancepackinputparameter](aws-properties-config-organizationconformancepack-conformancepackinputparameter.md)
+          description: A list of `ConformancePackInputParameter` objects\.
+        DeliveryS3Bucket:
+          type: string
+          description: >-
+            The name of the Amazon S3 bucket where AWS Config stores conformance
+            pack templates\.    This field is optional\.
+        DeliveryS3KeyPrefix:
+          type: string
+          description: >-
+            Any folder structure you want to add to an Amazon S3 bucket\.   This
+            field is optional\.
+        ExcludedAccounts:
+          type: array
+          description: >-
+            A comma\-separated list of accounts excluded from organization
+            conformance pack\.
+        OrganizationConformancePackName:
+          type: string
+          description: The name you assign to an organization conformance pack\.
+        TemplateBody:
+          type: string
+          description: >-
+            A string containing full conformance pack template body\. Structure
+            containing the template body with a minimum length of 1 byte and a
+            maximum length of 51,200 bytes\.
+        TemplateS3Uri:
+          type: string
+          description: >-
+            Location of file containing the template body\. The uri must point
+            to the conformance pack template \(max size: 300 KB\)\.
+      required:
+        - OrganizationConformancePackName
+    RemediationConfiguration:
+      type: object
+      properties:
+        Automatic:
+          type: boolean
+          description: The remediation is triggered automatically\.
+        ConfigRuleName:
+          type: string
+          description: The name of the AWS Config rule\.
+        ExecutionControls:
+          type: >-
+            [executioncontrols](aws-properties-config-remediationconfiguration-executioncontrols.md)
+          description: An ExecutionControls object\.
+        MaximumAutomaticAttempts:
+          type: integer
+          description: >-
+            The maximum number of failed attempts for auto\-remediation\. If you
+            do not select a number, the default is 5\.   For example, if you
+            specify MaximumAutomaticAttempts as 5 with RetryAttemptSeconds as 50
+            seconds, AWS Config will put a RemediationException on your behalf
+            for the failing resource after the 5th failed attempt within 50
+            seconds\.
+        Parameters:
+          type: object
+          description: >-
+            An object of the RemediationParameterValue\. For more information,
+            see
+            [RemediationParameterValue](https://docs.aws.amazon.com/config/latest/APIReference/API_RemediationParameterValue.html)\.  
+            The type is a map of strings to RemediationParameterValue\.
+        ResourceType:
+          type: string
+          description: The type of a resource\.
+        RetryAttemptSeconds:
+          type: integer
+          description: >-
+            Maximum time in seconds that AWS Config runs auto\-remediation\. If
+            you do not select a number, the default is 60 seconds\.    For
+            example, if you specify RetryAttemptSeconds as 50 seconds and
+            MaximumAutomaticAttempts as 5, AWS Config will run
+            auto\-remediations 5 times within 50 seconds before throwing an
+            exception\.
+        TargetId:
+          type: string
+          description: Target ID is the name of the public document\.
+        TargetType:
+          type: string
+          description: >-
+            The type of the target\. Target executes remediation\. For example,
+            SSM document\.
+        TargetVersion:
+          type: string
+          description: >-
+            Version of the target\. For example, version of the SSM document\.  
+            If you make backward incompatible changes to the SSM document, you
+            must call PutRemediationConfiguration API again to ensure the
+            remediations can run\.
+      required:
+        - ConfigRuleName
+        - TargetId
+        - TargetType
+    StoredQuery:
+      type: object
+      properties:
+        QueryDescription:
+          type: string
+          description: A unique description for the query\.
+        QueryExpression:
+          type: string
+          description: >-
+            The expression of the query\. For example, `SELECT resourceId,
+            resourceType,
+            supplementaryConfiguration.BucketVersioningConfiguration.status
+            WHERE resourceType = 'AWS::S3::Bucket' AND
+            supplementaryConfiguration.BucketVersioningConfiguration.status =
+            'Off'.`
+        QueryName:
+          type: string
+          description: The name of the query\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: An array of key\-value pairs to apply to this resource\.
+      required:
+        - QueryExpression
+        - QueryName
+paths: {}

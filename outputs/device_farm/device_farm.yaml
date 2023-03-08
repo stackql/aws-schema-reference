@@ -1,0 +1,235 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: DeviceFarm
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    DevicePool:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The device pool's description\.
+        MaxDevices:
+          type: integer
+          description: >-
+            The number of devices that Device Farm can add to your device pool\.
+            Device Farm adds devices that are available and meet the criteria
+            that you assign for the `rules` parameter\. Depending on how many
+            devices meet these constraints, your device pool might contain fewer
+            devices than the value for this parameter\.   By specifying the
+            maximum number of devices, you can control the costs that you incur
+            by running tests\.
+        Name:
+          type: string
+          description: The device pool's name\.
+        ProjectArn:
+          type: string
+          description: The ARN of the project for the device pool\.
+        Rules:
+          type: list of [rule](aws-properties-devicefarm-devicepool-rule.md)
+          description: The device pool's rules\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)
+            in the *AWS CloudFormation resource type reference guide*\.
+      required:
+        - Name
+        - ProjectArn
+        - Rules
+    InstanceProfile:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the instance profile\.
+        ExcludeAppPackagesFromCleanup:
+          type: array
+          description: >-
+            An array of strings containing the list of app packages that should
+            not be cleaned up from the device after a test run completes\.   The
+            list of packages is considered only if you set `packageCleanup` to
+            `true`\.
+        Name:
+          type: string
+          description: The name of the instance profile\.
+        PackageCleanup:
+          type: boolean
+          description: >-
+            When set to `true`, Device Farm removes app packages after a test
+            run\. The default value is `false` for private devices\.
+        RebootAfterUse:
+          type: boolean
+          description: >-
+            When set to `true`, Device Farm reboots the instance after a test
+            run\. The default value is `true`\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)
+            in the *AWS CloudFormation resource type reference guide*\.
+      required:
+        - Name
+    NetworkProfile:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the network profile\.
+        DownlinkBandwidthBits:
+          type: integer
+          description: >-
+            The data throughput rate in bits per second, as an integer from 0 to
+            104857600\.
+        DownlinkDelayMs:
+          type: integer
+          description: >-
+            Delay time for all packets to destination in milliseconds as an
+            integer from 0 to 2000\.
+        DownlinkJitterMs:
+          type: integer
+          description: >-
+            Time variation in the delay of received packets in milliseconds as
+            an integer from 0 to 2000\.
+        DownlinkLossPercent:
+          type: integer
+          description: >-
+            Proportion of received packets that fail to arrive from 0 to 100
+            percent\.
+        Name:
+          type: string
+          description: The name of the network profile\.
+        ProjectArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the specified project\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)
+            in the *AWS CloudFormation resource type reference guide*\.
+        UplinkBandwidthBits:
+          type: integer
+          description: >-
+            The data throughput rate in bits per second, as an integer from 0 to
+            104857600\.
+        UplinkDelayMs:
+          type: integer
+          description: >-
+            Delay time for all packets to destination in milliseconds as an
+            integer from 0 to 2000\.
+        UplinkJitterMs:
+          type: integer
+          description: >-
+            Time variation in the delay of received packets in milliseconds as
+            an integer from 0 to 2000\.
+        UplinkLossPercent:
+          type: integer
+          description: >-
+            Proportion of transmitted packets that fail to arrive from 0 to 100
+            percent\.
+      required:
+        - Name
+        - ProjectArn
+    Project:
+      type: object
+      properties:
+        DefaultJobTimeoutMinutes:
+          type: integer
+          description: >-
+            Sets the execution timeout value \(in minutes\) for a project\. All
+            test runs in this project use the specified execution timeout value
+            unless overridden when scheduling a run\.
+        Name:
+          type: string
+          description: The project's name\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags to add to the resource\. A tag is an array of key\-value
+            pairs\. Tag keys can have a maximum character length of 128
+            characters\. Tag values can have a maximum length of 256
+            characters\.
+      required:
+        - Name
+    TestGridProject:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A human\-readable description for the project\.
+        Name:
+          type: string
+          description: A human\-readable name for the project\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)
+            in the *AWS CloudFormation resource type reference guide*\.
+        VpcConfig:
+          type: '[vpcconfig](aws-properties-devicefarm-testgridproject-vpcconfig.md)'
+          description: The VPC security groups and subnets that are attached to a project\.
+      required:
+        - Name
+    VPCEConfiguration:
+      type: object
+      properties:
+        ServiceDnsName:
+          type: string
+          description: >-
+            The DNS name that Device Farm will use to map to the private service
+            you want to access\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)
+            in the *AWS CloudFormation resource type reference guide*\.
+        VpceConfigurationDescription:
+          type: string
+          description: >-
+            An optional description that provides details about your VPC
+            endpoint configuration\.
+        VpceConfigurationName:
+          type: string
+          description: >-
+            The friendly name you give to your VPC endpoint configuration to
+            manage your configurations more easily\.
+        VpceServiceName:
+          type: string
+          description: >-
+            The name of the VPC endpoint service that you want to access from
+            Device Farm\.   The name follows the format
+            `com.amazonaws.vpce.us-west-2.vpce-svc-id`\.
+      required:
+        - ServiceDnsName
+        - VpceConfigurationName
+        - VpceServiceName
+paths: {}

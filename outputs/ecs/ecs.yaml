@@ -1,0 +1,790 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: ECS
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    CapacityProvider:
+      type: object
+      properties:
+        AutoScalingGroupProvider:
+          type: >-
+            [autoscalinggroupprovider](aws-properties-ecs-capacityprovider-autoscalinggroupprovider.md)
+          description: The Auto Scaling group settings for the capacity provider\.
+        Name:
+          type: string
+          description: >-
+            The name of the capacity provider\. If a name is specified, it
+            cannot start with `aws`, `ecs`, or `fargate`\. If no name is
+            specified, a default name in the
+            `CFNStackName-CFNResourceName-RandomString` format is used\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The metadata that you apply to the capacity provider to help you
+            categorize and organize it\. Each tag consists of a key and an
+            optional value\. You define both\.   The following basic
+            restrictions apply to tags:   + Maximum number of tags per resource
+            \- 50 + For each resource, each tag key must be unique, and each tag
+            key can have only one value\. + Maximum key length \- 128 Unicode
+            characters in UTF\-8 + Maximum value length \- 256 Unicode
+            characters in UTF\-8 + If your tagging schema is used across
+            multiple services and resources, remember that other services may
+            have restrictions on allowed characters\. Generally allowed
+            characters are: letters, numbers, and spaces representable in
+            UTF\-8, and the following characters: \+ \- = \. \_ : / @\. + Tag
+            keys and values are case\-sensitive\. + Do not use `aws:`, `AWS:`,
+            or any upper or lowercase combination of such as a prefix for either
+            keys or values as it is reserved for AWS use\. You cannot edit or
+            delete tag keys or values with this prefix\. Tags with this prefix
+            do not count against your tags per resource limit\.
+      required:
+        - AutoScalingGroupProvider
+    Cluster:
+      type: object
+      properties:
+        CapacityProviders:
+          type: array
+          description: >-
+            The short name of one or more capacity providers to associate with
+            the cluster\. A capacity provider must be associated with a cluster
+            before it can be included as part of the default capacity provider
+            strategy of the cluster or used in a capacity provider strategy when
+            calling the
+            [CreateService](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateService.html)
+            or
+            [RunTask](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_RunTask.html)
+            actions\.   If specifying a capacity provider that uses an Auto
+            Scaling group, the capacity provider must be created but not
+            associated with another cluster\. New Auto Scaling group capacity
+            providers can be created with the
+            [CreateCapacityProvider](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_CreateCapacityProvider.html)
+            API operation\.   To use a AWS Fargate capacity provider, specify
+            either the `FARGATE` or `FARGATE_SPOT` capacity providers\. The AWS
+            Fargate capacity providers are available to all accounts and only
+            need to be associated with a cluster to be used\.   The
+            [PutCapacityProvider](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutCapacityProvider.html)
+            API operation is used to update the list of available capacity
+            providers for a cluster after the cluster is created\.
+        ClusterName:
+          type: string
+          description: >-
+            A user\-generated string that you use to identify your cluster\. If
+            you don't specify a name, AWS CloudFormation generates a unique
+            physical ID for the name\.
+        ClusterSettings:
+          type: >-
+            [list](aws-properties-ecs-cluster-clustersettings.md) of
+            [clustersettings](aws-properties-ecs-cluster-clustersettings.md)
+          description: >-
+            The setting to use when creating a cluster\. This parameter is used
+            to use CloudWatch Container Insights for a cluster\. If this value
+            is specified, it will override the `containerInsights` value set
+            with
+            [PutAccountSetting](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutAccountSetting.html)
+            or
+            [PutAccountSettingDefault](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_PutAccountSettingDefault.html)\.
+        Configuration:
+          type: >-
+            [clusterconfiguration](aws-properties-ecs-cluster-clusterconfiguration.md)
+          description: The execute command configuration for the cluster\.
+        DefaultCapacityProviderStrategy:
+          type: >-
+            list of
+            [capacityproviderstrategyitem](aws-properties-ecs-cluster-capacityproviderstrategyitem.md)
+          description: >-
+            The default capacity provider strategy for the cluster\. When
+            services or tasks are run in the cluster with no launch type or
+            capacity provider strategy specified, the default capacity provider
+            strategy is used\.
+        ServiceConnectDefaults:
+          type: >-
+            [serviceconnectdefaults](aws-properties-ecs-cluster-serviceconnectdefaults.md)
+          description: >-
+            Use this parameter to set a default Service Connect namespace\.
+            After you set a default Service Connect namespace, any new services
+            with Service Connect turned on that are created in the cluster are
+            added as client services in the namespace\. This setting only
+            applies to new services that set the `enabled` parameter to `true`
+            in the `ServiceConnectConfiguration`\. You can set the namespace of
+            each service individually in the `ServiceConnectConfiguration` to
+            override this default parameter\.   Tasks that run in a namespace
+            can use short names to connect to services in the namespace\. Tasks
+            can connect to services across all of the clusters in the
+            namespace\. Tasks connect through a managed proxy container that
+            collects logs and metrics for increased visibility\. Only the tasks
+            that Amazon ECS services create are supported with Service Connect\.
+            For more information, see [Service
+            Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html)
+            in the *Amazon Elastic Container Service Developer Guide*\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The metadata that you apply to the cluster to help you categorize
+            and organize them\. Each tag consists of a key and an optional
+            value\. You define both\.   The following basic restrictions apply
+            to tags:   + Maximum number of tags per resource \- 50 + For each
+            resource, each tag key must be unique, and each tag key can have
+            only one value\. + Maximum key length \- 128 Unicode characters in
+            UTF\-8 + Maximum value length \- 256 Unicode characters in UTF\-8 +
+            If your tagging schema is used across multiple services and
+            resources, remember that other services may have restrictions on
+            allowed characters\. Generally allowed characters are: letters,
+            numbers, and spaces representable in UTF\-8, and the following
+            characters: \+ \- = \. \_ : / @\. + Tag keys and values are
+            case\-sensitive\. + Do not use `aws:`, `AWS:`, or any upper or
+            lowercase combination of such as a prefix for either keys or values
+            as it is reserved for AWS use\. You cannot edit or delete tag keys
+            or values with this prefix\. Tags with this prefix do not count
+            against your tags per resource limit\.
+    ClusterCapacityProviderAssociations:
+      type: object
+      properties:
+        CapacityProviders:
+          type: array
+          description: The capacity providers to associate with the cluster\.
+        Cluster:
+          type: string
+          description: The cluster the capacity provider association is the target of\.
+        DefaultCapacityProviderStrategy:
+          type: >-
+            list of
+            [capacityproviderstrategy](aws-properties-ecs-clustercapacityproviderassociations-capacityproviderstrategy.md)
+          description: >-
+            The default capacity provider strategy to associate with the
+            cluster\.
+      required:
+        - CapacityProviders
+        - Cluster
+        - DefaultCapacityProviderStrategy
+    PrimaryTaskSet:
+      type: object
+      properties:
+        Cluster:
+          type: string
+          description: >-
+            The short name or full Amazon Resource Name \(ARN\) of the cluster
+            that hosts the service that the task set exists in\.
+        Service:
+          type: string
+          description: >-
+            The short name or full Amazon Resource Name \(ARN\) of the service
+            that the task set exists in\.
+        TaskSetId:
+          type: string
+          description: >-
+            The short name or full Amazon Resource Name \(ARN\) of the task set
+            to set as the primary task set in the deployment\.
+      required:
+        - Cluster
+        - Service
+        - TaskSetId
+    Service:
+      type: object
+      properties:
+        CapacityProviderStrategy:
+          type: >-
+            list of
+            [capacityproviderstrategyitem](aws-properties-ecs-service-capacityproviderstrategyitem.md)
+          description: >-
+            The capacity provider strategy to use for the service\.   A capacity
+            provider strategy consists of one or more capacity providers along
+            with the `base` and `weight` to assign to them\. A capacity provider
+            must be associated with the cluster to be used in a capacity
+            provider strategy\. The PutClusterCapacityProviders API is used to
+            associate a capacity provider with a cluster\. Only capacity
+            providers with an `ACTIVE` or `UPDATING` status can be used\.  
+            Review the [Capacity provider
+            considerations](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-capacity-providers.html#capacity-providers-considerations)
+            in the *Amazon Elastic Container Service Developer Guide\.*   If a
+            `capacityProviderStrategy` is specified, the `launchType` parameter
+            must be omitted\. If no `capacityProviderStrategy` or `launchType`
+            is specified, the `defaultCapacityProviderStrategy` for the cluster
+            is used\.   If specifying a capacity provider that uses an Auto
+            Scaling group, the capacity provider must already be created\. New
+            capacity providers can be created with the CreateCapacityProvider
+            API operation\.   To use an AWS Fargate capacity provider, specify
+            either the `FARGATE` or `FARGATE_SPOT` capacity providers\. The AWS
+            Fargate capacity providers are available to all accounts and only
+            need to be associated with a cluster to be used\.   The
+            PutClusterCapacityProviders API operation is used to update the list
+            of available capacity providers for a cluster after the cluster is
+            created\.
+        Cluster:
+          type: string
+          description: >-
+            The short name or full Amazon Resource Name \(ARN\) of the cluster
+            that you run your service on\. If you do not specify a cluster, the
+            default cluster is assumed\.
+        DeploymentConfiguration:
+          type: >-
+            [deploymentconfiguration](aws-properties-ecs-service-deploymentconfiguration.md)
+          description: >-
+            Optional deployment parameters that control how many tasks run
+            during the deployment and the ordering of stopping and starting
+            tasks\.
+        DeploymentController:
+          type: >-
+            [deploymentcontroller](aws-properties-ecs-service-deploymentcontroller.md)
+          description: >-
+            The deployment controller to use for the service\. If no deployment
+            controller is specified, the default value of `ECS` is used\.
+        DesiredCount:
+          type: integer
+          description: >-
+            The number of instantiations of the specified task definition to
+            place and keep running on your cluster\.   For new services, if a
+            desired count is not specified, a default value of `1` is used\.
+            When using the `DAEMON` scheduling strategy, the desired count is
+            not required\.   For existing services, if a desired count is not
+            specified, it is omitted from the operation\.
+        EnableECSManagedTags:
+          type: boolean
+          description: >-
+            Specifies whether to turn on Amazon ECS managed tags for the tasks
+            within the service\. For more information, see [Tagging your Amazon
+            ECS
+            resources](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-using-tags.html)
+            in the *Amazon Elastic Container Service Developer Guide*\.
+        EnableExecuteCommand:
+          type: boolean
+          description: >-
+            Determines whether the execute command functionality is enabled for
+            the service\. If `true`, the execute command functionality is
+            enabled for all containers in tasks as part of the service\.
+        HealthCheckGracePeriodSeconds:
+          type: integer
+          description: >-
+            The period of time, in seconds, that the Amazon ECS service
+            scheduler ignores unhealthy Elastic Load Balancing target health
+            checks after a task has first started\. This is only used when your
+            service is configured to use a load balancer\. If your service has a
+            load balancer defined and you don't specify a health check grace
+            period value, the default value of `0` is used\.   If you do not use
+            an Elastic Load Balancing, we recommend that you use the
+            `startPeriod` in the task definition health check parameters\. For
+            more information, see [Health
+            check](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_HealthCheck.html)\.  
+            If your service's tasks take a while to start and respond to Elastic
+            Load Balancing health checks, you can specify a health check grace
+            period of up to 2,147,483,647 seconds \(about 69 years\)\. During
+            that time, the Amazon ECS service scheduler ignores health check
+            status\. This grace period can prevent the service scheduler from
+            marking tasks as unhealthy and stopping them before they have time
+            to come up\.
+        LaunchType:
+          type: string
+          description: >-
+            The launch type on which to run your service\. For more information,
+            see [Amazon ECS Launch
+            Types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html)
+            in the *Amazon Elastic Container Service Developer Guide*\.
+        LoadBalancers:
+          type: list of [loadbalancer](aws-properties-ecs-service-loadbalancer.md)
+          description: >-
+            A list of load balancer objects to associate with the service\. If
+            you specify the `Role` property, `LoadBalancers` must be specified
+            as well\. For information about the number of load balancers that
+            you can specify per service, see [Service Load
+            Balancing](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html)
+            in the *Amazon Elastic Container Service Developer Guide*\.
+        NetworkConfiguration:
+          type: >-
+            [networkconfiguration](aws-properties-ecs-service-networkconfiguration.md)
+          description: >-
+            The network configuration for the service\. This parameter is
+            required for task definitions that use the `awsvpc` network mode to
+            receive their own elastic network interface, and it is not supported
+            for other network modes\. For more information, see [Task
+            Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html)
+            in the *Amazon Elastic Container Service Developer Guide*\.
+        PlacementConstraints:
+          type: >-
+            list of
+            [placementconstraint](aws-properties-ecs-service-placementconstraint.md)
+          description: >-
+            An array of placement constraint objects to use for tasks in your
+            service\. You can specify a maximum of 10 constraints for each
+            task\. This limit includes constraints in the task definition and
+            those specified at runtime\.
+        PlacementStrategies:
+          type: >-
+            list of
+            [placementstrategy](aws-properties-ecs-service-placementstrategy.md)
+          description: >-
+            The placement strategy objects to use for tasks in your service\.
+            You can specify a maximum of five strategy rules per service\. For
+            more information, see [Task Placement
+            Strategies](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-strategies.html)
+            in the *Amazon Elastic Container Service Developer Guide*\.
+        PlatformVersion:
+          type: string
+          description: >-
+            The platform version that your tasks in the service are running on\.
+            A platform version is specified only for tasks using the Fargate
+            launch type\. If one isn't specified, the `LATEST` platform version
+            is used\. For more information, see [AWS Fargate platform
+            versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html)
+            in the *Amazon Elastic Container Service Developer Guide*\.
+        PropagateTags:
+          type: string
+          description: >-
+            Specifies whether to propagate the tags from the task definition or
+            the service to the tasks in the service\. If no value is specified,
+            the tags are not propagated\. Tags can only be propagated to the
+            tasks within the service during service creation\. To add tags to a
+            task after service creation, use the
+            [TagResource](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_TagResource.html)
+            API action\.
+        Role:
+          type: string
+          description: >-
+            The name or full Amazon Resource Name \(ARN\) of the IAM role that
+            allows Amazon ECS to make calls to your load balancer on your
+            behalf\. This parameter is only permitted if you are using a load
+            balancer with your service and your task definition doesn't use the
+            `awsvpc` network mode\. If you specify the `role` parameter, you
+            must also specify a load balancer object with the `loadBalancers`
+            parameter\.   If your account has already created the Amazon ECS
+            service\-linked role, that role is used for your service unless you
+            specify a role here\. The service\-linked role is required if your
+            task definition uses the `awsvpc` network mode or if the service is
+            configured to use service discovery, an external deployment
+            controller, multiple target groups, or Elastic Inference
+            accelerators in which case you don't specify a role here\. For more
+            information, see [Using service\-linked roles for Amazon
+            ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html)
+            in the *Amazon Elastic Container Service Developer Guide*\. If your
+            specified role has a path other than `/`, then you must either
+            specify the full role ARN \(this is recommended\) or prefix the role
+            name with the path\. For example, if a role with the name `bar` has
+            a path of `/foo/` then you would specify `/foo/bar` as the role
+            name\. For more information, see [Friendly names and
+            paths](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html#identifiers-friendly-names)
+            in the *IAM User Guide*\.
+        SchedulingStrategy:
+          type: string
+          description: >-
+            The scheduling strategy to use for the service\. For more
+            information, see
+            [Services](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs_services.html)\.  
+            There are two service scheduler strategies available:   + 
+            `REPLICA`\-The replica scheduling strategy places and maintains the
+            desired number of tasks across your cluster\. By default, the
+            service scheduler spreads tasks across Availability Zones\. You can
+            use task placement strategies and constraints to customize task
+            placement decisions\. This scheduler strategy is required if the
+            service uses the `CODE_DEPLOY` or `EXTERNAL` deployment controller
+            types\. +  `DAEMON`\-The daemon scheduling strategy deploys exactly
+            one task on each active container instance that meets all of the
+            task placement constraints that you specify in your cluster\. The
+            service scheduler also evaluates the task placement constraints for
+            running tasks and will stop tasks that don't meet the placement
+            constraints\. When you're using this strategy, you don't need to
+            specify a desired number of tasks, a task placement strategy, or use
+            Service Auto Scaling policies\. **Note**   Tasks using the Fargate
+            launch type or the `CODE_DEPLOY` or `EXTERNAL` deployment controller
+            types don't support the `DAEMON` scheduling strategy\.
+        ServiceConnectConfiguration:
+          type: >-
+            [serviceconnectconfiguration](aws-properties-ecs-service-serviceconnectconfiguration.md)
+          description: >-
+            The configuration for this service to discover and connect to
+            services, and be discovered by, and connected from, other services
+            within a namespace\.   Tasks that run in a namespace can use short
+            names to connect to services in the namespace\. Tasks can connect to
+            services across all of the clusters in the namespace\. Tasks connect
+            through a managed proxy container that collects logs and metrics for
+            increased visibility\. Only the tasks that Amazon ECS services
+            create are supported with Service Connect\. For more information,
+            see [Service
+            Connect](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-connect.html)
+            in the *Amazon Elastic Container Service Developer Guide*\.
+        ServiceName:
+          type: string
+          description: >-
+            The name of your service\. Up to 255 letters \(uppercase and
+            lowercase\), numbers, underscores, and hyphens are allowed\. Service
+            names must be unique within a cluster, but you can have similarly
+            named services in multiple clusters within a Region or across
+            multiple Regions\.
+        ServiceRegistries:
+          type: >-
+            list of
+            [serviceregistry](aws-properties-ecs-service-serviceregistry.md)
+          description: >-
+            The details of the service discovery registry to associate with this
+            service\. For more information, see [Service
+            discovery](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html)\.  
+            Each service may be associated with one service registry\. Multiple
+            service registries for each service isn't supported\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The metadata that you apply to the service to help you categorize
+            and organize them\. Each tag consists of a key and an optional
+            value, both of which you define\. When a service is deleted, the
+            tags are deleted as well\.   The following basic restrictions apply
+            to tags:   + Maximum number of tags per resource \- 50 + For each
+            resource, each tag key must be unique, and each tag key can have
+            only one value\. + Maximum key length \- 128 Unicode characters in
+            UTF\-8 + Maximum value length \- 256 Unicode characters in UTF\-8 +
+            If your tagging schema is used across multiple services and
+            resources, remember that other services may have restrictions on
+            allowed characters\. Generally allowed characters are: letters,
+            numbers, and spaces representable in UTF\-8, and the following
+            characters: \+ \- = \. \_ : / @\. + Tag keys and values are
+            case\-sensitive\. + Do not use `aws:`, `AWS:`, or any upper or
+            lowercase combination of such as a prefix for either keys or values
+            as it is reserved for AWS use\. You cannot edit or delete tag keys
+            or values with this prefix\. Tags with this prefix do not count
+            against your tags per resource limit\.
+        TaskDefinition:
+          type: string
+          description: >-
+            The `family` and `revision` \(`family:revision`\) or full ARN of the
+            task definition to run in your service\. The `revision` is required
+            in order for the resource to stabilize\.   A task definition must be
+            specified if the service is using either the `ECS` or `CODE_DEPLOY`
+            deployment controllers\.   For more information about deployment
+            types, see [Amazon ECS deployment
+            types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-types.html)\.
+    TaskDefinition:
+      type: object
+      properties:
+        ContainerDefinitions:
+          type: >-
+            list of
+            [containerdefinition](aws-properties-ecs-taskdefinition-containerdefinition.md)
+          description: >-
+            A list of container definitions in JSON format that describe the
+            different containers that make up your task\. For more information
+            about container definition parameters and defaults, see [Amazon ECS
+            Task
+            Definitions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_defintions.html)
+            in the *Amazon Elastic Container Service Developer Guide*\.
+        Cpu:
+          description: >-
+            The number of `cpu` units used by the task\. If you use the EC2
+            launch type, this field is optional\. Any value can be used\. If you
+            use the Fargate launch type, this field is required\. You must use
+            one of the following values\. The value that you choose determines
+            your range of valid values for the `memory` parameter\.   The CPU
+            units cannot be less than 1 vCPU when you use Windows containers on
+            Fargate\.   + 256 \(\.25 vCPU\) \- Available `memory` values: 512
+            \(0\.5 GB\), 1024 \(1 GB\), 2048 \(2 GB\) + 512 \(\.5 vCPU\) \-
+            Available `memory` values: 1024 \(1 GB\), 2048 \(2 GB\), 3072 \(3
+            GB\), 4096 \(4 GB\) + 1024 \(1 vCPU\) \- Available `memory` values:
+            2048 \(2 GB\), 3072 \(3 GB\), 4096 \(4 GB\), 5120 \(5 GB\), 6144 \(6
+            GB\), 7168 \(7 GB\), 8192 \(8 GB\) + 2048 \(2 vCPU\) \- Available
+            `memory` values: 4096 \(4 GB\) and 16384 \(16 GB\) in increments of
+            1024 \(1 GB\) + 4096 \(4 vCPU\) \- Available `memory` values: 8192
+            \(8 GB\) and 30720 \(30 GB\) in increments of 1024 \(1 GB\) + 8192
+            \(8 vCPU\) \- Available `memory` values: 16 GB and 60 GB in 4 GB
+            increments
+        undefined:
+          type: string
+          description: This option requires Linux platform `1.4.0` or later\.
+        EphemeralStorage:
+          type: >-
+            [ephemeralstorage](aws-properties-ecs-taskdefinition-ephemeralstorage.md)
+          description: >-
+            The ephemeral storage settings to use for tasks run with the task
+            definition\.
+        ExecutionRoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the task execution role that
+            grants the Amazon ECS container agent permission to make AWS API
+            calls on your behalf\. The task execution IAM role is required
+            depending on the requirements of your task\. For more information,
+            see [Amazon ECS task execution IAM
+            role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_execution_IAM_role.html)
+            in the *Amazon Elastic Container Service Developer Guide*\.
+        Family:
+          type: string
+          description: >-
+            The name of a family that this task definition is registered to\. Up
+            to 255 letters \(uppercase and lowercase\), numbers, hyphens, and
+            underscores are allowed\.   A family groups multiple versions of a
+            task definition\. Amazon ECS gives the first task definition that
+            you registered to a family a revision number of 1\. Amazon ECS gives
+            sequential revision numbers to each task definition that you add\.  
+            To use revision numbers when you update a task definition, specify
+            this property\. If you don't specify a value, AWS CloudFormation
+            generates a new task definition each time that you update it\.
+        InferenceAccelerators:
+          type: >-
+            list of
+            [inferenceaccelerator](aws-properties-ecs-taskdefinition-inferenceaccelerator.md)
+          description: >-
+            The Elastic Inference accelerators to use for the containers in the
+            task\.
+        IpcMode:
+          type: string
+          description: >-
+            The IPC resource namespace to use for the containers in the task\.
+            The valid values are `host`, `task`, or `none`\. If `host` is
+            specified, then all containers within the tasks that specified the
+            `host` IPC mode on the same container instance share the same IPC
+            resources with the host Amazon EC2 instance\. If `task` is
+            specified, all containers within the specified task share the same
+            IPC resources\. If `none` is specified, then IPC resources within
+            the containers of a task are private and not shared with other
+            containers in a task or on the container instance\. If no value is
+            specified, then the IPC resource namespace sharing depends on the
+            Docker daemon setting on the container instance\. For more
+            information, see [IPC
+            settings](https://docs.docker.com/engine/reference/run/#ipc-settings---ipc)
+            in the *Docker run reference*\.   If the `host` IPC mode is used, be
+            aware that there is a heightened risk of undesired IPC namespace
+            expose\. For more information, see [Docker
+            security](https://docs.docker.com/engine/security/security/)\.   If
+            you are setting namespaced kernel parameters using `systemControls`
+            for the containers in the task, the following will apply to your IPC
+            resource namespace\. For more information, see [System
+            Controls](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html)
+            in the *Amazon Elastic Container Service Developer Guide*\.   + For
+            tasks that use the `host` IPC mode, IPC namespace related
+            `systemControls` are not supported\. + For tasks that use the `task`
+            IPC mode, IPC namespace related `systemControls` will apply to all
+            containers within a task\. This parameter is not supported for
+            Windows containers or tasks run on AWS Fargate\.
+        Memory:
+          description: >-
+            The amount \(in MiB\) of memory used by the task\.   If your tasks
+            runs on Amazon EC2 instances, you must specify either a task\-level
+            memory value or a container\-level memory value\. This field is
+            optional and any value can be used\. If a task\-level memory value
+            is specified, the container\-level memory value is optional\. For
+            more information regarding container\-level memory and memory
+            reservation, see
+            [ContainerDefinition](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ContainerDefinition.html)\.  
+            If your tasks runs on AWS Fargate, this field is required\. You must
+            use one of the following values\. The value you choose determines
+            your range of valid values for the `cpu` parameter\.   + 512 \(0\.5
+            GB\), 1024 \(1 GB\), 2048 \(2 GB\) \- Available `cpu` values: 256
+            \(\.25 vCPU\) + 1024 \(1 GB\), 2048 \(2 GB\), 3072 \(3 GB\), 4096
+            \(4 GB\) \- Available `cpu` values: 512 \(\.5 vCPU\) + 2048 \(2
+            GB\), 3072 \(3 GB\), 4096 \(4 GB\), 5120 \(5 GB\), 6144 \(6 GB\),
+            7168 \(7 GB\), 8192 \(8 GB\) \- Available `cpu` values: 1024 \(1
+            vCPU\) + Between 4096 \(4 GB\) and 16384 \(16 GB\) in increments of
+            1024 \(1 GB\) \- Available `cpu` values: 2048 \(2 vCPU\) + Between
+            8192 \(8 GB\) and 30720 \(30 GB\) in increments of 1024 \(1 GB\) \-
+            Available `cpu` values: 4096 \(4 vCPU\) + Between 16 GB and 60 GB in
+            4 GB increments \- Available `cpu` values: 8192 \(8 vCPU\)
+        NetworkMode:
+          type: string
+          description: >-
+            The Docker networking mode to use for the containers in the task\.
+            The valid values are `none`, `bridge`, `awsvpc`, and `host`\. If no
+            network mode is specified, the default is `bridge`\.   For Amazon
+            ECS tasks on Fargate, the `awsvpc` network mode is required\. For
+            Amazon ECS tasks on Amazon EC2 Linux instances, any network mode can
+            be used\. For Amazon ECS tasks on Amazon EC2 Windows instances,
+            `<default>` or `awsvpc` can be used\. If the network mode is set to
+            `none`, you cannot specify port mappings in your container
+            definitions, and the tasks containers do not have external
+            connectivity\. The `host` and `awsvpc` network modes offer the
+            highest networking performance for containers because they use the
+            EC2 network stack instead of the virtualized network stack provided
+            by the `bridge` mode\.   With the `host` and `awsvpc` network modes,
+            exposed container ports are mapped directly to the corresponding
+            host port \(for the `host` network mode\) or the attached elastic
+            network interface port \(for the `awsvpc` network mode\), so you
+            cannot take advantage of dynamic host port mappings\.    When using
+            the `host` network mode, you should not run containers using the
+            root user \(UID 0\)\. It is considered best practice to use a
+            non\-root user\. If the network mode is `awsvpc`, the task is
+            allocated an elastic network interface, and you must specify a
+            [NetworkConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-service.html#cfn-ecs-service-networkconfiguration)
+            value when you create a service or run a task with the task
+            definition\. For more information, see [Task
+            Networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html)
+            in the *Amazon Elastic Container Service Developer Guide*\.   If the
+            network mode is `host`, you cannot run multiple instantiations of
+            the same task on a single container instance when port mappings are
+            used\.   For more information, see [Network
+            settings](https://docs.docker.com/engine/reference/run/#network-settings)
+            in the *Docker run reference*\.
+        PidMode:
+          type: string
+          description: >-
+            The process namespace to use for the containers in the task\. The
+            valid values are `host` or `task`\. If `host` is specified, then all
+            containers within the tasks that specified the `host` PID mode on
+            the same container instance share the same process namespace with
+            the host Amazon EC2 instance\. If `task` is specified, all
+            containers within the specified task share the same process
+            namespace\. If no value is specified, the default is a private
+            namespace\. For more information, see [PID
+            settings](https://docs.docker.com/engine/reference/run/#pid-settings---pid)
+            in the *Docker run reference*\.   If the `host` PID mode is used, be
+            aware that there is a heightened risk of undesired process namespace
+            expose\. For more information, see [Docker
+            security](https://docs.docker.com/engine/security/security/)\.  
+            This parameter is not supported for Windows containers or tasks run
+            on AWS Fargate\.
+        PlacementConstraints:
+          type: >-
+            list of
+            [taskdefinitionplacementconstraint](aws-properties-ecs-taskdefinition-taskdefinitionplacementconstraint.md)
+          description: >-
+            An array of placement constraint objects to use for tasks\.   This
+            parameter isn't supported for tasks run on AWS Fargate\.
+        ProxyConfiguration:
+          type: >-
+            [proxyconfiguration](aws-properties-ecs-taskdefinition-proxyconfiguration.md)
+          description: >-
+            The configuration details for the App Mesh proxy\.   Your Amazon ECS
+            container instances require at least version 1\.26\.0 of the
+            container agent and at least version 1\.26\.0\-1 of the `ecs-init`
+            package to use a proxy configuration\. If your container instances
+            are launched from the Amazon ECS optimized AMI version `20190301` or
+            later, they contain the required versions of the container agent and
+            `ecs-init`\. For more information, see [Amazon ECS\-optimized Linux
+            AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html)
+            in the *Amazon Elastic Container Service Developer Guide*\.
+        RequiresCompatibilities:
+          type: array
+          description: >-
+            The task launch types the task definition was validated against\. To
+            determine which task launch types the task definition is validated
+            for, see the `TaskDefinition$compatibilities` parameter\.   The
+            valid values are:   + `EC2` \- The EC2 launch type + `FARGATE` \-
+            The Fargate launch type + `EXTERNAL` \- The external instance \(ECS
+            Anywhere\) launch type
+        RuntimePlatform:
+          type: >-
+            [runtimeplatform](aws-properties-ecs-taskdefinition-runtimeplatform.md)
+          description: >-
+            The operating system that your tasks definitions run on\. A platform
+            family is specified only for tasks using the Fargate launch
+            type\.    When you specify a task definition in a service, this
+            value must match the `runtimePlatform` value of the service\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The metadata that you apply to the task definition to help you
+            categorize and organize them\. Each tag consists of a key and an
+            optional value\. You define both of them\.   The following basic
+            restrictions apply to tags:   + Maximum number of tags per resource
+            \- 50 + For each resource, each tag key must be unique, and each tag
+            key can have only one value\. + Maximum key length \- 128 Unicode
+            characters in UTF\-8 + Maximum value length \- 256 Unicode
+            characters in UTF\-8 + If your tagging schema is used across
+            multiple services and resources, remember that other services may
+            have restrictions on allowed characters\. Generally allowed
+            characters are: letters, numbers, and spaces representable in
+            UTF\-8, and the following characters: \+ \- = \. \_ : / @\. + Tag
+            keys and values are case\-sensitive\. + Do not use `aws:`, `AWS:`,
+            or any upper or lowercase combination of such as a prefix for either
+            keys or values as it is reserved for AWS use\. You cannot edit or
+            delete tag keys or values with this prefix\. Tags with this prefix
+            do not count against your tags per resource limit\.
+        TaskRoleArn:
+          type: string
+          description: >-
+            The short name or full Amazon Resource Name \(ARN\) of the AWS
+            Identity and Access Management role that grants containers in the
+            task permission to call AWS APIs on your behalf\. For more
+            information, see [Amazon ECS Task
+            Role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html)
+            in the *Amazon Elastic Container Service Developer Guide*\.   IAM
+            roles for tasks on Windows require that the `-EnableTaskIAMRole`
+            option is set when you launch the Amazon ECS\-optimized Windows
+            AMI\. Your containers must also run some configuration code to use
+            the feature\. For more information, see [Windows IAM roles for
+            tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/windows_task_IAM_roles.html)
+            in the *Amazon Elastic Container Service Developer Guide*\.
+        Volumes:
+          type: list of [volume](aws-properties-ecs-taskdefinition-volume.md)
+          description: >-
+            The list of data volume definitions for the task\. For more
+            information, see [Using data volumes in
+            tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html)
+            in the *Amazon Elastic Container Service Developer Guide*\.   The
+            `host` and `sourcePath` parameters aren't supported for tasks run on
+            AWS Fargate\.
+    TaskSet:
+      type: object
+      properties:
+        Cluster:
+          type: string
+          description: >-
+            The short name or full Amazon Resource Name \(ARN\) of the cluster
+            that hosts the service to create the task set in\.
+        ExternalId:
+          type: string
+          description: >-
+            An optional non\-unique tag that identifies this task set in
+            external systems\. If the task set is associated with a service
+            discovery registry, the tasks in this task set will have the
+            `ECS_TASK_SET_EXTERNAL_ID` AWS Cloud Map attribute set to the
+            provided value\.
+        LaunchType:
+          type: string
+          description: >-
+            The launch type that new tasks in the task set uses\. For more
+            information, see [Amazon ECS launch
+            types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html)
+            in the *Amazon Elastic Container Service Developer Guide*\.   If a
+            `launchType` is specified, the `capacityProviderStrategy` parameter
+            must be omitted\.
+        LoadBalancers:
+          type: list of [loadbalancer](aws-properties-ecs-taskset-loadbalancer.md)
+          description: >-
+            A load balancer object representing the load balancer to use with
+            the task set\. The supported load balancer types are either an
+            Application Load Balancer or a Network Load Balancer\.
+        NetworkConfiguration:
+          type: >-
+            [networkconfiguration](aws-properties-ecs-taskset-networkconfiguration.md)
+          description: The network configuration for the task set\.
+        PlatformVersion:
+          type: string
+          description: >-
+            The platform version that the tasks in the task set uses\. A
+            platform version is specified only for tasks using the Fargate
+            launch type\. If one isn't specified, the `LATEST` platform version
+            is used\.
+        Scale:
+          type: '[scale](aws-properties-ecs-taskset-scale.md)'
+          description: >-
+            A floating\-point percentage of your desired number of tasks to
+            place and keep running in the task set\.
+        Service:
+          type: string
+          description: >-
+            The short name or full Amazon Resource Name \(ARN\) of the service
+            to create the task set in\.
+        ServiceRegistries:
+          type: >-
+            list of
+            [serviceregistry](aws-properties-ecs-taskset-serviceregistry.md)
+          description: >-
+            The details of the service discovery registries to assign to this
+            task set\. For more information, see [Service
+            discovery](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-discovery.html)\.
+        TaskDefinition:
+          type: string
+          description: The task definition for the tasks in the task set to use\.
+      required:
+        - Cluster
+        - Service
+        - TaskDefinition
+paths: {}

@@ -1,0 +1,38 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: VoiceID
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Domain:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The client\-provided description of the domain\.
+        Name:
+          type: string
+          description: The client\-provided name for the domain\.
+        ServerSideEncryptionConfiguration:
+          type: >-
+            [serversideencryptionconfiguration](aws-properties-voiceid-domain-serversideencryptionconfiguration.md)
+          description: >-
+            The server\-side encryption configuration containing the KMS key
+            identifier you want Voice ID to use to encrypt your data\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags used to organize, track, or control access for this
+            resource\.
+      required:
+        - Name
+        - ServerSideEncryptionConfiguration
+paths: {}

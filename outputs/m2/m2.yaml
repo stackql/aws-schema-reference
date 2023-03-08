@@ -1,0 +1,105 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: M2
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Application:
+      type: object
+      properties:
+        Definition:
+          type: '[definition](aws-properties-m2-application-definition.md)'
+          description: >-
+            The application definition for a particular application\. You can
+            specify either inline JSON or an Amazon S3 bucket location\.   For
+            information about application definitions, see the [AWS Mainframe
+            Modernization User
+            Guide](https://docs.aws.amazon.com/m2/latest/userguide/applications-m2-definition.html)\.
+        Description:
+          type: string
+          description: The description of the application\.
+        EngineType:
+          type: string
+          description: The type of the target platform for this application\.
+        KmsKeyId:
+          type: string
+          description: The identifier of a customer managed key\.
+        Name:
+          type: string
+          description: The name of the application\.
+        Tags:
+          type: map of string
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - Definition
+        - EngineType
+        - Name
+    Environment:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the runtime environment\.
+        EngineType:
+          type: string
+          description: The target platform for the runtime environment\.
+        EngineVersion:
+          type: string
+          description: The version of the runtime engine\.
+        HighAvailabilityConfig:
+          type: >-
+            [highavailabilityconfig](aws-properties-m2-environment-highavailabilityconfig.md)
+          description: Defines the details of a high availability configuration\.
+        InstanceType:
+          type: string
+          description: The instance type of the runtime environment\.
+        KmsKeyId:
+          type: string
+          description: The identifier of a customer managed key\.
+        Name:
+          type: string
+          description: The name of the runtime environment\.
+        PreferredMaintenanceWindow:
+          type: string
+          description: >-
+            Configures the maintenance window you want for the runtime
+            environment\. If you do not provide a value, a random
+            system\-generated value will be assigned\.
+        PubliclyAccessible:
+          type: boolean
+          description: Specifies whether the runtime environment is publicly accessible\.
+        SecurityGroupIds:
+          type: array
+          description: >-
+            The list of security groups for the VPC associated with this runtime
+            environment\.
+        StorageConfigurations:
+          type: >-
+            list of
+            [storageconfiguration](aws-properties-m2-environment-storageconfiguration.md)
+          description: Defines the storage configuration for a runtime environment\.
+        SubnetIds:
+          type: array
+          description: >-
+            The list of subnets associated with the VPC for this runtime
+            environment\.
+        Tags:
+          type: map of string
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - EngineType
+        - InstanceType
+        - Name
+paths: {}

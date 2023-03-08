@@ -1,52 +1,58 @@
 # aws-schema-reference
 Project that keep up-to-date AWS resource schema
 
-```
-{
-  "openapi": "3.0.0",
-  "info": {
-    "version": "2021-09-30",
-    "x-release": "v4",
-    "title": "AWS S3 over Cloud Control API",
-    "description": "For more information about Amazon Web Services Cloud Control API, see the <a href=\"https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/what-is-cloudcontrolapi.html\">Amazon Web Services Cloud Control API User Guide</a>.",
-    "x-logo": {
-      "url": "https://twitter.com/awscloud/profile_image?size=original",
-      "backgroundColor": "#FFFFFF"
-    },
-    "termsOfService": "https://aws.amazon.com/service-terms/",
-    "license": {
-      "name": "Apache 2.0 License",
-      "url": "http://www.apache.org/licenses/"
-    },
-    "x-providerName": "amazonaws.com",
-    "x-serviceName": "pseudo_s3"
-  },
-  "externalDocs": {
-    "description": "Amazon Web Services documentation",
-    "url": "https://docs.aws.amazon.com/cloudcontrolapi/"
-  },
-  "servers": [],
-  "paths": {},
-  "components": {
-    "x-stackQL-resources": {
-      "s3_bucket_listing": {
-        "name": "s3_bucket_listing",
-        "id": "aws.pseudo_s3.s3_bucket_listing",
-        "config": {
-          "views": {
-            "select": {
-              "predicate": "sqlDialect == \"sqlite3\"",
-              "ddl": " SELECT  JSON_EXTRACT(Properties, '$.Arn') as Arn, JSON_EXTRACT(Properties, '$.BucketName') as BucketName, JSON_EXTRACT(Properties, '$.DomainName') as DomainName, JSON_EXTRACT(Properties, '$.RegionalDomainName') as RegionalDomainName, JSON_EXTRACT(Properties, '$.DualStackDomainName') as DualStackDomainName, JSON_EXTRACT(Properties, '$.WebsiteURL') as WebsiteURL, JSON_EXTRACT(Properties, '$.OwnershipControls.Rules[0].ObjectOwnership') as ObjectOwnership, IIF(JSON_EXTRACT(Properties, '$.PublicAccessBlockConfiguration.RestrictPublicBuckets') = 0, 'false', 'true') as RestrictPublicBuckets, IIF(JSON_EXTRACT(Properties, '$.PublicAccessBlockConfiguration.BlockPublicPolicy') = 0, 'false', 'true') as BlockPublicPolicy, IIF(JSON_EXTRACT(Properties, '$.PublicAccessBlockConfiguration.BlockPublicAcls') = 0, 'false', 'true') as BlockPublicAcls, IIF(JSON_EXTRACT(Properties, '$.PublicAccessBlockConfiguration.IgnorePublicAcls') = 0, 'false', 'true') as IgnorePublicAcls, JSON_EXTRACT(Properties, '$.Tags') as Tags FROM aws.cloud_control.resources WHERE region = 'ap-southeast-1' and data__TypeName = 'AWS::S3::Bucket' ; "
-            }
-          }
-        }
-      }
-    }
-  },
-  "security": [
-    {
-      "hmac": []
-    }
-  ]
-}
+## logic
+
+Extracts data from cloud formation markdown docs and generates a json schema for each resource which would be written to a service doc.  
+
+The DDL for `SELECT` statements is then added to the document for a `SELECT` route for each resource in the service.  The end document per service would look like...
+
+```yaml
+openapi: 3.0.0
+info: {}
+externalDocs: {}
+servers: []
+paths: {}
+components:
+  schemas:
+    ResourceName:
+      type: object
+      properties:
+        PropertyName1:
+          $ref: '#/components/schemas/PropertyName1Type'
+      ...
+    PropertyName1Type:
+      type: object
+      properties:
+        ...
+    ResourceNameReturnValues:
+      type: object
+      properties:
+        ...
+  x-stackQL-resources:
+    s3_bucket_listing:
+      name: s3_bucket_listing
+      id: aws.pseudo_s3.s3_bucket_listing
+      config:
+        views:
+          select:
+            predicate: sqlDialect == "sqlite3"
+            ddl: >-
+              SELECT  
+              JSON_EXTRACT(Properties, '$.Arn') as Arn,
+              JSON_EXTRACT(Properties, '$.BucketName') as BucketName,
+              JSON_EXTRACT(Properties, '$.DomainName') as DomainName,
+              JSON_EXTRACT(Properties, '$.RegionalDomainName') as RegionalDomainName,
+              JSON_EXTRACT(Properties, '$.DualStackDomainName') as DualStackDomainName,
+              JSON_EXTRACT(Properties, '$.WebsiteURL') as WebsiteURL,
+              JSON_EXTRACT(Properties, '$.OwnershipControls.Rules[0].ObjectOwnership') as ObjectOwnership,
+              IIF(JSON_EXTRACT(Properties, '$.PublicAccessBlockConfiguration.RestrictPublicBuckets') = 0, 'false', 'true') as RestrictPublicBuckets,
+              IIF(JSON_EXTRACT(Properties, '$.PublicAccessBlockConfiguration.BlockPublicPolicy') = 0, 'false', 'true') as BlockPublicPolicy,
+              IIF(JSON_EXTRACT(Properties, '$.PublicAccessBlockConfiguration.BlockPublicAcls') = 0, 'false', 'true') as BlockPublicAcls,
+              IIF(JSON_EXTRACT(Properties, '$.PublicAccessBlockConfiguration.IgnorePublicAcls') = 0, 'false', 'true') as IgnorePublicAcls,
+              JSON_EXTRACT(Properties, '$.Tags') as Tags
+              FROM aws.cloud_control.resources
+              WHERE region = 'ap-southeast-1' and data__TypeName = 'AWS::S3::Bucket' ;
+  security:
+    - hmac: []
 ```

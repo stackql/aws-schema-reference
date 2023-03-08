@@ -1,0 +1,170 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Lex
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Bot:
+      type: object
+      properties:
+        AutoBuildBotLocales:
+          type: boolean
+          description: >-
+            Indicates whether Amazon Lex V2 should automatically build the
+            locales for the bot after a change\.
+        BotFileS3Location:
+          type: '[s3location](aws-properties-lex-bot-s3location.md)'
+          description: >-
+            The Amazon S3 location of files used to import a bot\. The files
+            must be in the import format specified in [JSON format for importing
+            and
+            exporting](https://docs.aws.amazon.com/lexv2/latest/dg/import-export-format.html)
+            in the *Amazon Lex developer guide\.*
+        BotLocales:
+          type: list of [botlocale](aws-properties-lex-bot-botlocale.md)
+          description: A list of locales for the bot\.
+        BotTags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of tags to add to the bot\. You can only add tags when you
+            import a bot\. You can't use the `UpdateBot` operation to update
+            tags\. To update tags, use the `TagResource` operation\.
+        DataPrivacy:
+          type: '[dataprivacy](aws-properties-lex-bot-dataprivacy.md)'
+          description: Property description not available\.
+        Description:
+          type: string
+          description: The description of the version\.
+        IdleSessionTTLInSeconds:
+          type: integer
+          description: >-
+            The time, in seconds, that Amazon Lex should keep information about
+            a user's conversation with the bot\.    A user interaction remains
+            active for the amount of time specified\. If no conversation occurs
+            during this time, the session expires and Amazon Lex deletes any
+            data provided before the timeout\.   You can specify between 60 \(1
+            minute\) and 86,400 \(24 hours\) seconds\.
+        Name:
+          type: string
+          description: The name of the bot locale\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the IAM role used to build and
+            run the bot\.
+        TestBotAliasSettings:
+          type: >-
+            [testbotaliassettings](aws-properties-lex-bot-testbotaliassettings.md)
+          description: >-
+            Specifies configuration settings for the alias used to test the
+            bot\. If the `TestBotAliasSettings` property is not specified, the
+            settings are configured with default values\.
+        TestBotAliasTags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of tags to add to the test alias for a bot\. You can only add
+            tags when you import a bot\. You can't use the `UpdateAlias`
+            operation to update tags\. To update tags on the test alias, use the
+            `TagResource` operation\.
+      required:
+        - DataPrivacy
+        - IdleSessionTTLInSeconds
+        - Name
+        - RoleArn
+    BotAlias:
+      type: object
+      properties:
+        BotAliasLocaleSettings:
+          type: >-
+            [list](aws-properties-lex-botalias-botaliaslocalesettings.md) of
+            [botaliaslocalesettingsitem](aws-properties-lex-botalias-botaliaslocalesettingsitem.md)
+          description: Property description not available\.
+        BotAliasName:
+          type: string
+          description: The name of the bot alias\.
+        BotAliasTags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   You can
+            only add tags when you specify an alias\.   For more information,
+            see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        BotId:
+          type: string
+          description: The unique identifier of the bot\.
+        BotVersion:
+          type: string
+          description: The version of the bot that the bot alias references\.
+        ConversationLogSettings:
+          type: >-
+            [conversationlogsettings](aws-properties-lex-botalias-conversationlogsettings.md)
+          description: >-
+            Specifies whether Amazon Lex logs text and audio for conversations
+            with the bot\. When you enable conversation logs, text logs store
+            text input, transcripts of audio input, and associated metadata in
+            Amazon CloudWatch logs\. Audio logs store input in Amazon S3\.
+        Description:
+          type: string
+          description: The description of the bot alias\.
+        SentimentAnalysisSettings:
+          type: >-
+            [sentimentanalysissettings](aws-properties-lex-botalias-sentimentanalysissettings.md)
+          description: >-
+            Determines whether Amazon Lex will use Amazon Comprehend to detect
+            the sentiment of user utterances\.
+      required:
+        - BotAliasName
+        - BotId
+    BotVersion:
+      type: object
+      properties:
+        BotId:
+          type: string
+          description: The unique identifier of the bot\.
+        BotVersionLocaleSpecification:
+          type: >-
+            [list](aws-properties-lex-botversion-botversionlocalespecification.md)
+            of
+            [botversionlocalespecification](aws-properties-lex-botversion-botversionlocalespecification.md)
+          description: >-
+            Specifies the locales that Amazon Lex adds to this version\. You can
+            choose the Draft version or any other previously published version
+            for each locale\. When you specify a source version, the locale data
+            is copied from the source version to the new version\.
+        Description:
+          type: string
+          description: The description of the version\.
+      required:
+        - BotId
+        - BotVersionLocaleSpecification
+    ResourcePolicy:
+      type: object
+      properties:
+        Policy:
+          type: object
+          description: >-
+            A resource policy to add to the resource\. The policy is a JSON
+            structure that contains one or more statements that define the
+            policy\. The policy must follow IAM syntax\. If the policy isn't
+            valid, Amazon Lex returns a validation exception\.
+        ResourceArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the bot or bot alias that the
+            resource policy is attached to\.
+      required:
+        - Policy
+        - ResourceArn
+paths: {}

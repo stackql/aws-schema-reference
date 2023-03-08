@@ -1,0 +1,304 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: IoTSiteWise
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    AccessPolicy:
+      type: object
+      properties:
+        AccessPolicyIdentity:
+          type: >-
+            [accesspolicyidentity](aws-properties-iotsitewise-accesspolicy-accesspolicyidentity.md)
+          description: >-
+            The identity for this access policy\. Choose an IAM Identity Center
+            user, an IAM Identity Center group, or an IAM user\.
+        AccessPolicyPermission:
+          type: string
+          description: >-
+            The permission level for this access policy\. Choose either a
+            `ADMINISTRATOR` or `VIEWER`\. Note that a project `ADMINISTRATOR` is
+            also known as a project owner\.
+        AccessPolicyResource:
+          type: >-
+            [accesspolicyresource](aws-properties-iotsitewise-accesspolicy-accesspolicyresource.md)
+          description: >-
+            The AWS IoT SiteWise Monitor resource for this access policy\.
+            Choose either a portal or a project\.
+      required:
+        - AccessPolicyIdentity
+        - AccessPolicyPermission
+        - AccessPolicyResource
+    Asset:
+      type: object
+      properties:
+        AssetDescription:
+          type: string
+          description: A description for the asset\.
+        AssetHierarchies:
+          type: >-
+            list of
+            [assethierarchy](aws-properties-iotsitewise-asset-assethierarchy.md)
+          description: >-
+            A list of asset hierarchies that each contain a
+            `hierarchyLogicalId`\. A hierarchy specifies allowed parent/child
+            asset relationships\.
+        AssetModelId:
+          type: string
+          description: The ID of the asset model from which to create the asset\.
+        AssetName:
+          type: string
+          description: >-
+            A unique, friendly name for the asset\.   The maximum length is 256
+            characters with the pattern `[^\u0000-\u001F\u007F]+`\.
+        AssetProperties:
+          type: >-
+            list of
+            [assetproperty](aws-properties-iotsitewise-asset-assetproperty.md)
+          description: >-
+            The list of asset properties for the asset\.   This object doesn't
+            include properties that you define in composite models\. You can
+            find composite model properties in the `assetCompositeModels`
+            object\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of key\-value pairs that contain metadata for the asset\. For
+            more information, see [Tagging your AWS IoT SiteWise
+            resources](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html)
+            in the *AWS IoT SiteWise User Guide*\.
+      required:
+        - AssetModelId
+        - AssetName
+    AssetModel:
+      type: object
+      properties:
+        AssetModelCompositeModels:
+          type: >-
+            list of
+            [assetmodelcompositemodel](aws-properties-iotsitewise-assetmodel-assetmodelcompositemodel.md)
+          description: >-
+            The composite asset models that are part of this asset model\.
+            Composite asset models are asset models that contain specific
+            properties\. Each composite model has a type that defines the
+            properties that the composite model supports\. You can use composite
+            asset models to define alarms on this asset model\.
+        AssetModelDescription:
+          type: string
+          description: A description for the asset model\.
+        AssetModelHierarchies:
+          type: >-
+            list of
+            [assetmodelhierarchy](aws-properties-iotsitewise-assetmodel-assetmodelhierarchy.md)
+          description: >-
+            The hierarchy definitions of the asset model\. Each hierarchy
+            specifies an asset model whose assets can be children of any other
+            assets created from this asset model\. For more information, see
+            [Defining relationships between
+            assets](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-hierarchies.html)
+            in the *AWS IoT SiteWiseUser Guide*\.   You can specify up to 10
+            hierarchies per asset model\. For more information, see
+            [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html)
+            in the *AWS IoT SiteWise User Guide*\.
+        AssetModelName:
+          type: string
+          description: >-
+            A unique, friendly name for the asset model\.   The maximum length
+            is 256 characters with the pattern `[^\u0000-\u001F\u007F]+`\.
+        AssetModelProperties:
+          type: >-
+            list of
+            [assetmodelproperty](aws-properties-iotsitewise-assetmodel-assetmodelproperty.md)
+          description: >-
+            The property definitions of the asset model\. For more information,
+            see [Defining data
+            properties](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/asset-properties.html)
+            in the *AWS IoT SiteWise User Guide*\.   You can specify up to 200
+            properties per asset model\. For more information, see
+            [Quotas](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/quotas.html)
+            in the *AWS IoT SiteWise User Guide*\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of key\-value pairs that contain metadata for the asset\. For
+            more information, see [Tagging your AWS IoT SiteWise
+            resources](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html)
+            in the *AWS IoT SiteWise User Guide*\.
+      required:
+        - AssetModelName
+    Dashboard:
+      type: object
+      properties:
+        DashboardDefinition:
+          type: string
+          description: >-
+            The dashboard definition specified in a JSON literal\. For detailed
+            information, see [Creating dashboards
+            \(CLI\)](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/create-dashboards-using-aws-cli.html)
+            in the *AWS IoT SiteWise User Guide*\.
+        DashboardDescription:
+          type: string
+          description: A description for the dashboard\.
+        DashboardName:
+          type: string
+          description: A friendly name for the dashboard\.
+        ProjectId:
+          type: string
+          description: The ID of the project in which to create the dashboard\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of key\-value pairs that contain metadata for the dashboard\.
+            For more information, see [Tagging your AWS IoT SiteWise
+            resources](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html)
+            in the *AWS IoT SiteWise User Guide*\.
+      required:
+        - DashboardDefinition
+        - DashboardDescription
+        - DashboardName
+    Gateway:
+      type: object
+      properties:
+        GatewayCapabilitySummaries:
+          type: >-
+            list of
+            [gatewaycapabilitysummary](aws-properties-iotsitewise-gateway-gatewaycapabilitysummary.md)
+          description: >-
+            A list of gateway capability summaries that each contain a namespace
+            and status\. Each gateway capability defines data sources for the
+            gateway\. To retrieve a capability configuration's definition, use
+            [DescribeGatewayCapabilityConfiguration](https://docs.aws.amazon.com/iot-sitewise/latest/APIReference/API_DescribeGatewayCapabilityConfiguration.html)\.
+        GatewayName:
+          type: string
+          description: >-
+            A unique, friendly name for the gateway\.   The maximum length is
+            256 characters with the pattern `[^\u0000-\u001F\u007F]+`\.
+        GatewayPlatform:
+          type: >-
+            [gatewayplatform](aws-properties-iotsitewise-gateway-gatewayplatform.md)
+          description: >-
+            The gateway's platform\. You can only specify one platform in a
+            gateway\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of key\-value pairs that contain metadata for the gateway\.
+            For more information, see [Tagging your AWS IoT SiteWise
+            resources](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html)
+            in the *AWS IoT SiteWise User Guide*\.
+      required:
+        - GatewayName
+        - GatewayPlatform
+    Portal:
+      type: object
+      properties:
+        Alarms:
+          type: '[alarms](aws-properties-iotsitewise-portal-alarms.md)'
+          description: >-
+            Contains the configuration information of an alarm created in an AWS
+            IoT SiteWise Monitor portal\. You can use the alarm to monitor an
+            asset property and get notified when the asset property value is
+            outside a specified range\. For more information, see [Monitoring
+            with
+            alarms](https://docs.aws.amazon.com/iot-sitewise/latest/appguide/monitor-alarms.html)
+            in the * AWS IoT SiteWise Application Guide*\.
+        NotificationSenderEmail:
+          type: string
+          description: >-
+            The email address that sends alarm notifications\.   If you use the
+            [AWS IoT Events managed Lambda
+            function](https://docs.aws.amazon.com/iotevents/latest/developerguide/lambda-support.html)
+            to manage your emails, you must [verify the sender email address in
+            Amazon
+            SES](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-email-addresses.html)\.
+        PortalAuthMode:
+          type: string
+          description: >-
+            The service to use to authenticate users to the portal\. Choose from
+            the following options:   +  `SSO` – The portal uses AWS IAM Identity
+            Center \(successor to AWS Single Sign\-On\) to authenticate users
+            and manage user permissions\. Before you can create a portal that
+            uses IAM Identity Center, you must enable IAM Identity Center\. For
+            more information, see [Enabling IAM Identity
+            Center](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/monitor-get-started.html#mon-gs-sso)
+            in the *AWS IoT SiteWise User Guide*\. This option is only available
+            in AWS Regions other than the China Regions\. +  `IAM` – The portal
+            uses AWS Identity and Access Management \(IAM\) to authenticate
+            users and manage user permissions\. You can't change this value
+            after you create a portal\.   Default: `SSO`
+        PortalContactEmail:
+          type: string
+          description: The AWS administrator's contact email address\.
+        PortalDescription:
+          type: string
+          description: A description for the portal\.
+        PortalName:
+          type: string
+          description: A friendly name for the portal\.
+        RoleArn:
+          type: string
+          description: >-
+            The
+            [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+            of a service role that allows the portal's users to access your AWS
+            IoT SiteWise resources on your behalf\. For more information, see
+            [Using service roles for AWS IoT SiteWise
+            Monitor](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/monitor-service-role.html)
+            in the *AWS IoT SiteWise User Guide*\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of key\-value pairs that contain metadata for the portal\.
+            For more information, see [Tagging your AWS IoT SiteWise
+            resources](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html)
+            in the *AWS IoT SiteWise User Guide*\.
+      required:
+        - PortalContactEmail
+        - PortalName
+        - RoleArn
+    Project:
+      type: object
+      properties:
+        AssetIds:
+          type: array
+          description: >-
+            A list that contains the IDs of each asset associated with the
+            project\.
+        PortalId:
+          type: string
+          description: The ID of the portal in which to create the project\.
+        ProjectDescription:
+          type: string
+          description: A description for the project\.
+        ProjectName:
+          type: string
+          description: A friendly name for the project\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of key\-value pairs that contain metadata for the project\.
+            For more information, see [Tagging your AWS IoT SiteWise
+            resources](https://docs.aws.amazon.com/iot-sitewise/latest/userguide/tag-resources.html)
+            in the *AWS IoT SiteWise User Guide*\.
+      required:
+        - PortalId
+        - ProjectName
+paths: {}

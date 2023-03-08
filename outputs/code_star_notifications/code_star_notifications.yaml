@@ -1,0 +1,78 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: CodeStarNotifications
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    NotificationRule:
+      type: object
+      properties:
+        CreatedBy:
+          type: string
+          description: Property description not available\.
+        DetailType:
+          type: string
+          description: >-
+            The level of detail to include in the notifications for this
+            resource\. `BASIC` will include only the contents of the event as it
+            would appear in Amazon CloudWatch\. `FULL` will include any
+            supplemental information provided by AWS CodeStar Notifications
+            and/or the service for the resource for which the notification is
+            created\.
+        EventTypeId:
+          type: string
+          description: Property description not available\.
+        EventTypeIds:
+          type: array
+          description: >-
+            A list of event types associated with this notification rule\. For a
+            complete list of event types and IDs, see [Notification
+            concepts](https://docs.aws.amazon.com/dtconsole/latest/userguide/concepts.html#concepts-api)
+            in the *Developer Tools Console User Guide*\.
+        Name:
+          type: string
+          description: >-
+            The name for the notification rule\. Notification rule names must be
+            unique in your AWS account\.
+        Resource:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the resource to associate with
+            the notification rule\. Supported resources include pipelines in AWS
+            CodePipeline, repositories in AWS CodeCommit, and build projects in
+            AWS CodeBuild\.
+        Status:
+          type: string
+          description: >-
+            The status of the notification rule\. The default value is
+            `ENABLED`\. If the status is set to `DISABLED`, notifications aren't
+            sent for the notification rule\.
+        Tags:
+          type: object
+          description: >-
+            A list of tags to apply to this notification rule\. Key names cannot
+            start with "`aws`"\.
+        TargetAddress:
+          type: string
+          description: Property description not available\.
+        Targets:
+          type: >-
+            list of
+            [target](aws-properties-codestarnotifications-notificationrule-target.md)
+          description: >-
+            A list of Amazon Resource Names \(ARNs\) of Amazon Simple
+            Notification Service topics and AWS Chatbot clients to associate
+            with the notification rule\.
+      required:
+        - DetailType
+        - EventTypeIds
+        - Name
+        - Resource
+        - Targets
+paths: {}

@@ -1,0 +1,107 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: RolesAnywhere
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    CRL:
+      type: object
+      properties:
+        CrlData:
+          type: string
+          description: >-
+            The revocation record for a certificate, following the x509 v3
+            standard\.
+        Enabled:
+          type: boolean
+          description: >-
+            Indicates whether the certificate revocation list \(CRL\) is
+            enabled\.
+        Name:
+          type: string
+          description: The name of the certificate revocation list \(CRL\)\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A list of tags to attach to the CRL\.
+        TrustAnchorArn:
+          type: string
+          description: >-
+            The ARN of the TrustAnchor the certificate revocation list \(CRL\)
+            will provide revocation for\.
+      required:
+        - CrlData
+        - Name
+    Profile:
+      type: object
+      properties:
+        DurationSeconds:
+          type: double
+          description: >-
+            Sets the maximum number of seconds that vended temporary credentials
+            through
+            [CreateSession](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html)
+            will be valid for, between 900 and 3600\.
+        Enabled:
+          type: boolean
+          description: Indicates whether the profile is enabled\.
+        ManagedPolicyArns:
+          type: array
+          description: >-
+            A list of managed policy ARNs that apply to the vended session
+            credentials\.
+        Name:
+          type: string
+          description: The name of the profile\.
+        RequireInstanceProperties:
+          type: boolean
+          description: >-
+            Specifies whether instance properties are required in temporary
+            credential requests with this profile\.
+        RoleArns:
+          type: array
+          description: >-
+            A list of IAM role ARNs\. During `CreateSession`, if a matching role
+            ARN is provided, the properties in this profile will be applied to
+            the intersection session policy\.
+        SessionPolicy:
+          type: string
+          description: >-
+            A session policy that applies to the trust boundary of the vended
+            session credentials\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A list of tags to attach to the profile\.
+      required:
+        - Name
+        - RoleArns
+    TrustAnchor:
+      type: object
+      properties:
+        Enabled:
+          type: boolean
+          description: Indicates whether the trust anchor is enabled\.
+        Name:
+          type: string
+          description: The name of the trust anchor\.
+        Source:
+          type: '[source](aws-properties-rolesanywhere-trustanchor-source.md)'
+          description: The trust anchor type and its related certificate data\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A list of tags to attach to the trust anchor\.
+      required:
+        - Name
+        - Source
+paths: {}

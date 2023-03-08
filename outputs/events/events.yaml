@@ -1,0 +1,309 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Events
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ApiDestination:
+      type: object
+      properties:
+        ConnectionArn:
+          type: string
+          description: >-
+            The ARN of the connection to use for the API destination\. The
+            destination endpoint must support the authorization type specified
+            for the connection\.
+        Description:
+          type: string
+          description: A description for the API destination to create\.
+        HttpMethod:
+          type: string
+          description: The method to use for the request to the HTTP invocation endpoint\.
+        InvocationEndpoint:
+          type: string
+          description: The URL to the HTTP invocation endpoint for the API destination\.
+        InvocationRateLimitPerSecond:
+          type: integer
+          description: >-
+            The maximum number of requests per second to send to the HTTP
+            invocation endpoint\.
+        Name:
+          type: string
+          description: The name for the API destination to create\.
+      required:
+        - ConnectionArn
+        - HttpMethod
+        - InvocationEndpoint
+    Archive:
+      type: object
+      properties:
+        ArchiveName:
+          type: string
+          description: The name for the archive to create\.
+        Description:
+          type: string
+          description: A description for the archive\.
+        EventPattern:
+          type: object
+          description: An event pattern to use to filter events sent to the archive\.
+        RetentionDays:
+          type: integer
+          description: >-
+            The number of days to retain events for\. Default value is 0\. If
+            set to 0, events are retained indefinitely
+        SourceArn:
+          type: string
+          description: The ARN of the event bus that sends events to the archive\.
+      required:
+        - SourceArn
+    Connection:
+      type: object
+      properties:
+        AuthorizationType:
+          type: string
+          description: >-
+            The type of authorization to use for the connection\.   OAUTH tokens
+            are refreshed when a 401 or 407 response is returned\.
+        AuthParameters:
+          type: '[authparameters](aws-properties-events-connection-authparameters.md)'
+          description: >-
+            A `CreateConnectionAuthRequestParameters` object that contains the
+            authorization parameters to use to authorize with the endpoint\.
+        Description:
+          type: string
+          description: A description for the connection to create\.
+        Name:
+          type: string
+          description: The name for the connection to create\.
+      required:
+        - AuthorizationType
+        - AuthParameters
+    Endpoint:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description for the endpoint\.
+        EventBuses:
+          type: >-
+            list of
+            [endpointeventbus](aws-properties-events-endpoint-endpointeventbus.md)
+          description: The event buses being used by the endpoint\.
+        Name:
+          type: string
+          description: The name of the endpoint\.
+        ReplicationConfig:
+          type: >-
+            [replicationconfig](aws-properties-events-endpoint-replicationconfig.md)
+          description: >-
+            Whether event replication was enabled or disabled for this
+            endpoint\. The default state is `ENABLED` which means you must
+            supply a `RoleArn`\. If you don't have a `RoleArn` or you don't want
+            event replication enabled, set the state to `DISABLED`\.
+        RoleArn:
+          type: string
+          description: The ARN of the role used by event replication for the endpoint\.
+        RoutingConfig:
+          type: '[routingconfig](aws-properties-events-endpoint-routingconfig.md)'
+          description: The routing configuration of the endpoint\.
+      required:
+        - EventBuses
+        - Name
+        - RoutingConfig
+    EventBus:
+      type: object
+      properties:
+        EventSourceName:
+          type: string
+          description: >-
+            If you are creating a partner event bus, this specifies the partner
+            event source that the new event bus will be matched with\.
+        Name:
+          type: string
+          description: >-
+            The name of the new event bus\.    Custom event bus names can't
+            contain the `/` character, but you can use the `/` character in
+            partner event bus names\. In addition, for partner event buses, the
+            name must exactly match the name of the partner event source that
+            this event bus is matched to\.   You can't use the name `default`
+            for a custom event bus, as this name is already used for your
+            account's default event bus\.
+        Tags:
+          type: list of [tagentry](aws-properties-events-eventbus-tagentry.md)
+          description: Tags to associate with the event bus\.
+      required:
+        - Name
+    EventBusPolicy:
+      type: object
+      properties:
+        Action:
+          type: string
+          description: The action that you are enabling the other account to perform\.
+        Condition:
+          type: '[condition](aws-properties-events-eventbuspolicy-condition.md)'
+          description: >-
+            This parameter enables you to limit the permission to accounts that
+            fulfill a certain condition, such as being a member of a certain AWS
+            organization\. For more information about AWS Organizations, see
+            [What Is AWS
+            Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_introduction.html)
+            in the * AWS Organizations User Guide*\.   If you specify
+            `Condition` with an AWS organization ID, and specify "\*" as the
+            value for `Principal`, you grant permission to all the accounts in
+            the named organization\.   The `Condition` is a JSON string which
+            must contain `Type`, `Key`, and `Value` fields\.
+        EventBusName:
+          type: string
+          description: >-
+            The name of the event bus associated with the rule\. If you omit
+            this, the default event bus is used\.
+        Principal:
+          type: string
+          description: >-
+            The 12\-digit AWS account ID that you are permitting to put events
+            to your default event bus\. Specify "\*" to permit any account to
+            put events to your default event bus\.   If you specify "\*" without
+            specifying `Condition`, avoid creating rules that may match
+            undesirable events\. To create more secure rules, make sure that the
+            event pattern for each rule contains an `account` field with a
+            specific account ID from which to receive events\. Rules with an
+            account field do not match any events sent from other accounts\.
+        Statement:
+          type: object
+          description: >-
+            A JSON string that describes the permission policy statement\. You
+            can include a `Policy` parameter in the request instead of using the
+            `StatementId`, `Action`, `Principal`, or `Condition` parameters\.
+        StatementId:
+          type: string
+          description: >-
+            An identifier string for the external account that you are granting
+            permissions to\. If you later want to revoke the permission for this
+            external account, specify this `StatementId` when you run
+            [RemovePermission](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_RemovePermission.html)\.  
+            Each `StatementId` must be unique\.
+      required:
+        - StatementId
+    Rule:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the rule\.
+        EventBusName:
+          type: string
+          description: >-
+            The name or ARN of the event bus associated with the rule\. If you
+            omit this, the default event bus is used\.
+        EventPattern:
+          type: object
+          description: >-
+            The event pattern of the rule\. For more information, see [Events
+            and Event
+            Patterns](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-and-event-patterns.html)
+            in the *Amazon EventBridge User Guide*\.
+        Name:
+          type: string
+          description: The name of the rule\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the role that is used for target
+            invocation\.   If you're setting an event bus in another account as
+            the target and that account granted permission to your account
+            through an organization instead of directly by the account ID, you
+            must specify a `RoleArn` with proper permissions in the `Target`
+            structure, instead of here in this parameter\.
+        ScheduleExpression:
+          type: string
+          description: >-
+            The scheduling expression\. For example, "cron\(0 20 \* \* ? \*\)",
+            "rate\(5 minutes\)"\. For more information, see [Creating an Amazon
+            EventBridge rule that runs on a
+            schedule](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-create-rule-schedule.html)\.
+        State:
+          type: string
+          description: The state of the rule\.
+        Targets:
+          type: list of [target](aws-properties-events-rule-target.md)
+          description: >-
+            Adds the specified targets to the specified rule, or updates the
+            targets if they are already associated with the rule\.   Targets are
+            the resources that are invoked when a rule is triggered\.   The
+            maximum number of entries per request is 10\.   Each rule can have
+            up to five \(5\) targets associated with it at one time\. For a list
+            of services you can configure as targets for events, see
+            [EventBridge
+            targets](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-targets.html)
+            in the *Amazon EventBridge User Guide*\.   Creating rules with
+            built\-in targets is supported only in the AWS Management Console\.
+            The built\-in targets are:   +  `Amazon EBS CreateSnapshot API
+            call`  +  `Amazon EC2 RebootInstances API call`  +  `Amazon EC2
+            StopInstances API call`  +  `Amazon EC2 TerminateInstances API
+            call`  For some target types, `PutTargets` provides target\-specific
+            parameters\. If the target is a Kinesis data stream, you can
+            optionally specify which shard the event goes to by using the
+            `KinesisParameters` argument\. To invoke a command on multiple EC2
+            instances with one rule, you can use the `RunCommandParameters`
+            field\.   To be able to make API calls against the resources that
+            you own, Amazon EventBridge needs the appropriate permissions:    +
+            For AWS Lambda and Amazon SNS resources, EventBridge relies on
+            resource\-based policies\. + For EC2 instances, Kinesis Data
+            Streams, AWS Step Functions state machines and API Gateway APIs,
+            EventBridge relies on IAM roles that you specify in the `RoleARN`
+            argument in `PutTargets`\. For more information, see [Authentication
+            and Access
+            Control](https://docs.aws.amazon.com/eventbridge/latest/userguide/auth-and-access-control-eventbridge.html)
+            in the *Amazon EventBridge User Guide*\.   If another AWS account is
+            in the same region and has granted you permission \(using
+            `PutPermission`\), you can send events to that account\. Set that
+            account's event bus as a target of the rules in your account\. To
+            send the matched events to the other account, specify that account's
+            event bus as the `Arn` value when you run `PutTargets`\. If your
+            account sends events to another account, your account is charged for
+            each sent event\. Each event sent to another account is charged as a
+            custom event\. The account receiving the event is not charged\. For
+            more information, see [Amazon EventBridge
+            Pricing](http://aws.amazon.com/eventbridge/pricing/)\.    `Input`,
+            `InputPath`, and `InputTransformer` are not available with
+            `PutTarget` if the target is an event bus of a different AWS
+            account\. If you are setting the event bus of another account as the
+            target, and that account granted permission to your account through
+            an organization instead of directly by the account ID, then you must
+            specify a `RoleArn` with proper permissions in the `Target`
+            structure\. For more information, see [Sending and Receiving Events
+            Between AWS
+            Accounts](https://docs.aws.amazon.com/eventbridge/latest/userguide/eventbridge-cross-account-event-delivery.html)
+            in the *Amazon EventBridge User Guide*\.   For more information
+            about enabling cross\-account events, see
+            [PutPermission](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_PutPermission.html)\.   
+            **Input**, **InputPath**, and **InputTransformer** are mutually
+            exclusive and optional parameters of a target\. When a rule is
+            triggered due to a matched event:   + If none of the following
+            arguments are specified for a target, then the entire event is
+            passed to the target in JSON format \(unless the target is Amazon
+            EC2 Run Command or Amazon ECS task, in which case nothing from the
+            event is passed to the target\)\. + If **Input** is specified in the
+            form of valid JSON, then the matched event is overridden with this
+            constant\. + If **InputPath** is specified in the form of JSONPath
+            \(for example, `$.detail`\), then only the part of the event
+            specified in the path is passed to the target \(for example, only
+            the detail part of the event is passed\)\. + If **InputTransformer**
+            is specified, then one or more specified JSONPaths are extracted
+            from the event and used as values in a template that you specify as
+            the input to the target\. When you specify `InputPath` or
+            `InputTransformer`, you must use JSON dot notation, not bracket
+            notation\.   When you add targets to a rule and the associated rule
+            triggers soon after, new or updated targets might not be immediately
+            invoked\. Allow a short period of time for changes to take
+            effect\.   This action can partially fail if too many requests are
+            made at the same time\. If that happens, `FailedEntryCount` is
+            non\-zero in the response and each entry in `FailedEntries` provides
+            the ID of the failed target and the error code\.
+paths: {}

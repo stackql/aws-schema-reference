@@ -1,0 +1,62 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: IoT1Click
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Device:
+      type: object
+      properties:
+        DeviceId:
+          type: string
+          description: The ID of the device, such as `G030PX0312744DWM`\.
+        Enabled:
+          type: boolean
+          description: >-
+            A Boolean value indicating whether the device is enabled \(`true`\)
+            or not \(`false`\)\.
+      required:
+        - DeviceId
+        - Enabled
+    Placement:
+      type: object
+      properties:
+        AssociatedDevices:
+          type: object
+          description: >-
+            The devices to associate with the placement, as defined by a mapping
+            of zero or more key\-value pairs wherein the key is a template name
+            and the value is a device ID\.
+        Attributes:
+          type: object
+          description: The user\-defined attributes associated with the placement\.
+        PlacementName:
+          type: string
+          description: The name of the placement\.
+        ProjectName:
+          type: string
+          description: The name of the project containing the placement\.
+      required:
+        - ProjectName
+    Project:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the project\.
+        PlacementTemplate:
+          type: >-
+            [placementtemplate](aws-properties-iot1click-project-placementtemplate.md)
+          description: An object describing the project's placement specifications\.
+        ProjectName:
+          type: string
+          description: The name of the project from which to obtain information\.
+      required:
+        - PlacementTemplate
+paths: {}

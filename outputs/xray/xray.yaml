@@ -1,0 +1,88 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: XRay
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Group:
+      type: object
+      properties:
+        FilterExpression:
+          type: string
+          description: The filter expression defining the parameters to include traces\.
+        GroupName:
+          type: string
+          description: The unique case\-sensitive name of the group\.
+        InsightsConfiguration:
+          type: >-
+            [insightsconfiguration](aws-properties-xray-group-insightsconfiguration.md)
+          description: >-
+            The structure containing configurations related to insights\.   +
+            The InsightsEnabled boolean can be set to true to enable insights
+            for the group or false to disable insights for the group\. + The
+            NotificationsEnabled boolean can be set to true to enable insights
+            notifications through Amazon EventBridge for the group\.
+        Tags:
+          type: list of [tagsitems](aws-properties-xray-group-tagsitems.md)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+    ResourcePolicy:
+      type: object
+      properties:
+        BypassPolicyLockoutCheck:
+          type: boolean
+          description: Property description not available\.
+        PolicyDocument:
+          type: string
+          description: The resource policy document, which can be up to 5kb in size\.
+        PolicyName:
+          type: string
+          description: >-
+            The name of the resource policy\. Must be unique within a specific
+            AWS account\.
+      required:
+        - PolicyDocument
+        - PolicyName
+    SamplingRule:
+      type: object
+      properties:
+        RuleName:
+          type: string
+          description: >-
+            The name of the sampling rule\. Specify a rule by either name or
+            ARN, but not both\. Used only when deleting a sampling rule\. When
+            creating or updating a sampling rule, use the `RuleName` or
+            `RuleARN` properties within `SamplingRule` or `SamplingRuleUpdate`\.
+        SamplingRule:
+          type: '[samplingrule](aws-properties-xray-samplingrule-samplingrule.md)'
+          description: >-
+            The sampling rule to be created\.   Must be provided if creating a
+            new sampling rule\. Not valid when updating an existing sampling
+            rule\.
+        SamplingRuleRecord:
+          type: >-
+            [samplingrulerecord](aws-properties-xray-samplingrule-samplingrulerecord.md)
+          description: Property description not available\.
+        SamplingRuleUpdate:
+          type: >-
+            [samplingruleupdate](aws-properties-xray-samplingrule-samplingruleupdate.md)
+          description: >-
+            A document specifying changes to a sampling rule's configuration\.  
+            Must be provided if updating an existing sampling rule\. Not valid
+            when creating a new sampling rule\.   The `Version` of a sampling
+            rule cannot be updated, and is not part of `SamplingRuleUpdate`\.
+        Tags:
+          type: list of [tagsitems](aws-properties-xray-samplingrule-tagsitems.md)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+paths: {}

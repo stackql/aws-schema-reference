@@ -1,0 +1,144 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: MSK
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    BatchScramSecret:
+      type: object
+      properties:
+        ClusterArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the MSK cluster\.
+        SecretArnList:
+          type: array
+          description: A list of Amazon Secrets Manager secret ARNs\.
+      required:
+        - ClusterArn
+    Cluster:
+      type: object
+      properties:
+        BrokerNodeGroupInfo:
+          type: >-
+            [brokernodegroupinfo](aws-properties-msk-cluster-brokernodegroupinfo.md)
+          description: >-
+            The setup to be used for brokers in the cluster\.   AWS
+            CloudFormation may replace the cluster when you update certain
+            `BrokerNodeGroupInfo` properties\. To understand the update behavior
+            for your use case, you should review the child properties for
+            [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-msk-cluster-brokernodegroupinfo.html#aws-properties-msk-cluster-brokernodegroupinfo-properties](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-msk-cluster-brokernodegroupinfo.html#aws-properties-msk-cluster-brokernodegroupinfo-properties)\.
+        ClientAuthentication:
+          type: >-
+            [clientauthentication](aws-properties-msk-cluster-clientauthentication.md)
+          description: Includes information related to client authentication\.
+        ClusterName:
+          type: string
+          description: The name of the cluster\.
+        ConfigurationInfo:
+          type: '[configurationinfo](aws-properties-msk-cluster-configurationinfo.md)'
+          description: The Amazon MSK configuration to use for the cluster\.
+        CurrentVersion:
+          type: string
+          description: The version of the cluster that you want to update\.
+        EncryptionInfo:
+          type: '[encryptioninfo](aws-properties-msk-cluster-encryptioninfo.md)'
+          description: Includes all encryption\-related information\.
+        EnhancedMonitoring:
+          type: string
+          description: >-
+            Specifies the level of monitoring for the MSK cluster\. The possible
+            values are `DEFAULT`, `PER_BROKER`, and `PER_TOPIC_PER_BROKER`\.
+        KafkaVersion:
+          type: string
+          description: >-
+            The version of Apache Kafka\. For more information, see [Supported
+            Apache Kafka
+            versions](https://docs.aws.amazon.com/msk/latest/developerguide/supported-kafka-versions.html)
+            in the Amazon MSK Developer Guide\.
+        LoggingInfo:
+          type: '[logginginfo](aws-properties-msk-cluster-logginginfo.md)'
+          description: >-
+            You can configure your Amazon MSK cluster to send broker logs to
+            different destination types\. This is a container for the
+            configuration details related to broker logs\.
+        NumberOfBrokerNodes:
+          type: integer
+          description: >-
+            The number of broker nodes you want in the Amazon MSK cluster\. You
+            can submit an update to increase the number of broker nodes in a
+            cluster\.
+        OpenMonitoring:
+          type: '[openmonitoring](aws-properties-msk-cluster-openmonitoring.md)'
+          description: The settings for open monitoring\.
+        StorageMode:
+          type: string
+          description: This controls storage mode for supported storage tiers\.
+        Tags:
+          type: map of string
+          description: >-
+            A map of key:value pairs to apply to this resource\. Both key and
+            value are of type String\.
+      required:
+        - BrokerNodeGroupInfo
+        - ClusterName
+        - KafkaVersion
+        - NumberOfBrokerNodes
+    Configuration:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the configuration\.
+        KafkaVersionsList:
+          type: array
+          description: >-
+            A list of the versions of Apache Kafka with which you can use this
+            MSK configuration\. You can use this configuration for an MSK
+            cluster only if the Apache Kafka version specified for the cluster
+            appears in this list\.
+        Name:
+          type: string
+          description: >-
+            The name of the configuration\. Configuration names are strings that
+            match the regex "^\[0\-9A\-Za\-z\]\[0\-9A\-Za\-z\-\]\{0,\}$"\.
+        ServerProperties:
+          type: string
+          description: >-
+            Contents of the `server.properties` file\. When using the API, you
+            must ensure that the contents of the file are base64 encoded\. When
+            using the console, the SDK, or the CLI, the contents of
+            `server.properties` can be in plaintext\.
+      required:
+        - Name
+        - ServerProperties
+    ServerlessCluster:
+      type: object
+      properties:
+        ClientAuthentication:
+          type: >-
+            [clientauthentication](aws-properties-msk-serverlesscluster-clientauthentication.md)
+          description: >-
+            Specifies client authentication information for the serverless
+            cluster\.
+        ClusterName:
+          type: string
+          description: The name of the serverless cluster\.
+        Tags:
+          type: map of string
+          description: A map of key:value pairs to apply to this serverless cluster\.
+        VpcConfigs:
+          type: >-
+            list of
+            [vpcconfig](aws-properties-msk-serverlesscluster-vpcconfig.md)
+          description: VPC configuration information\.
+      required:
+        - ClientAuthentication
+        - ClusterName
+        - VpcConfigs
+paths: {}

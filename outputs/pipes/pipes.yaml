@@ -1,0 +1,63 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Pipes
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Pipe:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description of the pipe\.
+        DesiredState:
+          type: string
+          description: The state the pipe should be in\.
+        Enrichment:
+          type: string
+          description: The ARN of the enrichment resource\.
+        EnrichmentParameters:
+          type: >-
+            [pipeenrichmentparameters](aws-properties-pipes-pipe-pipeenrichmentparameters.md)
+          description: The parameters required to set up enrichment on your pipe\.
+        Name:
+          type: string
+          description: The name of the pipe\.
+        RoleArn:
+          type: string
+          description: >-
+            The ARN of the role that allows the pipe to send data to the
+            target\.
+        Source:
+          type: string
+          description: The ARN of the source resource\.
+        SourceParameters:
+          type: >-
+            [pipesourceparameters](aws-properties-pipes-pipe-pipesourceparameters.md)
+          description: The parameters required to set up a source for your pipe\.
+        Tags:
+          type: map of string
+          description: The list of key\-value pairs to associate with the pipe\.
+        Target:
+          type: string
+          description: The ARN of the target resource\.
+        TargetParameters:
+          type: >-
+            [pipetargetparameters](aws-properties-pipes-pipe-pipetargetparameters.md)
+          description: >-
+            The parameters required to set up a target for your pipe\.   For
+            more information about pipe target parameters, including how to use
+            dynamic path parameters, see [Target
+            parameters](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-pipes-event-target.html)
+            in the *Amazon EventBridge User Guide*\.
+      required:
+        - RoleArn
+        - Source
+        - Target
+paths: {}

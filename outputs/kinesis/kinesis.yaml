@@ -1,0 +1,80 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Kinesis
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Stream:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: >-
+            The name of the Kinesis stream\. If you don't specify a name, AWS
+            CloudFormation generates a unique physical ID and uses that ID for
+            the stream name\. For more information, see [Name
+            Type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html)\.   
+            If you specify a name, you cannot perform updates that require
+            replacement of this resource\. You can perform updates that require
+            no or some interruption\. If you must replace the resource, specify
+            a new name\.
+        RetentionPeriodHours:
+          type: integer
+          description: >-
+            The number of hours for the data records that are stored in shards
+            to remain accessible\. The default value is 24\. For more
+            information about the stream retention period, see [Changing the
+            Data Retention
+            Period](https://docs.aws.amazon.com/streams/latest/dev/kinesis-extended-retention.html)
+            in the Amazon Kinesis Developer Guide\.
+        ShardCount:
+          type: integer
+          description: >-
+            The number of shards that the stream uses\. For greater provisioned
+            throughput, increase the number of shards\.
+        StreamEncryption:
+          type: >-
+            [streamencryption](aws-properties-kinesis-stream-streamencryption.md)
+          description: >-
+            When specified, enables or updates server\-side encryption using an
+            AWS KMS key for a specified stream\. Removing this property from
+            your stack template and updating your stack disables encryption\.
+        StreamModeDetails:
+          type: >-
+            [streammodedetails](aws-properties-kinesis-stream-streammodedetails.md)
+          description: >-
+            Specifies the capacity mode to which you want to set your data
+            stream\. Currently, in Kinesis Data Streams, you can choose between
+            an **on\-demand** capacity mode and a **provisioned** capacity mode
+            for your data streams\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An arbitrary set of tags \(key–value pairs\) to associate with the
+            Kinesis stream\. For information about constraints for this
+            property, see [Tag
+            Restrictions](https://docs.aws.amazon.com/streams/latest/dev/tagging.html#tagging-restrictions)
+            in the *Amazon Kinesis Developer Guide*\.
+    StreamConsumer:
+      type: object
+      properties:
+        ConsumerName:
+          type: string
+          description: >-
+            The name of the consumer is something you choose when you register
+            the consumer\.
+        StreamARN:
+          type: string
+          description: The ARN of the stream with which you registered the consumer\.
+      required:
+        - ConsumerName
+        - StreamARN
+paths: {}

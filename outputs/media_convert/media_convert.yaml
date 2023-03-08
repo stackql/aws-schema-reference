@@ -1,0 +1,159 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: MediaConvert
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    JobTemplate:
+      type: object
+      properties:
+        AccelerationSettings:
+          type: >-
+            [accelerationsettings](aws-properties-mediaconvert-jobtemplate-accelerationsettings.md)
+          description: >-
+            Accelerated transcoding can significantly speed up jobs with long,
+            visually complex content\. Outputs that use this feature incur
+            pro\-tier pricing\. For information about feature limitations, For
+            more information, see [Job Limitations for Accelerated Transcoding
+            in AWS Elemental
+            MediaConvert](https://docs.aws.amazon.com/mediaconvert/latest/ug/job-requirements.html)
+            in the *AWS Elemental MediaConvert User Guide*\.
+        Category:
+          type: string
+          description: Optional\. A category for the job template you are creating
+        Description:
+          type: string
+          description: Optional\. A description of the job template you are creating\.
+        HopDestinations:
+          type: >-
+            list of
+            [hopdestination](aws-properties-mediaconvert-jobtemplate-hopdestination.md)
+          description: >-
+            Optional\. Configuration for a destination queue to which the job
+            can hop once a customer\-defined minimum wait time has passed\. For
+            more information, see [Setting Up Queue Hopping to Avoid Long
+            Waits](https://docs.aws.amazon.com/mediaconvert/latest/ug/setting-up-queue-hopping-to-avoid-long-waits.html)
+            in the *AWS Elemental MediaConvert User Guide*\.
+        Name:
+          type: string
+          description: The name of the job template you are creating\.
+        Priority:
+          type: integer
+          description: >-
+            Specify the relative priority for this job\. In any given queue, the
+            service begins processing the job with the highest value first\.
+            When more than one job has the same priority, the service begins
+            processing the job that you submitted first\. If you don't specify a
+            priority, the service uses the default value 0\. Minimum: \-50
+            Maximum: 50
+        Queue:
+          type: string
+          description: >-
+            Optional\. The queue that jobs created from this template are
+            assigned to\. Specify the Amazon Resource Name \(ARN\) of the
+            queue\. For example,
+            arn:aws:mediaconvert:us\-west\-2:505474453218:queues/Default\. If
+            you don't specify this, jobs will go to the default queue\.
+        SettingsJson:
+          type: object
+          description: >-
+            Specify, in JSON format, the transcoding job settings for this job
+            template\. This specification must conform to the AWS Elemental
+            MediaConvert job validation\. For information about forming this
+            specification, see the Remarks section later in this topic\.    For
+            more information about MediaConvert job templates, see [Working with
+            AWS Elemental MediaConvert Job
+            Templates](https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-job-templates.html)
+            in the *AWS Elemental MediaConvert User Guide*\.
+        StatusUpdateInterval:
+          type: string
+          description: >-
+            Specify how often MediaConvert sends STATUS\_UPDATE events to Amazon
+            CloudWatch Events\. Set the interval, in seconds, between status
+            updates\. MediaConvert sends an update at this interval from the
+            time the service begins processing your job to the time it completes
+            the transcode or encounters an error\.   Specify one of the
+            following enums:   SECONDS\_10   SECONDS\_12   SECONDS\_15  
+            SECONDS\_20   SECONDS\_30   SECONDS\_60   SECONDS\_120  
+            SECONDS\_180   SECONDS\_240   SECONDS\_300   SECONDS\_360  
+            SECONDS\_420   SECONDS\_480   SECONDS\_540   SECONDS\_600
+        Tags:
+          type: object
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - SettingsJson
+    Preset:
+      type: object
+      properties:
+        Category:
+          type: string
+          description: The new category for the preset, if you are changing it\.
+        Description:
+          type: string
+          description: The new description for the preset, if you are changing it\.
+        Name:
+          type: string
+          description: The name of the preset that you are modifying\.
+        SettingsJson:
+          type: object
+          description: >-
+            Specify, in JSON format, the transcoding job settings for this
+            output preset\. This specification must conform to the AWS Elemental
+            MediaConvert job validation\. For information about forming this
+            specification, see the Remarks section later in this topic\.   For
+            more information about MediaConvert output presets, see [Working
+            with AWS Elemental MediaConvert Output
+            Presets](https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-presets.html)
+            in the *AWS Elemental MediaConvert User Guide*\.
+        Tags:
+          type: object
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - SettingsJson
+    Queue:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: Optional\. A description of the queue that you are creating\.
+        Name:
+          type: string
+          description: The name of the queue that you are creating\.
+        PricingPlan:
+          type: string
+          description: >-
+            When you use AWS CloudFormation, you can create only on\-demand
+            queues\. Therefore, always set `PricingPlan` to the value
+            "ON\_DEMAND" when declaring an AWS::MediaConvert::Queue in your AWS
+            CloudFormation template\.   To create a reserved queue, use the AWS
+            Elemental MediaConvert console at
+            https://console\.aws\.amazon\.com/mediaconvert to set up a
+            contract\. For more information, see [Working with AWS Elemental
+            MediaConvert
+            Queues](https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html)
+            in the *AWS Elemental MediaConvert User Guide*\.
+        Status:
+          type: string
+          description: >-
+            Initial state of the queue\. Queues can be either ACTIVE or PAUSED\.
+            If you create a paused queue, then jobs that you send to that queue
+            won't begin\.
+        Tags:
+          type: object
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+paths: {}

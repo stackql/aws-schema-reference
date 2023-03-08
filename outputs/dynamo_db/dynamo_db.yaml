@@ -1,0 +1,276 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: DynamoDB
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    GlobalTable:
+      type: object
+      properties:
+        AttributeDefinitions:
+          type: >-
+            list of
+            [attributedefinition](aws-properties-dynamodb-globaltable-attributedefinition.md)
+          description: >-
+            A list of attributes that describe the key schema for the global
+            table and indexes\.
+        BillingMode:
+          type: string
+          description: >-
+            Specifies how you are charged for read and write throughput and how
+            you manage capacity\. Valid values are:   + `PAY_PER_REQUEST` +
+            `PROVISIONED` All replicas in your global table will have the same
+            billing mode\. If you use `PROVISIONED` billing mode, you must
+            provide an auto scaling configuration via the
+            `WriteProvisionedThroughputSettings` property\. The default value of
+            this property is `PROVISIONED`\.
+        GlobalSecondaryIndexes:
+          type: >-
+            list of
+            [globalsecondaryindex](aws-properties-dynamodb-globaltable-globalsecondaryindex.md)
+          description: >-
+            Global secondary indexes to be created on the global table\. You can
+            create up to 20 global secondary indexes\. Each replica in your
+            global table will have the same global secondary index settings\.
+            You can only create or delete one global secondary index in a single
+            stack operation\.   Since the backfilling of an index could take a
+            long time, CloudFormation does not wait for the index to become
+            active\. If a stack operation rolls back, CloudFormation might not
+            delete an index that has been added\. In that case, you will need to
+            delete the index manually\.
+        KeySchema:
+          type: >-
+            [list](aws-properties-dynamodb-globaltable-keyschema.md) of
+            [keyschema](aws-properties-dynamodb-globaltable-keyschema.md)
+          description: >-
+            Specifies the attributes that make up the primary key for the
+            table\. The attributes in the `KeySchema` property must also be
+            defined in the `AttributeDefinitions` property\.
+        LocalSecondaryIndexes:
+          type: >-
+            list of
+            [localsecondaryindex](aws-properties-dynamodb-globaltable-localsecondaryindex.md)
+          description: >-
+            Local secondary indexes to be created on the table\. You can create
+            up to five local secondary indexes\. Each index is scoped to a given
+            hash key value\. The size of each hash key can be up to 10
+            gigabytes\. Each replica in your global table will have the same
+            local secondary index settings\.
+        Replicas:
+          type: >-
+            list of
+            [replicaspecification](aws-properties-dynamodb-globaltable-replicaspecification.md)
+          description: >-
+            Specifies the list of replicas for your global table\. The list must
+            contain at least one element, the region where the stack defining
+            the global table is deployed\. For example, if you define your table
+            in a stack deployed to us\-east\-1, you must have an entry in
+            `Replicas` with the region us\-east\-1\. You cannot remove the
+            replica in the stack region\.   Adding a replica might take a few
+            minutes for an empty table, or up to several hours for large
+            tables\. If you want to add or remove a replica, we recommend
+            submitting an `UpdateStack` operation containing only that
+            change\.   If you add or delete a replica during an update, we
+            recommend that you don't update any other resources\. If your stack
+            fails to update and is rolled back while adding a new replica, you
+            might need to manually delete the replica\. You can create a new
+            global table with as many replicas as needed\. You can add or remove
+            replicas after table creation, but you can only add or remove a
+            single replica in each update\.
+        SSESpecification:
+          type: >-
+            [ssespecification](aws-properties-dynamodb-globaltable-ssespecification.md)
+          description: >-
+            Specifies the settings to enable server\-side encryption\. These
+            settings will be applied to all replicas\. If you plan to use
+            customer\-managed KMS keys, you must provide a key for each replica
+            using the `ReplicaSpecification.ReplicaSSESpecification` property\.
+        StreamSpecification:
+          type: >-
+            [streamspecification](aws-properties-dynamodb-globaltable-streamspecification.md)
+          description: >-
+            Specifies the streams settings on your global table\. You must
+            provide a value for this property if your global table contains more
+            than one replica\. You can only change the streams settings if your
+            global table has only one replica\.
+        TableName:
+          type: string
+          description: >-
+            A name for the global table\. If you don't specify a name, AWS
+            CloudFormation generates a unique ID and uses that ID as the table
+            name\. For more information, see [Name
+            type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html)\.  
+            If you specify a name, you cannot perform updates that require
+            replacement of this resource\. You can perform updates that require
+            no or some interruption\. If you must replace the resource, specify
+            a new name\.
+        TimeToLiveSpecification:
+          type: >-
+            [timetolivespecification](aws-properties-dynamodb-globaltable-timetolivespecification.md)
+          description: >-
+            Specifies the time to live \(TTL\) settings for the table\. This
+            setting will be applied to all replicas\.
+        WriteProvisionedThroughputSettings:
+          type: >-
+            [writeprovisionedthroughputsettings](aws-properties-dynamodb-globaltable-writeprovisionedthroughputsettings.md)
+          description: >-
+            Specifies an auto scaling policy for write capacity\. This policy
+            will be applied to all replicas\. This setting must be specified if
+            `BillingMode` is set to `PROVISIONED`\.
+      required:
+        - AttributeDefinitions
+        - KeySchema
+        - Replicas
+    Table:
+      type: object
+      properties:
+        AttributeDefinitions:
+          type: >-
+            list of
+            [attributedefinition](aws-properties-dynamodb-table-attributedefinition.md)
+          description: >-
+            A list of attributes that describe the key schema for the table and
+            indexes\.   This property is required to create a DynamoDB table\.  
+            Update requires: [Some
+            interruptions](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-some-interrupt)\.
+            Replacement if you edit an existing AttributeDefinition\.
+        BillingMode:
+          type: string
+          description: >-
+            Specify how you are charged for read and write throughput and how
+            you manage capacity\.   Valid values include:   +  `PROVISIONED` \-
+            We recommend using `PROVISIONED` for predictable workloads\.
+            `PROVISIONED` sets the billing mode to [Provisioned
+            Mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.ProvisionedThroughput.Manual)\.
+            +  `PAY_PER_REQUEST` \- We recommend using `PAY_PER_REQUEST` for
+            unpredictable workloads\. `PAY_PER_REQUEST` sets the billing mode to
+            [On\-Demand
+            Mode](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadWriteCapacityMode.html#HowItWorks.OnDemand)\.
+            If not specified, the default is `PROVISIONED`\.
+        ContributorInsightsSpecification:
+          type: >-
+            [contributorinsightsspecification](aws-properties-dynamodb-table-contributorinsightsspecification.md)
+          description: >-
+            The settings used to enable or disable CloudWatch Contributor
+            Insights for the specified table\.
+        GlobalSecondaryIndexes:
+          type: >-
+            list of
+            [globalsecondaryindex](aws-properties-dynamodb-table-globalsecondaryindex.md)
+          description: >-
+            Global secondary indexes to be created on the table\. You can create
+            up to 20 global secondary indexes\.   If you update a table to
+            include a new global secondary index, AWS CloudFormation initiates
+            the index creation and then proceeds with the stack update\. AWS
+            CloudFormation doesn't wait for the index to complete creation
+            because the backfilling phase can take a long time, depending on the
+            size of the table\. You can't use the index or update the table
+            until the index's status is `ACTIVE`\. You can track its status by
+            using the DynamoDB
+            [DescribeTable](https://docs.aws.amazon.com/cli/latest/reference/dynamodb/describe-table.html)
+            command\.   If you add or delete an index during an update, we
+            recommend that you don't update any other resources\. If your stack
+            fails to update and is rolled back while adding a new index, you
+            must manually delete the index\.    Updates are not supported\. The
+            following are exceptions:   + If you update either the contributor
+            insights specification or the provisioned throughput values of
+            global secondary indexes, you can update the table without
+            interruption\. + You can delete or add one global secondary index
+            without interruption\. If you do both in the same update \(for
+            example, by changing the index's logical ID\), the update fails\.
+        ImportSourceSpecification:
+          type: >-
+            [importsourcespecification](aws-properties-dynamodb-table-importsourcespecification.md)
+          description: >-
+            Specifies the properties of data being imported from the S3 bucket
+            source to the table\.   If you specify the
+            `ImportSourceSpecification` property, and also specify either the
+            `StreamSpecification` or `TableClass` property, the IAM entity
+            creating/updating stack must have `UpdateTable` permission\.
+        KeySchema:
+          type: '[json](aws-properties-dynamodb-table-keyschema.md)'
+          description: >-
+            Specifies the attributes that make up the primary key for the
+            table\. The attributes in the `KeySchema` property must also be
+            defined in the `AttributeDefinitions` property\.
+        KinesisStreamSpecification:
+          type: >-
+            [kinesisstreamspecification](aws-properties-dynamodb-table-kinesisstreamspecification.md)
+          description: The Kinesis Data Streams configuration for the specified table\.
+        LocalSecondaryIndexes:
+          type: >-
+            list of
+            [localsecondaryindex](aws-properties-dynamodb-table-localsecondaryindex.md)
+          description: >-
+            Local secondary indexes to be created on the table\. You can create
+            up to 5 local secondary indexes\. Each index is scoped to a given
+            hash key value\. The size of each hash key can be up to 10
+            gigabytes\.
+        PointInTimeRecoverySpecification:
+          type: >-
+            [pointintimerecoveryspecification](aws-properties-dynamodb-table-pointintimerecoveryspecification.md)
+          description: The settings used to enable point in time recovery\.
+        ProvisionedThroughput:
+          type: >-
+            [provisionedthroughput](aws-properties-dynamodb-table-provisionedthroughput.md)
+          description: >-
+            Throughput for the specified table, which consists of values for
+            `ReadCapacityUnits` and `WriteCapacityUnits`\. For more information
+            about the contents of a provisioned throughput structure, see
+            [Amazon DynamoDB Table
+            ProvisionedThroughput](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-dynamodb-provisionedthroughput.html)\.   
+            If you set `BillingMode` as `PROVISIONED`, you must specify this
+            property\. If you set `BillingMode` as `PAY_PER_REQUEST`, you cannot
+            specify this property\.
+        SSESpecification:
+          type: >-
+            [ssespecification](aws-properties-dynamodb-table-ssespecification.md)
+          description: Specifies the settings to enable server\-side encryption\.
+        StreamSpecification:
+          type: >-
+            [streamspecification](aws-properties-dynamodb-table-streamspecification.md)
+          description: >-
+            The settings for the DynamoDB table stream, which capture changes to
+            items stored in the table\.
+        TableClass:
+          type: string
+          description: >-
+            The table class of the new table\. Valid values are `STANDARD` and
+            `STANDARD_INFREQUENT_ACCESS`\.
+        TableName:
+          type: string
+          description: >-
+            A name for the table\. If you don't specify a name, AWS
+            CloudFormation generates a unique physical ID and uses that ID for
+            the table name\. For more information, see [Name
+            Type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html)\.  
+            If you specify a name, you cannot perform updates that require
+            replacement of this resource\. You can perform updates that require
+            no or some interruption\. If you must replace the resource, specify
+            a new name\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        TimeToLiveSpecification:
+          type: >-
+            [timetolivespecification](aws-properties-dynamodb-table-timetolivespecification.md)
+          description: >-
+            Specifies the Time to Live \(TTL\) settings for the table\.   For
+            detailed information about the limits in DynamoDB, see [Limits in
+            Amazon
+            DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html)
+            in the Amazon DynamoDB Developer Guide\.
+      required:
+        - KeySchema
+paths: {}

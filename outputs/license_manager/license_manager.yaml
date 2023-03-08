@@ -1,0 +1,91 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: LicenseManager
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Grant:
+      type: object
+      properties:
+        AllowedOperations:
+          type: array
+          description: Allowed operations for the grant\.
+        GrantName:
+          type: string
+          description: Grant name\.
+        HomeRegion:
+          type: string
+          description: Home Region of the grant\.
+        LicenseArn:
+          type: string
+          description: License ARN\.
+        Principals:
+          type: array
+          description: >-
+            The grant principals\. You can specify one of the following as an
+            Amazon Resource Name \(ARN\):   + An AWS account, which includes
+            only the account specified\. + An organizational unit \(OU\), which
+            includes all accounts in the OU\. + An organization, which will
+            include all accounts across your organization\.
+        Status:
+          type: string
+          description: Granted license status\.
+    License:
+      type: object
+      properties:
+        Beneficiary:
+          type: string
+          description: License beneficiary\.
+        ConsumptionConfiguration:
+          type: >-
+            [consumptionconfiguration](aws-properties-licensemanager-license-consumptionconfiguration.md)
+          description: Configuration for consumption of the license\.
+        Entitlements:
+          type: >-
+            list of
+            [entitlement](aws-properties-licensemanager-license-entitlement.md)
+          description: License entitlements\.
+        HomeRegion:
+          type: string
+          description: Home Region of the license\.
+        Issuer:
+          type: '[issuerdata](aws-properties-licensemanager-license-issuerdata.md)'
+          description: License issuer\.
+        LicenseMetadata:
+          type: >-
+            list of
+            [metadata](aws-properties-licensemanager-license-metadata.md)
+          description: License metadata\.
+        LicenseName:
+          type: string
+          description: License name\.
+        ProductName:
+          type: string
+          description: Product name\.
+        ProductSKU:
+          type: string
+          description: Product SKU\.
+        Status:
+          type: string
+          description: License status\.
+        Validity:
+          type: >-
+            [validitydateformat](aws-properties-licensemanager-license-validitydateformat.md)
+          description: >-
+            Date and time range during which the license is valid, in
+            ISO8601\-UTC format\.
+      required:
+        - ConsumptionConfiguration
+        - Entitlements
+        - HomeRegion
+        - Issuer
+        - LicenseName
+        - ProductName
+        - Validity
+paths: {}

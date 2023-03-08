@@ -1,0 +1,161 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Backup
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    BackupPlan:
+      type: object
+      properties:
+        BackupPlan:
+          type: >-
+            [backupplanresourcetype](aws-properties-backup-backupplan-backupplanresourcetype.md)
+          description: >-
+            Uniquely identifies the backup plan to be associated with the
+            selection of resources\.
+        BackupPlanTags:
+          type: map of string
+          description: >-
+            To help organize your resources, you can assign your own metadata to
+            the resources that you create\. Each tag is a key\-value pair\. The
+            specified tags are assigned to all backups created with this plan\.
+      required:
+        - BackupPlan
+    BackupSelection:
+      type: object
+      properties:
+        BackupPlanId:
+          type: string
+          description: Uniquely identifies a backup plan\.
+        BackupSelection:
+          type: >-
+            [backupselectionresourcetype](aws-properties-backup-backupselection-backupselectionresourcetype.md)
+          description: >-
+            Specifies the body of a request to assign a set of resources to a
+            backup plan\.   It includes an array of resources, an optional array
+            of patterns to exclude resources, an optional role to provide access
+            to the AWS service the resource belongs to, and an optional array of
+            tags used to identify a set of resources\.
+      required:
+        - BackupPlanId
+        - BackupSelection
+    BackupVault:
+      type: object
+      properties:
+        AccessPolicy:
+          type: object
+          description: >-
+            A resource\-based policy that is used to manage access permissions
+            on the target backup vault\.
+        BackupVaultName:
+          type: string
+          description: >-
+            The name of a logical container where backups are stored\. Backup
+            vaults are identified by names that are unique to the account used
+            to create them and the AWS Region where they are created\. They
+            consist of lowercase letters, numbers, and hyphens\.
+        BackupVaultTags:
+          type: map of string
+          description: >-
+            Metadata that you can assign to help organize the resources that you
+            create\. Each tag is a key\-value pair\.
+        EncryptionKeyArn:
+          type: string
+          description: >-
+            A server\-side encryption key you can specify to encrypt your
+            backups from services that support full AWS Backup management; for
+            example,
+            `arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab`\.
+            If you specify a key, you must specify its ARN, not its alias\. If
+            you do not specify a key, AWS Backup creates a KMS key for you by
+            default\.   To learn which AWS Backup services support full AWS
+            Backup management and how AWS Backup handles encryption for backups
+            from services that do not yet support full AWS Backup, see [
+            Encryption for backups in AWS
+            Backup](https://docs.aws.amazon.com/aws-backup/latest/devguide/encryption.html)
+        LockConfiguration:
+          type: >-
+            [lockconfigurationtype](aws-properties-backup-backupvault-lockconfigurationtype.md)
+          description: >-
+            Configuration for [AWS Backup Vault
+            Lock](https://docs.aws.amazon.com/aws-backup/latest/devguide/vault-lock.html)\.
+        Notifications:
+          type: >-
+            [notificationobjecttype](aws-properties-backup-backupvault-notificationobjecttype.md)
+          description: The SNS event notifications for the specified backup vault\.
+      required:
+        - BackupVaultName
+    Framework:
+      type: object
+      properties:
+        FrameworkControls:
+          type: >-
+            list of
+            [frameworkcontrol](aws-properties-backup-framework-frameworkcontrol.md)
+          description: >-
+            Contains detailed information about all of the controls of a
+            framework\. Each framework must contain at least one control\.
+        FrameworkDescription:
+          type: string
+          description: >-
+            An optional description of the framework with a maximum 1,024
+            characters\.
+        FrameworkName:
+          type: string
+          description: >-
+            The unique name of a framework\. This name is between 1 and 256
+            characters, starting with a letter, and consisting of letters
+            \(a\-z, A\-Z\), numbers \(0\-9\), and underscores \(\_\)\.
+        FrameworkTags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A list of tags with which to tag your framework\.
+      required:
+        - FrameworkControls
+    ReportPlan:
+      type: object
+      properties:
+        ReportDeliveryChannel:
+          type: >-
+            [reportdeliverychannel](aws-properties-backup-reportplan-reportdeliverychannel.md)
+          description: >-
+            Contains information about where and how to deliver your reports,
+            specifically your Amazon S3 bucket name, S3 key prefix, and the
+            formats of your reports\.
+        ReportPlanDescription:
+          type: string
+          description: >-
+            An optional description of the report plan with a maximum 1,024
+            characters\.
+        ReportPlanName:
+          type: string
+          description: >-
+            The unique name of the report plan\. This name is between 1 and 256
+            characters starting with a letter, and consisting of letters \(a\-z,
+            A\-Z\), numbers \(0\-9\), and underscores \(\_\)\.
+        ReportPlanTags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A list of tags to tag your report plan\.
+        ReportSetting:
+          type: '[reportsetting](aws-properties-backup-reportplan-reportsetting.md)'
+          description: >-
+            Identifies the report template for the report\. Reports are built
+            using a report template\. The report templates are:   
+            `RESOURCE_COMPLIANCE_REPORT | CONTROL_COMPLIANCE_REPORT |
+            BACKUP_JOB_REPORT | COPY_JOB_REPORT | RESTORE_JOB_REPORT`    If the
+            report template is `RESOURCE_COMPLIANCE_REPORT` or
+            `CONTROL_COMPLIANCE_REPORT`, this API resource also describes the
+            report coverage by AWS Regions and frameworks\.
+      required:
+        - ReportDeliveryChannel
+        - ReportSetting
+paths: {}

@@ -1,0 +1,69 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: WorkSpaces
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ConnectionAlias:
+      type: object
+      properties:
+        ConnectionString:
+          type: string
+          description: >-
+            The connection string specified for the connection alias\. The
+            connection string must be in the form of a fully qualified domain
+            name \(FQDN\), such as `www.example.com`\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags to associate with the connection alias\.
+      required:
+        - ConnectionString
+    Workspace:
+      type: object
+      properties:
+        BundleId:
+          type: string
+          description: The identifier of the bundle for the WorkSpace\.
+        DirectoryId:
+          type: string
+          description: >-
+            The identifier of the AWS Directory Service directory for the
+            WorkSpace\.
+        RootVolumeEncryptionEnabled:
+          type: boolean
+          description: Indicates whether the data stored on the root volume is encrypted\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags for the WorkSpace\.
+        UserName:
+          type: string
+          description: >-
+            The user name of the user for the WorkSpace\. This user name must
+            exist in the AWS Directory Service directory for the WorkSpace\.
+        UserVolumeEncryptionEnabled:
+          type: boolean
+          description: Indicates whether the data stored on the user volume is encrypted\.
+        VolumeEncryptionKey:
+          type: string
+          description: >-
+            The symmetric AWS KMS key used to encrypt data stored on your
+            WorkSpace\. Amazon WorkSpaces does not support asymmetric KMS keys\.
+        WorkspaceProperties:
+          type: >-
+            [workspaceproperties](aws-properties-workspaces-workspace-workspaceproperties.md)
+          description: The WorkSpace properties\.
+      required:
+        - BundleId
+        - DirectoryId
+        - UserName
+paths: {}

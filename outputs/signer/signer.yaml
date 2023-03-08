@@ -1,0 +1,61 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Signer
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ProfilePermission:
+      type: object
+      properties:
+        Action:
+          type: string
+          description: >-
+            The AWS Signer action permitted as part of cross\-account
+            permissions\.
+        Principal:
+          type: string
+          description: >-
+            The AWS principal receiving cross\-account permissions\. This may be
+            an IAM role or another AWS account ID\.
+        ProfileName:
+          type: string
+          description: The human\-readable name of the signing profile\.
+        ProfileVersion:
+          type: string
+          description: The version of the signing profile\.
+        StatementId:
+          type: string
+          description: A unique identifier for the cross\-account permission statement\.
+      required:
+        - Action
+        - Principal
+        - ProfileName
+        - StatementId
+    SigningProfile:
+      type: object
+      properties:
+        PlatformId:
+          type: string
+          description: >-
+            The ID of a platform that is available for use by a signing
+            profile\.
+        SignatureValidityPeriod:
+          type: >-
+            [signaturevalidityperiod](aws-properties-signer-signingprofile-signaturevalidityperiod.md)
+          description: >-
+            The validity period override for any signature generated using this
+            signing profile\. If unspecified, the default is 135 months\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A list of tags associated with the signing profile\.
+      required:
+        - PlatformId
+paths: {}

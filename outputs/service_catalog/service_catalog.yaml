@@ -1,0 +1,511 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: ServiceCatalog
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    AcceptedPortfolioShare:
+      type: object
+      properties:
+        AcceptLanguage:
+          type: string
+          description: >-
+            The language code\.   +  `en` \- English \(default\) +  `jp` \-
+            Japanese +  `zh` \- Chinese
+        PortfolioId:
+          type: string
+          description: The portfolio identifier\.
+      required:
+        - PortfolioId
+    CloudFormationProduct:
+      type: object
+      properties:
+        AcceptLanguage:
+          type: string
+          description: >-
+            The language code\.   +  `en` \- English \(default\) +  `jp` \-
+            Japanese +  `zh` \- Chinese
+        Description:
+          type: string
+          description: The description of the product\.
+        Distributor:
+          type: string
+          description: The distributor of the product\.
+        Name:
+          type: string
+          description: The name of the product\.
+        Owner:
+          type: string
+          description: The owner of the product\.
+        ProvisioningArtifactParameters:
+          type: >-
+            list of
+            [provisioningartifactproperties](aws-properties-servicecatalog-cloudformationproduct-provisioningartifactproperties.md)
+          description: >-
+            The configuration of the provisioning artifact \(also known as a
+            version\)\.
+        ReplaceProvisioningArtifacts:
+          type: boolean
+          description: >-
+            This property is turned off by default\. If turned off, you can
+            update provisioning artifacts or product attributes \(such as
+            description, distributor, name, owner, and more\) and the associated
+            provisioning artifacts will retain the same unique identifier\.
+            Provisioning artifacts are matched within the CloudFormationProduct
+            resource, and only those that have been updated will be changed\.
+            Provisioning artifacts are matched by a combinaton of provisioning
+            artifact template URL and name\.   If turned on, provisioning
+            artifacts will be given a new unique identifier when you update the
+            product or provisioning artifacts\.
+        SupportDescription:
+          type: string
+          description: The support information about the product\.
+        SupportEmail:
+          type: string
+          description: The contact email for product support\.
+        SupportUrl:
+          type: string
+          description: >-
+            The contact URL for product support\.    `^https?:\/\// `/ is the
+            pattern used to validate SupportUrl\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: One or more tags\.
+      required:
+        - Name
+        - Owner
+        - ProvisioningArtifactParameters
+    CloudFormationProvisionedProduct:
+      type: object
+      properties:
+        AcceptLanguage:
+          type: string
+          description: >-
+            The language code\.   +  `en` \- English \(default\) +  `jp` \-
+            Japanese +  `zh` \- Chinese
+        NotificationArns:
+          type: array
+          description: >-
+            Passed to AWS CloudFormation\. The SNS topic ARNs to which to
+            publish stack\-related events\.
+        PathId:
+          type: string
+          description: >-
+            The path identifier of the product\. This value is optional if the
+            product has a default path, and required if the product has more
+            than one path\. To list the paths for a product, use
+            [ListLaunchPaths](https://docs.aws.amazon.com/servicecatalog/latest/dg/API_ListLaunchPaths.html)\.  
+            You must provide the name or ID, but not both\.
+        PathName:
+          type: string
+          description: >-
+            The name of the path\. This value is optional if the product has a
+            default path, and required if the product has more than one path\.
+            To list the paths for a product, use
+            [ListLaunchPaths](https://docs.aws.amazon.com/servicecatalog/latest/dg/API_ListLaunchPaths.html)\.  
+            You must provide the name or ID, but not both\.
+        ProductId:
+          type: string
+          description: >-
+            The product identifier\.   You must specify either the ID or the
+            name of the product, but not both\.
+        ProductName:
+          type: string
+          description: >-
+            The name of the Service Catalog product\.   Each time a stack is
+            created or updated, if `ProductName` is provided it will
+            successfully resolve to `ProductId` as long as only one product
+            exists in the account or Region with that `ProductName`\.   You must
+            specify either the name or the ID of the product, but not both\.
+        ProvisionedProductName:
+          type: string
+          description: >-
+            A user\-friendly name for the provisioned product\. This value must
+            be unique for the AWS account and cannot be updated after the
+            product is provisioned\.
+        ProvisioningArtifactId:
+          type: string
+          description: >-
+            The identifier of the provisioning artifact \(also known as a
+            version\)\.   You must specify either the ID or the name of the
+            provisioning artifact, but not both\.
+        ProvisioningArtifactName:
+          type: string
+          description: >-
+            The name of the provisioning artifact \(also known as a version\)
+            for the product\. This name must be unique for the product\.    You
+            must specify either the name or the ID of the provisioning artifact,
+            but not both\. You must also specify either the name or the ID of
+            the product, but not both\.
+        ProvisioningParameters:
+          type: >-
+            list of
+            [provisioningparameter](aws-properties-servicecatalog-cloudformationprovisionedproduct-provisioningparameter.md)
+          description: >-
+            Parameters specified by the administrator that are required for
+            provisioning the product\.
+        ProvisioningPreferences:
+          type: >-
+            [provisioningpreferences](aws-properties-servicecatalog-cloudformationprovisionedproduct-provisioningpreferences.md)
+          description: >-
+            StackSet preferences that are required for provisioning the product
+            or updating a provisioned product\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            One or more tags\.   Requires the provisioned product to have an
+            [ResourceUpdateConstraint](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-resourceupdateconstraint.html)
+            resource with `TagUpdatesOnProvisionedProduct` set to `ALLOWED` to
+            allow tag updates\. If `RESOURCE_UPDATE` constraint is not present,
+            tags updates are ignored\.
+    LaunchNotificationConstraint:
+      type: object
+      properties:
+        AcceptLanguage:
+          type: string
+          description: >-
+            The language code\.   +  `en` \- English \(default\) +  `jp` \-
+            Japanese +  `zh` \- Chinese
+        Description:
+          type: string
+          description: The description of the constraint\.
+        NotificationArns:
+          type: array
+          description: The notification ARNs\.
+        PortfolioId:
+          type: string
+          description: The portfolio identifier\.
+        ProductId:
+          type: string
+          description: The product identifier\.
+      required:
+        - NotificationArns
+        - PortfolioId
+        - ProductId
+    LaunchRoleConstraint:
+      type: object
+      properties:
+        AcceptLanguage:
+          type: string
+          description: >-
+            The language code\.   +  `en` \- English \(default\) +  `jp` \-
+            Japanese +  `zh` \- Chinese
+        Description:
+          type: string
+          description: The description of the constraint\.
+        LocalRoleName:
+          type: string
+          description: >-
+            You are required to specify either the `RoleArn` or the
+            `LocalRoleName` but can't use both\.    If you specify the
+            `LocalRoleName` property, when an account uses the launch
+            constraint, the IAM role with that name in the account will be
+            used\. This allows launch\-role constraints to be account\-agnostic
+            so the administrator can create fewer resources per shared
+            account\.    The given role name must exist in the account used to
+            create the launch constraint and the account of the user who
+            launches a product with this launch constraint\.
+        PortfolioId:
+          type: string
+          description: The portfolio identifier\.
+        ProductId:
+          type: string
+          description: The product identifier\.
+        RoleArn:
+          type: string
+          description: >-
+            The ARN of the launch role\.   You are required to specify `RoleArn`
+            or `LocalRoleName` but can't use both\.
+      required:
+        - PortfolioId
+        - ProductId
+    LaunchTemplateConstraint:
+      type: object
+      properties:
+        AcceptLanguage:
+          type: string
+          description: >-
+            The language code\.   +  `en` \- English \(default\) +  `jp` \-
+            Japanese +  `zh` \- Chinese
+        Description:
+          type: string
+          description: The description of the constraint\.
+        PortfolioId:
+          type: string
+          description: The portfolio identifier\.
+        ProductId:
+          type: string
+          description: The product identifier\.
+        Rules:
+          type: string
+          description: The constraint rules\.
+      required:
+        - PortfolioId
+        - ProductId
+        - Rules
+    Portfolio:
+      type: object
+      properties:
+        AcceptLanguage:
+          type: string
+          description: >-
+            The language code\.   +  `en` \- English \(default\) +  `jp` \-
+            Japanese +  `zh` \- Chinese
+        Description:
+          type: string
+          description: The description of the portfolio\.
+        DisplayName:
+          type: string
+          description: The name to use for display purposes\.
+        ProviderName:
+          type: string
+          description: The name of the portfolio provider\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: One or more tags\.
+      required:
+        - DisplayName
+        - ProviderName
+    PortfolioPrincipalAssociation:
+      type: object
+      properties:
+        AcceptLanguage:
+          type: string
+          description: >-
+            The language code\.   +  `en` \- English \(default\) +  `jp` \-
+            Japanese +  `zh` \- Chinese
+        PortfolioId:
+          type: string
+          description: The portfolio identifier\.
+        PrincipalARN:
+          type: string
+          description: >-
+            The ARN of the principal \(IAM user, role, or group\)\. This field
+            allows an ARN with no `accountID` if `PrincipalType` is
+            `IAM_PATTERN`\.    You can associate multiple `IAM` patterns even if
+            the account has no principal with that name\. This is useful in
+            Principal Name Sharing if you want to share a principal without
+            creating it in the account that owns the portfolio\.
+        PrincipalType:
+          type: string
+          description: >-
+            The principal type\. The supported value is `IAM` if you use a fully
+            defined ARN, or `IAM_PATTERN` if you use an ARN with no
+            `accountID`\.
+      required:
+        - PortfolioId
+        - PrincipalARN
+        - PrincipalType
+    PortfolioProductAssociation:
+      type: object
+      properties:
+        AcceptLanguage:
+          type: string
+          description: >-
+            The language code\.   +  `en` \- English \(default\) +  `jp` \-
+            Japanese +  `zh` \- Chinese
+        PortfolioId:
+          type: string
+          description: The portfolio identifier\.
+        ProductId:
+          type: string
+          description: The product identifier\.
+        SourcePortfolioId:
+          type: string
+          description: The identifier of the source portfolio\.
+      required:
+        - PortfolioId
+        - ProductId
+    PortfolioShare:
+      type: object
+      properties:
+        AcceptLanguage:
+          type: string
+          description: >-
+            The language code\.   +  `en` \- English \(default\) +  `jp` \-
+            Japanese +  `zh` \- Chinese
+        AccountId:
+          type: string
+          description: The AWS account ID\. For example, `123456789012`\.
+        PortfolioId:
+          type: string
+          description: The portfolio identifier\.
+        ShareTagOptions:
+          type: boolean
+          description: >-
+            Indicates whether TagOptions sharing is enabled or disabled for the
+            portfolio share\.
+      required:
+        - AccountId
+        - PortfolioId
+    ResourceUpdateConstraint:
+      type: object
+      properties:
+        AcceptLanguage:
+          type: string
+          description: >-
+            The language code\.   +  `en` \- English \(default\) +  `jp` \-
+            Japanese +  `zh` \- Chinese
+        Description:
+          type: string
+          description: The description of the constraint\.
+        PortfolioId:
+          type: string
+          description: The portfolio identifier\.
+        ProductId:
+          type: string
+          description: The product identifier\.
+        TagUpdateOnProvisionedProduct:
+          type: string
+          description: >-
+            If set to `ALLOWED`, lets users change tags in a
+            [CloudFormationProvisionedProduct](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationprovisionedproduct.html)
+            resource\.   If set to `NOT_ALLOWED`, prevents users from changing
+            tags in a
+            [CloudFormationProvisionedProduct](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicecatalog-cloudformationprovisionedproduct.html)
+            resource\.
+      required:
+        - PortfolioId
+        - ProductId
+        - TagUpdateOnProvisionedProduct
+    ServiceAction:
+      type: object
+      properties:
+        AcceptLanguage:
+          type: string
+          description: >-
+            The language code\.   + `en` \- English \(default\) + `jp` \-
+            Japanese + `zh` \- Chinese
+        Definition:
+          type: >-
+            list of
+            [definitionparameter](aws-properties-servicecatalog-serviceaction-definitionparameter.md)
+          description: A map that defines the self\-service action\.
+        DefinitionType:
+          type: string
+          description: >-
+            The self\-service action definition type\. For example,
+            `SSM_AUTOMATION`\.
+        Description:
+          type: string
+          description: The self\-service action description\.
+        Name:
+          type: string
+          description: The self\-service action name\.
+      required:
+        - Definition
+        - DefinitionType
+        - Name
+    ServiceActionAssociation:
+      type: object
+      properties:
+        ProductId:
+          type: string
+          description: The product identifier\. For example, `prod-abcdzk7xy33qa`\.
+        ProvisioningArtifactId:
+          type: string
+          description: >-
+            The identifier of the provisioning artifact\. For example,
+            `pa-4abcdjnxjj6ne`\.
+        ServiceActionId:
+          type: string
+          description: >-
+            The self\-service action identifier\. For example,
+            `act-fs7abcd89wxyz`\.
+      required:
+        - ProductId
+        - ProvisioningArtifactId
+        - ServiceActionId
+    StackSetConstraint:
+      type: object
+      properties:
+        AcceptLanguage:
+          type: string
+          description: >-
+            The language code\.   +  `en` \- English \(default\) +  `jp` \-
+            Japanese +  `zh` \- Chinese
+        AccountList:
+          type: array
+          description: >-
+            One or more AWS accounts that will have access to the provisioned
+            product\.
+        AdminRole:
+          type: string
+          description: AdminRole ARN
+        Description:
+          type: string
+          description: The description of the constraint\.
+        ExecutionRole:
+          type: string
+          description: ExecutionRole name
+        PortfolioId:
+          type: string
+          description: The portfolio identifier\.
+        ProductId:
+          type: string
+          description: The product identifier\.
+        RegionList:
+          type: array
+          description: >-
+            One or more AWS Regions where the provisioned product will be
+            available\.   Applicable only to a `CFN_STACKSET` provisioned
+            product type\.   The specified Regions should be within the list of
+            Regions from the `STACKSET` constraint\. To get the list of Regions
+            in the `STACKSET` constraint, use the
+            `DescribeProvisioningParameters` operation\.   If no values are
+            specified, the default value is all Regions from the `STACKSET`
+            constraint\.
+        StackInstanceControl:
+          type: string
+          description: >-
+            Permission to create, update, and delete stack instances\. Choose
+            from ALLOWED and NOT\_ALLOWED\.
+      required:
+        - AccountList
+        - AdminRole
+        - Description
+        - ExecutionRole
+        - PortfolioId
+        - ProductId
+        - RegionList
+        - StackInstanceControl
+    TagOption:
+      type: object
+      properties:
+        Active:
+          type: boolean
+          description: The TagOption active state\.
+        Key:
+          type: string
+          description: The TagOption key\.
+        Value:
+          type: string
+          description: The TagOption value\.
+      required:
+        - Key
+        - Value
+    TagOptionAssociation:
+      type: object
+      properties:
+        ResourceId:
+          type: string
+          description: The resource identifier\.
+        TagOptionId:
+          type: string
+          description: The TagOption identifier\.
+      required:
+        - ResourceId
+        - TagOptionId
+paths: {}

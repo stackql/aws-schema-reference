@@ -1,0 +1,103 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: KinesisAnalytics
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Application:
+      type: object
+      properties:
+        ApplicationCode:
+          type: string
+          description: >-
+            One or more SQL statements that read input data, transform it, and
+            generate output\. For example, you can write a SQL statement that
+            reads data from one in\-application stream, generates a running
+            average of the number of advertisement clicks by vendor, and insert
+            resulting rows in another in\-application stream using pumps\. For
+            more information about the typical pattern, see [Application
+            Code](https://docs.aws.amazon.com/kinesisanalytics/latest/dev/how-it-works-app-code.html)\.   
+            You can provide such series of SQL statements, where output of one
+            statement can be used as the input for the next statement\. You
+            store intermediate results by creating in\-application streams and
+            pumps\.   Note that the application code must create the streams
+            with names specified in the `Outputs`\. For example, if your
+            `Outputs` defines output streams named `ExampleOutputStream1` and
+            `ExampleOutputStream2`, then your application code must create these
+            streams\.
+        ApplicationDescription:
+          type: string
+          description: Summary description of the application\.
+        ApplicationName:
+          type: string
+          description: >-
+            Name of your Amazon Kinesis Analytics application \(for example,
+            `sample-app`\)\.
+        Inputs:
+          type: >-
+            list of
+            [input](aws-properties-kinesisanalytics-application-input.md)
+          description: >-
+            Use this parameter to configure the application input\.   You can
+            configure your application to receive input from a single streaming
+            source\. In this configuration, you map this streaming source to an
+            in\-application stream that is created\. Your application code can
+            then query the in\-application stream like a table \(you can think
+            of it as a constantly updating table\)\.   For the streaming source,
+            you provide its Amazon Resource Name \(ARN\) and format of data on
+            the stream \(for example, JSON, CSV, etc\.\)\. You also must provide
+            an IAM role that Amazon Kinesis Analytics can assume to read this
+            stream on your behalf\.   To create the in\-application stream, you
+            need to specify a schema to transform your data into a schematized
+            version used in SQL\. In the schema, you provide the necessary
+            mapping of the data elements in the streaming source to record
+            columns in the in\-app stream\.
+      required:
+        - Inputs
+    ApplicationOutput:
+      type: object
+      properties:
+        ApplicationName:
+          type: string
+          description: >-
+            Name of the application to which you want to add the output
+            configuration\.
+        Output:
+          type: >-
+            [output](aws-properties-kinesisanalytics-applicationoutput-output.md)
+          description: >-
+            An array of objects, each describing one output configuration\. In
+            the output configuration, you specify the name of an in\-application
+            stream, a destination \(that is, an Amazon Kinesis stream, an Amazon
+            Kinesis Firehose delivery stream, or an AWS Lambda function\), and
+            record the formation to use when writing to the destination\.
+      required:
+        - ApplicationName
+        - Output
+    ApplicationReferenceDataSource:
+      type: object
+      properties:
+        ApplicationName:
+          type: string
+          description: Name of an existing application\.
+        ReferenceDataSource:
+          type: >-
+            [referencedatasource](aws-properties-kinesisanalytics-applicationreferencedatasource-referencedatasource.md)
+          description: >-
+            The reference data source can be an object in your Amazon S3
+            bucket\. Amazon Kinesis Analytics reads the object and copies the
+            data into the in\-application table that is created\. You provide an
+            S3 bucket, object key name, and the resulting in\-application table
+            that is created\. You must also provide an IAM role with the
+            necessary permissions that Amazon Kinesis Analytics can assume to
+            read the object from your S3 bucket on your behalf\.
+      required:
+        - ApplicationName
+        - ReferenceDataSource
+paths: {}

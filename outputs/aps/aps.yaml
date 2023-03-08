@@ -1,0 +1,62 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: APS
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    RuleGroupsNamespace:
+      type: object
+      properties:
+        Data:
+          type: string
+          description: The rules definition file for this namespace\.
+        Name:
+          type: string
+          description: The name of the rule groups namespace\. This property is required\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A list of key and value pairs for the workspace resources\.
+        Workspace:
+          type: string
+          description: The ARN of the workspace that contains this rule groups namespace\.
+      required:
+        - Data
+        - Name
+        - Workspace
+    Workspace:
+      type: object
+      properties:
+        AlertManagerDefinition:
+          type: string
+          description: >-
+            The alert manager definition for the workspace, as a string\. For
+            more information, see [ Alert manager and
+            templating](https://docs.aws.amazon.com/prometheus/latest/userguide/AMP-alert-manager.html)\.
+        Alias:
+          type: string
+          description: >-
+            An alias that you assign to this workspace to help you identify it\.
+            It does not need to be unique\.    The alias can be as many as 100
+            characters and can include any type of characters\. Amazon Managed
+            Service for Prometheus automatically strips any blank spaces from
+            the beginning and end of the alias that you specify\.
+        LoggingConfiguration:
+          type: >-
+            [loggingconfiguration](aws-properties-aps-workspace-loggingconfiguration.md)
+          description: >-
+            The LoggingConfiguration attribute is used to set the logging
+            configuration for the workspace\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A list of tag keys and values to associate with the workspace\.
+paths: {}

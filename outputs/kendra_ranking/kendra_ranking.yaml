@@ -1,0 +1,44 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: KendraRanking
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ExecutionPlan:
+      type: object
+      properties:
+        CapacityUnits:
+          type: >-
+            [capacityunitsconfiguration](aws-properties-kendraranking-executionplan-capacityunitsconfiguration.md)
+          description: >-
+            You can set additional capacity units to meet the needs of your
+            rescore execution plan\. You are given a single capacity unit by
+            default\. If you want to use the default capacity, you don't set
+            additional capacity units\. For more information on the default
+            capacity and additional capacity units, see [Adjusting
+            capacity](https://docs.aws.amazon.com/kendra/latest/dg/adjusting-capacity.html)\.
+        Description:
+          type: string
+          description: A description for the rescore execution plan\.
+        Name:
+          type: string
+          description: A name for the rescore execution plan\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of key\-value pairs that identify or categorize your rescore
+            execution plan\. You can also use tags to help control access to the
+            rescore execution plan\. Tag keys and values can consist of Unicode
+            letters, digits, white space\. They can also consist of underscore,
+            period, colon, equal, plus, and asperand\.
+      required:
+        - Name
+paths: {}

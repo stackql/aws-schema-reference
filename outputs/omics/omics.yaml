@@ -1,0 +1,143 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Omics
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    AnnotationStore:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description for the store\.
+        Name:
+          type: string
+          description: The name of the Annotation Store\.
+        Reference:
+          type: >-
+            [referenceitem](aws-properties-omics-annotationstore-referenceitem.md)
+          description: The genome reference for the store's annotations\.
+        SseConfig:
+          type: '[sseconfig](aws-properties-omics-annotationstore-sseconfig.md)'
+          description: The store's server\-side encryption \(SSE\) settings\.
+        StoreFormat:
+          type: string
+          description: The annotation file format of the store\.
+        StoreOptions:
+          type: '[storeoptions](aws-properties-omics-annotationstore-storeoptions.md)'
+          description: File parsing options for the annotation store\.
+        Tags:
+          type: map of string
+          description: Tags for the store\.
+      required:
+        - Name
+        - StoreFormat
+    ReferenceStore:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description for the store\.
+        Name:
+          type: string
+          description: A name for the store\.
+        SseConfig:
+          type: '[sseconfig](aws-properties-omics-referencestore-sseconfig.md)'
+          description: Server\-side encryption \(SSE\) settings for the store\.
+        Tags:
+          type: map of string
+          description: Tags for the store\.
+      required:
+        - Name
+    RunGroup:
+      type: object
+      properties:
+        MaxCpus:
+          type: double
+          description: The group's maximum CPU count setting\.
+        MaxDuration:
+          type: double
+          description: The group's maximum duration setting in minutes\.
+        MaxRuns:
+          type: double
+          description: The group's maximum concurrent run setting\.
+        Name:
+          type: string
+          description: The group's name\.
+        Tags:
+          type: map of string
+          description: Tags for the group\.
+    SequenceStore:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description for the store\.
+        Name:
+          type: string
+          description: A name for the store\.
+        SseConfig:
+          type: '[sseconfig](aws-properties-omics-sequencestore-sseconfig.md)'
+          description: Server\-side encryption \(SSE\) settings for the store\.
+        Tags:
+          type: map of string
+          description: Tags for the store\.
+      required:
+        - Name
+    VariantStore:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description for the store\.
+        Name:
+          type: string
+          description: A name for the store\.
+        Reference:
+          type: '[referenceitem](aws-properties-omics-variantstore-referenceitem.md)'
+          description: The genome reference for the store's variants\.
+        SseConfig:
+          type: '[sseconfig](aws-properties-omics-variantstore-sseconfig.md)'
+          description: Server\-side encryption \(SSE\) settings for the store\.
+        Tags:
+          type: map of string
+          description: Tags for the store\.
+      required:
+        - Name
+        - Reference
+    Workflow:
+      type: object
+      properties:
+        DefinitionUri:
+          type: string
+          description: The URI of a definition for the workflow\.
+        Description:
+          type: string
+          description: The parameter's description\.
+        Engine:
+          type: string
+          description: An engine for the workflow\.
+        Main:
+          type: string
+          description: The path of the main definition file for the workflow\.
+        Name:
+          type: string
+          description: The workflow's name\.
+        ParameterTemplate:
+          type: >-
+            map of
+            [workflowparameter](aws-properties-omics-workflow-workflowparameter.md)
+          description: The workflow's parameter template\.
+        StorageCapacity:
+          type: double
+          description: A storage capacity for the workflow in gigabytes\.
+        Tags:
+          type: map of string
+          description: Tags for the workflow\.
+paths: {}

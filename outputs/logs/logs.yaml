@@ -1,0 +1,201 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Logs
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Destination:
+      type: object
+      properties:
+        DestinationName:
+          type: string
+          description: The name of the destination\.
+        DestinationPolicy:
+          type: string
+          description: >-
+            An IAM policy document that governs which AWS accounts can create
+            subscription filters against this destination\.
+        RoleArn:
+          type: string
+          description: >-
+            The ARN of an IAM role that permits CloudWatch Logs to send data to
+            the specified AWS resource\.
+        TargetArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the physical target where the
+            log events are delivered \(for example, a Kinesis stream\)\.
+      required:
+        - DestinationName
+        - RoleArn
+        - TargetArn
+    LogGroup:
+      type: object
+      properties:
+        DataProtectionPolicy:
+          type: object
+          description: >-
+            Creates a data protection policy and assigns it to the log group\. A
+            data protection policy can help safeguard sensitive data that's
+            ingested by the log group by auditing and masking the sensitive log
+            data\. When a user who does not have permission to view masked data
+            views a log event that includes masked data, the sensitive data is
+            replaced by asterisks\.   For more information, including a list of
+            types of data that can be audited and masked, see [Protect sensitive
+            log data with
+            masking](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data.html)\.
+        KmsKeyId:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the AWS KMS key to use when
+            encrypting log data\.   To associate an AWS KMS key with the log
+            group, specify the ARN of that KMS key here\. If you do so, ingested
+            data is encrypted using this key\. This association is stored as
+            long as the data encrypted with the KMS key is still within
+            CloudWatch Logs\. This enables CloudWatch Logs to decrypt this data
+            whenever it is requested\.   If you attempt to associate a KMS key
+            with the log group but the KMS key doesn't exist or is deactivated,
+            you will receive an `InvalidParameterException` error\.   Log group
+            data is always encrypted in CloudWatch Logs\. If you omit this key,
+            the encryption does not use AWS KMS\. For more information, see [
+            Encrypt log data in CloudWatch Logs using AWS Key Management
+            Service](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/encrypt-log-data-kms.html)
+        LogGroupName:
+          type: string
+          description: >-
+            The name of the log group\. If you don't specify a name, AWS
+            CloudFormation generates a unique ID for the log group\.
+        RetentionInDays:
+          type: integer
+          description: >-
+            The number of days to retain the log events in the specified log
+            group\. Possible values are: 1, 3, 5, 7, 14, 30, 60, 90, 120, 150,
+            180, 365, 400, 545, 731, 1827, 2192, 2557, 2922, 3288, and 3653\.  
+            To set a log group so that its log events do not expire, use
+            [DeleteRetentionPolicy](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DeleteRetentionPolicy.html)\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to the log group\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+    LogStream:
+      type: object
+      properties:
+        LogGroupName:
+          type: string
+          description: The name of the log group where the log stream is created\.
+        LogStreamName:
+          type: string
+          description: >-
+            The name of the log stream\. The name must be unique within the log
+            group\.
+      required:
+        - LogGroupName
+    MetricFilter:
+      type: object
+      properties:
+        FilterName:
+          type: string
+          description: The name of the metric filter\.
+        FilterPattern:
+          type: string
+          description: >-
+            A filter pattern for extracting metric data out of ingested log
+            events\. For more information, see [Filter and Pattern
+            Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html)\.
+        LogGroupName:
+          type: string
+          description: >-
+            The name of an existing log group that you want to associate with
+            this metric filter\.
+        MetricTransformations:
+          type: >-
+            list of
+            [metrictransformation](aws-properties-logs-metricfilter-metrictransformation.md)
+          description: The metric transformations\.
+      required:
+        - FilterPattern
+        - LogGroupName
+        - MetricTransformations
+    QueryDefinition:
+      type: object
+      properties:
+        LogGroupNames:
+          type: array
+          description: >-
+            Use this parameter if you want the query to query only certain log
+            groups\.
+        Name:
+          type: string
+          description: A name for the query definition\.
+        QueryString:
+          type: string
+          description: >-
+            The query string to use for this query definition\. For more
+            information, see [ CloudWatch Logs Insights Query
+            Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/CWL_QuerySyntax.html)\.
+      required:
+        - Name
+        - QueryString
+    ResourcePolicy:
+      type: object
+      properties:
+        PolicyDocument:
+          type: string
+          description: >-
+            The details of the policy\. It must be formatted in JSON, and you
+            must use backslashes to escape characters that need to be escaped in
+            JSON strings, such as double quote marks\.
+        PolicyName:
+          type: string
+          description: The name of the resource policy\.
+      required:
+        - PolicyDocument
+        - PolicyName
+    SubscriptionFilter:
+      type: object
+      properties:
+        DestinationArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the destination\.
+        Distribution:
+          type: string
+          description: Property description not available\.
+        FilterName:
+          type: string
+          description: The name of the subscription filter\.
+        FilterPattern:
+          type: string
+          description: >-
+            The filtering expressions that restrict what gets delivered to the
+            destination AWS resource\. For more information about the filter
+            pattern syntax, see [Filter and Pattern
+            Syntax](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html)\.
+        LogGroupName:
+          type: string
+          description: >-
+            The log group to associate with the subscription filter\. All log
+            events that are uploaded to this log group are filtered and
+            delivered to the specified AWS resource if the filter pattern
+            matches the log events\.
+        RoleArn:
+          type: string
+          description: >-
+            The ARN of an IAM role that grants CloudWatch Logs permissions to
+            deliver ingested log events to the destination stream\. You don't
+            need to provide the ARN when you are working with a logical
+            destination for cross\-account delivery\.
+      required:
+        - DestinationArn
+        - FilterPattern
+        - LogGroupName
+paths: {}

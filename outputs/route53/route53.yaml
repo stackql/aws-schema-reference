@@ -1,0 +1,573 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Route53
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    CidrCollection:
+      type: object
+      properties:
+        Locations:
+          type: >-
+            list of
+            [location](aws-properties-route53-cidrcollection-location.md)
+          description: >-
+            A complex type that contains information about the list of CIDR
+            locations\.
+        Name:
+          type: string
+          description: The name of a CIDR collection\.
+      required:
+        - Name
+    DNSSEC:
+      type: object
+      properties:
+        HostedZoneId:
+          type: string
+          description: >-
+            A unique string \(ID\) that is used to identify a hosted zone\. For
+            example: `Z00001111A1ABCaaABC11`\.
+      required:
+        - HostedZoneId
+    HealthCheck:
+      type: object
+      properties:
+        HealthCheckConfig:
+          type: >-
+            [healthcheckconfig](aws-properties-route53-healthcheck-healthcheckconfig.md)
+          description: >-
+            A complex type that contains detailed information about one health
+            check\.   For the values to enter for `HealthCheckConfig`, see
+            [HealthCheckConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_HealthCheckConfig.html)
+        HealthCheckTags:
+          type: >-
+            list of
+            [healthchecktag](aws-properties-route53-healthcheck-healthchecktag.md)
+          description: >-
+            The `HealthCheckTags` property describes key\-value pairs that are
+            associated with an `AWS::Route53::HealthCheck` resource\.
+      required:
+        - HealthCheckConfig
+    HostedZone:
+      type: object
+      properties:
+        HostedZoneConfig:
+          type: >-
+            [hostedzoneconfig](aws-properties-route53-hostedzone-hostedzoneconfig.md)
+          description: >-
+            A complex type that contains an optional comment\.   If you don't
+            want to specify a comment, omit the `HostedZoneConfig` and `Comment`
+            elements\.
+        HostedZoneTags:
+          type: >-
+            list of
+            [hostedzonetag](aws-properties-route53-hostedzone-hostedzonetag.md)
+          description: >-
+            Adds, edits, or deletes tags for a health check or a hosted zone\.  
+            For information about using tags for cost allocation, see [Using
+            Cost Allocation
+            Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html)
+            in the * AWS Billing and Cost Management User Guide*\.
+        Name:
+          type: string
+          description: >-
+            The name of the domain\. Specify a fully qualified domain name, for
+            example, *www\.example\.com*\. The trailing dot is optional; Amazon
+            Route 53 assumes that the domain name is fully qualified\. This
+            means that Route 53 treats *www\.example\.com* \(without a trailing
+            dot\) and *www\.example\.com\.* \(with a trailing dot\) as
+            identical\.   If you're creating a public hosted zone, this is the
+            name you have registered with your DNS registrar\. If your domain
+            name is registered with a registrar other than Route 53, change the
+            name servers for your domain to the set of `NameServers` that are
+            returned by the `Fn::GetAtt` intrinsic function\.
+        QueryLoggingConfig:
+          description: >-
+            Creates a configuration for DNS query logging\. After you create a
+            query logging configuration, Amazon Route 53 begins to publish log
+            data to an Amazon CloudWatch Logs log group\.   DNS query logs
+            contain information about the queries that Route 53 receives for a
+            specified public hosted zone, such as the following:   + Route 53
+            edge location that responded to the DNS query + Domain or subdomain
+            that was requested + DNS record type, such as A or AAAA + DNS
+            response code, such as `NoError` or `ServFail`    Log Group and
+            Resource Policy   Before you create a query logging configuration,
+            perform the following operations\.   If you create a query logging
+            configuration using the Route 53 console, Route 53 performs these
+            operations automatically\.
+        undefined:
+          type: >-
+            [queryloggingconfig](aws-properties-route53-hostedzone-queryloggingconfig.md)
+          description: >-
+            For more information, see [The confused deputy
+            problem](https://docs.aws.amazon.com/IAM/latest/UserGuide/confused-deputy.html)
+            in the * AWS IAM User Guide*\. **Note**   You can't use the
+            CloudWatch console to create or edit a resource policy\. You must
+            use the CloudWatch API, one of the AWS SDKs, or the AWS CLI\.   Log
+            Streams and Edge Locations   When Route 53 finishes creating the
+            configuration for DNS query logging, it does the following:   +
+            Creates a log stream for an edge location the first time that the
+            edge location responds to DNS queries for the specified hosted
+            zone\. That log stream is used to log all queries that Route 53
+            responds to for that edge location\. + Begins to send query logs to
+            the applicable log stream\. The name of each log stream is in the
+            following format:    ` hosted zone ID/edge location code `    The
+            edge location code is a three\-letter code and an arbitrarily
+            assigned number, for example, DFW3\. The three\-letter code
+            typically corresponds with the International Air Transport
+            Association airport code for an airport near the edge location\.
+            \(These abbreviations might change in the future\.\) For a list of
+            edge locations, see "The Route 53 Global Network" on the [Route 53
+            Product Details](http://aws.amazon.com/route53/details/) page\.  
+            Queries That Are Logged   Query logs contain only the queries that
+            DNS resolvers forward to Route 53\. If a DNS resolver has already
+            cached the response to a query \(such as the IP address for a load
+            balancer for example\.com\), the resolver will continue to return
+            the cached response\. It doesn't forward another query to Route 53
+            until the TTL for the corresponding resource record set expires\.
+            Depending on how many DNS queries are submitted for a resource
+            record set, and depending on the TTL for that resource record set,
+            query logs might contain information about only one query out of
+            every several thousand queries that are submitted to DNS\. For more
+            information about how DNS works, see [Routing Internet Traffic to
+            Your Website or Web
+            Application](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/welcome-dns-service.html)
+            in the *Amazon Route 53 Developer Guide*\.   Log File Format   For a
+            list of the values in each query log and the format of each value,
+            see [Logging DNS
+            Queries](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html)
+            in the *Amazon Route 53 Developer Guide*\.   Pricing   For
+            information about charges for query logs, see [Amazon CloudWatch
+            Pricing](http://aws.amazon.com/cloudwatch/pricing/)\.   How to Stop
+            Logging   If you want Route 53 to stop sending query logs to
+            CloudWatch Logs, delete the query logging configuration\. For more
+            information, see
+            [DeleteQueryLoggingConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_DeleteQueryLoggingConfig.html)\.
+        VPCs:
+          type: list of [vpc](aws-properties-route53-hostedzone-vpc.md)
+          description: >-
+            *Private hosted zones:* A complex type that contains information
+            about the VPCs that are associated with the specified hosted
+            zone\.   For public hosted zones, omit `VPCs`, `VPCId`, and
+            `VPCRegion`\.
+    KeySigningKey:
+      type: object
+      properties:
+        HostedZoneId:
+          type: string
+          description: >-
+            The unique string \(ID\) that is used to identify a hosted zone\.
+            For example: `Z00001111A1ABCaaABC11`\.
+        KeyManagementServiceArn:
+          type: string
+          description: >-
+            The Amazon resource name \(ARN\) for a customer managed customer
+            master key \(CMK\) in AWS Key Management Service \(AWS KMS \)\. The
+            `KeyManagementServiceArn` must be unique for each key\-signing key
+            \(KSK\) in a single hosted zone\. For example:
+            `arn:aws:kms:us-east-1:111122223333:key/111a2222-a11b-1ab1-2ab2-1ab21a2b3a111`\.
+        Name:
+          type: string
+          description: >-
+            A string used to identify a key\-signing key \(KSK\)\. `Name` can
+            include numbers, letters, and underscores \(\_\)\. `Name` must be
+            unique for each key\-signing key in the same hosted zone\.
+        Status:
+          type: string
+          description: >-
+            A string that represents the current key\-signing key \(KSK\)
+            status\.   Status can have one of the following values:     ACTIVE  
+            The KSK is being used for signing\.   INACTIVE   The KSK is not
+            being used for signing\.   DELETING   The KSK is in the process of
+            being deleted\.   ACTION\_NEEDED   There is a problem with the KSK
+            that requires you to take action to resolve\. For example, the
+            customer managed key might have been deleted, or the permissions for
+            the customer managed key might have been changed\.  
+            INTERNAL\_FAILURE   There was an error during a request\. Before you
+            can continue to work with DNSSEC signing, including actions that
+            involve this KSK, you must correct the problem\. For example, you
+            may need to activate or deactivate the KSK\.
+      required:
+        - HostedZoneId
+        - KeyManagementServiceArn
+        - Name
+        - Status
+    RecordSet:
+      type: object
+      properties:
+        AliasTarget:
+          type: '[aliastarget](aws-properties-route53-aliastarget.md)'
+          description: >-
+            *Alias resource record sets only:* Information about the AWS
+            resource, such as a CloudFront distribution or an Amazon S3 bucket,
+            that you want to route traffic to\.    If you're creating resource
+            records sets for a private hosted zone, note the following:   + You
+            can't create an alias resource record set in a private hosted zone
+            to route traffic to a CloudFront distribution\. + For information
+            about creating failover resource record sets in a private hosted
+            zone, see [Configuring Failover in a Private Hosted
+            Zone](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-private-hosted-zones.html)
+            in the *Amazon Route 53 Developer Guide*\.
+        CidrRoutingConfig:
+          type: '[cidrroutingconfig](aws-properties-route53-cidrroutingconfig-1.md)'
+          description: >-
+            The object that is specified in resource record set object when you
+            are linking a resource record set to a CIDR location\.   A
+            `LocationName` with an asterisk “\*” can be used to create a default
+            CIDR record\. `CollectionId` is still required for default record\.
+        Comment:
+          type: string
+          description: >-
+            *Optional:* Any comments you want to include about a change batch
+            request\.
+        Failover:
+          type: string
+          description: >-
+            *Failover resource record sets only:* To configure failover, you add
+            the `Failover` element to two resource record sets\. For one
+            resource record set, you specify `PRIMARY` as the value for
+            `Failover`; for the other resource record set, you specify
+            `SECONDARY`\. In addition, you include the `HealthCheckId` element
+            and specify the health check that you want Amazon Route 53 to
+            perform for each resource record set\.   Except where noted, the
+            following failover behaviors assume that you have included the
+            `HealthCheckId` element in both resource record sets:   + When the
+            primary resource record set is healthy, Route 53 responds to DNS
+            queries with the applicable value from the primary resource record
+            set regardless of the health of the secondary resource record set\.
+            + When the primary resource record set is unhealthy and the
+            secondary resource record set is healthy, Route 53 responds to DNS
+            queries with the applicable value from the secondary resource record
+            set\. + When the secondary resource record set is unhealthy, Route
+            53 responds to DNS queries with the applicable value from the
+            primary resource record set regardless of the health of the primary
+            resource record set\. + If you omit the `HealthCheckId` element for
+            the secondary resource record set, and if the primary resource
+            record set is unhealthy, Route 53 always responds to DNS queries
+            with the applicable value from the secondary resource record set\.
+            This is true regardless of the health of the associated endpoint\.
+            You can't create non\-failover resource record sets that have the
+            same values for the `Name` and `Type` elements as failover resource
+            record sets\.   For failover alias resource record sets, you must
+            also include the `EvaluateTargetHealth` element and set the value to
+            true\.   For more information about configuring failover for Route
+            53, see the following topics in the *Amazon Route 53 Developer
+            Guide*:    +  [Route 53 Health Checks and DNS
+            Failover](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html) 
+            +  [Configuring Failover in a Private Hosted
+            Zone](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-private-hosted-zones.html)
+        GeoLocation:
+          type: '[geolocation](aws-properties-route53-recordset-geolocation-1.md)'
+          description: >-
+            *Geolocation resource record sets only:* A complex type that lets
+            you control how Amazon Route 53 responds to DNS queries based on the
+            geographic origin of the query\. For example, if you want all
+            queries from Africa to be routed to a web server with an IP address
+            of `192.0.2.111`, create a resource record set with a `Type` of `A`
+            and a `ContinentCode` of `AF`\.   Although creating geolocation and
+            geolocation alias resource record sets in a private hosted zone is
+            allowed, it's not supported\. If you create separate resource record
+            sets for overlapping geographic regions \(for example, one resource
+            record set for a continent and one for a country on the same
+            continent\), priority goes to the smallest geographic region\. This
+            allows you to route most queries for a continent to one resource and
+            to route queries for a country on that continent to a different
+            resource\.   You can't create two geolocation resource record sets
+            that specify the same geographic location\.   The value `*` in the
+            `CountryCode` element matches all geographic locations that aren't
+            specified in other geolocation resource record sets that have the
+            same values for the `Name` and `Type` elements\.   Geolocation works
+            by mapping IP addresses to locations\. However, some IP addresses
+            aren't mapped to geographic locations, so even if you create
+            geolocation resource record sets that cover all seven continents,
+            Route 53 will receive some DNS queries from locations that it can't
+            identify\. We recommend that you create a resource record set for
+            which the value of `CountryCode` is `*`\. Two groups of queries are
+            routed to the resource that you specify in this record: queries that
+            come from locations for which you haven't created geolocation
+            resource record sets and queries from IP addresses that aren't
+            mapped to a location\. If you don't create a `*` resource record
+            set, Route 53 returns a "no answer" response for queries from those
+            locations\. You can't create non\-geolocation resource record sets
+            that have the same values for the `Name` and `Type` elements as
+            geolocation resource record sets\.
+        HealthCheckId:
+          description: >-
+            If you want Amazon Route 53 to return this resource record set in
+            response to a DNS query only when the status of a health check is
+            healthy, include the `HealthCheckId` element and specify the ID of
+            the applicable health check\.   Route 53 determines whether a
+            resource record set is healthy based on one of the following:   + By
+            periodically sending a request to the endpoint that is specified in
+            the health check + By aggregating the status of a specified group of
+            health checks \(calculated health checks\) + By determining the
+            current state of a CloudWatch alarm \(CloudWatch metric health
+            checks\) Route 53 doesn't check the health of the endpoint that is
+            specified in the resource record set, for example, the endpoint
+            specified by the IP address in the `Value` element\. When you add a
+            `HealthCheckId` element to a resource record set, Route 53 checks
+            the health of the endpoint that you specified in the health check\. 
+            For more information, see the following topics in the *Amazon Route
+            53 Developer Guide*:   +  [How Amazon Route 53 Determines Whether an
+            Endpoint Is
+            Healthy](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html) 
+            +  [Route 53 Health Checks and DNS
+            Failover](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover.html) 
+            +  [Configuring Failover in a Private Hosted
+            Zone](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-private-hosted-zones.html)  
+            **When to Specify HealthCheckId**    Specifying a value for
+            `HealthCheckId` is useful only when Route 53 is choosing between two
+            or more resource record sets to respond to a DNS query, and you want
+            Route 53 to base the choice in part on the status of a health
+            check\. Configuring health checks makes sense only in the following
+            configurations:   +  **Non\-alias resource record sets**: You're
+            checking the health of a group of non\-alias resource record sets
+            that have the same routing policy, name, and type \(such as multiple
+            weighted records named www\.example\.com with a type of A\) and you
+            specify health check IDs for all the resource record sets\.
+        undefined:
+          type: integer
+          description: >-
+            The effect of setting `Weight` to `0` is different when you
+            associate health checks with weighted resource record sets\. For
+            more information, see [Options for Configuring Route 53
+            Active\-Active and Active\-Passive
+            Failover](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-configuring-options.html)
+            in the *Amazon Route 53 Developer Guide*\.
+        HostedZoneId:
+          type: string
+          description: >-
+            The ID of the hosted zone that you want to create records in\.   
+            Specify either `HostedZoneName` or `HostedZoneId`, but not both\. If
+            you have multiple hosted zones with the same domain name, you must
+            specify the hosted zone using `HostedZoneId`\.
+        HostedZoneName:
+          type: string
+          description: >-
+            The name of the hosted zone that you want to create records in\. You
+            must include a trailing dot \(for example, `www.example.com.`\) as
+            part of the `HostedZoneName`\.   When you create a stack using an
+            AWS::Route53::RecordSet that specifies `HostedZoneName`, AWS
+            CloudFormation attempts to find a hosted zone whose name matches the
+            HostedZoneName\. If AWS CloudFormation cannot find a hosted zone
+            with a matching domain name, or if there is more than one hosted
+            zone with the specified domain name, AWS CloudFormation will not
+            create the stack\.   Specify either `HostedZoneName` or
+            `HostedZoneId`, but not both\. If you have multiple hosted zones
+            with the same domain name, you must specify the hosted zone using
+            `HostedZoneId`\.
+        MultiValueAnswer:
+          type: boolean
+          description: >-
+            *Multivalue answer resource record sets only*: To route traffic
+            approximately randomly to multiple resources, such as web servers,
+            create one multivalue answer record for each resource and specify
+            `true` for `MultiValueAnswer`\. Note the following:   + If you
+            associate a health check with a multivalue answer resource record
+            set, Amazon Route 53 responds to DNS queries with the corresponding
+            IP address only when the health check is healthy\. + If you don't
+            associate a health check with a multivalue answer record, Route 53
+            always considers the record to be healthy\. + Route 53 responds to
+            DNS queries with up to eight healthy records; if you have eight or
+            fewer healthy records, Route 53 responds to all DNS queries with all
+            the healthy records\. + If you have more than eight healthy records,
+            Route 53 responds to different DNS resolvers with different
+            combinations of healthy records\. + When all records are unhealthy,
+            Route 53 responds to DNS queries with up to eight unhealthy
+            records\. + If a resource becomes unavailable after a resolver
+            caches a response, client software typically tries another of the IP
+            addresses in the response\. You can't create multivalue answer alias
+            records\.
+        Name:
+          type: string
+          description: >-
+            For `ChangeResourceRecordSets` requests, the name of the record that
+            you want to create, update, or delete\. For `ListResourceRecordSets`
+            responses, the name of a record in the specified hosted zone\.   
+            **ChangeResourceRecordSets Only**    Enter a fully qualified domain
+            name, for example, `www.example.com`\. You can optionally include a
+            trailing dot\. If you omit the trailing dot, Amazon Route 53 assumes
+            that the domain name that you specify is fully qualified\. This
+            means that Route 53 treats `www.example.com` \(without a trailing
+            dot\) and `www.example.com.` \(with a trailing dot\) as
+            identical\.   For information about how to specify characters other
+            than `a-z`, `0-9`, and `-` \(hyphen\) and how to specify
+            internationalized domain names, see [DNS Domain Name
+            Format](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html)
+            in the *Amazon Route 53 Developer Guide*\.   You can use the
+            asterisk \(\*\) wildcard to replace the leftmost label in a domain
+            name, for example, `*.example.com`\. Note the following:   + The \*
+            must replace the entire label\. For example, you can't specify
+            `*prod.example.com` or `prod*.example.com`\. + The \* can't replace
+            any of the middle labels, for example, marketing\.\*\.example\.com\.
+            + If you include \* in any position other than the leftmost label in
+            a domain name, DNS treats it as an \* character \(ASCII 42\), not as
+            a wildcard\. **Important**   You can't use the \* wildcard for
+            resource records sets that have a type of NS\. You can use the \*
+            wildcard as the leftmost label in a domain name, for example,
+            `*.example.com`\. You can't use an \* for one of the middle labels,
+            for example, `marketing.*.example.com`\. In addition, the \* must
+            replace the entire label; for example, you can't specify
+            `prod*.example.com`\.
+        Region:
+          type: string
+          description: >-
+            *Latency\-based resource record sets only:* The Amazon EC2 Region
+            where you created the resource that this resource record set refers
+            to\. The resource typically is an AWS resource, such as an EC2
+            instance or an ELB load balancer, and is referred to by an IP
+            address or a DNS domain name, depending on the record type\.   When
+            Amazon Route 53 receives a DNS query for a domain name and type for
+            which you have created latency resource record sets, Route 53
+            selects the latency resource record set that has the lowest latency
+            between the end user and the associated Amazon EC2 Region\. Route 53
+            then returns the value that is associated with the selected resource
+            record set\.   Note the following:   + You can only specify one
+            `ResourceRecord` per latency resource record set\. + You can only
+            create one latency resource record set for each Amazon EC2 Region\.
+            + You aren't required to create latency resource record sets for all
+            Amazon EC2 Regions\. Route 53 will choose the region with the best
+            latency from among the regions that you create latency resource
+            record sets for\. + You can't create non\-latency resource record
+            sets that have the same values for the `Name` and `Type` elements as
+            latency resource record sets\.
+        ResourceRecords:
+          type: array
+          description: >-
+            One or more values that correspond with the value that you specified
+            for the `Type` property\. For example, if you specified `A` for
+            `Type`, you specify one or more IP addresses in IPv4 format for
+            `ResourceRecords`\. For information about the format of values for
+            each record type, see [Supported DNS Resource Record
+            Types](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html)
+            in the *Amazon Route 53 Developer Guide*\.   Note the following:   +
+            You can specify more than one value for all record types except
+            CNAME and SOA\. + The maximum length of a value is 4000 characters\.
+            + If you're creating an alias record, omit `ResourceRecords`\.
+        SetIdentifier:
+          type: string
+          description: >-
+            *Resource record sets that have a routing policy other than simple:*
+            An identifier that differentiates among multiple resource record
+            sets that have the same combination of name and type, such as
+            multiple weighted resource record sets named acme\.example\.com that
+            have a type of A\. In a group of resource record sets that have the
+            same name and type, the value of `SetIdentifier` must be unique for
+            each resource record set\.    For information about routing
+            policies, see [Choosing a Routing
+            Policy](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html)
+            in the *Amazon Route 53 Developer Guide*\.
+        TTL:
+          type: string
+          description: >-
+            The resource record cache time to live \(TTL\), in seconds\. Note
+            the following:   + If you're creating or updating an alias resource
+            record set, omit `TTL`\. Amazon Route 53 uses the value of `TTL` for
+            the alias target\.  + If you're associating this resource record set
+            with a health check \(if you're adding a `HealthCheckId` element\),
+            we recommend that you specify a `TTL` of 60 seconds or less so
+            clients respond quickly to changes in health status\. + All of the
+            resource record sets in a group of weighted resource record sets
+            must have the same value for `TTL`\. + If a group of weighted
+            resource record sets includes one or more weighted alias resource
+            record sets for which the alias target is an ELB load balancer, we
+            recommend that you specify a `TTL` of 60 seconds for all of the
+            non\-alias weighted resource record sets that have the same name and
+            type\. Values other than 60 seconds \(the TTL for load balancers\)
+            will change the effect of the values that you specify for `Weight`\.
+        Type:
+          description: >-
+            The DNS record type\. For information about different record types
+            and how data is encoded for them, see [Supported DNS Resource Record
+            Types](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html)
+            in the *Amazon Route 53 Developer Guide*\.   Valid values for basic
+            resource record sets: `A` \| `AAAA` \| `CAA` \| `CNAME` \| `DS`
+            \|`MX` \| `NAPTR` \| `NS` \| `PTR` \| `SOA` \| `SPF` \| `SRV` \|
+            `TXT`    Values for weighted, latency, geolocation, and failover
+            resource record sets: `A` \| `AAAA` \| `CAA` \| `CNAME` \| `MX` \|
+            `NAPTR` \| `PTR` \| `SPF` \| `SRV` \| `TXT`\. When creating a group
+            of weighted, latency, geolocation, or failover resource record sets,
+            specify the same value for all of the resource record sets in the
+            group\.   Valid values for multivalue answer resource record sets:
+            `A` \| `AAAA` \| `MX` \| `NAPTR` \| `PTR` \| `SPF` \| `SRV` \|
+            `TXT`    SPF records were formerly used to verify the identity of
+            the sender of email messages\. However, we no longer recommend that
+            you create resource record sets for which the value of `Type` is
+            `SPF`\. RFC 7208, *Sender Policy Framework \(SPF\) for Authorizing
+            Use of Domains in Email, Version 1*, has been updated to say,
+            "\.\.\.\[I\]ts existence and mechanism defined in \[RFC4408\] have
+            led to some interoperability issues\. Accordingly, its use is no
+            longer appropriate for SPF version 1; implementations are not to use
+            it\." In RFC 7208, see section 14\.1, [The SPF DNS Record
+            Type](http://tools.ietf.org/html/rfc7208#section-14.1)\. Values for
+            alias resource record sets:   +  **Amazon API Gateway custom
+            regional APIs and edge\-optimized APIs:** `A`  +  **CloudFront
+            distributions:** `A`
+        Weight:
+          description: >-
+            *Weighted resource record sets only:* Among resource record sets
+            that have the same combination of DNS name and type, a value that
+            determines the proportion of DNS queries that Amazon Route 53
+            responds to using the current resource record set\. Route 53
+            calculates the sum of the weights for the resource record sets that
+            have the same combination of DNS name and type\. Route 53 then
+            responds to queries based on the ratio of a resource's weight to the
+            total\. Note the following:   + You must specify a value for the
+            `Weight` element for every weighted resource record set\. + You can
+            only specify one `ResourceRecord` per weighted resource record set\.
+            + You can't create latency, failover, or geolocation resource record
+            sets that have the same values for the `Name` and `Type` elements as
+            weighted resource record sets\. + You can create a maximum of 100
+            weighted resource record sets that have the same values for the
+            `Name` and `Type` elements\. + For weighted \(but not weighted
+            alias\) resource record sets, if you set `Weight` to `0` for a
+            resource record set, Route 53 never responds to queries with the
+            applicable value for that resource record set\. However, if you set
+            `Weight` to `0` for all resource record sets that have the same
+            combination of DNS name and type, traffic is routed to all resources
+            with equal probability\.
+      required:
+        - Name
+        - null
+    RecordSetGroup:
+      type: object
+      properties:
+        Comment:
+          type: string
+          description: >-
+            *Optional:* Any comments you want to include about a change batch
+            request\.
+        HostedZoneId:
+          type: string
+          description: >-
+            The ID of the hosted zone that you want to create records in\.  
+            Specify either `HostedZoneName` or `HostedZoneId`, but not both\. If
+            you have multiple hosted zones with the same domain name, you must
+            specify the hosted zone using `HostedZoneId`\.
+        HostedZoneName:
+          type: string
+          description: >-
+            The name of the hosted zone that you want to create records in\. You
+            must include a trailing dot \(for example, `www.example.com.`\) as
+            part of the `HostedZoneName`\.   When you create a stack using an
+            `AWS::Route53::RecordSet` that specifies `HostedZoneName`, AWS
+            CloudFormation attempts to find a hosted zone whose name matches the
+            `HostedZoneName`\. If AWS CloudFormation can't find a hosted zone
+            with a matching domain name, or if there is more than one hosted
+            zone with the specified domain name, AWS CloudFormation will not
+            create the stack\.    Specify either `HostedZoneName` or
+            `HostedZoneId`, but not both\. If you have multiple hosted zones
+            with the same domain name, you must specify the hosted zone using
+            `HostedZoneId`\.
+        RecordSets:
+          type: list of [recordset](aws-properties-route53-recordset-1.md)
+          description: >-
+            A complex type that contains one `RecordSet` element for each record
+            that you want to create\.
+paths: {}

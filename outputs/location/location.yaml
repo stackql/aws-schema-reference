@@ -1,0 +1,242 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Location
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    GeofenceCollection:
+      type: object
+      properties:
+        CollectionName:
+          type: string
+          description: >-
+            A custom name for the geofence collection\.   Requirements:   +
+            Contain only alphanumeric characters \(A–Z, a–z, 0–9\), hyphens
+            \(\-\), periods \(\.\), and underscores \(\_\)\.  + Must be a unique
+            geofence collection name\. + No spaces allowed\. For example,
+            `ExampleGeofenceCollection`\.
+        Description:
+          type: string
+          description: An optional description for the geofence collection\.
+        KmsKeyId:
+          type: string
+          description: >-
+            A key identifier for an [AWS KMS customer managed
+            key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html)\.
+            Enter a key ID, key ARN, alias name, or alias ARN\.
+      required:
+        - CollectionName
+    Map:
+      type: object
+      properties:
+        Configuration:
+          type: '[mapconfiguration](aws-properties-location-map-mapconfiguration.md)'
+          description: >-
+            Specifies the `MapConfiguration`, including the map style, for the
+            map resource that you create\. The map style defines the look of
+            maps and the data provider for your map resource\.
+        Description:
+          type: string
+          description: An optional description for the map resource\.
+        MapName:
+          type: string
+          description: >-
+            The name for the map resource\.   Requirements:   + Must contain
+            only alphanumeric characters \(A–Z, a–z, 0–9\), hyphens \(\-\),
+            periods \(\.\), and underscores \(\_\)\.  + Must be a unique map
+            resource name\.  + No spaces allowed\. For example, `ExampleMap`\.
+        PricingPlan:
+          type: string
+          description: >-
+            No longer used\. If included, the only allowed value is
+            `RequestBasedUsage`\.
+      required:
+        - Configuration
+        - MapName
+    PlaceIndex:
+      type: object
+      properties:
+        DataSource:
+          type: string
+          description: >-
+            Specifies the geospatial data provider for the new place index\.  
+            This field is case\-sensitive\. Enter the valid values as shown\.
+            For example, entering `HERE` returns an error\. Valid values
+            include:   + `Esri` – For additional information about
+            [Esri](https://docs.aws.amazon.com/location/latest/developerguide/esri.html)'s
+            coverage in your region of interest, see [Esri details on geocoding
+            coverage](https://developers.arcgis.com/rest/geocode/api-reference/geocode-coverage.htm)\.
+            + `Grab` – Grab provides place index functionality for Southeast
+            Asia\. For additional information about
+            [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/grab.html)'
+            coverage, see [GrabMaps countries and areas
+            covered](https://docs.aws.amazon.com/location/latest/developerguide/grab.html#grab-coverage-area)\.
+            + `Here` – For additional information about [HERE
+            Technologies](https://docs.aws.amazon.com/location/latest/developerguide/HERE.html)'
+            coverage in your region of interest, see [HERE details on goecoding
+            coverage](https://developer.here.com/documentation/geocoder/dev_guide/topics/coverage-geocoder.html)\.
+            **Important**   If you specify HERE Technologies \(`Here`\) as the
+            data provider, you may not [store
+            results](https://docs.aws.amazon.com/location-places/latest/APIReference/API_DataSourceConfiguration.html)
+            for locations in Japan\. For more information, see the [AWS Service
+            Terms](http://aws.amazon.com/service-terms/) for Amazon Location
+            Service\. For additional information , see [Data
+            providers](https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html)
+            on the *Amazon Location Service Developer Guide*\.
+        DataSourceConfiguration:
+          type: >-
+            [datasourceconfiguration](aws-properties-location-placeindex-datasourceconfiguration.md)
+          description: Specifies the data storage option requesting Places\.
+        Description:
+          type: string
+          description: The optional description for the place index resource\.
+        IndexName:
+          type: string
+          description: >-
+            The name of the place index resource\.    Requirements:   + Contain
+            only alphanumeric characters \(A–Z, a–z, 0–9\), hyphens \(\-\),
+            periods \(\.\), and underscores \(\_\)\. + Must be a unique place
+            index resource name\. + No spaces allowed\. For example,
+            `ExamplePlaceIndex`\.
+        PricingPlan:
+          type: string
+          description: >-
+            No longer used\. If included, the only allowed value is
+            `RequestBasedUsage`\.
+      required:
+        - DataSource
+        - IndexName
+    RouteCalculator:
+      type: object
+      properties:
+        CalculatorName:
+          type: string
+          description: >-
+            The name of the route calculator resource\.    Requirements:   + Can
+            use alphanumeric characters \(A–Z, a–z, 0–9\) , hyphens \(\-\),
+            periods \(\.\), and underscores \(\_\)\. + Must be a unique Route
+            calculator resource name\. + No spaces allowed\. For example,
+            `ExampleRouteCalculator`\.
+        DataSource:
+          description: >-
+            Specifies the data provider of traffic and road network data\.  
+            This field is case\-sensitive\. Enter the valid values as shown\.
+            For example, entering `HERE` returns an error\. Valid values
+            include:   + `Esri` – For additional information about
+            [Esri](https://docs.aws.amazon.com/location/latest/developerguide/esri.html)'s
+            coverage in your region of interest, see [Esri details on street
+            networks and traffic
+            coverage](https://doc.arcgis.com/en/arcgis-online/reference/network-coverage.htm)\.
+        undefined:
+          type: string
+          description: >-
+            Route calculators that use Esri as a data source only calculate
+            routes that are shorter than 400 km\. + `Grab` – Grab provides
+            routing functionality for Southeast Asia\. For additional
+            information about
+            [GrabMaps](https://docs.aws.amazon.com/location/latest/developerguide/grab.html)'
+            coverage, see [GrabMaps countries and areas
+            covered](https://docs.aws.amazon.com/location/latest/developerguide/grab.html#grab-coverage-area)\.
+            + `Here` – For additional information about [HERE
+            Technologies](https://docs.aws.amazon.com/location/latest/developerguide/HERE.html)'
+            coverage in your region of interest, see [HERE car routing
+            coverage](https://developer.here.com/documentation/routing-api/dev_guide/topics/coverage/car-routing.html)
+            and [HERE truck routing
+            coverage](https://developer.here.com/documentation/routing-api/dev_guide/topics/coverage/truck-routing.html)\.
+            For additional information , see [Data
+            providers](https://docs.aws.amazon.com/location/latest/developerguide/what-is-data-provider.html)
+            on the *Amazon Location Service Developer Guide*\.
+        Description:
+          type: string
+          description: The optional description for the route calculator resource\.
+        PricingPlan:
+          type: string
+          description: >-
+            No longer used\. If included, the only allowed value is
+            `RequestBasedUsage`\.
+      required:
+        - CalculatorName
+        - null
+    Tracker:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: An optional description for the tracker resource\.
+        KmsKeyId:
+          type: string
+          description: >-
+            A key identifier for an [AWS KMS customer managed
+            key](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html)\.
+            Enter a key ID, key ARN, alias name, or alias ARN\.
+        PositionFiltering:
+          type: string
+          description: >-
+            Specifies the position filtering for the tracker resource\.   Valid
+            values:   +  `TimeBased` \- Location updates are evaluated against
+            linked geofence collections, but not every location update is
+            stored\. If your update frequency is more often than 30 seconds,
+            only one update per 30 seconds is stored for each unique device
+            ID\.  +  `DistanceBased` \- If the device has moved less than 30 m
+            \(98\.4 ft\), location updates are ignored\. Location updates within
+            this area are neither evaluated against linked geofence collections,
+            nor stored\. This helps control costs by reducing the number of
+            geofence evaluations and historical device positions to paginate
+            through\. Distance\-based filtering can also reduce the effects of
+            GPS noise when displaying device trajectories on a map\.  + 
+            `AccuracyBased` \- If the device has moved less than the measured
+            accuracy, location updates are ignored\. For example, if two
+            consecutive updates from a device have a horizontal accuracy of 5 m
+            and 10 m, the second update is ignored if the device has moved less
+            than 15 m\. Ignored location updates are neither evaluated against
+            linked geofence collections, nor stored\. This can reduce the
+            effects of GPS noise when displaying device trajectories on a map,
+            and can help control your costs by reducing the number of geofence
+            evaluations\.  This field is optional\. If not specified, the
+            default value is `TimeBased`\.
+        PricingPlan:
+          type: string
+          description: >-
+            No longer used\. If included, the only allowed value is
+            `RequestBasedUsage`\.
+        PricingPlanDataSource:
+          type: string
+          description: This parameter is no longer used\.
+        TrackerName:
+          type: string
+          description: >-
+            The name for the tracker resource\.   Requirements:   + Contain only
+            alphanumeric characters \(A\-Z, a\-z, 0\-9\) , hyphens \(\-\),
+            periods \(\.\), and underscores \(\_\)\. + Must be a unique tracker
+            resource name\. + No spaces allowed\. For example,
+            `ExampleTracker`\.
+      required:
+        - TrackerName
+    TrackerConsumer:
+      type: object
+      properties:
+        ConsumerArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) for the geofence collection to be
+            associated to tracker resource\. Used when you need to specify a
+            resource across all AWS\.   + Format example:
+            `arn:aws:geo:region:account-id:geofence-collection/ExampleGeofenceCollectionConsumer`
+        TrackerName:
+          type: string
+          description: >-
+            The name for the tracker resource\.   Requirements:   + Contain only
+            alphanumeric characters \(A\-Z, a\-z, 0\-9\) , hyphens \(\-\),
+            periods \(\.\), and underscores \(\_\)\. + Must be a unique tracker
+            resource name\. + No spaces allowed\. For example,
+            `ExampleTracker`\.
+      required:
+        - ConsumerArn
+        - TrackerName
+paths: {}

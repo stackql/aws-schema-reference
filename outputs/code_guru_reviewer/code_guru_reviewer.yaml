@@ -1,0 +1,66 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: CodeGuruReviewer
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    RepositoryAssociation:
+      type: object
+      properties:
+        BucketName:
+          type: string
+          description: >-
+            The name of the bucket\. This is required for your S3Bucket
+            repositoryThe name must start with the prefix,
+            `codeguru-reviewer-*`\.
+        ConnectionArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of an AWS CodeStar Connections
+            connection\. Its format is
+            `arn:aws:codestar-connections:region-id:aws-account_id:connection/connection-id`\.
+            For more information, see
+            [Connection](https://docs.aws.amazon.com/codestar-connections/latest/APIReference/API_Connection.html)
+            in the *AWS CodeStar Connections API Reference*\.    
+            `ConnectionArn` must be specified for Bitbucket and GitHub
+            Enterprise Server repositories\. It has no effect if it is specified
+            for an AWS CodeCommit repository\.
+        Name:
+          type: string
+          description: The name of the repository\.
+        Owner:
+          type: string
+          description: >-
+            The owner of the repository\. For a GitHub Enterprise Server or
+            Bitbucket repository, this is the username for the account that owns
+            the repository\.     `Owner` must be specified for Bitbucket and
+            GitHub Enterprise Server repositories\. It has no effect if it is
+            specified for an AWS CodeCommit repository\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs used to tag an associated repository\.
+            A tag is a custom attribute label with two parts:    + A *tag key*
+            \(for example, `CostCenter`, `Environment`, `Project`, or
+            `Secret`\)\. Tag keys are case sensitive\. + An optional field known
+            as a *tag value* \(for example, `111122223333`, `Production`, or a
+            team name\)\. Omitting the tag value is the same as using an empty
+            string\. Like tag keys, tag values are case sensitive\.
+        Type:
+          type: string
+          description: >-
+            The type of repository that contains the source code to be
+            reviewed\. The valid values are:    + `CodeCommit` + `Bitbucket` +
+            `GitHubEnterpriseServer` + `S3Bucket`
+      required:
+        - Name
+        - Type
+paths: {}

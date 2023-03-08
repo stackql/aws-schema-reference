@@ -1,0 +1,90 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: EventSchemas
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Discoverer:
+      type: object
+      properties:
+        CrossAccount:
+          type: boolean
+          description: >-
+            Allows for the discovery of the event schemas that are sent to the
+            event bus from another account\.
+        Description:
+          type: string
+          description: A description for the discoverer\.
+        SourceArn:
+          type: string
+          description: The ARN of the event bus\.
+        Tags:
+          type: >-
+            list of
+            [tagsentry](aws-properties-eventschemas-discoverer-tagsentry.md)
+          description: Tags associated with the resource\.
+      required:
+        - SourceArn
+    Registry:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description of the registry to be created\.
+        RegistryName:
+          type: string
+          description: The name of the schema registry\.
+        Tags:
+          type: >-
+            list of
+            [tagsentry](aws-properties-eventschemas-registry-tagsentry.md)
+          description: Tags to associate with the registry\.
+    RegistryPolicy:
+      type: object
+      properties:
+        Policy:
+          type: object
+          description: A resource\-based policy\.
+        RegistryName:
+          type: string
+          description: The name of the registry\.
+        RevisionId:
+          type: string
+          description: The revision ID of the policy\.
+      required:
+        - Policy
+        - RegistryName
+    Schema:
+      type: object
+      properties:
+        Content:
+          type: string
+          description: The source of the schema definition\.
+        Description:
+          type: string
+          description: A description of the schema\.
+        RegistryName:
+          type: string
+          description: The name of the schema registry\.
+        SchemaName:
+          type: string
+          description: The name of the schema\.
+        Tags:
+          type: list of [tagsentry](aws-properties-eventschemas-schema-tagsentry.md)
+          description: Tags associated with the schema\.
+        Type:
+          type: string
+          description: >-
+            The type of schema\.   Valid types include `OpenApi3` and
+            `JSONSchemaDraft4`\.
+      required:
+        - Content
+        - RegistryName
+        - Type
+paths: {}

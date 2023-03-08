@@ -1,0 +1,28 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: ControlTower
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    EnabledControl:
+      type: object
+      properties:
+        ControlIdentifier:
+          type: string
+          description: >-
+            The ARN of the control\. Only **Strongly recommended** and
+            **Elective** controls are permitted, with the exception of the
+            **Region deny** guardrail\.
+        TargetIdentifier:
+          type: string
+          description: The ARN of the organizational unit\.
+      required:
+        - ControlIdentifier
+        - TargetIdentifier
+paths: {}

@@ -1,0 +1,39 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: S3ObjectLambda
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    AccessPoint:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: The name of this access point\.
+        ObjectLambdaConfiguration:
+          type: >-
+            [objectlambdaconfiguration](aws-properties-s3objectlambda-accesspoint-objectlambdaconfiguration.md)
+          description: A configuration used when creating an Object Lambda Access Point\.
+      required:
+        - ObjectLambdaConfiguration
+    AccessPointPolicy:
+      type: object
+      properties:
+        ObjectLambdaAccessPoint:
+          type: string
+          description: >-
+            An access point with an attached AWS Lambda function used to access
+            transformed data from an Amazon S3 bucket\.
+        PolicyDocument:
+          type: object
+          description: Object Lambda Access Point resource policy document\.
+      required:
+        - ObjectLambdaAccessPoint
+        - PolicyDocument
+paths: {}

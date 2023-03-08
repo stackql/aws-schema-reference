@@ -1,0 +1,174 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: ServiceDiscovery
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    HttpNamespace:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description for the namespace\.
+        Name:
+          type: string
+          description: The name that you want to assign to this namespace\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags for the namespace\. Each tag consists of a key and an
+            optional value, both of which you define\. Tag keys can have a
+            maximum character length of 128 characters, and tag values can have
+            a maximum length of 256 characters\.
+      required:
+        - Name
+    Instance:
+      type: object
+      properties:
+        InstanceAttributes:
+          type: object
+          description: "A string map that contains the following information for the service that you specify in `ServiceId`:   + The attributes that apply to the records that are defined in the service\\.  + For each attribute, the applicable value\\. Supported attribute keys include the following:     AWS\\_ALIAS\\_DNS\\_NAME   If you want AWS Cloud Map to create a Route\_53 alias record that routes traffic to an Elastic Load Balancing load balancer, specify the DNS name that is associated with the load balancer\\. For information about how to get the DNS name, see [AliasTarget\\->DNSName](https://docs.aws.amazon.com/Route53/latest/APIReference/API_AliasTarget.html#Route53-Type-AliasTarget-DNSName) in the *Route\_53 API Reference*\\.   Note the following:   + The configuration for the service that is specified by `ServiceId` must include settings for an `A` record, an `AAAA` record, or both\\. + In the service that is specified by `ServiceId`, the value of `RoutingPolicy` must be `WEIGHTED`\\. + If the service that is specified by `ServiceId` includes `HealthCheckConfig` settings, AWS Cloud Map will create the health check, but it won't associate the health check with the alias record\\. + Auto naming currently doesn't support creating alias records that route traffic to AWS resources other than ELB load balancers\\. + If you specify a value for `AWS_ALIAS_DNS_NAME`, don't specify values for any of the `AWS_INSTANCE` attributes\\.   AWS\\_EC2\\_INSTANCE\\_ID   *HTTP namespaces only\\.* The Amazon EC2 instance ID for the instance\\. The `AWS_INSTANCE_IPV4` attribute contains the primary private IPv4 address\\. When creating resources with a type of [AWS::ServiceDiscovery::Instance](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicediscovery-instance.html), if the `AWS_EC2_INSTANCE_ID` attribute is specified, the only other attribute that can be specified is `AWS_INIT_HEALTH_STATUS`\\. After the resource has been created, the `AWS_INSTANCE_IPV4` attribute contains the primary private IPv4 address\\.   AWS\\_INIT\\_HEALTH\\_STATUS   If the service configuration includes `HealthCheckCustomConfig`, when creating resources with a type of [AWS::ServiceDiscovery::Instance](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-servicediscovery-instance.html) you can optionally use `AWS_INIT_HEALTH_STATUS` to specify the initial status of the custom health check, `HEALTHY` or `UNHEALTHY`\\. If you don't specify a value for `AWS_INIT_HEALTH_STATUS`, the initial status is `HEALTHY`\\. This attribute can only be used when creating resources and will not be seen on existing resources\\.   AWS\\_INSTANCE\\_CNAME   If the service configuration includes a `CNAME` record, the domain name that you want Route\_53 to return in response to DNS queries, for example, `example.com`\\.   This value is required if the service specified by `ServiceId` includes settings for an `CNAME` record\\.   AWS\\_INSTANCE\\_IPV4   If the service configuration includes an `A` record, the IPv4 address that you want Route\_53 to return in response to DNS queries, for example, `192.0.2.44`\\.   This value is required if the service specified by `ServiceId` includes settings for an `A` record\\. If the service includes settings for an `SRV` record, you must specify a value for `AWS_INSTANCE_IPV4`, `AWS_INSTANCE_IPV6`, or both\\.   AWS\\_INSTANCE\\_IPV6   If the service configuration includes an `AAAA` record, the IPv6 address that you want Route\_53 to return in response to DNS queries, for example, `2001:0db8:85a3:0000:0000:abcd:0001:2345`\\.   This value is required if the service specified by `ServiceId` includes settings for an `AAAA` record\\. If the service includes settings for an `SRV` record, you must specify a value for `AWS_INSTANCE_IPV4`, `AWS_INSTANCE_IPV6`, or both\\.   AWS\\_INSTANCE\\_PORT   If the service includes an `SRV` record, the value that you want Route\_53 to return for the port\\.   If the service includes `HealthCheckConfig`, the port on the endpoint that you want Route\_53 to send requests to\\.    This value is required if you specified settings for an `SRV` record or a Route\_53 health check when you created the service\\."
+        InstanceId:
+          type: string
+          description: >-
+            An identifier that you want to associate with the instance\. Note
+            the following:   + If the service that's specified by `ServiceId`
+            includes settings for an `SRV` record, the value of `InstanceId` is
+            automatically included as part of the value for the `SRV` record\.
+            For more information, see [DnsRecord >
+            Type](https://docs.aws.amazon.com/cloud-map/latest/api/API_DnsRecord.html#cloudmap-Type-DnsRecord-Type)\.
+            + You can use this value to update an existing instance\. + To
+            register a new instance, you must specify a value that's unique
+            among instances that you register by using the same service\.  + If
+            you specify an existing `InstanceId` and `ServiceId`, AWS Cloud Map
+            updates the existing DNS records, if any\. If there's also an
+            existing health check, AWS Cloud Map deletes the old health check
+            and creates a new one\.  **Note**   The health check isn't deleted
+            immediately, so it will still appear for a while if you submit a
+            `ListHealthChecks` request, for example\. Do not include sensitive
+            information in `InstanceId` if the namespace is discoverable by
+            public DNS queries and any `Type` member of `DnsRecord` for the
+            service contains `SRV` because the `InstanceId` is discoverable by
+            public DNS queries\.
+        ServiceId:
+          type: string
+          description: >-
+            The ID of the service that you want to use for settings for the
+            instance\.
+      required:
+        - InstanceAttributes
+        - ServiceId
+    PrivateDnsNamespace:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description for the namespace\.
+        Name:
+          type: string
+          description: "The name that you want to assign to this namespace\\. When you create a private DNS namespace, AWS Cloud Map automatically creates an Amazon Route\_53 private hosted zone that has the same name as the namespace\\."
+        Properties:
+          type: >-
+            [properties](aws-properties-servicediscovery-privatednsnamespace-properties.md)
+          description: Properties for the private DNS namespace\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags for the namespace\. Each tag consists of a key and an
+            optional value, both of which you define\. Tag keys can have a
+            maximum character length of 128 characters, and tag values can have
+            a maximum length of 256 characters\.
+        Vpc:
+          type: string
+          description: >-
+            The ID of the Amazon VPC that you want to associate the namespace
+            with\.
+      required:
+        - Name
+        - Vpc
+    PublicDnsNamespace:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description for the namespace\.
+        Name:
+          type: string
+          description: >-
+            The name that you want to assign to this namespace\.   Do not
+            include sensitive information in the name\. The name is publicly
+            available using DNS queries\.
+        Properties:
+          type: >-
+            [properties](aws-properties-servicediscovery-publicdnsnamespace-properties.md)
+          description: Properties for the public DNS namespace\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags for the namespace\. Each tag consists of a key and an
+            optional value, both of which you define\. Tag keys can have a
+            maximum character length of 128 characters, and tag values can have
+            a maximum length of 256 characters\.
+      required:
+        - Name
+    Service:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the service\.
+        DnsConfig:
+          type: '[dnsconfig](aws-properties-servicediscovery-service-dnsconfig.md)'
+          description: "A complex type that contains information about the Route\_53 DNS records that you want AWS Cloud Map to create when you register an instance\\.   The record types of a service can only be changed by deleting the service and recreating it with a new `Dnsconfig`\\."
+        HealthCheckConfig:
+          type: >-
+            [healthcheckconfig](aws-properties-servicediscovery-service-healthcheckconfig.md)
+          description: "*Public DNS and HTTP namespaces only\\.* A complex type that contains settings for an optional health check\\. If you specify settings for a health check, AWS Cloud Map associates the health check with the records that you specify in `DnsConfig`\\.   For information about the charges for health checks, see [Amazon Route\_53 Pricing](http://aws.amazon.com/route53/pricing/)\\."
+        HealthCheckCustomConfig:
+          type: >-
+            [healthcheckcustomconfig](aws-properties-servicediscovery-service-healthcheckcustomconfig.md)
+          description: >-
+            A complex type that contains information about an optional custom
+            health check\.   If you specify a health check configuration, you
+            can specify either `HealthCheckCustomConfig` or `HealthCheckConfig`
+            but not both\.
+        Name:
+          type: string
+          description: The name of the service\.
+        NamespaceId:
+          type: string
+          description: >-
+            The ID of the namespace that was used to create the service\.   You
+            must specify a value for `NamespaceId` either for the service
+            properties or for
+            [DnsConfig](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-servicediscovery-service-dnsconfig.html)\.
+            Don't specify a value in both places\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags for the service\. Each tag consists of a key and an
+            optional value, both of which you define\. Tag keys can have a
+            maximum character length of 128 characters, and tag values can have
+            a maximum length of 256 characters\.
+        Type:
+          type: string
+          description: >-
+            If present, specifies that the service instances are only
+            discoverable using the `DiscoverInstances` API operation\. No DNS
+            records is registered for the service instances\. The only valid
+            value is `HTTP`\.
+paths: {}

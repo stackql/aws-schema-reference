@@ -1,0 +1,483 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Greengrass
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ConnectorDefinition:
+      type: object
+      properties:
+        InitialVersion:
+          type: >-
+            [connectordefinitionversion](aws-properties-greengrass-connectordefinition-connectordefinitionversion.md)
+          description: >-
+            The connector definition version to include when the connector
+            definition is created\. A connector definition version contains a
+            list of
+            [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-greengrass-connectordefinition-connector.html](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-greengrass-connectordefinition-connector.html)
+            property types\.   To associate a connector definition version after
+            the connector definition is created, create an
+            [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-connectordefinitionversion.html](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-connectordefinitionversion.html)
+            resource and specify the ID of this connector definition\.
+        Name:
+          type: string
+          description: The name of the connector definition\.
+        Tags:
+          description: >-
+            Application\-specific metadata to attach to the connector
+            definition\. You can use tags in IAM policies to control access to
+            AWS IoT Greengrass resources\. You can also use tags to categorize
+            your resources\. For more information, see [Tagging Your AWS IoT
+            Greengrass
+            Resources](https://docs.aws.amazon.com/greengrass/latest/developerguide/tagging.html)
+            in the *AWS IoT Greengrass Version 1 Developer Guide*\.   This
+            `Json` property type is processed as a map of key\-value pairs\. It
+            uses the following format, which is different from most `Tags`
+            implementations in AWS CloudFormation templates\.
+        undefined:
+          type: object
+          description: >-
+            ``` "Tags": {     "KeyName0": "value",     "KeyName1": "value",    
+            "KeyName2": "value" } ```
+      required:
+        - Name
+    ConnectorDefinitionVersion:
+      type: object
+      properties:
+        ConnectorDefinitionId:
+          type: string
+          description: >-
+            The ID of the connector definition associated with this version\.
+            This value is a GUID\.
+        Connectors:
+          type: >-
+            list of
+            [connector](aws-properties-greengrass-connectordefinitionversion-connector.md)
+          description: >-
+            The connectors in this version\. Only one instance of a given
+            connector can be added to the connector definition version at a
+            time\.
+      required:
+        - ConnectorDefinitionId
+        - Connectors
+    CoreDefinition:
+      type: object
+      properties:
+        InitialVersion:
+          type: >-
+            [coredefinitionversion](aws-properties-greengrass-coredefinition-coredefinitionversion.md)
+          description: >-
+            The core definition version to include when the core definition is
+            created\. Currently, a core definition version can contain only one
+            [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-greengrass-coredefinition-core.html](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-greengrass-coredefinition-core.html)\.  
+            To associate a core definition version after the core definition is
+            created, create an
+            [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-coredefinitionversion.html](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-coredefinitionversion.html)
+            resource and specify the ID of this core definition\.
+        Name:
+          type: string
+          description: The name of the core definition\.
+        Tags:
+          description: >-
+            Application\-specific metadata to attach to the core definition\.
+            You can use tags in IAM policies to control access to AWS IoT
+            Greengrass resources\. You can also use tags to categorize your
+            resources\. For more information, see [Tagging Your AWS IoT
+            Greengrass
+            Resources](https://docs.aws.amazon.com/greengrass/latest/developerguide/tagging.html)
+            in the *AWS IoT Greengrass Version 1 Developer Guide*\.   This
+            `Json` property type is processed as a map of key\-value pairs\. It
+            uses the following format, which is different from most `Tags`
+            implementations in AWS CloudFormation templates\.
+        undefined:
+          type: object
+          description: >-
+            ``` "Tags": {     "KeyName0": "value",     "KeyName1": "value",    
+            "KeyName2": "value" } ```
+      required:
+        - Name
+    CoreDefinitionVersion:
+      type: object
+      properties:
+        CoreDefinitionId:
+          type: string
+          description: >-
+            The ID of the core definition associated with this version\. This
+            value is a GUID\.
+        Cores:
+          type: >-
+            list of
+            [core](aws-properties-greengrass-coredefinitionversion-core.md)
+          description: >-
+            The Greengrass core in this version\. Currently, the `Cores`
+            property for a core definition version can contain only one core\.
+      required:
+        - CoreDefinitionId
+        - Cores
+    DeviceDefinition:
+      type: object
+      properties:
+        InitialVersion:
+          type: >-
+            [devicedefinitionversion](aws-properties-greengrass-devicedefinition-devicedefinitionversion.md)
+          description: >-
+            The device definition version to include when the device definition
+            is created\. A device definition version contains a list of
+            [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-greengrass-devicedefinition-device.html](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-greengrass-devicedefinition-device.html)
+            property types\.   To associate a device definition version after
+            the device definition is created, create an
+            [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-devicedefinitionversion.html](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-devicedefinitionversion.html)
+            resource and specify the ID of this device definition\.
+        Name:
+          type: string
+          description: The name of the device definition\.
+        Tags:
+          description: >-
+            Application\-specific metadata to attach to the device definition\.
+            You can use tags in IAM policies to control access to AWS IoT
+            Greengrass resources\. You can also use tags to categorize your
+            resources\. For more information, see [Tagging Your AWS IoT
+            Greengrass
+            Resources](https://docs.aws.amazon.com/greengrass/latest/developerguide/tagging.html)
+            in the *AWS IoT Greengrass Version 1 Developer Guide*\.   This
+            `Json` property type is processed as a map of key\-value pairs\. It
+            uses the following format, which is different from most `Tags`
+            implementations in AWS CloudFormation templates\.
+        undefined:
+          type: object
+          description: >-
+            ``` "Tags": {     "KeyName0": "value",     "KeyName1": "value",    
+            "KeyName2": "value" } ```
+      required:
+        - Name
+    DeviceDefinitionVersion:
+      type: object
+      properties:
+        DeviceDefinitionId:
+          type: string
+          description: >-
+            The ID of the device definition associated with this version\. This
+            value is a GUID\.
+        Devices:
+          type: >-
+            list of
+            [device](aws-properties-greengrass-devicedefinitionversion-device.md)
+          description: The devices in this version\.
+      required:
+        - DeviceDefinitionId
+        - Devices
+    FunctionDefinition:
+      type: object
+      properties:
+        InitialVersion:
+          type: >-
+            [functiondefinitionversion](aws-properties-greengrass-functiondefinition-functiondefinitionversion.md)
+          description: >-
+            The function definition version to include when the function
+            definition is created\. A function definition version contains a
+            list of
+            [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-greengrass-functiondefinition-function.html](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-greengrass-functiondefinition-function.html)
+            property types\.   To associate a function definition version after
+            the function definition is created, create an
+            [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-functiondefinitionversion.html](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-functiondefinitionversion.html)
+            resource and specify the ID of this function definition\.
+        Name:
+          type: string
+          description: The name of the function definition\.
+        Tags:
+          description: >-
+            Application\-specific metadata to attach to the function
+            definition\. You can use tags in IAM policies to control access to
+            AWS IoT Greengrass resources\. You can also use tags to categorize
+            your resources\. For more information, see [Tagging Your AWS IoT
+            Greengrass
+            Resources](https://docs.aws.amazon.com/greengrass/latest/developerguide/tagging.html)
+            in the *AWS IoT Greengrass Version 1 Developer Guide*\.   This
+            `Json` property type is processed as a map of key\-value pairs\. It
+            uses the following format, which is different from most `Tags`
+            implementations in AWS CloudFormation templates\.
+        undefined:
+          type: object
+          description: >-
+            ``` "Tags": {     "KeyName0": "value",     "KeyName1": "value",    
+            "KeyName2": "value" } ```
+      required:
+        - Name
+    FunctionDefinitionVersion:
+      type: object
+      properties:
+        DefaultConfig:
+          type: >-
+            [defaultconfig](aws-properties-greengrass-functiondefinitionversion-defaultconfig.md)
+          description: >-
+            The default configuration that applies to all Lambda functions in
+            the group\. Individual Lambda functions can override these
+            settings\.
+        FunctionDefinitionId:
+          type: string
+          description: >-
+            The ID of the function definition associated with this version\.
+            This value is a GUID\.
+        Functions:
+          type: >-
+            list of
+            [function](aws-properties-greengrass-functiondefinitionversion-function.md)
+          description: The functions in this version\.
+      required:
+        - FunctionDefinitionId
+        - Functions
+    Group:
+      type: object
+      properties:
+        InitialVersion:
+          type: '[groupversion](aws-properties-greengrass-group-groupversion.md)'
+          description: >-
+            The group version to include when the group is created\. A group
+            version references the Amazon Resource Name \(ARN\) of a core
+            definition version, device definition version, subscription
+            definition version, and other version types\. The group version must
+            reference a core definition version that contains one core\. Other
+            version types are optionally included, depending on your business
+            need\.   To associate a group version after the group is created,
+            create an
+            [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-groupversion.html](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-groupversion.html)
+            resource and specify the ID of this group\.
+        Name:
+          type: string
+          description: The name of the group\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the IAM role attached to the
+            group\. This role contains the permissions that Lambda functions and
+            connectors use to interact with other AWS services\.
+        Tags:
+          description: >-
+            Application\-specific metadata to attach to the group\. You can use
+            tags in IAM policies to control access to AWS IoT Greengrass
+            resources\. You can also use tags to categorize your resources\. For
+            more information, see [Tagging Your AWS IoT Greengrass
+            Resources](https://docs.aws.amazon.com/greengrass/latest/developerguide/tagging.html)
+            in the *AWS IoT Greengrass Version 1 Developer Guide*\.   This
+            `Json` property type is processed as a map of key\-value pairs\. It
+            uses the following format, which is different from most `Tags`
+            implementations in AWS CloudFormation templates\.
+        undefined:
+          type: object
+          description: >-
+            ``` "Tags": {     "KeyName0": "value",     "KeyName1": "value",    
+            "KeyName2": "value" } ```
+      required:
+        - Name
+    GroupVersion:
+      type: object
+      properties:
+        ConnectorDefinitionVersionArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the connector definition version
+            that contains the connectors you want to deploy with the group
+            version\.
+        CoreDefinitionVersionArn:
+          type: string
+          description: >-
+            The ARN of the core definition version that contains the core you
+            want to deploy with the group version\. Currently, the core
+            definition version can contain only one core\.
+        DeviceDefinitionVersionArn:
+          type: string
+          description: >-
+            The ARN of the device definition version that contains the devices
+            you want to deploy with the group version\.
+        FunctionDefinitionVersionArn:
+          type: string
+          description: >-
+            The ARN of the function definition version that contains the
+            functions you want to deploy with the group version\.
+        GroupId:
+          type: string
+          description: >-
+            The ID of the group associated with this version\. This value is a
+            GUID\.
+        LoggerDefinitionVersionArn:
+          type: string
+          description: >-
+            The ARN of the logger definition version that contains the loggers
+            you want to deploy with the group version\.
+        ResourceDefinitionVersionArn:
+          type: string
+          description: >-
+            The ARN of the resource definition version that contains the
+            resources you want to deploy with the group version\.
+        SubscriptionDefinitionVersionArn:
+          type: string
+          description: >-
+            The ARN of the subscription definition version that contains the
+            subscriptions you want to deploy with the group version\.
+      required:
+        - GroupId
+    LoggerDefinition:
+      type: object
+      properties:
+        InitialVersion:
+          type: >-
+            [loggerdefinitionversion](aws-properties-greengrass-loggerdefinition-loggerdefinitionversion.md)
+          description: >-
+            The logger definition version to include when the logger definition
+            is created\. A logger definition version contains a list of
+            [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-greengrass-loggerdefinition-logger.html](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-greengrass-loggerdefinition-logger.html)
+            property types\.   To associate a logger definition version after
+            the logger definition is created, create an
+            [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-loggerdefinitionversion.html](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-loggerdefinitionversion.html)
+            resource and specify the ID of this logger definition\.
+        Name:
+          type: string
+          description: The name of the logger definition\.
+        Tags:
+          description: >-
+            Application\-specific metadata to attach to the logger definition\.
+            You can use tags in IAM policies to control access to AWS IoT
+            Greengrass resources\. You can also use tags to categorize your
+            resources\. For more information, see [Tagging Your AWS IoT
+            Greengrass
+            Resources](https://docs.aws.amazon.com/greengrass/latest/developerguide/tagging.html)
+            in the *AWS IoT Greengrass Version 1 Developer Guide*\.   This
+            `Json` property type is processed as a map of key\-value pairs\. It
+            uses the following format, which is different from most `Tags`
+            implementations in AWS CloudFormation templates\.
+        undefined:
+          type: object
+          description: >-
+            ``` "Tags": {     "KeyName0": "value",     "KeyName1": "value",    
+            "KeyName2": "value" } ```
+      required:
+        - Name
+    LoggerDefinitionVersion:
+      type: object
+      properties:
+        LoggerDefinitionId:
+          type: string
+          description: >-
+            The ID of the logger definition associated with this version\. This
+            value is a GUID\.
+        Loggers:
+          type: >-
+            list of
+            [logger](aws-properties-greengrass-loggerdefinitionversion-logger.md)
+          description: The loggers in this version\.
+      required:
+        - LoggerDefinitionId
+        - Loggers
+    ResourceDefinition:
+      type: object
+      properties:
+        InitialVersion:
+          type: >-
+            [resourcedefinitionversion](aws-properties-greengrass-resourcedefinition-resourcedefinitionversion.md)
+          description: >-
+            The resource definition version to include when the resource
+            definition is created\. A resource definition version contains a
+            list of
+            [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-greengrass-resourcedefinition-resourceinstance.html](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-greengrass-resourcedefinition-resourceinstance.html)
+            property types\.   To associate a resource definition version after
+            the resource definition is created, create an
+            [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-resourcedefinitionversion.html](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-resourcedefinitionversion.html)
+            resource and specify the ID of this resource definition\.
+        Name:
+          type: string
+          description: The name of the resource definition\.
+        Tags:
+          description: >-
+            Application\-specific metadata to attach to the resource
+            definition\. You can use tags in IAM policies to control access to
+            AWS IoT Greengrass resources\. You can also use tags to categorize
+            your resources\. For more information, see [Tagging Your AWS IoT
+            Greengrass
+            Resources](https://docs.aws.amazon.com/greengrass/latest/developerguide/tagging.html)
+            in the *AWS IoT Greengrass Version 1 Developer Guide*\.   This
+            `Json` property type is processed as a map of key\-value pairs\. It
+            uses the following format, which is different from most `Tags`
+            implementations in AWS CloudFormation templates\.
+        undefined:
+          type: object
+          description: >-
+            ``` "Tags": {     "KeyName0": "value",     "KeyName1": "value",    
+            "KeyName2": "value" } ```
+      required:
+        - Name
+    ResourceDefinitionVersion:
+      type: object
+      properties:
+        ResourceDefinitionId:
+          type: string
+          description: >-
+            The ID of the resource definition associated with this version\.
+            This value is a GUID\.
+        Resources:
+          type: >-
+            list of
+            [resourceinstance](aws-properties-greengrass-resourcedefinitionversion-resourceinstance.md)
+          description: The resources in this version\.
+      required:
+        - ResourceDefinitionId
+        - Resources
+    SubscriptionDefinition:
+      type: object
+      properties:
+        InitialVersion:
+          type: >-
+            [subscriptiondefinitionversion](aws-properties-greengrass-subscriptiondefinition-subscriptiondefinitionversion.md)
+          description: >-
+            The subscription definition version to include when the subscription
+            definition is created\. A subscription definition version contains a
+            list of
+            [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-greengrass-subscriptiondefinition-subscription.html](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-greengrass-subscriptiondefinition-subscription.html)
+            property types\.   To associate a subscription definition version
+            after the subscription definition is created, create an
+            [https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-subscriptiondefinitionversion.html](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-greengrass-subscriptiondefinitionversion.html)
+            resource and specify the ID of this subscription definition\.
+        Name:
+          type: string
+          description: The name of the subscription definition\.
+        Tags:
+          description: >-
+            Application\-specific metadata to attach to the subscription
+            definition\. You can use tags in IAM policies to control access to
+            AWS IoT Greengrass resources\. You can also use tags to categorize
+            your resources\. For more information, see [Tagging Your AWS IoT
+            Greengrass
+            Resources](https://docs.aws.amazon.com/greengrass/latest/developerguide/tagging.html)
+            in the *AWS IoT Greengrass Version 1 Developer Guide*\.   This
+            `Json` property type is processed as a map of key\-value pairs\. It
+            uses the following format, which is different from most `Tags`
+            implementations in AWS CloudFormation templates\.
+        undefined:
+          type: object
+          description: >-
+            ``` "Tags": {     "KeyName0": "value",     "KeyName1": "value",    
+            "KeyName2": "value" } ```
+      required:
+        - Name
+    SubscriptionDefinitionVersion:
+      type: object
+      properties:
+        SubscriptionDefinitionId:
+          type: string
+          description: >-
+            The ID of the subscription definition associated with this version\.
+            This value is a GUID\.
+        Subscriptions:
+          type: >-
+            list of
+            [subscription](aws-properties-greengrass-subscriptiondefinitionversion-subscription.md)
+          description: The subscriptions in this version\.
+      required:
+        - SubscriptionDefinitionId
+        - Subscriptions
+paths: {}

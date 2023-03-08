@@ -1,0 +1,37 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: DLM
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    LifecyclePolicy:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: >-
+            A description of the lifecycle policy\. The characters
+            ^\[0\-9A\-Za\-z \_\-\]\+$ are supported\.
+        ExecutionRoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the IAM role used to run the
+            operations specified by the lifecycle policy\.
+        PolicyDetails:
+          type: '[policydetails](aws-properties-dlm-lifecyclepolicy-policydetails.md)'
+          description: The configuration details of the lifecycle policy\.
+        State:
+          type: string
+          description: The activation state of the lifecycle policy\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags to apply to the lifecycle policy during creation\.
+paths: {}

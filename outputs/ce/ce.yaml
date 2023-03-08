@@ -1,0 +1,134 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: CE
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    AnomalyMonitor:
+      type: object
+      properties:
+        MonitorDimension:
+          type: string
+          description: The dimensions to evaluate\.
+        MonitorName:
+          type: string
+          description: The name of the monitor\.
+        MonitorSpecification:
+          type: string
+          description: >-
+            The array of `MonitorSpecification` in JSON array format\. For
+            instance, you can use `MonitorSpecification` to specify a tag, Cost
+            Category, or linked account for your custom anomaly monitor\. For
+            further information, see the
+            [Examples](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ce-anomalymonitor.html#aws-resource-ce-anomalymonitor--examples)
+            section of this page\.
+        MonitorType:
+          type: string
+          description: The possible type values\.
+        ResourceTags:
+          type: >-
+            list of
+            [resourcetag](aws-properties-ce-anomalymonitor-resourcetag.md)
+          description: Property description not available\.
+      required:
+        - MonitorName
+        - MonitorType
+    AnomalySubscription:
+      type: object
+      properties:
+        Frequency:
+          type: string
+          description: >-
+            The frequency that anomaly notifications are sent\. Notifications
+            are sent either over email \(for DAILY and WEEKLY frequencies\) or
+            SNS \(for IMMEDIATE frequency\)\. For more information, see
+            [Creating an Amazon SNS topic for anomaly
+            notifications](https://docs.aws.amazon.com/cost-management/latest/userguide/ad-SNS.html)\.
+        MonitorArnList:
+          type: array
+          description: A list of cost anomaly monitors\.
+        ResourceTags:
+          type: >-
+            list of
+            [resourcetag](aws-properties-ce-anomalysubscription-resourcetag.md)
+          description: Property description not available\.
+        Subscribers:
+          type: >-
+            list of
+            [subscriber](aws-properties-ce-anomalysubscription-subscriber.md)
+          description: A list of subscribers to notify\.
+        SubscriptionName:
+          type: string
+          description: The name for the subscription\.
+        Threshold:
+          type: double
+          description: >-
+            \(deprecated\)   An absolute dollar value that must be exceeded by
+            the anomaly's total impact \(see
+            [Impact](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Impact.html)
+            for more details\) for an anomaly notification to be generated\.  
+            This field has been deprecated\. To specify a threshold, use
+            ThresholdExpression\. Continued use of Threshold will be treated as
+            shorthand syntax for a ThresholdExpression\.   One of Threshold or
+            ThresholdExpression is required for `AWS::CE::AnomalySubscription`\.
+            You cannot specify both\.
+        ThresholdExpression:
+          type: string
+          description: >-
+            An
+            [Expression](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html)
+            object in JSON string format used to specify the anomalies that you
+            want to generate alerts for\. This supports dimensions and nested
+            expressions\. The supported dimensions are
+            `ANOMALY_TOTAL_IMPACT_ABSOLUTE` and
+            `ANOMALY_TOTAL_IMPACT_PERCENTAGE`, corresponding to an anomaly’s
+            TotalImpact and TotalImpactPercentage, respectively \(see
+            [Impact](https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Impact.html)
+            for more details\)\. The supported nested expression types are `AND`
+            and `OR`\. The match option `GREATER_THAN_OR_EQUAL` is required\.
+            Values must be numbers between 0 and 10,000,000,000 in string
+            format\.   One of Threshold or ThresholdExpression is required for
+            `AWS::CE::AnomalySubscription`\. You cannot specify both\.   For
+            further information, see the
+            [Examples](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ce-anomalysubscription.html#aws-resource-ce-anomalysubscription--examples)
+            section of this page\.
+      required:
+        - Frequency
+        - MonitorArnList
+        - Subscribers
+        - SubscriptionName
+    CostCategory:
+      type: object
+      properties:
+        DefaultValue:
+          type: string
+          description: The default value for the cost category\.
+        Name:
+          type: string
+          description: The unique name of the Cost Category\.
+        Rules:
+          type: string
+          description: >-
+            The array of CostCategoryRule in JSON array format\.   Rules are
+            processed in order\. If there are multiple rules that match the line
+            item, then the first rule to match is used to determine that Cost
+            Category value\.
+        RuleVersion:
+          type: string
+          description: The rule schema version in this particular Cost Category\.
+        SplitChargeRules:
+          type: string
+          description: >-
+            The split charge rules that are used to allocate your charges
+            between your Cost Category values\.
+      required:
+        - Name
+        - Rules
+        - RuleVersion
+paths: {}

@@ -1,0 +1,138 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Elasticsearch
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Domain:
+      type: object
+      properties:
+        AccessPolicies:
+          type: object
+          description: >-
+            An AWS Identity and Access Management \(IAM\) policy document that
+            specifies who can access the OpenSearch Service domain and their
+            permissions\. For more information, see [Configuring access
+            policies](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/ac.html#ac-creating)
+            in the *Amazon OpenSearch Service Developer Guid*e\.
+        AdvancedOptions:
+          type: map of string
+          description: >-
+            Additional options to specify for the OpenSearch Service domain\.
+            For more information, see [Advanced cluster
+            parameters](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html#createdomain-configure-advanced-options)
+            in the *Amazon OpenSearch Service Developer Guide*\.
+        AdvancedSecurityOptions:
+          type: >-
+            [advancedsecurityoptionsinput](aws-properties-elasticsearch-domain-advancedsecurityoptionsinput.md)
+          description: Specifies options for fine\-grained access control\.
+        CognitoOptions:
+          type: >-
+            [cognitooptions](aws-properties-elasticsearch-domain-cognitooptions.md)
+          description: >-
+            Configures OpenSearch Service to use Amazon Cognito authentication
+            for OpenSearch Dashboards\.
+        DomainEndpointOptions:
+          type: >-
+            [domainendpointoptions](aws-properties-elasticsearch-domain-domainendpointoptions.md)
+          description: >-
+            Specifies additional options for the domain endpoint, such as
+            whether to require HTTPS for all traffic or whether to use a custom
+            endpoint rather than the default endpoint\.
+        DomainName:
+          type: string
+          description: >-
+            A name for the OpenSearch Service domain\. For valid values, see the
+            [DomainName](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/configuration-api.html#configuration-api-datatypes-domainname)
+            data type in the *Amazon OpenSearch Service Developer Guide*\. If
+            you don't specify a name, AWS CloudFormation generates a unique
+            physical ID and uses that ID for the domain name\. For more
+            information, see [Name
+            Type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html)\.  
+            If you specify a name, you cannot perform updates that require
+            replacement of this resource\. You can perform updates that require
+            no or some interruption\. If you must replace the resource, specify
+            a new name\.
+        EBSOptions:
+          type: '[ebsoptions](aws-properties-elasticsearch-domain-ebsoptions.md)'
+          description: >-
+            The configurations of Amazon Elastic Block Store \(Amazon EBS\)
+            volumes that are attached to data nodes in the OpenSearch Service
+            domain\. For more information, see [EBS volume size
+            limits](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/limits.html#ebsresource)
+            in the *Amazon OpenSearch Service Developer Guide*\.
+        ElasticsearchClusterConfig:
+          type: >-
+            [elasticsearchclusterconfig](aws-properties-elasticsearch-domain-elasticsearchclusterconfig.md)
+          description: >-
+            ElasticsearchClusterConfig is a property of the
+            AWS::Elasticsearch::Domain resource that configures the cluster of
+            an Amazon OpenSearch Service domain\.
+        ElasticsearchVersion:
+          type: string
+          description: >-
+            The version of Elasticsearch to use, such as 2\.3\. If not
+            specified, 1\.5 is used as the default\. For information about the
+            versions that OpenSearch Service supports, see [Supported versions
+            of OpenSearch and
+            Elasticsearch](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/what-is.html#choosing-version)
+            in the *Amazon OpenSearch Service Developer Guide*\.   If you set
+            the
+            [EnableVersionUpgrade](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-updatepolicy.html#cfn-attributes-updatepolicy-upgradeopensearchdomain)
+            update policy to `true`, you can update `ElasticsearchVersion`
+            without interruption\. When `EnableVersionUpgrade` is set to
+            `false`, or is not specified, updating `ElasticsearchVersion`
+            results in
+            [replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)\.
+        EncryptionAtRestOptions:
+          type: >-
+            [encryptionatrestoptions](aws-properties-elasticsearch-domain-encryptionatrestoptions.md)
+          description: >-
+            Whether the domain should encrypt data at rest, and if so, the AWS
+            Key Management Service key to use\. See [Encryption of data at rest
+            for Amazon OpenSearch
+            Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/encryption-at-rest.html)\.
+        LogPublishingOptions:
+          type: >-
+            map of
+            [logpublishingoption](aws-properties-elasticsearch-domain-logpublishingoption.md)
+          description: >-
+            An object with one or more of the following keys:
+            `SEARCH_SLOW_LOGS`, `ES_APPLICATION_LOGS`, `INDEX_SLOW_LOGS`,
+            `AUDIT_LOGS`, depending on the types of logs you want to publish\.
+            Each key needs a valid `LogPublishingOption` value\.
+        NodeToNodeEncryptionOptions:
+          type: >-
+            [nodetonodeencryptionoptions](aws-properties-elasticsearch-domain-nodetonodeencryptionoptions.md)
+          description: >-
+            Specifies whether node\-to\-node encryption is enabled\. See
+            [Node\-to\-node encryption for Amazon OpenSearch
+            Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/ntn.html)\.
+        SnapshotOptions:
+          type: >-
+            [snapshotoptions](aws-properties-elasticsearch-domain-snapshotoptions.md)
+          description: >-
+            **DEPRECATED**\. The automated snapshot configuration for the
+            OpenSearch Service domain indices\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An arbitrary set of tags \(key–value pairs\) to associate with the
+            OpenSearch Service domain\.
+        VPCOptions:
+          type: '[vpcoptions](aws-properties-elasticsearch-domain-vpcoptions.md)'
+          description: >-
+            The virtual private cloud \(VPC\) configuration for the OpenSearch
+            Service domain\. For more information, see [Launching your Amazon
+            OpenSearch Service domains within a
+            VPC](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vpc.html)
+            in the *Amazon OpenSearch Service Developer Guide*\.
+paths: {}

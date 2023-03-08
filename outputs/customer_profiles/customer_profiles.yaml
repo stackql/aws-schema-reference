@@ -1,0 +1,136 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: CustomerProfiles
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Domain:
+      type: object
+      properties:
+        DeadLetterQueueUrl:
+          type: string
+          description: >-
+            The URL of the SQS dead letter queue, which is used for reporting
+            errors associated with ingesting data from third party
+            applications\. You must set up a policy on the DeadLetterQueue for
+            the SendMessage operation to enable Amazon Connect Customer Profiles
+            to send messages to the DeadLetterQueue\.
+        DefaultEncryptionKey:
+          type: string
+          description: >-
+            The default encryption key, which is an AWS managed key, is used
+            when no specific type of encryption key is specified\. It is used to
+            encrypt all data before it is placed in permanent or semi\-permanent
+            storage\.
+        DefaultExpirationDays:
+          type: integer
+          description: >-
+            The default number of days until the data within the domain
+            expires\.
+        DomainName:
+          type: string
+          description: The unique name of the domain\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags used to organize, track, or control access for this
+            resource\.
+      required:
+        - DomainName
+    Integration:
+      type: object
+      properties:
+        DomainName:
+          type: string
+          description: The unique name of the domain\.
+        FlowDefinition:
+          type: >-
+            [flowdefinition](aws-properties-customerprofiles-integration-flowdefinition.md)
+          description: >-
+            The configuration that controls how Customer Profiles retrieves data
+            from the source\.
+        ObjectTypeName:
+          type: string
+          description: The name of the profile object type mapping to use\.
+        ObjectTypeNames:
+          type: >-
+            list of
+            [objecttypemapping](aws-properties-customerprofiles-integration-objecttypemapping.md)
+          description: The object type mapping\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags used to organize, track, or control access for this
+            resource\.
+        Uri:
+          type: string
+          description: The URI of the S3 bucket or any other type of data source\.
+      required:
+        - DomainName
+    ObjectType:
+      type: object
+      properties:
+        AllowProfileCreation:
+          type: boolean
+          description: >-
+            Indicates whether a profile should be created when data is received
+            if one doesn’t exist for an object of this type\. The default is
+            `FALSE`\. If the AllowProfileCreation flag is set to `FALSE`, then
+            the service tries to fetch a standard profile and associate this
+            object with the profile\. If it is set to `TRUE`, and if no match is
+            found, then the service creates a new standard profile\.
+        Description:
+          type: string
+          description: The description of the profile object type mapping\.
+        DomainName:
+          type: string
+          description: The unique name of the domain\.
+        EncryptionKey:
+          type: string
+          description: >-
+            The customer\-provided key to encrypt the profile object that will
+            be created in this profile object type mapping\. If not specified
+            the system will use the encryption key of the domain\.
+        ExpirationDays:
+          type: integer
+          description: The number of days until the data of this type expires\.
+        Fields:
+          type: >-
+            list of
+            [fieldmap](aws-properties-customerprofiles-objecttype-fieldmap.md)
+          description: A list of field definitions for the object type mapping\.
+        Keys:
+          type: >-
+            list of
+            [keymap](aws-properties-customerprofiles-objecttype-keymap.md)
+          description: >-
+            A list of keys that can be used to map data to the profile or search
+            for the profile\.
+        ObjectTypeName:
+          type: string
+          description: The name of the profile object type\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags used to organize, track, or control access for this
+            resource\.
+        TemplateId:
+          type: string
+          description: >-
+            A unique identifier for the template mapping\. This can be used
+            instead of specifying the Keys and Fields properties directly\.
+      required:
+        - DomainName
+paths: {}

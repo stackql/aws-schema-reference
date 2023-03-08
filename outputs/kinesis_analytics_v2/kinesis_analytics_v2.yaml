@@ -1,0 +1,113 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: KinesisAnalyticsV2
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Application:
+      type: object
+      properties:
+        ApplicationConfiguration:
+          type: >-
+            [applicationconfiguration](aws-properties-kinesisanalyticsv2-application-applicationconfiguration.md)
+          description: Use this parameter to configure the application\.
+        ApplicationDescription:
+          type: string
+          description: The description of the application\.
+        ApplicationMaintenanceConfiguration:
+          type: >-
+            [applicationmaintenanceconfiguration](aws-properties-kinesisanalyticsv2-application-applicationmaintenanceconfiguration.md)
+          description: Property description not available\.
+        ApplicationMode:
+          type: string
+          description: >-
+            To create a Kinesis Data Analytics Studio notebook, you must set the
+            mode to `INTERACTIVE`\. However, for a Kinesis Data Analytics for
+            Apache Flink application, the mode is optional\.
+        ApplicationName:
+          type: string
+          description: The name of the application\.
+        RunConfiguration:
+          type: >-
+            [runconfiguration](aws-properties-kinesisanalyticsv2-application-runconfiguration.md)
+          description: Property description not available\.
+        RuntimeEnvironment:
+          type: string
+          description: The runtime environment for the application\.
+        ServiceExecutionRole:
+          type: string
+          description: >-
+            Specifies the IAM role that the application uses to access external
+            resources\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of one or more tags to assign to the application\. A tag is a
+            key\-value pair that identifies an application\. Note that the
+            maximum number of application tags includes system tags\. The
+            maximum number of user\-defined application tags is 50\.
+      required:
+        - RuntimeEnvironment
+        - ServiceExecutionRole
+    ApplicationCloudWatchLoggingOption:
+      type: object
+      properties:
+        ApplicationName:
+          type: string
+          description: The name of the application\.
+        CloudWatchLoggingOption:
+          type: >-
+            [cloudwatchloggingoption](aws-properties-kinesisanalyticsv2-applicationcloudwatchloggingoption-cloudwatchloggingoption.md)
+          description: >-
+            Provides a description of Amazon CloudWatch logging options,
+            including the log stream Amazon Resource Name \(ARN\)\.
+      required:
+        - ApplicationName
+        - CloudWatchLoggingOption
+    ApplicationOutput:
+      type: object
+      properties:
+        ApplicationName:
+          type: string
+          description: The name of the application\.
+        Output:
+          description: >-
+            Describes a SQL\-based Kinesis Data Analytics application's output
+            configuration, in which you identify an in\-application stream and a
+            destination where you want the in\-application stream data to be
+            written\. The destination can be a Kinesis data stream or a Kinesis
+            Data Firehose delivery stream\.
+        undefined:
+          type: >-
+            [output](aws-properties-kinesisanalyticsv2-applicationoutput-output.md)
+          description: ''
+      required:
+        - ApplicationName
+        - null
+    ApplicationReferenceDataSource:
+      type: object
+      properties:
+        ApplicationName:
+          type: string
+          description: The name of the application\.
+        ReferenceDataSource:
+          type: >-
+            [referencedatasource](aws-properties-kinesisanalyticsv2-applicationreferencedatasource-referencedatasource.md)
+          description: >-
+            For a SQL\-based Kinesis Data Analytics application, describes the
+            reference data source by providing the source information \(Amazon
+            S3 bucket name and object key name\), the resulting in\-application
+            table name that is created, and the necessary schema to map the data
+            elements in the Amazon S3 object to the in\-application table\.
+      required:
+        - ApplicationName
+        - ReferenceDataSource
+paths: {}

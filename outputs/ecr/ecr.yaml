@@ -1,0 +1,137 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: ECR
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    PublicRepository:
+      type: object
+      properties:
+        RepositoryCatalogData:
+          type: >-
+            [repositorycatalogdata](aws-properties-ecr-publicrepository-repositorycatalogdata.md)
+          description: >-
+            The details about the repository that are publicly visible in the
+            Amazon ECR Public Gallery\. For more information, see [Amazon ECR
+            Public repository catalog
+            data](https://docs.aws.amazon.com/AmazonECR/latest/public/public-repository-catalog-data.html)
+            in the *Amazon ECR Public User Guide*\.
+        RepositoryName:
+          type: string
+          description: >-
+            The name to use for the public repository\. The repository name may
+            be specified on its own \(such as `nginx-web-app`\) or it can be
+            prepended with a namespace to group the repository into a category
+            \(such as `project-a/nginx-web-app`\)\. If you don't specify a name,
+            AWS CloudFormation generates a unique physical ID and uses that ID
+            for the repository name\. For more information, see [Name
+            Type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html)\.  
+            If you specify a name, you cannot perform updates that require
+            replacement of this resource\. You can perform updates that require
+            no or some interruption\. If you must replace the resource, specify
+            a new name\.
+        RepositoryPolicyText:
+          type: object
+          description: >-
+            The JSON repository policy text to apply to the public repository\.
+            For more information, see [Amazon ECR Public repository
+            policies](https://docs.aws.amazon.com/AmazonECR/latest/public/public-repository-policies.html)
+            in the *Amazon ECR Public User Guide*\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: An array of key\-value pairs to apply to this resource\.
+    PullThroughCacheRule:
+      type: object
+      properties:
+        EcrRepositoryPrefix:
+          type: string
+          description: >-
+            The Amazon ECR repository prefix associated with the pull through
+            cache rule\.
+        UpstreamRegistryUrl:
+          type: string
+          description: >-
+            The upstream registry URL associated with the pull through cache
+            rule\.
+    RegistryPolicy:
+      type: object
+      properties:
+        PolicyText:
+          type: object
+          description: The JSON policy text for your registry\.
+      required:
+        - PolicyText
+    ReplicationConfiguration:
+      type: object
+      properties:
+        ReplicationConfiguration:
+          type: >-
+            [replicationconfiguration](aws-properties-ecr-replicationconfiguration-replicationconfiguration.md)
+          description: The replication configuration for a registry\.
+      required:
+        - ReplicationConfiguration
+    Repository:
+      type: object
+      properties:
+        EncryptionConfiguration:
+          type: >-
+            [encryptionconfiguration](aws-properties-ecr-repository-encryptionconfiguration.md)
+          description: >-
+            The encryption configuration for the repository\. This determines
+            how the contents of your repository are encrypted at rest\.
+        ImageScanningConfiguration:
+          type: >-
+            [imagescanningconfiguration](aws-properties-ecr-repository-imagescanningconfiguration.md)
+          description: >-
+            The image scanning configuration for the repository\. This
+            determines whether images are scanned for known vulnerabilities
+            after being pushed to the repository\.
+        ImageTagMutability:
+          type: string
+          description: >-
+            The tag mutability setting for the repository\. If this parameter is
+            omitted, the default setting of `MUTABLE` will be used which will
+            allow image tags to be overwritten\. If `IMMUTABLE` is specified,
+            all image tags within the repository will be immutable which will
+            prevent them from being overwritten\.
+        LifecyclePolicy:
+          type: '[lifecyclepolicy](aws-properties-ecr-repository-lifecyclepolicy.md)'
+          description: >-
+            Creates or updates a lifecycle policy\. For information about
+            lifecycle policy syntax, see [Lifecycle policy
+            template](https://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html)\.
+        RepositoryName:
+          type: string
+          description: >-
+            The name to use for the repository\. The repository name may be
+            specified on its own \(such as `nginx-web-app`\) or it can be
+            prepended with a namespace to group the repository into a category
+            \(such as `project-a/nginx-web-app`\)\. If you don't specify a name,
+            AWS CloudFormation generates a unique physical ID and uses that ID
+            for the repository name\. For more information, see [Name
+            type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html)\.  
+            If you specify a name, you cannot perform updates that require
+            replacement of this resource\. You can perform updates that require
+            no or some interruption\. If you must replace the resource, specify
+            a new name\.
+        RepositoryPolicyText:
+          type: object
+          description: >-
+            The JSON repository policy text to apply to the repository\. For
+            more information, see [Amazon ECR repository
+            policies](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policy-examples.html)
+            in the *Amazon Elastic Container Registry User Guide*\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: An array of key\-value pairs to apply to this resource\.
+paths: {}

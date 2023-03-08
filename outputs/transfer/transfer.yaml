@@ -1,0 +1,491 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Transfer
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Agreement:
+      type: object
+      properties:
+        AccessRole:
+          type: string
+          description: >-
+            With AS2, you can send files by calling `StartFileTransfer` and
+            specifying the file paths in the request parameter,
+            `SendFilePaths`\. We use the file’s parent directory \(for example,
+            for `--send-file-paths /bucket/dir/file.txt`, parent directory is
+            `/bucket/dir/`\) to temporarily store a processed AS2 message file,
+            store the MDN when we receive them from the partner, and write a
+            final JSON file containing relevant metadata of the transmission\.
+            So, the `AccessRole` needs to provide read and write access to the
+            parent directory of the file location used in the
+            `StartFileTransfer` request\. Additionally, you need to provide read
+            and write access to the parent directory of the files that you
+            intend to send with `StartFileTransfer`\.
+        BaseDirectory:
+          type: string
+          description: >-
+            The landing directory \(folder\) for files that are transferred by
+            using the AS2 protocol\.
+        Description:
+          type: string
+          description: >-
+            The name or short description that's used to identify the
+            agreement\.
+        LocalProfileId:
+          type: string
+          description: A unique identifier for the AS2 local profile\.
+        PartnerProfileId:
+          type: string
+          description: A unique identifier for the partner profile used in the agreement\.
+        ServerId:
+          type: string
+          description: >-
+            A system\-assigned unique identifier for a server instance\. This
+            identifier indicates the specific server that the agreement uses\.
+        Status:
+          type: string
+          description: The current status of the agreement, either `ACTIVE` or `INACTIVE`\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Key\-value pairs that can be used to group and search for
+            agreements\.
+      required:
+        - AccessRole
+        - BaseDirectory
+        - LocalProfileId
+        - PartnerProfileId
+        - ServerId
+    Certificate:
+      type: object
+      properties:
+        ActiveDate:
+          type: string
+          description: >-
+            An optional date that specifies when the certificate becomes
+            active\.
+        Certificate:
+          type: string
+          description: The file name for the certificate\.
+        CertificateChain:
+          type: string
+          description: >-
+            The list of certificates that make up the chain for the
+            certificate\.
+        Description:
+          type: string
+          description: The name or description that's used to identity the certificate\.
+        InactiveDate:
+          type: string
+          description: >-
+            An optional date that specifies when the certificate becomes
+            inactive\.
+        PrivateKey:
+          type: string
+          description: >-
+            The file that contains the private key for the certificate that's
+            being imported\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Key\-value pairs that can be used to group and search for
+            certificates\.
+        Usage:
+          type: string
+          description: >-
+            Specifies whether this certificate is used for signing or
+            encryption\.
+      required:
+        - Certificate
+        - Usage
+    Connector:
+      type: object
+      properties:
+        AccessRole:
+          type: string
+          description: >-
+            With AS2, you can send files by calling `StartFileTransfer` and
+            specifying the file paths in the request parameter,
+            `SendFilePaths`\. We use the file’s parent directory \(for example,
+            for `--send-file-paths /bucket/dir/file.txt`, parent directory is
+            `/bucket/dir/`\) to temporarily store a processed AS2 message file,
+            store the MDN when we receive them from the partner, and write a
+            final JSON file containing relevant metadata of the transmission\.
+            So, the `AccessRole` needs to provide read and write access to the
+            parent directory of the file location used in the
+            `StartFileTransfer` request\. Additionally, you need to provide read
+            and write access to the parent directory of the files that you
+            intend to send with `StartFileTransfer`\.
+        As2Config:
+          type: '[as2config](aws-properties-transfer-connector-as2config.md)'
+          description: A structure that contains the parameters for a connector object\.
+        LoggingRole:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the AWS Identity and Access
+            Management \(IAM\) role that allows a connector to turn on
+            CloudWatch logging for Amazon S3 events\. When set, you can view
+            connector activity in your CloudWatch logs\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Key\-value pairs that can be used to group and search for
+            connectors\.
+        Url:
+          type: string
+          description: The URL of the partner's AS2 endpoint\.
+      required:
+        - AccessRole
+        - As2Config
+        - Url
+    Profile:
+      type: object
+      properties:
+        As2Id:
+          type: string
+          description: >-
+            The `As2Id` is the *AS2\-name*, as defined in the [RFC
+            4130](https://datatracker.ietf.org/doc/html/rfc4130)\. For inbound
+            transfers, this is the `AS2-From` header for the AS2 messages sent
+            from the partner\. For outbound connectors, this is the `AS2-To`
+            header for the AS2 messages sent to the partner using the
+            `StartFileTransfer` API operation\. This ID cannot include spaces\.
+        CertificateIds:
+          type: array
+          description: >-
+            An array of identifiers for the imported certificates\. You use this
+            identifier for working with profiles and partner profiles\.
+        ProfileType:
+          type: string
+          description: >-
+            Indicates whether to list only `LOCAL` type profiles or only
+            `PARTNER` type profiles\. If not supplied in the request, the
+            command lists all types of profiles\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Key\-value pairs that can be used to group and search for profiles\.
+      required:
+        - As2Id
+        - ProfileType
+    Server:
+      type: object
+      properties:
+        Certificate:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the AWS Certificate Manager
+            \(ACM\) certificate\. Required when `Protocols` is set to `FTPS`\.  
+            To request a new public certificate, see [Request a public
+            certificate](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-public.html)
+            in the * AWS Certificate Manager User Guide*\.   To import an
+            existing certificate into ACM, see [Importing certificates into
+            ACM](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html)
+            in the * AWS Certificate Manager User Guide*\.   To request a
+            private certificate to use FTPS through private IP addresses, see
+            [Request a private
+            certificate](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-private.html)
+            in the * AWS Certificate Manager User Guide*\.   Certificates with
+            the following cryptographic algorithms and key sizes are
+            supported:   + 2048\-bit RSA \(RSA\_2048\) + 4096\-bit RSA
+            \(RSA\_4096\) + Elliptic Prime Curve 256 bit \(EC\_prime256v1\) +
+            Elliptic Prime Curve 384 bit \(EC\_secp384r1\) + Elliptic Prime
+            Curve 521 bit \(EC\_secp521r1\) The certificate must be a valid
+            SSL/TLS X\.509 version 3 certificate with FQDN or IP address
+            specified and information about the issuer\.
+        Domain:
+          type: string
+          description: >-
+            Specifies the domain of the storage system that is used for file
+            transfers\.
+        EndpointDetails:
+          type: '[endpointdetails](aws-properties-transfer-server-endpointdetails.md)'
+          description: >-
+            The virtual private cloud \(VPC\) endpoint settings that are
+            configured for your server\. When you host your endpoint within your
+            VPC, you can make your endpoint accessible only to resources within
+            your VPC, or you can attach Elastic IP addresses and make your
+            endpoint accessible to clients over the internet\. Your VPC's
+            default security groups are automatically assigned to your
+            endpoint\.
+        EndpointType:
+          type: string
+          description: >-
+            The type of endpoint that you want your server to use\. You can
+            choose to make your server's endpoint publicly accessible \(PUBLIC\)
+            or host it inside your VPC\. With an endpoint that is hosted in a
+            VPC, you can restrict access to your server and resources only
+            within your VPC or choose to make it internet facing by attaching
+            Elastic IP addresses directly to it\.
+        IdentityProviderDetails:
+          type: >-
+            [identityproviderdetails](aws-properties-transfer-server-identityproviderdetails.md)
+          description: >-
+            Required when `IdentityProviderType` is set to
+            `AWS_DIRECTORY_SERVICE` or `API_GATEWAY`\. Accepts an array
+            containing all of the information required to use a directory in
+            `AWS_DIRECTORY_SERVICE` or invoke a customer\-supplied
+            authentication API, including the API Gateway URL\. Not required
+            when `IdentityProviderType` is set to `SERVICE_MANAGED`\.
+        IdentityProviderType:
+          type: string
+          description: >-
+            The mode of authentication for a server\. The default value is
+            `SERVICE_MANAGED`, which allows you to store and access user
+            credentials within the AWS Transfer Family service\.   Use
+            `AWS_DIRECTORY_SERVICE` to provide access to Active Directory groups
+            in AWS Directory Service for Microsoft Active Directory or Microsoft
+            Active Directory in your on\-premises environment or in AWS using AD
+            Connector\. This option also requires you to provide a Directory ID
+            by using the `IdentityProviderDetails` parameter\.   Use the
+            `API_GATEWAY` value to integrate with an identity provider of your
+            choosing\. The `API_GATEWAY` setting requires you to provide an
+            Amazon API Gateway endpoint URL to call for authentication by using
+            the `IdentityProviderDetails` parameter\.   Use the `AWS_LAMBDA`
+            value to directly use an AWS Lambda function as your identity
+            provider\. If you choose this value, you must specify the ARN for
+            the Lambda function in the `Function` parameter or the
+            `IdentityProviderDetails` data type\.
+        LoggingRole:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the AWS Identity and Access
+            Management \(IAM\) role that allows a server to turn on Amazon
+            CloudWatch logging for Amazon S3 or Amazon EFSevents\. When set, you
+            can view user activity in your CloudWatch logs\.
+        PostAuthenticationLoginBanner:
+          type: string
+          description: >-
+            Specifies a string to display when users connect to a server\. This
+            string is displayed after the user authenticates\.   The SFTP
+            protocol does not support post\-authentication display banners\.
+        PreAuthenticationLoginBanner:
+          type: string
+          description: >-
+            Specifies a string to display when users connect to a server\. This
+            string is displayed before the user authenticates\. For example, the
+            following banner displays details about using the system:    `This
+            system is for the use of authorized users only. Individuals using
+            this computer system without authority, or in excess of their
+            authority, are subject to having all of their activities on this
+            system monitored and recorded by system personnel.`
+        ProtocolDetails:
+          type: '[protocoldetails](aws-properties-transfer-server-protocoldetails.md)'
+          description: >-
+            The protocol settings that are configured for your server\.   +  To
+            indicate passive mode \(for FTP and FTPS protocols\), use the
+            `PassiveIp` parameter\. Enter a single dotted\-quad IPv4 address,
+            such as the external IP address of a firewall, router, or load
+            balancer\.  + To ignore the error that is generated when the client
+            attempts to use the `SETSTAT` command on a file that you are
+            uploading to an Amazon S3 bucket, use the `SetStatOption`
+            parameter\. To have the AWS Transfer Family server ignore the
+            `SETSTAT` command and upload files without needing to make any
+            changes to your SFTP client, set the value to `ENABLE_NO_OP`\. If
+            you set the `SetStatOption` parameter to `ENABLE_NO_OP`, Transfer
+            Family generates a log entry to Amazon CloudWatch Logs, so that you
+            can determine when the client is making a `SETSTAT` call\. + To
+            determine whether your AWS Transfer Family server resumes recent,
+            negotiated sessions through a unique session ID, use the
+            `TlsSessionResumptionMode` parameter\. +  `As2Transports` indicates
+            the transport method for the AS2 messages\. Currently, only HTTP is
+            supported\.
+        Protocols:
+          type: list of [protocol](aws-properties-transfer-server-protocol.md)
+          description: >-
+            Specifies the file transfer protocol or protocols over which your
+            file transfer protocol client can connect to your server's
+            endpoint\. The available protocols are:   +  `SFTP` \(Secure Shell
+            \(SSH\) File Transfer Protocol\): File transfer over SSH +  `FTPS`
+            \(File Transfer Protocol Secure\): File transfer with TLS encryption
+            +  `FTP` \(File Transfer Protocol\): Unencrypted file transfer + 
+            `AS2` \(Applicability Statement 2\): used for transporting
+            structured business\-to\-business data + If you select `FTPS`, you
+            must choose a certificate stored in AWS Certificate Manager \(ACM\)
+            which is used to identify your server when clients connect to it
+            over FTPS\. + If `Protocol` includes either `FTP` or `FTPS`, then
+            the `EndpointType` must be `VPC` and the `IdentityProviderType` must
+            be either `AWS_DIRECTORY_SERVICE`, `AWS_LAMBDA`, or `API_GATEWAY`\.
+            + If `Protocol` includes `FTP`, then `AddressAllocationIds` cannot
+            be associated\. + If `Protocol` is set only to `SFTP`, the
+            `EndpointType` can be set to `PUBLIC` and the `IdentityProviderType`
+            can be set any of the supported identity types: `SERVICE_MANAGED`,
+            `AWS_DIRECTORY_SERVICE`, `AWS_LAMBDA`, or `API_GATEWAY`\. + If
+            `Protocol` includes `AS2`, then the `EndpointType` must be `VPC`,
+            and domain must be Amazon S3\.
+        SecurityPolicyName:
+          type: string
+          description: >-
+            Specifies the name of the security policy that is attached to the
+            server\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: Key\-value pairs that can be used to group and search for servers\.
+        WorkflowDetails:
+          type: '[workflowdetails](aws-properties-transfer-server-workflowdetails.md)'
+          description: >-
+            Specifies the workflow ID for the workflow to assign and the
+            execution role that's used for executing the workflow\.   In
+            addition to a workflow to execute when a file is uploaded
+            completely, `WorkflowDetails` can also contain a workflow ID \(and
+            execution role\) for a workflow to execute on partial upload\. A
+            partial upload occurs when a file is open when the session
+            disconnects\.
+    User:
+      type: object
+      properties:
+        HomeDirectory:
+          type: string
+          description: >-
+            The landing directory \(folder\) for a user when they log in to the
+            server using the client\.   A `HomeDirectory` example is
+            `/bucket_name/home/mydirectory`\.
+        HomeDirectoryMappings:
+          type: >-
+            list of
+            [homedirectorymapentry](aws-properties-transfer-user-homedirectorymapentry.md)
+          description: >-
+            Logical directory mappings that specify what Amazon S3 paths and
+            keys should be visible to your user and how you want to make them
+            visible\. You will need to specify the "`Entry`" and "`Target`"
+            pair, where `Entry` shows how the path is made visible and `Target`
+            is the actual Amazon S3 path\. If you only specify a target, it will
+            be displayed as is\. You will need to also make sure that your IAM
+            role provides access to paths in `Target`\. The following is an
+            example\.    `'[ { "Entry": "/", "Target":
+            "/bucket3/customized-reports/" } ]'`    In most cases, you can use
+            this value instead of the session policy to lock your user down to
+            the designated home directory \("chroot"\)\. To do this, you can set
+            `Entry` to '/' and set `Target` to the HomeDirectory parameter
+            value\.   If the target of a logical directory entry does not exist
+            in Amazon S3, the entry will be ignored\. As a workaround, you can
+            use the Amazon S3 API to create 0 byte objects as place holders for
+            your directory\. If using the CLI, use the `s3api` call instead of
+            `s3` so you can use the put\-object operation\. For example, you use
+            the following: `AWS s3api put-object --bucket bucketname --key
+            path/to/folder/`\. Make sure that the end of the key name ends in a
+            '/' for it to be considered a folder\.
+        HomeDirectoryType:
+          type: string
+          description: >-
+            The type of landing directory \(folder\) that you want your users'
+            home directory to be when they log in to the server\. If you set it
+            to `PATH`, the user will see the absolute Amazon S3 bucket or EFS
+            paths as is in their file transfer protocol clients\. If you set it
+            `LOGICAL`, you need to provide mappings in the
+            `HomeDirectoryMappings` for how you want to make Amazon S3 or Amazon
+            EFS paths visible to your users\.
+        Policy:
+          type: string
+          description: >-
+            A session policy for your user so you can use the same IAM role
+            across multiple users\. This policy restricts user access to
+            portions of their Amazon S3 bucket\. Variables that you can use
+            inside this policy include `${Transfer:UserName}`,
+            `${Transfer:HomeDirectory}`, and `${Transfer:HomeBucket}`\.   For
+            session policies, AWS Transfer Family stores the policy as a JSON
+            blob, instead of the Amazon Resource Name \(ARN\) of the policy\.
+            You save the policy as a JSON blob and pass it in the `Policy`
+            argument\.   For an example of a session policy, see [Example
+            session
+            policy](https://docs.aws.amazon.com/transfer/latest/userguide/session-policy.html)\.  
+            For more information, see
+            [AssumeRole](https://docs.aws.amazon.com/STS/latest/APIReference/API_AssumeRole.html)
+            in the *AWS Security Token Service API Reference*\.
+        PosixProfile:
+          type: '[posixprofile](aws-properties-transfer-user-posixprofile.md)'
+          description: >-
+            Specifies the full POSIX identity, including user ID \(`Uid`\),
+            group ID \(`Gid`\), and any secondary groups IDs
+            \(`SecondaryGids`\), that controls your users' access to your Amazon
+            Elastic File System \(Amazon EFS\) file systems\. The POSIX
+            permissions that are set on files and directories in your file
+            system determine the level of access your users get when
+            transferring files into and out of your Amazon EFS file systems\.
+        Role:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the AWS Identity and Access
+            Management \(IAM\) role that controls your users' access to your
+            Amazon S3 bucket or Amazon EFS file system\. The policies attached
+            to this role determine the level of access that you want to provide
+            your users when transferring files into and out of your Amazon S3
+            bucket or Amazon EFS file system\. The IAM role should also contain
+            a trust relationship that allows the server to access your resources
+            when servicing your users' transfer requests\.
+        ServerId:
+          type: string
+          description: >-
+            A system\-assigned unique identifier for a server instance\. This is
+            the specific server that you added your user to\.
+        SshPublicKeys:
+          type: list of [sshpublickey](aws-properties-transfer-user-sshpublickey.md)
+          description: >-
+            Specifies the public key portion of the Secure Shell \(SSH\) keys
+            stored for the described user\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Key\-value pairs that can be used to group and search for users\.
+            Tags are metadata attached to users for any purpose\.
+        UserName:
+          type: string
+          description: >-
+            A unique string that identifies a user and is associated with a
+            `ServerId`\. This user name must be a minimum of 3 and a maximum of
+            100 characters long\. The following are valid characters: a\-z,
+            A\-Z, 0\-9, underscore '\_', hyphen '\-', period '\.', and at sign
+            '@'\. The user name can't start with a hyphen, period, or at sign\.
+      required:
+        - Role
+        - ServerId
+        - UserName
+    Workflow:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: Specifies the text description for the workflow\.
+        OnExceptionSteps:
+          type: >-
+            list of
+            [workflowstep](aws-properties-transfer-workflow-workflowstep.md)
+          description: >-
+            Specifies the steps \(actions\) to take if errors are encountered
+            during execution of the workflow\.
+        Steps:
+          type: >-
+            list of
+            [workflowstep](aws-properties-transfer-workflow-workflowstep.md)
+          description: >-
+            Specifies the details for the steps that are in the specified
+            workflow\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Key\-value pairs that can be used to group and search for
+            workflows\. Tags are metadata attached to workflows for any
+            purpose\.
+      required:
+        - Steps
+paths: {}

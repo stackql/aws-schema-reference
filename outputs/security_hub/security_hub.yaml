@@ -1,0 +1,19 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: SecurityHub
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Hub:
+      type: object
+      properties:
+        Tags:
+          type: object
+          description: The tags to add to the hub resource\.
+paths: {}

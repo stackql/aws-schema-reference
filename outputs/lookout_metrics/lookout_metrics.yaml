@@ -1,0 +1,63 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: LookoutMetrics
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Alert:
+      type: object
+      properties:
+        Action:
+          type: '[action](aws-properties-lookoutmetrics-alert-action.md)'
+          description: Action that will be triggered when there is an alert\.
+        AlertDescription:
+          type: string
+          description: A description of the alert\.
+        AlertName:
+          type: string
+          description: The name of the alert\.
+        AlertSensitivityThreshold:
+          type: integer
+          description: >-
+            An integer from 0 to 100 specifying the alert sensitivity
+            threshold\.
+        AnomalyDetectorArn:
+          type: string
+          description: The ARN of the detector to which the alert is attached\.
+      required:
+        - Action
+        - AlertSensitivityThreshold
+        - AnomalyDetectorArn
+    AnomalyDetector:
+      type: object
+      properties:
+        AnomalyDetectorConfig:
+          type: >-
+            [anomalydetectorconfig](aws-properties-lookoutmetrics-anomalydetector-anomalydetectorconfig.md)
+          description: >-
+            Contains information about the configuration of the anomaly
+            detector\.
+        AnomalyDetectorDescription:
+          type: string
+          description: A description of the detector\.
+        AnomalyDetectorName:
+          type: string
+          description: The name of the detector\.
+        KmsKeyArn:
+          type: string
+          description: The ARN of the KMS key to use to encrypt your data\.
+        MetricSetList:
+          type: >-
+            list of
+            [metricset](aws-properties-lookoutmetrics-anomalydetector-metricset.md)
+          description: The detector's dataset\.
+      required:
+        - AnomalyDetectorConfig
+        - MetricSetList
+paths: {}

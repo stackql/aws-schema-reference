@@ -1,0 +1,170 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: AppRunner
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ObservabilityConfiguration:
+      type: object
+      properties:
+        ObservabilityConfigurationName:
+          type: string
+          description: >-
+            A name for the observability configuration\. When you use it for the
+            first time in an AWS Region, App Runner creates revision number `1`
+            of this name\. When you use the same name in subsequent calls, App
+            Runner creates incremental revisions of the configuration\.   The
+            name `DefaultConfiguration` is reserved\. You can't use it to create
+            a new observability configuration, and you can't create a revision
+            of it\.   When you want to use your own observability configuration
+            for your App Runner service, *create a configuration with a
+            different name*, and then provide it when you create or update your
+            service\. If you don't specify a name, AWS CloudFormation generates
+            a name for your observability configuration\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of metadata items that you can associate with your
+            observability configuration resource\. A tag is a key\-value pair\.
+        TraceConfiguration:
+          type: >-
+            [traceconfiguration](aws-properties-apprunner-observabilityconfiguration-traceconfiguration.md)
+          description: >-
+            The configuration of the tracing feature within this observability
+            configuration\. If you don't specify it, App Runner doesn't enable
+            tracing\.
+    Service:
+      type: object
+      properties:
+        AutoScalingConfigurationArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of an App Runner automatic scaling
+            configuration resource that you want to associate with your
+            service\. If not provided, App Runner associates the latest revision
+            of a default auto scaling configuration\.   Specify an ARN with a
+            name and a revision number to associate that revision\. For example:
+            `arn:aws:apprunner:us-east-1:123456789012:autoscalingconfiguration/high-availability/3`   
+            Specify just the name to associate the latest revision\. For
+            example:
+            `arn:aws:apprunner:us-east-1:123456789012:autoscalingconfiguration/high-availability`
+        EncryptionConfiguration:
+          type: >-
+            [encryptionconfiguration](aws-properties-apprunner-service-encryptionconfiguration.md)
+          description: >-
+            An optional custom encryption key that App Runner uses to encrypt
+            the copy of your source repository that it maintains and your
+            service logs\. By default, App Runner uses an AWS managed key\.
+        HealthCheckConfiguration:
+          type: >-
+            [healthcheckconfiguration](aws-properties-apprunner-service-healthcheckconfiguration.md)
+          description: >-
+            The settings for the health check that AWS App Runner performs to
+            monitor the health of the App Runner service\.
+        InstanceConfiguration:
+          type: >-
+            [instanceconfiguration](aws-properties-apprunner-service-instanceconfiguration.md)
+          description: >-
+            The runtime configuration of instances \(scaling units\) of your
+            service\.
+        NetworkConfiguration:
+          type: >-
+            [networkconfiguration](aws-properties-apprunner-service-networkconfiguration.md)
+          description: >-
+            Configuration settings related to network traffic of the web
+            application that the App Runner service runs\.
+        ObservabilityConfiguration:
+          type: >-
+            [serviceobservabilityconfiguration](aws-properties-apprunner-service-serviceobservabilityconfiguration.md)
+          description: The observability configuration of your service\.
+        ServiceName:
+          type: string
+          description: >-
+            A name for the App Runner service\. It must be unique across all the
+            running App Runner services in your AWS account in the AWS
+            Region\.   If you don't specify a name, AWS CloudFormation generates
+            a name for your service\.
+        SourceConfiguration:
+          type: >-
+            [sourceconfiguration](aws-properties-apprunner-service-sourceconfiguration.md)
+          description: >-
+            The source to deploy to the App Runner service\. It can be a code or
+            an image repository\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An optional list of metadata items that you can associate with the
+            App Runner service resource\. A tag is a key\-value pair\.
+      required:
+        - SourceConfiguration
+    VpcConnector:
+      type: object
+      properties:
+        SecurityGroups:
+          type: array
+          description: >-
+            A list of IDs of security groups that App Runner should use for
+            access to AWS resources under the specified subnets\. If not
+            specified, App Runner uses the default security group of the Amazon
+            VPC\. The default security group allows all outbound traffic\.
+        Subnets:
+          type: array
+          description: >-
+            A list of IDs of subnets that App Runner should use when it
+            associates your service with a custom Amazon VPC\. Specify IDs of
+            subnets of a single Amazon VPC\. App Runner determines the Amazon
+            VPC from the subnets you specify\.    App Runner currently only
+            provides support for IPv4\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of metadata items that you can associate with your VPC
+            connector resource\. A tag is a key\-value pair\.
+        VpcConnectorName:
+          type: string
+          description: >-
+            A name for the VPC connector\.   If you don't specify a name, AWS
+            CloudFormation generates a name for your VPC connector\.
+      required:
+        - Subnets
+    VpcIngressConnection:
+      type: object
+      properties:
+        IngressVpcConfiguration:
+          type: >-
+            [ingressvpcconfiguration](aws-properties-apprunner-vpcingressconnection-ingressvpcconfiguration.md)
+          description: >-
+            Specifications for the customer’s Amazon VPC and the related AWS
+            PrivateLink VPC endpoint that are used to create the VPC Ingress
+            Connection resource\.
+        ServiceArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) for this App Runner service that is
+            used to create the VPC Ingress Connection resource\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An optional list of metadata items that you can associate with the
+            VPC Ingress Connection resource\. A tag is a key\-value pair\.
+        VpcIngressConnectionName:
+          type: string
+          description: The customer\-provided VPC Ingress Connection name\.
+      required:
+        - IngressVpcConfiguration
+        - ServiceArn
+paths: {}

@@ -1,0 +1,260 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: CodeDeploy
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Application:
+      type: object
+      properties:
+        ApplicationName:
+          type: string
+          description: >-
+            A name for the application\. If you don't specify a name, AWS
+            CloudFormation generates a unique physical ID and uses that ID for
+            the application name\. For more information, see [Name
+            Type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html)\.    
+            Updates to `ApplicationName` are not supported\.
+        ComputePlatform:
+          type: string
+          description: The compute platform that CodeDeploy deploys the application to\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The metadata that you apply to CodeDeploy applications to help you
+            organize and categorize them\. Each tag consists of a key and an
+            optional value, both of which you define\.
+    DeploymentConfig:
+      type: object
+      properties:
+        ComputePlatform:
+          type: string
+          description: >-
+            The destination platform type for the deployment \(`Lambda`,
+            `Server`, or `ECS`\)\.
+        DeploymentConfigName:
+          type: string
+          description: >-
+            A name for the deployment configuration\. If you don't specify a
+            name, AWS CloudFormation generates a unique physical ID and uses
+            that ID for the deployment configuration name\. For more
+            information, see [Name
+            Type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html)\.    
+            If you specify a name, you cannot perform updates that require
+            replacement of this resource\. You can perform updates that require
+            no or some interruption\. If you must replace the resource, specify
+            a new name\.
+        MinimumHealthyHosts:
+          type: >-
+            [minimumhealthyhosts](aws-properties-codedeploy-deploymentconfig-minimumhealthyhosts.md)
+          description: >-
+            The minimum number of healthy instances that should be available at
+            any time during the deployment\. There are two parameters expected
+            in the input: type and value\.   The type parameter takes either of
+            the following values:   + HOST\_COUNT: The value parameter
+            represents the minimum number of healthy instances as an absolute
+            value\. + FLEET\_PERCENT: The value parameter represents the minimum
+            number of healthy instances as a percentage of the total number of
+            instances in the deployment\. If you specify FLEET\_PERCENT, at the
+            start of the deployment, AWS CodeDeploy converts the percentage to
+            the equivalent number of instance and rounds up fractional
+            instances\. The value parameter takes an integer\.   For example, to
+            set a minimum of 95% healthy instance, specify a type of
+            FLEET\_PERCENT and a value of 95\.    For more information about
+            instance health, see [CodeDeploy Instance
+            Health](https://docs.aws.amazon.com/codedeploy/latest/userguide/instances-health.html)
+            in the AWS CodeDeploy User Guide\.
+        TrafficRoutingConfig:
+          type: >-
+            [trafficroutingconfig](aws-properties-codedeploy-deploymentconfig-trafficroutingconfig.md)
+          description: >-
+            The configuration that specifies how the deployment traffic is
+            routed\.
+    DeploymentGroup:
+      type: object
+      properties:
+        AlarmConfiguration:
+          type: >-
+            [alarmconfiguration](aws-properties-codedeploy-deploymentgroup-alarmconfiguration.md)
+          description: >-
+            Information about the Amazon CloudWatch alarms that are associated
+            with the deployment group\.
+        ApplicationName:
+          type: string
+          description: >-
+            The name of an existing CodeDeploy application to associate this
+            deployment group with\.
+        AutoRollbackConfiguration:
+          type: >-
+            [autorollbackconfiguration](aws-properties-codedeploy-deploymentgroup-autorollbackconfiguration.md)
+          description: >-
+            Information about the automatic rollback configuration that is
+            associated with the deployment group\. If you specify this property,
+            don't specify the `Deployment` property\.
+        AutoScalingGroups:
+          type: array
+          description: >-
+            A list of associated Auto Scaling groups that CodeDeploy
+            automatically deploys revisions to when new instances are created\.
+            Duplicates are not allowed\.
+        BlueGreenDeploymentConfiguration:
+          type: >-
+            [bluegreendeploymentconfiguration](aws-properties-codedeploy-deploymentgroup-bluegreendeploymentconfiguration.md)
+          description: >-
+            Information about blue/green deployment options for a deployment
+            group\.
+        Deployment:
+          type: >-
+            [deployment](aws-properties-codedeploy-deploymentgroup-deployment.md)
+          description: >-
+            The application revision to deploy to this deployment group\. If you
+            specify this property, your target application revision is deployed
+            as soon as the provisioning process is complete\. If you specify
+            this property, don't specify the `AutoRollbackConfiguration`
+            property\.
+        DeploymentConfigName:
+          type: string
+          description: >-
+            A deployment configuration name or a predefined configuration name\.
+            With predefined configurations, you can deploy application revisions
+            to one instance at a time \(`CodeDeployDefault.OneAtATime`\), half
+            of the instances at a time \(`CodeDeployDefault.HalfAtATime`\), or
+            all the instances at once \(`CodeDeployDefault.AllAtOnce`\)\. For
+            more information and valid values, see [Working with Deployment
+            Configurations](https://docs.aws.amazon.com/codedeploy/latest/userguide/deployment-configurations.html)
+            in the *AWS CodeDeploy User Guide*\.
+        DeploymentGroupName:
+          type: string
+          description: >-
+            A name for the deployment group\. If you don't specify a name, AWS
+            CloudFormation generates a unique physical ID and uses that ID for
+            the deployment group name\. For more information, see [Name
+            Type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html)\.   
+            If you specify a name, you cannot perform updates that require
+            replacement of this resource\. You can perform updates that require
+            no or some interruption\. If you must replace the resource, specify
+            a new name\.
+        DeploymentStyle:
+          type: >-
+            [deploymentstyle](aws-properties-codedeploy-deploymentgroup-deploymentstyle.md)
+          description: >-
+            Attributes that determine the type of deployment to run and whether
+            to route deployment traffic behind a load balancer\.     If you
+            specify this property with a blue/green deployment type, don't
+            specify the `AutoScalingGroups`, `LoadBalancerInfo`, or `Deployment`
+            properties\.     For blue/green deployments, AWS CloudFormation
+            supports deployments on Lambda compute platforms only\. You can
+            perform Amazon ECS blue/green deployments using
+            `AWS::CodeDeploy::BlueGreen ` hook\. See [Perform Amazon ECS
+            blue/green deployments through CodeDeploy using AWS
+            CloudFormation](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/blue-green.html)
+            for more information\.
+        Ec2TagFilters:
+          type: >-
+            list of
+            [ec2tagfilter](aws-properties-codedeploy-deploymentgroup-ec2tagfilter.md)
+          description: >-
+            The Amazon EC2 tags that are already applied to Amazon EC2 instances
+            that you want to include in the deployment group\. CodeDeploy
+            includes all Amazon EC2 instances identified by any of the tags you
+            specify in this deployment group\. Duplicates are not allowed\.    
+            You can specify `EC2TagFilters` or `Ec2TagSet`, but not both\.
+        Ec2TagSet:
+          type: '[ec2tagset](aws-properties-codedeploy-deploymentgroup-ec2tagset.md)'
+          description: >-
+            Information about groups of tags applied to Amazon EC2 instances\.
+            The deployment group includes only Amazon EC2 instances identified
+            by all the tag groups\. Cannot be used in the same call as
+            `ec2TagFilter`\.
+        ECSServices:
+          type: >-
+            list of
+            [ecsservice](aws-properties-codedeploy-deploymentgroup-ecsservice.md)
+          description: >-
+            The target Amazon ECS services in the deployment group\. This
+            applies only to deployment groups that use the Amazon ECS compute
+            platform\. A target Amazon ECS service is specified as an Amazon ECS
+            cluster and service name pair using the format
+            `<clustername>:<servicename>`\.
+        LoadBalancerInfo:
+          type: >-
+            [loadbalancerinfo](aws-properties-codedeploy-deploymentgroup-loadbalancerinfo.md)
+          description: >-
+            Information about the load balancer to use in a deployment\. For
+            more information, see [ Integrating CodeDeploy with Elastic Load
+            Balancing](https://docs.aws.amazon.com/codedeploy/latest/userguide/integrations-aws-elastic-load-balancing.html)
+            in the *AWS CodeDeploy User Guide*\.
+        OnPremisesInstanceTagFilters:
+          type: >-
+            list of
+            [tagfilter](aws-properties-codedeploy-deploymentgroup-tagfilter.md)
+          description: >-
+            The on\-premises instance tags already applied to on\-premises
+            instances that you want to include in the deployment group\.
+            CodeDeploy includes all on\-premises instances identified by any of
+            the tags you specify in this deployment group\. To register
+            on\-premises instances with CodeDeploy, see [Working with
+            On\-Premises Instances for
+            CodeDeploy](https://docs.aws.amazon.com/codedeploy/latest/userguide/instances-on-premises.html)
+            in the *AWS CodeDeploy User Guide*\. Duplicates are not
+            allowed\.     You can specify `OnPremisesInstanceTagFilters` or
+            `OnPremisesInstanceTagSet`, but not both\.
+        OnPremisesTagSet:
+          type: >-
+            [onpremisestagset](aws-properties-codedeploy-deploymentgroup-onpremisestagset.md)
+          description: >-
+            Information about groups of tags applied to on\-premises instances\.
+            The deployment group includes only on\-premises instances identified
+            by all the tag groups\.    You can specify
+            `OnPremisesInstanceTagFilters` or `OnPremisesInstanceTagSet`, but
+            not both\.
+        OutdatedInstancesStrategy:
+          type: string
+          description: >-
+            Indicates what happens when new Amazon EC2 instances are launched
+            mid\-deployment and do not receive the deployed application
+            revision\.   If this option is set to `UPDATE` or is unspecified,
+            CodeDeploy initiates one or more 'auto\-update outdated instances'
+            deployments to apply the deployed application revision to the new
+            Amazon EC2 instances\.   If this option is set to `IGNORE`,
+            CodeDeploy does not initiate a deployment to update the new Amazon
+            EC2 instances\. This may result in instances having different
+            revisions\.
+        ServiceRoleArn:
+          type: string
+          description: >-
+            A service role Amazon Resource Name \(ARN\) that grants CodeDeploy
+            permission to make calls to AWS services on your behalf\. For more
+            information, see [Create a Service Role for AWS
+            CodeDeploy](https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-create-service-role.html)
+            in the *AWS CodeDeploy User Guide*\.     In some cases, you might
+            need to add a dependency on the service role's policy\. For more
+            information, see IAM role policy in [DependsOn
+            Attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-dependson.html)\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The metadata that you apply to CodeDeploy deployment groups to help
+            you organize and categorize them\. Each tag consists of a key and an
+            optional value, both of which you define\.
+        TriggerConfigurations:
+          type: >-
+            list of
+            [triggerconfig](aws-properties-codedeploy-deploymentgroup-triggerconfig.md)
+          description: >-
+            Information about triggers associated with the deployment group\.
+            Duplicates are not allowed
+      required:
+        - ApplicationName
+        - ServiceRoleArn
+paths: {}

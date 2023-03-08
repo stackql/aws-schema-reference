@@ -1,0 +1,21 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: LookoutVision
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Project:
+      type: object
+      properties:
+        ProjectName:
+          type: string
+          description: The name of the project\.
+      required:
+        - ProjectName
+paths: {}

@@ -1,0 +1,159 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: IoTAnalytics
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Channel:
+      type: object
+      properties:
+        ChannelName:
+          type: string
+          description: The name of the channel\.
+        ChannelStorage:
+          type: >-
+            [channelstorage](aws-properties-iotanalytics-channel-channelstorage.md)
+          description: Where channel data is stored\.
+        RetentionPeriod:
+          type: >-
+            [retentionperiod](aws-properties-iotanalytics-channel-retentionperiod.md)
+          description: How long, in days, message data is kept for the channel\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Metadata which can be used to manage the channel\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+    Dataset:
+      type: object
+      properties:
+        Actions:
+          type: list of [action](aws-properties-iotanalytics-dataset-action.md)
+          description: >-
+            The `DatasetAction` objects that automatically create the dataset
+            contents\.
+        ContentDeliveryRules:
+          type: >-
+            list of
+            [datasetcontentdeliveryrule](aws-properties-iotanalytics-dataset-datasetcontentdeliveryrule.md)
+          description: >-
+            When dataset contents are created they are delivered to destinations
+            specified here\.
+        DatasetName:
+          type: string
+          description: The name of the dataset\.
+        LateDataRules:
+          type: >-
+            list of
+            [latedatarule](aws-properties-iotanalytics-dataset-latedatarule.md)
+          description: >-
+            A list of data rules that send notifications to CloudWatch, when
+            data arrives late\. To specify `lateDataRules`, the dataset must use
+            a
+            [DeltaTimer](https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_DeltaTime.html)
+            filter\.
+        RetentionPeriod:
+          type: >-
+            [retentionperiod](aws-properties-iotanalytics-dataset-retentionperiod.md)
+          description: Optional\. How long, in days, message data is kept for the dataset\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Metadata which can be used to manage the data set\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        Triggers:
+          type: list of [trigger](aws-properties-iotanalytics-dataset-trigger.md)
+          description: >-
+            The `DatasetTrigger` objects that specify when the dataset is
+            automatically updated\.
+        VersioningConfiguration:
+          type: >-
+            [versioningconfiguration](aws-properties-iotanalytics-dataset-versioningconfiguration.md)
+          description: >-
+            Optional\. How many versions of dataset contents are kept\. If not
+            specified or set to null, only the latest version plus the latest
+            succeeded version \(if they are different\) are kept for the time
+            period specified by the `retentionPeriod` parameter\. For more
+            information, see [ Keeping Multiple Versions of AWS IoT Analytics
+            datasets](https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
+            in the * AWS IoT Analytics User Guide*\.
+      required:
+        - Actions
+    Datastore:
+      type: object
+      properties:
+        DatastoreName:
+          type: string
+          description: The name of the data store\.
+        DatastorePartitions:
+          type: >-
+            [datastorepartitions](aws-properties-iotanalytics-datastore-datastorepartitions.md)
+          description: Information about the partition dimensions in a data store\.
+        DatastoreStorage:
+          type: >-
+            [datastorestorage](aws-properties-iotanalytics-datastore-datastorestorage.md)
+          description: Where data store data is stored\.
+        FileFormatConfiguration:
+          type: >-
+            [fileformatconfiguration](aws-properties-iotanalytics-datastore-fileformatconfiguration.md)
+          description: >-
+            Contains the configuration information of file formats\. AWS IoT
+            Analytics data stores support JSON and
+            [Parquet](https://parquet.apache.org/)\.   The default file format
+            is JSON\. You can specify only one format\.   You can't change the
+            file format after you create the data store\.
+        RetentionPeriod:
+          type: >-
+            [retentionperiod](aws-properties-iotanalytics-datastore-retentionperiod.md)
+          description: >-
+            How long, in days, message data is kept for the data store\. When
+            `customerManagedS3` storage is selected, this parameter is ignored\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Metadata which can be used to manage the data store\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+    Pipeline:
+      type: object
+      properties:
+        PipelineActivities:
+          type: list of [activity](aws-properties-iotanalytics-pipeline-activity.md)
+          description: >-
+            A list of "PipelineActivity" objects\. Activities perform
+            transformations on your messages, such as removing, renaming or
+            adding message attributes; filtering messages based on attribute
+            values; invoking your Lambda functions on messages for advanced
+            processing; or performing mathematical transformations to normalize
+            device data\.   The list can be 2\-25 **PipelineActivity** objects
+            and must contain both a `channel` and a `datastore` activity\. Each
+            entry in the list must contain only one activity, for example:   
+            `pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... }
+            }, ... ]`
+        PipelineName:
+          type: string
+          description: The name of the pipeline\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Metadata which can be used to manage the pipeline\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - PipelineActivities
+paths: {}

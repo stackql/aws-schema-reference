@@ -1,0 +1,140 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: RoboMaker
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Fleet:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: The name of the fleet\.
+        Tags:
+          type: map of string
+          description: The list of all tags added to the fleet\.
+    Robot:
+      type: object
+      properties:
+        Architecture:
+          type: string
+          description: The architecture of the robot\.
+        Fleet:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the fleet to which the robot
+            will be registered\.
+        GreengrassGroupId:
+          type: string
+          description: The Greengrass group associated with the robot\.
+        Name:
+          type: string
+          description: The name of the robot\.
+        Tags:
+          type: map of string
+          description: >-
+            A map that contains tag keys and tag values that are attached to the
+            robot\.
+      required:
+        - Architecture
+        - GreengrassGroupId
+    RobotApplication:
+      type: object
+      properties:
+        CurrentRevisionId:
+          type: string
+          description: The current revision id\.
+        Environment:
+          type: string
+          description: The environment of the robot application\.
+        Name:
+          type: string
+          description: The name of the robot application\.
+        RobotSoftwareSuite:
+          type: >-
+            [robotsoftwaresuite](aws-properties-robomaker-robotapplication-robotsoftwaresuite.md)
+          description: The robot software suite used by the robot application\.
+        Sources:
+          type: >-
+            list of
+            [sourceconfig](aws-properties-robomaker-robotapplication-sourceconfig.md)
+          description: The sources of the robot application\.
+        Tags:
+          type: map of string
+          description: >-
+            A map that contains tag keys and tag values that are attached to the
+            robot application\.
+      required:
+        - RobotSoftwareSuite
+    RobotApplicationVersion:
+      type: object
+      properties:
+        Application:
+          type: string
+          description: The application information for the robot application\.
+        CurrentRevisionId:
+          type: string
+          description: >-
+            The current revision id for the robot application\. If you provide a
+            value and it matches the latest revision ID, a new version will be
+            created\.
+      required:
+        - Application
+    SimulationApplication:
+      type: object
+      properties:
+        CurrentRevisionId:
+          type: string
+          description: The current revision id\.
+        Environment:
+          type: string
+          description: The environment of the simulation application\.
+        Name:
+          type: string
+          description: The name of the simulation application\.
+        RenderingEngine:
+          type: >-
+            [renderingengine](aws-properties-robomaker-simulationapplication-renderingengine.md)
+          description: The rendering engine for the simulation application\.
+        RobotSoftwareSuite:
+          type: >-
+            [robotsoftwaresuite](aws-properties-robomaker-simulationapplication-robotsoftwaresuite.md)
+          description: The robot software suite used by the simulation application\.
+        SimulationSoftwareSuite:
+          type: >-
+            [simulationsoftwaresuite](aws-properties-robomaker-simulationapplication-simulationsoftwaresuite.md)
+          description: The simulation software suite used by the simulation application\.
+        Sources:
+          type: >-
+            list of
+            [sourceconfig](aws-properties-robomaker-simulationapplication-sourceconfig.md)
+          description: The sources of the simulation application\.
+        Tags:
+          type: map of string
+          description: >-
+            A map that contains tag keys and tag values that are attached to the
+            simulation application\.
+      required:
+        - RobotSoftwareSuite
+        - SimulationSoftwareSuite
+    SimulationApplicationVersion:
+      type: object
+      properties:
+        Application:
+          type: string
+          description: The application information for the simulation application\.
+        CurrentRevisionId:
+          type: string
+          description: >-
+            The current revision id for the simulation application\. If you
+            provide a value and it matches the latest revision ID, a new version
+            will be created\.
+      required:
+        - Application
+paths: {}

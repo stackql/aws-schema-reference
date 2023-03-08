@@ -1,0 +1,82 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: ResourceExplorer2
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    DefaultViewAssociation:
+      type: object
+      properties:
+        ViewArn:
+          type: string
+          description: >-
+            The ARN of the view to set as the default for the AWS Region and AWS
+            account in which you call this operation\. The specified view must
+            already exist in the specified Region\.
+      required:
+        - ViewArn
+    Index:
+      type: object
+      properties:
+        Tags:
+          type: map of string
+          description: >-
+            The specified tags are attached to only the index created in this
+            AWS Region\. The tags don't attach to any of the resources listed in
+            the index\.
+        Type:
+          type: string
+          description: >-
+            Specifies the type of the index in this Region\. For information
+            about the aggregator index and how it differs from a local index,
+            see [Turning on cross\-Region search by creating an aggregator
+            index](https://docs.aws.amazon.com/resource-explorer/latest/userguide/manage-aggregator-region.html)
+            in the *AWS Resource Explorer User Guide\.*\.
+      required:
+        - Type
+    View:
+      type: object
+      properties:
+        Filters:
+          type: '[filters](aws-properties-resourceexplorer2-view-filters.md)'
+          description: >-
+            An array of strings that include search keywords, prefixes, and
+            operators that filter the results that are returned for queries made
+            using this view\. When you use this view in a
+            [Search](https://docs.aws.amazon.com/resource-explorer/latest/APIReference/API_Search.html)
+            operation, the filter string is combined with the search's
+            `QueryString` parameter using a logical `AND` operator\.   For
+            information about the supported syntax, see [Search query reference
+            for Resource
+            Explorer](https://docs.aws.amazon.com/resource-explorer/latest/userguide/using-search-query-syntax.html)
+            in the *AWS Resource Explorer User Guide*\.   This query string in
+            the context of this operation supports only [filter
+            prefixes](https://docs.aws.amazon.com/resource-explorer/latest/userguide/using-search-query-syntax.html#query-syntax-filters)
+            with optional
+            [operators](https://docs.aws.amazon.com/resource-explorer/latest/userguide/using-search-query-syntax.html#query-syntax-operators)\.
+            It doesn't support free\-form text\. For example, the string
+            `region:us* service:ec2 -tag:stage=prod` includes all Amazon EC2
+            resources in any AWS Region that begin with the letters `us` and are
+            *not* tagged with a key `Stage` that has the value `prod`\.
+        IncludedProperties:
+          type: >-
+            list of
+            [includedproperty](aws-properties-resourceexplorer2-view-includedproperty.md)
+          description: >-
+            A list of fields that provide additional information about the
+            view\.
+        Tags:
+          type: map of string
+          description: Tag key and value pairs that are attached to the view\.
+        ViewName:
+          type: string
+          description: The name of the new view\.
+      required:
+        - ViewName
+paths: {}

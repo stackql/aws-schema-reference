@@ -1,0 +1,94 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: GreengrassV2
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ComponentVersion:
+      type: object
+      properties:
+        InlineRecipe:
+          type: string
+          description: >-
+            The recipe to use to create the component\. The recipe defines the
+            component's metadata, parameters, dependencies, lifecycle,
+            artifacts, and platform compatibility\.   You must specify either
+            `InlineRecipe` or `LambdaFunction`\.
+        LambdaFunction:
+          type: >-
+            [lambdafunctionrecipesource](aws-properties-greengrassv2-componentversion-lambdafunctionrecipesource.md)
+          description: >-
+            The parameters to create a component from a Lambda function\.   You
+            must specify either `InlineRecipe` or `LambdaFunction`\.
+        Tags:
+          description: >-
+            Application\-specific metadata to attach to the component version\.
+            You can use tags in IAM policies to control access to AWS IoT
+            Greengrass resources\. You can also use tags to categorize your
+            resources\. For more information, see [Tag your AWS IoT Greengrass
+            Version 2
+            resources](https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html)
+            in the *AWS IoT Greengrass V2 Developer Guide*\.   This `Json`
+            property type is processed as a map of key\-value pairs\. It uses
+            the following format, which is different from most `Tags`
+            implementations in AWS CloudFormation templates\.
+        undefined:
+          type: map of string
+          description: >-
+            ``` "Tags": {     "KeyName0": "value",     "KeyName1": "value",    
+            "KeyName2": "value" } ```
+    Deployment:
+      type: object
+      properties:
+        Components:
+          type: >-
+            map of
+            [componentdeploymentspecification](aws-properties-greengrassv2-deployment-componentdeploymentspecification.md)
+          description: >-
+            The components to deploy\. This is a dictionary, where each key is
+            the name of a component, and each key's value is the version and
+            configuration to deploy for that component\.
+        DeploymentName:
+          type: string
+          description: The name of the deployment\.
+        DeploymentPolicies:
+          type: >-
+            [deploymentpolicies](aws-properties-greengrassv2-deployment-deploymentpolicies.md)
+          description: >-
+            The deployment policies for the deployment\. These policies define
+            how the deployment updates components and handles failure\.
+        IotJobConfiguration:
+          type: >-
+            [deploymentiotjobconfiguration](aws-properties-greengrassv2-deployment-deploymentiotjobconfiguration.md)
+          description: >-
+            The job configuration for the deployment configuration\. The job
+            configuration specifies the rollout, timeout, and stop
+            configurations for the deployment configuration\.
+        Tags:
+          description: >-
+            Application\-specific metadata to attach to the deployment\. You can
+            use tags in IAM policies to control access to AWS IoT Greengrass
+            resources\. You can also use tags to categorize your resources\. For
+            more information, see [Tag your AWS IoT Greengrass Version 2
+            resources](https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html)
+            in the *AWS IoT Greengrass V2 Developer Guide*\.   This `Json`
+            property type is processed as a map of key\-value pairs\. It uses
+            the following format, which is different from most `Tags`
+            implementations in AWS CloudFormation templates\.
+        undefined:
+          type: map of string
+          description: >-
+            ``` "Tags": {     "KeyName0": "value",     "KeyName1": "value",    
+            "KeyName2": "value" } ```
+        TargetArn:
+          type: string
+          description: The ARN of the target AWS IoT thing or thing group\.
+      required:
+        - TargetArn
+paths: {}

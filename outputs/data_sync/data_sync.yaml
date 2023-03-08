@@ -1,0 +1,688 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: DataSync
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Agent:
+      type: object
+      properties:
+        ActivationKey:
+          type: string
+          description: >-
+            Your agent activation key\. You can get the activation key either by
+            sending an HTTP GET request with redirects that enable you to get
+            the agent IP address \(port 80\)\. Alternatively, you can get it
+            from the DataSync console\.   The redirect URL returned in the
+            response provides you the activation key for your agent in the query
+            string parameter `activationKey`\. It might also include other
+            activation\-related parameters; however, these are merely defaults\.
+            The arguments you pass to this API call determine the actual
+            configuration of your agent\.   For more information, see [Creating
+            and activating an
+            agent](https://docs.aws.amazon.com/datasync/latest/userguide/activating-agent.html)
+            in the * AWS DataSync User Guide\.*
+        AgentName:
+          type: string
+          description: >-
+            The name you configured for your agent\. This value is a text
+            reference that is used to identify the agent in the console\.
+        SecurityGroupArns:
+          type: array
+          description: >-
+            The Amazon Resource Names \(ARNs\) of the security groups used to
+            protect your data transfer task subnets\. See
+            [SecurityGroupArns](https://docs.aws.amazon.com/datasync/latest/userguide/API_Ec2Config.html#DataSync-Type-Ec2Config-SecurityGroupArns)\.
+        SubnetArns:
+          type: array
+          description: >-
+            The Amazon Resource Names \(ARNs\) of the subnets in which DataSync
+            will create elastic network interfaces for each data transfer task\.
+            The agent that runs a task must be private\. When you start a task
+            that is associated with an agent created in a VPC, or one that has
+            access to an IP address in a VPC, then the task is also private\. In
+            this case, DataSync creates four network interfaces for each task in
+            your subnet\. For a data transfer to work, the agent must be able to
+            route to all these four network interfaces\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The key\-value pair that represents the tag that you want to
+            associate with the agent\. The value can be an empty string\. This
+            value helps you manage, filter, and search for your agents\.   Valid
+            characters for key and value are letters, spaces, and numbers
+            representable in UTF\-8 format, and the following special
+            characters: \+ \- = \. \_ : / @\.
+        VpcEndpointId:
+          type: string
+          description: >-
+            The ID of the virtual private cloud \(VPC\) endpoint that the agent
+            has access to\. This is the client\-side VPC endpoint, powered by
+            AWS PrivateLink\. If you don't have an AWS PrivateLink VPC endpoint,
+            see [AWS PrivateLink and VPC
+            endpoints](https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-services-overview.html)
+            in the *Amazon VPC User Guide*\.   For more information about
+            activating your agent in a private network based on a VPC, see
+            [Using AWS DataSync in a Virtual Private
+            Cloud](https://docs.aws.amazon.com/datasync/latest/userguide/datasync-in-vpc.html)
+            in the *AWS DataSync User Guide\.*   A VPC endpoint ID looks like
+            this: `vpce-01234d5aff67890e1`\.
+    LocationEFS:
+      type: object
+      properties:
+        AccessPointArn:
+          type: string
+          description: >-
+            Specifies the Amazon Resource Name \(ARN\) of the access point that
+            DataSync uses to access the Amazon EFS file system\.
+        Ec2Config:
+          type: '[ec2config](aws-properties-datasync-locationefs-ec2config.md)'
+          description: >-
+            Specifies the subnet and security groups DataSync uses to access
+            your Amazon EFS file system\.
+        EfsFilesystemArn:
+          type: string
+          description: Specifies the ARN for the Amazon EFS file system\.
+        FileSystemAccessRoleArn:
+          type: string
+          description: >-
+            Specifies an AWS Identity and Access Management \(IAM\) role that
+            DataSync assumes when mounting the Amazon EFS file system\.
+        InTransitEncryption:
+          type: string
+          description: >-
+            Specifies whether you want DataSync to use Transport Layer Security
+            \(TLS\) 1\.2 encryption when it copies data to or from the Amazon
+            EFS file system\.   If you specify an access point using
+            `AccessPointArn` or an IAM role using `FileSystemAccessRoleArn`, you
+            must set this parameter to `TLS1_2`\.
+        Subdirectory:
+          type: string
+          description: >-
+            Specifies a mount path for your Amazon EFS file system\. This is
+            where DataSync reads or writes data \(depending on if this is a
+            source or destination location\)\. By default, DataSync uses the
+            root directory, but you can also include subdirectories\.   You must
+            specify a value with forward slashes \(for example,
+            `/path/to/folder`\)\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Specifies the key\-value pair that represents a tag that you want to
+            add to the resource\. The value can be an empty string\. This value
+            helps you manage, filter, and search for your resources\. We
+            recommend that you create a name tag for your location\.
+      required:
+        - Ec2Config
+    LocationFSxLustre:
+      type: object
+      properties:
+        FsxFilesystemArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) for the FSx for Lustre file
+            system\.
+        SecurityGroupArns:
+          type: array
+          description: >-
+            The ARNs of the security groups that are used to configure the FSx
+            for Lustre file system\.
+        Subdirectory:
+          type: string
+          description: >-
+            A subdirectory in the location's path\. This subdirectory in the FSx
+            for Lustre file system is used to read data from the FSx for Lustre
+            source location or write data to the FSx for Lustre destination\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The key\-value pair that represents a tag that you want to add to
+            the resource\. The value can be an empty string\. This value helps
+            you manage, filter, and search for your resources\. We recommend
+            that you create a name tag for your location\.
+      required:
+        - SecurityGroupArns
+    LocationFSxONTAP:
+      type: object
+      properties:
+        Protocol:
+          type: '[protocol](aws-properties-datasync-locationfsxontap-protocol.md)'
+          description: >-
+            Specifies the data transfer protocol that DataSync uses to access
+            your Amazon FSx file system\.
+        SecurityGroupArns:
+          type: array
+          description: >-
+            Specifies the Amazon Resource Names \(ARNs\) of the security groups
+            that DataSync can use to access your FSx for ONTAP file system\. You
+            must configure the security groups to allow outbound traffic on the
+            following ports \(depending on the protocol that you're using\):  
+            +  **Network File System \(NFS\)**: TCP ports 111, 635, and 2049 + 
+            **Server Message Block \(SMB\)**: TCP port 445 Your file system's
+            security groups must also allow inbound traffic on the same port\.
+        StorageVirtualMachineArn:
+          type: string
+          description: >-
+            Specifies the ARN of the storage virtual machine \(SVM\) in your
+            file system where you want to copy data to or from\.
+        Subdirectory:
+          type: string
+          description: >-
+            Specifies a path to the file share in the SVM where you'll copy your
+            data\.   You can specify a junction path \(also known as a mount
+            point\), qtree path \(for NFS file shares\), or share name \(for SMB
+            file shares\)\. For example, your mount path might be `/vol1`,
+            `/vol1/tree1`, or `/share1`\.   Don't specify a junction path in the
+            SVM's root volume\. For more information, see [Managing FSx for
+            ONTAP storage virtual
+            machines](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html)
+            in the *Amazon FSx for NetApp ONTAP User Guide*\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Specifies labels that help you categorize, filter, and search for
+            your AWS resources\. We recommend creating at least a name tag for
+            your location\.
+      required:
+        - SecurityGroupArns
+        - StorageVirtualMachineArn
+    LocationFSxOpenZFS:
+      type: object
+      properties:
+        FsxFilesystemArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the FSx for OpenZFS file
+            system\.
+        Protocol:
+          type: '[protocol](aws-properties-datasync-locationfsxopenzfs-protocol.md)'
+          description: >-
+            The type of protocol that AWS DataSync uses to access your file
+            system\.
+        SecurityGroupArns:
+          type: array
+          description: >-
+            The ARNs of the security groups that are used to configure the FSx
+            for OpenZFS file system\.
+        Subdirectory:
+          type: string
+          description: >-
+            A subdirectory in the location's path that must begin with `/fsx`\.
+            DataSync uses this subdirectory to read or write data \(depending on
+            whether the file system is a source or destination location\)\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The key\-value pair that represents a tag that you want to add to
+            the resource\. The value can be an empty string\. This value helps
+            you manage, filter, and search for your resources\. We recommend
+            that you create a name tag for your location\.
+      required:
+        - Protocol
+        - SecurityGroupArns
+    LocationFSxWindows:
+      type: object
+      properties:
+        Domain:
+          type: string
+          description: >-
+            Specifies the name of the Windows domain that the FSx for Windows
+            File Server belongs to\.
+        FsxFilesystemArn:
+          type: string
+          description: >-
+            Specifies the Amazon Resource Name \(ARN\) for the FSx for Windows
+            File Server file system\.
+        Password:
+          type: string
+          description: >-
+            Specifies the password of the user who has the permissions to access
+            files and folders in the file system\.
+        SecurityGroupArns:
+          type: array
+          description: >-
+            The Amazon Resource Names \(ARNs\) of the security groups that are
+            used to configure the FSx for Windows File Server file system\.
+        Subdirectory:
+          type: string
+          description: >-
+            Specifies a mount path for your file system using forward slashes\.
+            This is where DataSync reads or writes data \(depending on if this
+            is a source or destination location\)\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Specifies labels that help you categorize, filter, and search for
+            your AWS resources\. We recommend creating at least a name tag for
+            your location\.
+        User:
+          type: string
+          description: >-
+            The user who has the permissions to access files and folders in the
+            FSx for Windows File Server file system\.   For information about
+            choosing a user name that ensures sufficient permissions to files,
+            folders, and metadata, see
+            [user](https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html#FSxWuser)\.
+      required:
+        - SecurityGroupArns
+        - User
+    LocationHDFS:
+      type: object
+      properties:
+        AgentArns:
+          type: array
+          description: >-
+            The Amazon Resource Names \(ARNs\) of the agents that are used to
+            connect to the HDFS cluster\.
+        AuthenticationType:
+          type: string
+          description: Property description not available\.
+        BlockSize:
+          type: integer
+          description: >-
+            The size of data blocks to write into the HDFS cluster\. The block
+            size must be a multiple of 512 bytes\. The default block size is 128
+            mebibytes \(MiB\)\.
+        KerberosKeytab:
+          type: string
+          description: >-
+            The Kerberos key table \(keytab\) that contains mappings between the
+            defined Kerberos principal and the encrypted keys\. Provide the
+            base64\-encoded file text\. If `KERBEROS` is specified for
+            `AuthType`, this value is required\.
+        KerberosKrb5Conf:
+          type: string
+          description: >-
+            The `krb5.conf` file that contains the Kerberos configuration
+            information\. You can load the `krb5.conf` by providing a string of
+            the file's contents or an Amazon S3 presigned URL of the file\.
+            If`KERBEROS` is specified for `AuthType`, this value is required\.
+        KerberosPrincipal:
+          type: string
+          description: >-
+            The Kerberos principal with access to the files and folders on the
+            HDFS cluster\.    If `KERBEROS` is specified for
+            `AuthenticationType`, this parameter is required\.
+        KmsKeyProviderUri:
+          type: string
+          description: The URI of the HDFS cluster's Key Management Server \(KMS\)\.
+        NameNodes:
+          type: list of [namenode](aws-properties-datasync-locationhdfs-namenode.md)
+          description: >-
+            The NameNode that manages the HDFS namespace\. The NameNode performs
+            operations such as opening, closing, and renaming files and
+            directories\. The NameNode contains the information to map blocks of
+            data to the DataNodes\. You can use only one NameNode\.
+        QopConfiguration:
+          type: >-
+            [qopconfiguration](aws-properties-datasync-locationhdfs-qopconfiguration.md)
+          description: >-
+            The Quality of Protection \(QOP\) configuration specifies the Remote
+            Procedure Call \(RPC\) and data transfer protection settings
+            configured on the Hadoop Distributed File System \(HDFS\) cluster\.
+            If `QopConfiguration` isn't specified, `RpcProtection` and
+            `DataTransferProtection` default to `PRIVACY`\. If you set
+            `RpcProtection` or `DataTransferProtection`, the other parameter
+            assumes the same value\.
+        ReplicationFactor:
+          type: integer
+          description: >-
+            The number of DataNodes to replicate the data to when writing to the
+            HDFS cluster\. By default, data is replicated to three DataNodes\.
+        SimpleUser:
+          type: string
+          description: >-
+            The user name used to identify the client on the host operating
+            system\.    If `SIMPLE` is specified for `AuthenticationType`, this
+            parameter is required\.
+        Subdirectory:
+          type: string
+          description: >-
+            A subdirectory in the HDFS cluster\. This subdirectory is used to
+            read data from or write data to the HDFS cluster\. If the
+            subdirectory isn't specified, it will default to `/`\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The key\-value pair that represents the tag that you want to add to
+            the location\. The value can be an empty string\. We recommend using
+            tags to name your resources\.
+      required:
+        - AgentArns
+        - AuthenticationType
+        - NameNodes
+    LocationNFS:
+      type: object
+      properties:
+        MountOptions:
+          type: '[mountoptions](aws-properties-datasync-locationnfs-mountoptions.md)'
+          description: >-
+            The NFS mount options that DataSync can use to mount your NFS
+            share\.
+        OnPremConfig:
+          type: '[onpremconfig](aws-properties-datasync-locationnfs-onpremconfig.md)'
+          description: >-
+            Contains a list of Amazon Resource Names \(ARNs\) of agents that are
+            used to connect to an NFS server\.    If you are copying data to or
+            from your AWS Snowcone device, see [NFS Server on AWS
+            Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone)
+            for more information\.
+        ServerHostname:
+          type: string
+          description: >-
+            The name of the NFS server\. This value is the IP address or Domain
+            Name Service \(DNS\) name of the NFS server\. An agent that is
+            installed on\-premises uses this hostname to mount the NFS server in
+            a network\.    If you are copying data to or from your AWS Snowcone
+            device, see [NFS Server on AWS
+            Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone)
+            for more information\.   This name must either be DNS\-compliant or
+            must be an IP version 4 \(IPv4\) address\.
+        Subdirectory:
+          type: string
+          description: >-
+            The subdirectory in the NFS file system that is used to read data
+            from the NFS source location or write data to the NFS destination\.
+            The NFS path should be a path that's exported by the NFS server, or
+            a subdirectory of that path\. The path should be such that it can be
+            mounted by other NFS clients in your network\.    To see all the
+            paths exported by your NFS server, run "`showmount -e
+            nfs-server-name`" from an NFS client that has access to your
+            server\. You can specify any directory that appears in the results,
+            and any subdirectory of that directory\. Ensure that the NFS export
+            is accessible without Kerberos authentication\.    To transfer all
+            the data in the folder you specified, DataSync needs to have
+            permissions to read all the data\. To ensure this, either configure
+            the NFS export with `no_root_squash,` or ensure that the permissions
+            for all of the files that you want DataSync allow read access for
+            all users\. Doing either enables the agent to read the files\. For
+            the agent to access directories, you must additionally enable all
+            execute access\.   If you are copying data to or from your AWS
+            Snowcone device, see [NFS Server on AWS
+            Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone)
+            for more information\.   For information about NFS export
+            configuration, see [18\.7\. The /etc/exports Configuration
+            File](http://web.mit.edu/rhel-doc/5/RHEL-5-manual/Deployment_Guide-en-US/s1-nfs-server-config-exports.html)
+            in the Red Hat Enterprise Linux documentation\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The key\-value pair that represents the tag that you want to add to
+            the location\. The value can be an empty string\. We recommend using
+            tags to name your resources\.
+      required:
+        - OnPremConfig
+    LocationObjectStorage:
+      type: object
+      properties:
+        AccessKey:
+          type: string
+          description: >-
+            Specifies the access key \(for example, a user name\) if credentials
+            are required to authenticate with the object storage server\.
+        AgentArns:
+          type: array
+          description: >-
+            Specifies the Amazon Resource Names \(ARNs\) of the DataSync agents
+            that can securely connect with your location\.
+        BucketName:
+          type: string
+          description: >-
+            Specifies the name of the object storage bucket involved in the
+            transfer\.
+        SecretKey:
+          type: string
+          description: >-
+            Specifies the secret key \(for example, a password\) if credentials
+            are required to authenticate with the object storage server\.
+        ServerCertificate:
+          type: string
+          description: >-
+            Specifies a certificate to authenticate with an object storage
+            system that uses a private or self\-signed certificate authority
+            \(CA\)\. You must specify a Base64\-encoded `.pem` file \(for
+            example, `file:///home/user/.ssh/storage_sys_certificate.pem`\)\.
+            The certificate can be up to 32768 bytes \(before Base64
+            encoding\)\.   To use this parameter, configure `ServerProtocol` to
+            `HTTPS`\.
+        ServerHostname:
+          type: string
+          description: >-
+            Specifies the domain name or IP address of the object storage
+            server\. A DataSync agent uses this hostname to mount the object
+            storage server in a network\.
+        ServerPort:
+          type: integer
+          description: >-
+            Specifies the port that your object storage server accepts inbound
+            network traffic on \(for example, port 443\)\.
+        ServerProtocol:
+          type: string
+          description: >-
+            Specifies the protocol that your object storage server uses to
+            communicate\.
+        Subdirectory:
+          type: string
+          description: >-
+            Specifies the object prefix for your object storage server\. If this
+            is a source location, DataSync only copies objects with this
+            prefix\. If this is a destination location, DataSync writes all
+            objects with this prefix\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Specifies the key\-value pair that represents a tag that you want to
+            add to the resource\. Tags can help you manage, filter, and search
+            for your resources\. We recommend creating a name tag for your
+            location\.
+      required:
+        - AgentArns
+    LocationS3:
+      type: object
+      properties:
+        S3BucketArn:
+          type: string
+          description: The ARN of the Amazon S3 bucket\.
+        S3Config:
+          type: '[s3config](aws-properties-datasync-locations3-s3config.md)'
+          description: >-
+            The Amazon Resource Name \(ARN\) of the AWS Identity and Access
+            Management \(IAM\) role that is used to access an Amazon S3
+            bucket\.   For detailed information about using such a role, see
+            [Creating a Location for Amazon
+            S3](https://docs.aws.amazon.com/datasync/latest/userguide/working-with-locations.html#create-s3-location)
+            in the *AWS DataSync User Guide*\.
+        S3StorageClass:
+          type: string
+          description: >-
+            The Amazon S3 storage class that you want to store your files in
+            when this location is used as a task destination\. For buckets in
+            AWS Regions, the storage class defaults to S3 Standard\.    For more
+            information about S3 storage classes, see [Amazon S3 Storage
+            Classes](http://aws.amazon.com/s3/storage-classes/)\. Some storage
+            classes have behaviors that can affect your S3 storage costs\. For
+            detailed information, see [Considerations When Working with Amazon
+            S3 Storage Classes in
+            DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes)\.
+        Subdirectory:
+          type: string
+          description: >-
+            A subdirectory in the Amazon S3 bucket\. This subdirectory in Amazon
+            S3 is used to read data from the S3 source location or write data to
+            the S3 destination\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The key\-value pair that represents the tag that you want to add to
+            the location\. The value can be an empty string\. We recommend using
+            tags to name your resources\.
+      required:
+        - S3Config
+    LocationSMB:
+      type: object
+      properties:
+        AgentArns:
+          type: array
+          description: >-
+            The Amazon Resource Names \(ARNs\) of agents to use for a Server
+            Message Block \(SMB\) location\.
+        Domain:
+          type: string
+          description: >-
+            Specifies the Windows domain name that your SMB file server belongs
+            to\.    For more information, see [required
+            permissions](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb-permissions)
+            for SMB locations\.
+        MountOptions:
+          type: '[mountoptions](aws-properties-datasync-locationsmb-mountoptions.md)'
+          description: >-
+            Specifies the version of the SMB protocol that DataSync uses to
+            access your SMB file server\.
+        Password:
+          type: string
+          description: >-
+            The password of the user who can mount the share and has the
+            permissions to access files and folders in the SMB share\.
+        ServerHostname:
+          type: string
+          description: >-
+            Specifies the Domain Name Service \(DNS\) name or IP address of the
+            SMB file server that your DataSync agent will mount\.   You can't
+            specify an IP version 6 \(IPv6\) address\.
+        Subdirectory:
+          type: string
+          description: >-
+            The subdirectory in the SMB file system that is used to read data
+            from the SMB source location or write data to the SMB destination\.
+            The SMB path should be a path that's exported by the SMB server, or
+            a subdirectory of that path\. The path should be such that it can be
+            mounted by other SMB clients in your network\.    `Subdirectory`
+            must be specified with forward slashes\. For example,
+            `/path/to/folder`\. To transfer all the data in the folder you
+            specified, DataSync must have permissions to mount the SMB share, as
+            well as to access all the data in that share\. To ensure this,
+            either make sure that the user name and password specified belongs
+            to the user who can mount the share, and who has the appropriate
+            permissions for all of the files and directories that you want
+            DataSync to access, or use credentials of a member of the Backup
+            Operators group to mount the share\. Doing either one enables the
+            agent to access the data\. For the agent to access directories, you
+            must additionally enable all execute access\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Specifies labels that help you categorize, filter, and search for
+            your AWS resources\. We recommend creating at least a name tag for
+            your location\.
+        User:
+          type: string
+          description: >-
+            The user who can mount the share and has the permissions to access
+            files and folders in the SMB share\.   For information about
+            choosing a user name that ensures sufficient permissions to files,
+            folders, and metadata, see
+            [user](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#SMBuser)\.
+      required:
+        - AgentArns
+        - User
+    Task:
+      type: object
+      properties:
+        CloudWatchLogGroupArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the Amazon CloudWatch log group
+            that is used to monitor and log events in the task\.    For more
+            information about how to use CloudWatch Logs with DataSync, see
+            [Monitoring Your
+            Task](https://docs.aws.amazon.com/datasync/latest/userguide/monitor-datasync.html#cloudwatchlogs)
+            in the * AWS DataSync User Guide\.*    For more information about
+            these groups, see [Working with Log Groups and Log
+            Streams](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html)
+            in the *Amazon CloudWatch Logs User Guide*\.
+        DestinationLocationArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of an AWS storage resource's
+            location\.
+        Excludes:
+          type: list of [filterrule](aws-properties-datasync-task-filterrule.md)
+          description: >-
+            Specifies a list of filter rules that exclude specific data during
+            your transfer\. For more information and examples, see [Filtering
+            data transferred by
+            DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html)\.
+        Includes:
+          type: list of [filterrule](aws-properties-datasync-task-filterrule.md)
+          description: >-
+            Specifies a list of filter rules that include specific data during
+            your transfer\. For more information and examples, see [Filtering
+            data transferred by
+            DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html)\.
+        Name:
+          type: string
+          description: >-
+            The name of a task\. This value is a text reference that is used to
+            identify the task in the console\.
+        Options:
+          type: '[options](aws-properties-datasync-task-options.md)'
+          description: >-
+            Specifies the configuration options for a task\. Some options
+            include preserving file or object metadata and verifying data
+            integrity\.   You can also override these options before starting an
+            individual run of a task \(also known as a *task execution*\)\. For
+            more information, see
+            [StartTaskExecution](https://docs.aws.amazon.com/datasync/latest/userguide/API_StartTaskExecution.html)\.
+        Schedule:
+          type: '[taskschedule](aws-properties-datasync-task-taskschedule.md)'
+          description: >-
+            Specifies a schedule used to periodically transfer files from a
+            source to a destination location\. The schedule should be specified
+            in UTC time\. For more information, see [Scheduling your
+            task](https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html)\.
+        SourceLocationArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the source location for the
+            task\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Specifies the tags that you want to apply to the Amazon Resource
+            Name \(ARN\) representing the task\.    *Tags* are key\-value pairs
+            that help you manage, filter, and search for your DataSync
+            resources\.
+      required:
+        - DestinationLocationArn
+        - SourceLocationArn
+paths: {}

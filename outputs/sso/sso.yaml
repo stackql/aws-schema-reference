@@ -1,0 +1,144 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: SSO
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Assignment:
+      type: object
+      properties:
+        InstanceArn:
+          type: string
+          description: >-
+            The ARN of the IAM Identity Center instance under which the
+            operation will be executed\. For more information about ARNs, see
+            [Amazon Resource Names \(ARNs\) and AWS Service
+            Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+            in the *AWS General Reference*\.
+        PermissionSetArn:
+          type: string
+          description: The ARN of the permission set\.
+        PrincipalId:
+          type: string
+          description: >-
+            An identifier for an object in IAM Identity Center, such as a user
+            or group\. PrincipalIds are GUIDs \(For example,
+            f81d4fae\-7dec\-11d0\-a765\-00a0c91e6bf6\)\. For more information
+            about PrincipalIds in IAM Identity Center, see the [IAM Identity
+            Center Identity Store API
+            Reference](/singlesignon/latest/IdentityStoreAPIReference/welcome.html)\.
+        PrincipalType:
+          type: string
+          description: The entity type for which the assignment will be created\.
+        TargetId:
+          type: string
+          description: >-
+            TargetID is an AWS account identifier, typically a 10\-12 digit
+            string \(For example, 123456789012\)\.
+        TargetType:
+          type: string
+          description: The entity type for which the assignment will be created\.
+      required:
+        - InstanceArn
+        - PermissionSetArn
+        - PrincipalId
+        - PrincipalType
+        - TargetId
+        - TargetType
+    InstanceAccessControlAttributeConfiguration:
+      type: object
+      properties:
+        AccessControlAttributes:
+          type: >-
+            list of
+            [accesscontrolattribute](aws-properties-sso-instanceaccesscontrolattributeconfiguration-accesscontrolattribute.md)
+          description: >-
+            Lists the attributes that are configured for ABAC in the specified
+            IAM Identity Center instance\.
+        InstanceArn:
+          type: string
+          description: >-
+            The ARN of the IAM Identity Center instance under which the
+            operation will be executed\.
+      required:
+        - InstanceArn
+    PermissionSet:
+      type: object
+      properties:
+        CustomerManagedPolicyReferences:
+          type: >-
+            list of
+            [customermanagedpolicyreference](aws-properties-sso-permissionset-customermanagedpolicyreference.md)
+          description: >-
+            Specifies the names and paths of the customer managed policies that
+            you have attached to your permission set\.
+        Description:
+          type: string
+          description: >-
+            The description of the
+            [AWS::SSO::PermissionSet](#aws-resource-sso-permissionset)\.
+        InlinePolicy:
+          type: object
+          description: >-
+            The inline policy that is attached to the permission set\.   For
+            `Length Constraints`, if a valid ARN is provided for a permission
+            set, it is possible for an empty inline policy to be returned\.
+        InstanceArn:
+          type: string
+          description: >-
+            The ARN of the IAM Identity Center instance under which the
+            operation will be executed\. For more information about ARNs, see
+            [Amazon Resource Names \(ARNs\) and AWS Service
+            Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+            in the *AWS General Reference*\.
+        ManagedPolicies:
+          type: array
+          description: A structure that stores the details of the AWS managed policy\.
+        Name:
+          type: string
+          description: The name of the permission set\.
+        PermissionsBoundary:
+          type: >-
+            [permissionsboundary](aws-properties-sso-permissionset-permissionsboundary.md)
+          description: >-
+            Specifies the configuration of the AWS managed or customer managed
+            policy that you want to set as a permissions boundary\. Specify
+            either `CustomerManagedPolicyReference` to use the name and path of
+            a customer managed policy, or `ManagedPolicyArn` to use the ARN of
+            an AWS managed policy\. A permissions boundary represents the
+            maximum permissions that any policy can grant your role\. For more
+            information, see [Permissions boundaries for IAM
+            entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html)
+            in the *IAM User Guide*\.   Policies used as permissions boundaries
+            don't provide permissions\. You must also attach an IAM policy to
+            the role\. To learn how the effective permissions for a role are
+            evaluated, see [IAM JSON policy evaluation
+            logic](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html)
+            in the *IAM User Guide*\.
+        RelayStateType:
+          type: string
+          description: >-
+            Used to redirect users within the application during the federation
+            authentication process\.
+        SessionDuration:
+          type: string
+          description: >-
+            The length of time that the application user sessions are valid for
+            in the ISO\-8601 standard\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags to attach to the new
+            [AWS::SSO::PermissionSet](#aws-resource-sso-permissionset)\.
+      required:
+        - InstanceArn
+        - Name
+paths: {}

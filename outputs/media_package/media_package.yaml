@@ -1,0 +1,206 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: MediaPackage
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Asset:
+      type: object
+      properties:
+        Id:
+          type: string
+          description: Unique identifier that you assign to the asset\.
+        PackagingGroupId:
+          type: string
+          description: The ID of the packaging group associated with this asset\.
+        ResourceId:
+          type: string
+          description: >-
+            Unique identifier for this asset, as it's configured in the key
+            provider service\.
+        SourceArn:
+          type: string
+          description: The ARN for the source content in Amazon S3\.
+        SourceRoleArn:
+          type: string
+          description: >-
+            The ARN for the IAM role that provides AWS Elemental MediaPackage
+            access to the Amazon S3 bucket where the source content is stored\.
+            Valid format: arn:aws:iam::\{accountID\}:role/\{name\}
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags to assign to the asset\.
+      required:
+        - Id
+        - PackagingGroupId
+        - SourceArn
+        - SourceRoleArn
+    Channel:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: >-
+            Any descriptive information that you want to add to the channel for
+            future identification purposes\.
+        EgressAccessLogs:
+          type: >-
+            [logconfiguration](aws-properties-mediapackage-channel-logconfiguration.md)
+          description: Configures egress access logs\.
+        HlsIngest:
+          type: '[hlsingest](aws-properties-mediapackage-channel-hlsingest.md)'
+          description: Property description not available\.
+        Id:
+          type: string
+          description: Unique identifier that you assign to the channel\.
+        IngressAccessLogs:
+          type: >-
+            [logconfiguration](aws-properties-mediapackage-channel-logconfiguration.md)
+          description: Configures ingress access logs\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags to assign to the channel\.
+      required:
+        - Id
+    OriginEndpoint:
+      type: object
+      properties:
+        Authorization:
+          type: >-
+            [authorization](aws-properties-mediapackage-originendpoint-authorization.md)
+          description: Parameters for CDN authorization\.
+        ChannelId:
+          type: string
+          description: The ID of the channel associated with this endpoint\.
+        CmafPackage:
+          type: >-
+            [cmafpackage](aws-properties-mediapackage-originendpoint-cmafpackage.md)
+          description: Parameters for Common Media Application Format \(CMAF\) packaging\.
+        DashPackage:
+          type: >-
+            [dashpackage](aws-properties-mediapackage-originendpoint-dashpackage.md)
+          description: Parameters for DASH packaging\.
+        Description:
+          type: string
+          description: >-
+            Any descriptive information that you want to add to the endpoint for
+            future identification purposes\.
+        HlsPackage:
+          type: >-
+            [hlspackage](aws-properties-mediapackage-originendpoint-hlspackage.md)
+          description: Parameters for Apple HLS packaging\.
+        Id:
+          type: string
+          description: >-
+            The manifest ID is required and must be unique within the
+            OriginEndpoint\. The ID can't be changed after the endpoint is
+            created\.
+        ManifestName:
+          type: string
+          description: >-
+            A short string that's appended to the end of the endpoint URL to
+            create a unique path to this endpoint\.
+        MssPackage:
+          type: >-
+            [msspackage](aws-properties-mediapackage-originendpoint-msspackage.md)
+          description: Parameters for Microsoft Smooth Streaming packaging\.
+        Origination:
+          type: string
+          description: >-
+            Controls video origination from this endpoint\.   Valid values:   +
+            **ALLOW** \- enables this endpoint to serve content to requesting
+            devices\. + **DENY** \- prevents this endpoint from serving
+            content\. Denying origination is helpful for harvesting
+            live\-to\-VOD assets\. For more information about harvesting and
+            origination, see [Live\-to\-VOD
+            Requirements](https://docs.aws.amazon.com/mediapackage/latest/ug/ltov-reqmts.html)\.
+        StartoverWindowSeconds:
+          type: integer
+          description: >-
+            Maximum duration \(seconds\) of content to retain for startover
+            playback\. Omit this attribute or enter `0` to indicate that
+            startover playback is disabled for this endpoint\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags to assign to the endpoint\.
+        TimeDelaySeconds:
+          type: integer
+          description: >-
+            Minimum duration \(seconds\) of delay to enforce on the playback of
+            live content\. Omit this attribute or enter `0` to indicate that
+            there is no time delay in effect for this endpoint\.
+        Whitelist:
+          type: array
+          description: The IP addresses that can access this endpoint\.
+      required:
+        - ChannelId
+        - Id
+    PackagingConfiguration:
+      type: object
+      properties:
+        CmafPackage:
+          type: >-
+            [cmafpackage](aws-properties-mediapackage-packagingconfiguration-cmafpackage.md)
+          description: Parameters for CMAF packaging\.
+        DashPackage:
+          type: >-
+            [dashpackage](aws-properties-mediapackage-packagingconfiguration-dashpackage.md)
+          description: Parameters for DASH\-ISO packaging\.
+        HlsPackage:
+          type: >-
+            [hlspackage](aws-properties-mediapackage-packagingconfiguration-hlspackage.md)
+          description: Parameters for Apple HLS packaging\.
+        Id:
+          type: string
+          description: Unique identifier that you assign to the packaging configuration\.
+        MssPackage:
+          type: >-
+            [msspackage](aws-properties-mediapackage-packagingconfiguration-msspackage.md)
+          description: Parameters for Microsoft Smooth Streaming packaging\.
+        PackagingGroupId:
+          type: string
+          description: >-
+            The ID of the packaging group associated with this packaging
+            configuration\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags to assign to the packaging configuration\.
+      required:
+        - Id
+        - PackagingGroupId
+    PackagingGroup:
+      type: object
+      properties:
+        Authorization:
+          type: >-
+            [authorization](aws-properties-mediapackage-packaginggroup-authorization.md)
+          description: Parameters for CDN authorization\.
+        EgressAccessLogs:
+          type: >-
+            [logconfiguration](aws-properties-mediapackage-packaginggroup-logconfiguration.md)
+          description: The configuration parameters for egress access logging\.
+        Id:
+          type: string
+          description: Unique identifier that you assign to the packaging group\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags to assign to the packaging group\.
+      required:
+        - Id
+paths: {}

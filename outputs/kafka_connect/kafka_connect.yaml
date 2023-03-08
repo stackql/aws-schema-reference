@@ -1,0 +1,80 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: KafkaConnect
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Connector:
+      type: object
+      properties:
+        Capacity:
+          type: '[capacity](aws-properties-kafkaconnect-connector-capacity.md)'
+          description: The connector's compute capacity settings\.
+        ConnectorConfiguration:
+          type: map of string
+          description: The configuration of the connector\.
+        ConnectorDescription:
+          type: string
+          description: The description of the connector\.
+        ConnectorName:
+          type: string
+          description: The name of the connector\.
+        KafkaCluster:
+          type: >-
+            [kafkacluster](aws-properties-kafkaconnect-connector-kafkacluster.md)
+          description: >-
+            The details of the Apache Kafka cluster to which the connector is
+            connected\.
+        KafkaClusterClientAuthentication:
+          type: >-
+            [kafkaclusterclientauthentication](aws-properties-kafkaconnect-connector-kafkaclusterclientauthentication.md)
+          description: >-
+            The type of client authentication used to connect to the Apache
+            Kafka cluster\. The value is NONE when no client authentication is
+            used\.
+        KafkaClusterEncryptionInTransit:
+          type: >-
+            [kafkaclusterencryptionintransit](aws-properties-kafkaconnect-connector-kafkaclusterencryptionintransit.md)
+          description: Details of encryption in transit to the Apache Kafka cluster\.
+        KafkaConnectVersion:
+          type: string
+          description: >-
+            The version of Kafka Connect\. It has to be compatible with both the
+            Apache Kafka cluster's version and the plugins\.
+        LogDelivery:
+          type: '[logdelivery](aws-properties-kafkaconnect-connector-logdelivery.md)'
+          description: >-
+            The settings for delivering connector logs to Amazon CloudWatch
+            Logs\.
+        Plugins:
+          type: list of [plugin](aws-properties-kafkaconnect-connector-plugin.md)
+          description: >-
+            Specifies which plugin to use for the connector\. You must specify a
+            single\-element list\. Amazon MSK Connect does not currently support
+            specifying multiple plugins\.
+        ServiceExecutionRoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the IAM role used by the
+            connector to access Amazon Web Services resources\.
+        WorkerConfiguration:
+          type: >-
+            [workerconfiguration](aws-properties-kafkaconnect-connector-workerconfiguration.md)
+          description: The worker configurations that are in use with the connector\.
+      required:
+        - Capacity
+        - ConnectorConfiguration
+        - ConnectorName
+        - KafkaCluster
+        - KafkaClusterClientAuthentication
+        - KafkaClusterEncryptionInTransit
+        - KafkaConnectVersion
+        - Plugins
+        - ServiceExecutionRoleArn
+paths: {}

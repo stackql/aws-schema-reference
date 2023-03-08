@@ -1,0 +1,38 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: SimSpaceWeaver
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Simulation:
+      type: object
+      properties:
+        Name:
+          type: string
+          description: The name of the simulation\.
+        RoleArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the AWS Identity and Access
+            Management \(IAM\) role that the simulation assumes to perform
+            actions\. For more information about ARNs, see [Amazon Resource
+            Names
+            \(ARNs\)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+            in the *AWS General Reference*\. For more information about IAM
+            roles, see [IAM
+            roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
+            in the *AWS Identity and Access Management User Guide*\.
+        SchemaS3Location:
+          type: '[s3location](aws-properties-simspaceweaver-simulation-s3location.md)'
+          description: >-
+            The location of the simulation schema in Amazon Simple Storage
+            Service \(Amazon S3\)\. For more information about Amazon S3, see
+            the
+            [https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html)\.
+paths: {}

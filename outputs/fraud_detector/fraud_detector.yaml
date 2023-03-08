@@ -1,0 +1,204 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: FraudDetector
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Detector:
+      type: object
+      properties:
+        AssociatedModels:
+          type: list of [model](aws-properties-frauddetector-detector-model.md)
+          description: >-
+            The models to associate with this detector\. You must provide the
+            ARNs of all the models you want to associate\.
+        Description:
+          type: string
+          description: The detector description\.
+        DetectorId:
+          type: string
+          description: The name of the detector\.
+        DetectorVersionStatus:
+          type: string
+          description: >-
+            The status of the detector version\. If a value is not provided for
+            this property, AWS CloudFormation assumes `DRAFT` status\.    Valid
+            values: `ACTIVE | DRAFT`
+        EventType:
+          type: '[eventtype](aws-properties-frauddetector-detector-eventtype.md)'
+          description: The event type associated with this detector\.
+        RuleExecutionMode:
+          type: string
+          description: >-
+            The rule execution mode for the rules included in the detector
+            version\.   Valid values: `FIRST_MATCHED | ALL_MATCHED` Default
+            value: `FIRST_MATCHED`   You can define and edit the rule mode at
+            the detector version level, when it is in draft status\.    If you
+            specify `FIRST_MATCHED`, Amazon Fraud Detector evaluates rules
+            sequentially, first to last, stopping at the first matched rule\.
+            Amazon Fraud dectector then provides the outcomes for that single
+            rule\.   If you specifiy `ALL_MATCHED`, Amazon Fraud Detector
+            evaluates all rules and returns the outcomes for all matched rules\.
+        Rules:
+          type: list of [rule](aws-properties-frauddetector-detector-rule.md)
+          description: The rules to include in the detector version\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - DetectorId
+        - EventType
+        - Rules
+    EntityType:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The entity type description\.
+        Name:
+          type: string
+          description: 'The entity type name\.   Pattern: `^[0-9a-z_-]+$`'
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A key and value pair\.
+      required:
+        - Name
+    EventType:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The event type description\.
+        EntityTypes:
+          type: >-
+            list of
+            [entitytype](aws-properties-frauddetector-eventtype-entitytype.md)
+          description: The event type entity types\.
+        EventVariables:
+          type: >-
+            list of
+            [eventvariable](aws-properties-frauddetector-eventtype-eventvariable.md)
+          description: The event type event variables\.
+        Labels:
+          type: list of [label](aws-properties-frauddetector-eventtype-label.md)
+          description: The event type labels\.
+        Name:
+          type: string
+          description: 'The event type name\.   Pattern : `^[0-9a-z_-]+$`'
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - EntityTypes
+        - EventVariables
+        - Labels
+        - Name
+    Label:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The label description\.
+        Name:
+          type: string
+          description: 'The label name\.   Pattern: `^[0-9a-z_-]+$`'
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - Name
+    Outcome:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The outcome description\.
+        Name:
+          type: string
+          description: The outcome name\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - Name
+    Variable:
+      type: object
+      properties:
+        DataSource:
+          type: string
+          description: >-
+            The data source of the variable\.   Valid values: `EVENT |
+            EXTERNAL_MODEL_SCORE`   When defining a variable within a detector,
+            you can only use the `EVENT` value for DataSource when the *Inline*
+            property is set to true\. If the *Inline* property is set false, you
+            can use either `EVENT` or `MODEL_SCORE` for DataSource\.
+        DataType:
+          type: string
+          description: >-
+            The data type of the variable\.   Valid data types: `STRING |
+            INTEGER | BOOLEAN | FLOAT`
+        DefaultValue:
+          type: string
+          description: The default value of the variable\.
+        Description:
+          type: string
+          description: The description of the variable\.
+        Name:
+          type: string
+          description: 'The name of the variable\.   Pattern: `^[0-9a-z_-]+$`'
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        VariableType:
+          type: string
+          description: >-
+            The type of the variable\. For more information see [Variable
+            types](https://docs.aws.amazon.com/frauddetector/latest/ug/create-a-variable.html#variable-types)\.  
+            Valid Values: `AUTH_CODE | AVS | BILLING_ADDRESS_L1 |
+            BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME |
+            BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL
+            | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL |
+            FREE_FORM_TEXT | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE |
+            PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 |
+            SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY |
+            SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP |
+            USERAGENT `
+      required:
+        - DataSource
+        - DataType
+        - DefaultValue
+        - Name
+paths: {}

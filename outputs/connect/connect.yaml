@@ -1,0 +1,425 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Connect
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ApprovedOrigin:
+      type: object
+      properties:
+        InstanceId:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the instance\.
+        Origin:
+          type: string
+          description: Domain name to be added to the allow\-list of the instance\.
+      required:
+        - InstanceId
+        - Origin
+    ContactFlow:
+      type: object
+      properties:
+        Content:
+          type: string
+          description: >-
+            The content of the flow\.   For more information, see [Amazon
+            Connect Flow
+            language](https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html)
+            in the *Amazon Connect Administrator Guide*\.
+        Description:
+          type: string
+          description: The description of the flow\.
+        InstanceArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the Amazon Connect instance\.
+        Name:
+          type: string
+          description: The name of the flow\.
+        State:
+          type: string
+          description: The state of the flow\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        Type:
+          type: string
+          description: >-
+            The type of the flow\. For descriptions of the available types, see
+            [Choose a flow
+            type](https://docs.aws.amazon.com/connect/latest/adminguide/create-contact-flow.html#contact-flow-types)
+            in the *Amazon Connect Administrator Guide*\.
+      required:
+        - Content
+        - InstanceArn
+        - Name
+        - Type
+    ContactFlowModule:
+      type: object
+      properties:
+        Content:
+          type: string
+          description: The content of the flow module\.
+        Description:
+          type: string
+          description: The description of the flow module\.
+        InstanceArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the Amazon Connect instance\.
+        Name:
+          type: string
+          description: The name of the flow module\.
+        State:
+          type: string
+          description: The state of the flow module\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - Content
+        - InstanceArn
+        - Name
+    HoursOfOperation:
+      type: object
+      properties:
+        Config:
+          type: >-
+            list of
+            [hoursofoperationconfig](aws-properties-connect-hoursofoperation-hoursofoperationconfig.md)
+          description: Configuration information for the hours of operation\.
+        Description:
+          type: string
+          description: The description for the hours of operation\.
+        InstanceArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) for the instance\.
+        Name:
+          type: string
+          description: The name for the hours of operation\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags used to organize, track, or control access for this
+            resource\. For example, \{ "tags": \{"key1":"value1",
+            "key2":"value2"\} \}\.
+        TimeZone:
+          type: string
+          description: The time zone for the hours of operation\.
+      required:
+        - Config
+        - InstanceArn
+        - Name
+        - TimeZone
+    Instance:
+      type: object
+      properties:
+        Attributes:
+          type: '[attributes](aws-properties-connect-instance-attributes.md)'
+          description: A toggle for an individual feature at the instance level\.
+        DirectoryId:
+          type: string
+          description: The identifier for the directory\.
+        IdentityManagementType:
+          type: string
+          description: The identity management type\.
+        InstanceAlias:
+          type: string
+          description: >-
+            The alias of instance\. `InstanceAlias` is only required when
+            `IdentityManagementType` is `CONNECT_MANAGED` or `SAML`\.
+            `InstanceAlias` is not required when `IdentityManagementType` is
+            `EXISTING_DIRECTORY`\.
+      required:
+        - Attributes
+        - IdentityManagementType
+    InstanceStorageConfig:
+      type: object
+      properties:
+        InstanceArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the instance\.
+        KinesisFirehoseConfig:
+          type: >-
+            [kinesisfirehoseconfig](aws-properties-connect-instancestorageconfig-kinesisfirehoseconfig.md)
+          description: The configuration of the Kinesis Firehose delivery stream\.
+        KinesisStreamConfig:
+          type: >-
+            [kinesisstreamconfig](aws-properties-connect-instancestorageconfig-kinesisstreamconfig.md)
+          description: The configuration of the Kinesis data stream\.
+        KinesisVideoStreamConfig:
+          type: >-
+            [kinesisvideostreamconfig](aws-properties-connect-instancestorageconfig-kinesisvideostreamconfig.md)
+          description: The configuration of the Kinesis video stream\.
+        ResourceType:
+          type: string
+          description: >-
+            A valid resource type\. Following are the valid resource types:
+            `CHAT_TRANSCRIPTS` \| `CALL_RECORDINGS` \| `SCHEDULED_REPORTS` \|
+            `MEDIA_STREAMS` \| `CONTACT_TRACE_RECORDS` \| `AGENT_EVENTS`
+        S3Config:
+          type: '[s3config](aws-properties-connect-instancestorageconfig-s3config.md)'
+          description: The S3 bucket configuration\.
+        StorageType:
+          type: string
+          description: A valid storage type\.
+      required:
+        - InstanceArn
+        - ResourceType
+        - StorageType
+    IntegrationAssociation:
+      type: object
+      properties:
+        InstanceId:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the instance\.
+        IntegrationArn:
+          type: string
+          description: ARN of the integration being associated with the instance\.
+        IntegrationType:
+          type: string
+          description: Specifies the integration type to be associated with the instance\.
+      required:
+        - InstanceId
+        - IntegrationArn
+        - IntegrationType
+    PhoneNumber:
+      type: object
+      properties:
+        CountryCode:
+          type: string
+          description: The ISO country code\.
+        Description:
+          type: string
+          description: The description of the phone number\.
+        Prefix:
+          type: string
+          description: >-
+            The prefix of the phone number\. If provided, it must contain `+` as
+            part of the country code\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags used to organize, track, or control access for this
+            resource\. For example, \{ "tags": \{"key1":"value1",
+            "key2":"value2"\} \}\.
+        TargetArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) for Amazon Connect instances or
+            traffic distribution group that phone numbers are claimed to\.
+        Type:
+          type: string
+          description: The type of phone number\.
+      required:
+        - CountryCode
+        - TargetArn
+        - Type
+    QuickConnect:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: The description of the quick connect\.
+        InstanceArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the instance\.
+        Name:
+          type: string
+          description: The name of the quick connect\.
+        QuickConnectConfig:
+          type: >-
+            [quickconnectconfig](aws-properties-connect-quickconnect-quickconnectconfig.md)
+          description: Contains information about the quick connect\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags used to organize, track, or control access for this
+            resource\. For example, \{ "tags": \{"key1":"value1",
+            "key2":"value2"\} \}\.
+      required:
+        - InstanceArn
+        - Name
+        - QuickConnectConfig
+    Rule:
+      type: object
+      properties:
+        Actions:
+          type: '[actions](aws-properties-connect-rule-actions.md)'
+          description: A list of actions to be run when the rule is triggered\.
+        Function:
+          type: string
+          description: The conditions of the rule\.
+        InstanceArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the instance\.
+        Name:
+          type: string
+          description: The name of the rule\.
+        PublishStatus:
+          type: string
+          description: The publish status of the rule\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags used to organize, track, or control access for this
+            resource\. For example, \{ "tags": \{"key1":"value1",
+            "key2":"value2"\} \}\.
+        TriggerEventSource:
+          type: >-
+            [ruletriggereventsource](aws-properties-connect-rule-ruletriggereventsource.md)
+          description: The event source to trigger the rule\.
+      required:
+        - Actions
+        - Function
+        - InstanceArn
+        - Name
+        - PublishStatus
+        - TriggerEventSource
+    SecurityKey:
+      type: object
+      properties:
+        InstanceId:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the instance\.
+        Key:
+          type: string
+          description: A valid security key in PEM format\.
+      required:
+        - InstanceId
+        - Key
+    TaskTemplate:
+      type: object
+      properties:
+        ClientToken:
+          type: string
+          description: >-
+            A unique, case\-sensitive identifier that you provide to ensure the
+            idempotency of the request\.
+        Constraints:
+          type: '[constraints](aws-properties-connect-tasktemplate-constraints.md)'
+          description: >-
+            Constraints that are applicable to the fields listed\.   The values
+            can be represented in either JSON or YAML format\. For an example of
+            the JSON configuration, see *Examples* at the bottom of this page\.
+        ContactFlowArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the flow that runs by default
+            when a task is created by referencing this template\.
+            `ContactFlowArn` is not required when there is a field with
+            `fieldType` = `QUICK_CONNECT`\.
+        Defaults:
+          type: >-
+            list of
+            [defaultfieldvalue](aws-properties-connect-tasktemplate-defaultfieldvalue.md)
+          description: >-
+            The default values for fields when a task is created by referencing
+            this template\.
+        Description:
+          type: string
+          description: The description of the task template\.
+        Fields:
+          type: list of [field](aws-properties-connect-tasktemplate-field.md)
+          description: >-
+            Fields that are part of the template\. A template requires at least
+            one field that has type `Name`\.
+        InstanceArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the Amazon Connect instance\.
+        Name:
+          type: string
+          description: The name of the task template\.
+        Status:
+          type: string
+          description: The status of the task template\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The tags used to organize, track, or control access for this
+            resource\.
+      required:
+        - InstanceArn
+    User:
+      type: object
+      properties:
+        DirectoryUserId:
+          type: string
+          description: >-
+            The identifier of the user account in the directory used for
+            identity management\.
+        HierarchyGroupArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the user's hierarchy group\.
+        IdentityInfo:
+          type: '[useridentityinfo](aws-properties-connect-user-useridentityinfo.md)'
+          description: Information about the user identity\.
+        InstanceArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the instance\.
+        Password:
+          type: string
+          description: The user's password\.
+        PhoneConfig:
+          type: '[userphoneconfig](aws-properties-connect-user-userphoneconfig.md)'
+          description: Information about the phone configuration for the user\.
+        RoutingProfileArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the user's routing profile\.
+        SecurityProfileArns:
+          type: array
+          description: The Amazon Resource Name \(ARN\) of the user's security profile\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: The tags\.
+        Username:
+          type: string
+          description: The user name assigned to the user account\.
+      required:
+        - InstanceArn
+        - PhoneConfig
+        - RoutingProfileArn
+        - SecurityProfileArns
+        - Username
+    UserHierarchyGroup:
+      type: object
+      properties:
+        InstanceArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the user hierarchy group\.
+        Name:
+          type: string
+          description: The name of the user hierarchy group\.
+        ParentGroupArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the parent group\.
+      required:
+        - InstanceArn
+        - Name
+paths: {}

@@ -1,0 +1,81 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: CUR
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    ReportDefinition:
+      type: object
+      properties:
+        AdditionalArtifacts:
+          type: array
+          description: A list of manifests that you want AWS to create for this report\.
+        AdditionalSchemaElements:
+          type: array
+          description: >-
+            A list of strings that indicate additional content that AWS includes
+            in the report, such as individual resource IDs\.
+        BillingViewArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the billing view\. You can get
+            this value by using the billing view service public APIs\.
+        Compression:
+          type: string
+          description: >-
+            The compression format that Amazon Web Services uses for the
+            report\.
+        Format:
+          type: string
+          description: The format that Amazon Web Services saves the report in\.
+        RefreshClosedReports:
+          type: boolean
+          description: >-
+            Whether you want AWS to update your reports after they have been
+            finalized if AWS detects charges related to previous months\. These
+            charges can include refunds, credits, or support fees\.
+        ReportName:
+          type: string
+          description: >-
+            The name of the report that you want to create\. The name must be
+            unique, is case sensitive, and can't include spaces\.
+        ReportVersioning:
+          type: string
+          description: >-
+            Whether you want AWS to overwrite the previous version of each
+            report or to deliver the report in addition to the previous
+            versions\.
+        S3Bucket:
+          type: string
+          description: The S3 bucket where Amazon Web Services delivers the report\.
+        S3Prefix:
+          type: string
+          description: >-
+            The prefix that Amazon Web Services adds to the report name when
+            Amazon Web Services delivers the report\. Your prefix can't include
+            spaces\.
+        S3Region:
+          type: string
+          description: >-
+            The Region of the S3 bucket that Amazon Web Services delivers the
+            report into\.
+        TimeUnit:
+          type: string
+          description: The granularity of the line items in the report\.
+      required:
+        - Compression
+        - Format
+        - RefreshClosedReports
+        - ReportName
+        - ReportVersioning
+        - S3Bucket
+        - S3Prefix
+        - S3Region
+        - TimeUnit
+paths: {}

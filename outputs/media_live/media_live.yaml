@@ -1,0 +1,142 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: MediaLive
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Channel:
+      type: object
+      properties:
+        CdiInputSpecification:
+          type: >-
+            [cdiinputspecification](aws-properties-medialive-channel-cdiinputspecification.md)
+          description: Specification of CDI inputs for this channel\.
+        ChannelClass:
+          type: string
+          description: >-
+            The class for this channel\. For a channel with two pipelines, the
+            class is STANDARD\. For a channel with one pipeline, the class is
+            SINGLE\_PIPELINE\.
+        Destinations:
+          type: >-
+            list of
+            [outputdestination](aws-properties-medialive-channel-outputdestination.md)
+          description: >-
+            The settings that identify the destination for the outputs in this
+            MediaLive output package\.
+        EncoderSettings:
+          type: >-
+            [encodersettings](aws-properties-medialive-channel-encodersettings.md)
+          description: The encoding configuration for the output content\.
+        InputAttachments:
+          type: >-
+            list of
+            [inputattachment](aws-properties-medialive-channel-inputattachment.md)
+          description: The list of input attachments for the channel\.
+        InputSpecification:
+          type: >-
+            [inputspecification](aws-properties-medialive-channel-inputspecification.md)
+          description: >-
+            The input specification for this channel\. It specifies the key
+            characteristics of the inputs for this channel: the maximum bitrate,
+            the resolution, and the codec\.
+        LogLevel:
+          type: string
+          description: >-
+            The verbosity for logging activity for this channel\. Charges for
+            logging \(which are generated through Amazon CloudWatch Logging\)
+            are higher for higher verbosities\.
+        Name:
+          type: string
+          description: >-
+            A name for this audio selector\. The AudioDescription \(in an
+            output\) references this name in order to identify a specific input
+            audio to include in that output\.
+        RoleArn:
+          type: string
+          description: >-
+            The IAM role for MediaLive to assume when running this channel\. The
+            role is identified by its ARN\.
+        Tags:
+          type: object
+          description: >-
+            A collection of tags for this channel\. Each tag is a key\-value
+            pair\.
+        Vpc:
+          type: >-
+            [vpcoutputsettings](aws-properties-medialive-channel-vpcoutputsettings.md)
+          description: >-
+            Settings to enable VPC mode in the channel, so that the endpoints
+            for all outputs are in your VPC\.
+    Input:
+      type: object
+      properties:
+        Destinations:
+          type: >-
+            list of
+            [inputdestinationrequest](aws-properties-medialive-input-inputdestinationrequest.md)
+          description: Settings that apply only if the input is a push type of input\.
+        InputDevices:
+          type: >-
+            list of
+            [inputdevicesettings](aws-properties-medialive-input-inputdevicesettings.md)
+          description: Settings that apply only if the input is an Elemental Link input\.
+        InputSecurityGroups:
+          type: array
+          description: >-
+            The list of input security groups \(referenced by IDs\) to attach to
+            the input if the input is a push type\.
+        MediaConnectFlows:
+          type: >-
+            list of
+            [mediaconnectflowrequest](aws-properties-medialive-input-mediaconnectflowrequest.md)
+          description: Settings that apply only if the input is a MediaConnect input\.
+        Name:
+          type: string
+          description: A name for the input\.
+        RoleArn:
+          type: string
+          description: >-
+            The IAM role for MediaLive to assume when creating a MediaConnect
+            input or Amazon VPC input\. This doesn't apply to other types of
+            inputs\. The role is identified by its ARN\.
+        Sources:
+          type: >-
+            list of
+            [inputsourcerequest](aws-properties-medialive-input-inputsourcerequest.md)
+          description: Settings that apply only if the input is a pull type of input\.
+        Tags:
+          type: object
+          description: >-
+            A collection of tags for this input\. Each tag is a key\-value
+            pair\.
+        Type:
+          type: string
+          description: The type for this input\.
+        Vpc:
+          type: '[inputvpcrequest](aws-properties-medialive-input-inputvpcrequest.md)'
+          description: >-
+            Settings that apply only if the input is an push input where the
+            source is on Amazon VPC\.
+    InputSecurityGroup:
+      type: object
+      properties:
+        Tags:
+          type: object
+          description: >-
+            A collection of tags for this input security group\. Each tag is a
+            key\-value pair\.
+        WhitelistRules:
+          type: >-
+            list of
+            [inputwhitelistrulecidr](aws-properties-medialive-inputsecuritygroup-inputwhitelistrulecidr.md)
+          description: >-
+            The list of IPv4 CIDR addresses to include in the input security
+            group as "allowed" addresses\.
+paths: {}

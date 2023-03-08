@@ -1,0 +1,175 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: NetworkFirewall
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Firewall:
+      type: object
+      properties:
+        DeleteProtection:
+          type: boolean
+          description: >-
+            A flag indicating whether it is possible to delete the firewall\. A
+            setting of `TRUE` indicates that the firewall is protected against
+            deletion\. Use this setting to protect against accidentally deleting
+            a firewall that is in use\. When you create a firewall, the
+            operation initializes this flag to `TRUE`\.
+        Description:
+          type: string
+          description: A description of the firewall\.
+        FirewallName:
+          type: string
+          description: >-
+            The descriptive name of the firewall\. You can't change the name of
+            a firewall after you create it\.
+        FirewallPolicyArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the firewall policy\.   The
+            relationship of firewall to firewall policy is many to one\. Each
+            firewall requires one firewall policy association, and you can use
+            the same firewall policy for multiple firewalls\.
+        FirewallPolicyChangeProtection:
+          type: boolean
+          description: >-
+            A setting indicating whether the firewall is protected against a
+            change to the firewall policy association\. Use this setting to
+            protect against accidentally modifying the firewall policy for a
+            firewall that is in use\. When you create a firewall, the operation
+            initializes this setting to `TRUE`\.
+        SubnetChangeProtection:
+          type: boolean
+          description: >-
+            A setting indicating whether the firewall is protected against
+            changes to the subnet associations\. Use this setting to protect
+            against accidentally modifying the subnet associations for a
+            firewall that is in use\. When you create a firewall, the operation
+            initializes this setting to `TRUE`\.
+        SubnetMappings:
+          type: >-
+            list of
+            [subnetmapping](aws-properties-networkfirewall-firewall-subnetmapping.md)
+          description: >-
+            The public subnets that Network Firewall is using for the firewall\.
+            Each subnet must belong to a different Availability Zone\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        VpcId:
+          type: string
+          description: >-
+            The unique identifier of the VPC where the firewall is in use\. You
+            can't change the VPC of a firewall after you create the firewall\.
+      required:
+        - FirewallName
+        - FirewallPolicyArn
+        - SubnetMappings
+        - VpcId
+    FirewallPolicy:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A description of the firewall policy\.
+        FirewallPolicy:
+          type: >-
+            [firewallpolicy](aws-properties-networkfirewall-firewallpolicy-firewallpolicy.md)
+          description: >-
+            The traffic filtering behavior of a firewall policy, defined in a
+            collection of stateless and stateful rule groups and other
+            settings\.
+        FirewallPolicyName:
+          type: string
+          description: >-
+            The descriptive name of the firewall policy\. You can't change the
+            name of a firewall policy after you create it\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - FirewallPolicy
+        - FirewallPolicyName
+    LoggingConfiguration:
+      type: object
+      properties:
+        FirewallArn:
+          type: string
+          description: >-
+            The Amazon Resource Name \(ARN\) of the
+            [AWS::NetworkFirewall::Firewall](aws-resource-networkfirewall-firewall.md)
+            that the logging configuration is associated with\. You can't change
+            the firewall specification after you create the logging
+            configuration\.
+        FirewallName:
+          type: string
+          description: >-
+            The name of the firewall that the logging configuration is
+            associated with\. You can't change the firewall specification after
+            you create the logging configuration\.
+        LoggingConfiguration:
+          type: >-
+            [loggingconfiguration](aws-properties-networkfirewall-loggingconfiguration-loggingconfiguration.md)
+          description: >-
+            Defines how AWS Network Firewall performs logging for a
+            [AWS::NetworkFirewall::Firewall](aws-resource-networkfirewall-firewall.md)\.
+      required:
+        - FirewallArn
+        - LoggingConfiguration
+    RuleGroup:
+      type: object
+      properties:
+        Capacity:
+          type: integer
+          description: >-
+            The maximum operating resources that this rule group can use\. You
+            can't change a rule group's capacity setting after you create the
+            rule group\. When you update a rule group, you are limited to this
+            capacity\. When you reference a rule group from a firewall policy,
+            Network Firewall reserves this capacity for the rule group\.
+        Description:
+          type: string
+          description: A description of the rule group\.
+        RuleGroup:
+          type: '[rulegroup](aws-properties-networkfirewall-rulegroup-rulegroup.md)'
+          description: An object that defines the rule group rules\.
+        RuleGroupName:
+          type: string
+          description: >-
+            The descriptive name of the rule group\. You can't change the name
+            of a rule group after you create it\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+        Type:
+          type: string
+          description: >-
+            Indicates whether the rule group is stateless or stateful\. If the
+            rule group is stateless, it contains stateless rules\. If it is
+            stateful, it contains stateful rules\.
+      required:
+        - Capacity
+        - RuleGroupName
+        - Type
+paths: {}

@@ -1,0 +1,94 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: Route53RecoveryReadiness
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Cell:
+      type: object
+      properties:
+        CellName:
+          type: string
+          description: The name of the cell to create\.
+        Cells:
+          type: array
+          description: >-
+            A list of cell Amazon Resource Names \(ARNs\) contained within this
+            cell, for use in nested cells\. For example, Availability Zones
+            within specific AWS Regions\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A collection of tags associated with a resource\.
+    ReadinessCheck:
+      type: object
+      properties:
+        ReadinessCheckName:
+          type: string
+          description: The name of the readiness check to create\.
+        ResourceSetName:
+          type: string
+          description: The name of the resource set to check\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A collection of tags associated with a resource\.
+    RecoveryGroup:
+      type: object
+      properties:
+        Cells:
+          type: array
+          description: >-
+            A list of the cell Amazon Resource Names \(ARNs\) in the recovery
+            group\.
+        RecoveryGroupName:
+          type: string
+          description: The name of the recovery group to create\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A collection of tags associated with a resource\.
+    ResourceSet:
+      type: object
+      properties:
+        Resources:
+          type: >-
+            list of
+            [resource](aws-properties-route53recoveryreadiness-resourceset-resource.md)
+          description: A list of resource objects in the resource set\.
+        ResourceSetName:
+          type: string
+          description: The name of the resource set to create\.
+        ResourceSetType:
+          type: string
+          description: >-
+            The resource type of the resources in the resource set\. Enter one
+            of the following values for resource type:  
+            AWS::AutoScaling::AutoScalingGroup, AWS::CloudWatch::Alarm,
+            AWS::EC2::CustomerGateway, AWS::DynamoDB::Table, AWS::EC2::Volume,
+            AWS::ElasticLoadBalancing::LoadBalancer,
+            AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::MSK::Cluster,
+            AWS::RDS::DBCluster, AWS::Route53::HealthCheck, AWS::SQS::Queue,
+            AWS::SNS::Topic, AWS::SNS::Subscription, AWS::EC2::VPC,
+            AWS::EC2::VPNConnection, AWS::EC2::VPNGateway,
+            AWS::Route53RecoveryReadiness::DNSTargetResource\.    Note that
+            AWS::Route53RecoveryReadiness::DNSTargetResource is only used for
+            this setting\. It isn't an actual AWS CloudFormation resource type\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A tag to associate with the parameters for a resource set\.
+      required:
+        - Resources
+        - ResourceSetType
+paths: {}

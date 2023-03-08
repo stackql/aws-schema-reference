@@ -1,0 +1,218 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: SNS
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Subscription:
+      type: object
+      properties:
+        DeliveryPolicy:
+          type: object
+          description: >-
+            The delivery policy JSON assigned to the subscription\. Enables the
+            subscriber to define the message delivery retry strategy in the case
+            of an HTTP/S endpoint subscribed to the topic\. For more
+            information, see `
+            [GetSubscriptionAttributes](https://docs.aws.amazon.com/sns/latest/api/API_GetSubscriptionAttributes.html)
+            ` in the *Amazon SNS API Reference* and [Message delivery
+            retries](https://docs.aws.amazon.com/sns/latest/dg/sns-message-delivery-retries.html)
+            in the *Amazon SNS Developer Guide*\.
+        Endpoint:
+          type: string
+          description: >-
+            The subscription's endpoint\. The endpoint value depends on the
+            protocol that you specify\. For more information, see the `Endpoint`
+            parameter of the `
+            [Subscribe](https://docs.aws.amazon.com/sns/latest/api/API_Subscribe.html)
+            ` action in the *Amazon SNS API Reference*\.
+        FilterPolicy:
+          type: object
+          description: >-
+            The filter policy JSON assigned to the subscription\. Enables the
+            subscriber to filter out unwanted messages\. For more information,
+            see `
+            [GetSubscriptionAttributes](https://docs.aws.amazon.com/sns/latest/api/API_GetSubscriptionAttributes.html)
+            ` in the *Amazon SNS API Reference* and [Message
+            filtering](https://docs.aws.amazon.com/sns/latest/dg/sns-message-filtering.html)
+            in the *Amazon SNS Developer Guide*\.
+        FilterPolicyScope:
+          type: string
+          description: >-
+            This attribute lets you choose the filtering scope by using one of
+            the following string value types:   + `MessageAttributes`
+            \(default\) \- The filter is applied on the message attributes\. +
+            `MessageBody` \- The filter is applied on the message body\.
+        Protocol:
+          type: string
+          description: >-
+            The subscription's protocol\. For more information, see the
+            `Protocol` parameter of the `
+            [Subscribe](https://docs.aws.amazon.com/sns/latest/api/API_Subscribe.html)
+            ` action in the *Amazon SNS API Reference*\.
+        RawMessageDelivery:
+          type: boolean
+          description: >-
+            When set to `true`, enables raw message delivery\. Raw messages
+            don't contain any JSON formatting and can be sent to Amazon SQS and
+            HTTP/S endpoints\. For more information, see `
+            [GetSubscriptionAttributes](https://docs.aws.amazon.com/sns/latest/api/API_GetSubscriptionAttributes.html)
+            ` in the *Amazon SNS API Reference*\.
+        RedrivePolicy:
+          type: object
+          description: >-
+            When specified, sends undeliverable messages to the specified Amazon
+            SQS dead\-letter queue\. Messages that can't be delivered due to
+            client errors \(for example, when the subscribed endpoint is
+            unreachable\) or server errors \(for example, when the service that
+            powers the subscribed endpoint becomes unavailable\) are held in the
+            dead\-letter queue for further analysis or reprocessing\.   For more
+            information about the redrive policy and dead\-letter queues, see
+            [Amazon SQS dead\-letter
+            queues](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html)
+            in the *Amazon SQS Developer Guide*\.
+        Region:
+          type: string
+          description: >-
+            For cross\-region subscriptions, the region in which the topic
+            resides\.   If no region is specified, AWS CloudFormation uses the
+            region of the caller as the default\.   If you perform an update
+            operation that only updates the `Region` property of a
+            `AWS::SNS::Subscription` resource, that operation will fail unless
+            you are either:   + Updating the `Region` from `NULL` to the caller
+            region\. + Updating the `Region` from the caller region to `NULL`\.
+        SubscriptionRoleArn:
+          type: string
+          description: >-
+            This property applies only to Amazon Kinesis Data Firehose delivery
+            stream subscriptions\. Specify the ARN of the IAM role that has the
+            following:   + Permission to write to the Amazon Kinesis Data
+            Firehose delivery stream + Amazon SNS listed as a trusted entity
+            Specifying a valid ARN for this attribute is required for Kinesis
+            Data Firehose delivery stream subscriptions\. For more information,
+            see [Fanout to Amazon Kinesis Data Firehose delivery
+            streams](https://docs.aws.amazon.com/sns/latest/dg/sns-firehose-as-subscriber.html)
+            in the *Amazon SNS Developer Guide\.*
+        TopicArn:
+          type: string
+          description: The ARN of the topic to subscribe to\.
+      required:
+        - Protocol
+        - TopicArn
+    Topic:
+      type: object
+      properties:
+        ContentBasedDeduplication:
+          description: >-
+            Enables content\-based deduplication for FIFO topics\.   + By
+            default, `ContentBasedDeduplication` is set to `false`\. If you
+            create a FIFO topic and this attribute is `false`, you must specify
+            a value for the `MessageDeduplicationId` parameter for the
+            [Publish](https://docs.aws.amazon.com/sns/latest/api/API_Publish.html)
+            action\.  + When you set `ContentBasedDeduplication` to `true`,
+            Amazon SNS uses a SHA\-256 hash to generate the
+            `MessageDeduplicationId` using the body of the message \(but not the
+            attributes of the message\)\.
+        undefined:
+          type: boolean
+          description: >-
+            \(Optional\) To override the generated value, you can specify a
+            value for the the `MessageDeduplicationId` parameter for the
+            `Publish` action\.
+        DataProtectionPolicy:
+          type: object
+          description: >-
+            The body of the policy document you want to use for this topic\.  
+            You can only add one policy per topic\.   The policy must be in JSON
+            string format\.   Length Constraints: Maximum length of 30,720\.
+        DisplayName:
+          type: string
+          description: >-
+            The display name to use for an Amazon SNS topic with SMS
+            subscriptions\. The display name must be maximum 100 characters
+            long, including hyphens \(\-\), underscores \(\_\), spaces, and
+            tabs\.
+        FifoTopic:
+          type: boolean
+          description: Set to true to create a FIFO topic\.
+        KmsMasterKeyId:
+          type: string
+          description: >-
+            The ID of an AWS managed customer master key \(CMK\) for Amazon SNS
+            or a custom CMK\. For more information, see [Key
+            terms](https://docs.aws.amazon.com/sns/latest/dg/sns-server-side-encryption.html#sse-key-terms)\.
+            For more examples, see `
+            [KeyId](https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters)
+            ` in the *AWS Key Management Service API Reference*\.   This
+            property applies only to
+            [server\-side\-encryption](https://docs.aws.amazon.com/sns/latest/dg/sns-server-side-encryption.html)\.
+        SignatureVersion:
+          type: string
+          description: >-
+            The signature version corresponds to the hashing algorithm used
+            while creating the signature of the notifications, subscription
+            confirmations, or unsubscribe confirmation messages sent by Amazon
+            SNS\. By default, `SignatureVersion` is set to `1`\.
+        Subscription:
+          type: >-
+            [list](aws-properties-sns-topic-subscription.md) of
+            [subscription](aws-properties-sns-topic-subscription.md)
+          description: The Amazon SNS subscriptions \(endpoints\) for this topic\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            The list of tags to add to a new topic\.   To be able to tag a topic
+            on creation, you must have the `sns:CreateTopic` and
+            `sns:TagResource` permissions\.
+        TopicName:
+          type: string
+          description: >-
+            The name of the topic you want to create\. Topic names must include
+            only uppercase and lowercase ASCII letters, numbers, underscores,
+            and hyphens, and must be between 1 and 256 characters long\. FIFO
+            topic names must end with `.fifo`\.   If you don't specify a name,
+            AWS CloudFormation generates a unique physical ID and uses that ID
+            for the topic name\. For more information, see [Name
+            type](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-name.html)\.  
+            If you specify a name, you can't perform updates that require
+            replacement of this resource\. You can perform updates that require
+            no or some interruption\. If you must replace the resource, specify
+            a new name\.
+        TracingConfig:
+          type: string
+          description: >-
+            Tracing mode of an Amazon SNS topic\. By default `TracingConfig` is
+            set to `PassThrough`, and the topic passes through the tracing
+            header it receives from an SNS publisher to its subscriptions\. If
+            set to Active, SNS will vend X\-Ray segment data to topic owner
+            account if the sampled flag in the tracing header is true\. Only
+            supported on standard topics\.
+    TopicPolicy:
+      type: object
+      properties:
+        PolicyDocument:
+          type: object
+          description: >-
+            A policy document that contains permissions to add to the specified
+            SNS topics\.
+        Topics:
+          type: array
+          description: >-
+            The Amazon Resource Names \(ARN\) of the topics to which you want to
+            add the policy\. You can use the `
+            [Ref](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-ref.html)
+            ` function to specify an `
+            [AWS::SNS::Topic](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html)
+            ` resource\.
+      required:
+        - PolicyDocument
+        - Topics
+paths: {}

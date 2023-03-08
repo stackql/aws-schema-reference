@@ -1,0 +1,170 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: GlobalAccelerator
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Accelerator:
+      type: object
+      properties:
+        Enabled:
+          type: boolean
+          description: >-
+            Indicates whether the accelerator is enabled\. The value is true or
+            false\. The default value is true\.    If the value is set to true,
+            the accelerator cannot be deleted\. If set to false, accelerator can
+            be deleted\.
+        IpAddresses:
+          type: array
+          description: >-
+            Optionally, if you've added your own IP address pool to Global
+            Accelerator \(BYOIP\), you can choose IP addresses from your own
+            pool to use for the accelerator's static IP addresses when you
+            create an accelerator\. You can specify one or two addresses,
+            separated by a comma\. Do not include the /32 suffix\.   Only one IP
+            address from each of your IP address ranges can be used for each
+            accelerator\. If you specify only one IP address from your IP
+            address range, Global Accelerator assigns a second static IP address
+            for the accelerator from the AWS IP address pool\.    Note that you
+            can't update IP addresses for an existing accelerator\. To change
+            them, you must create a new accelerator with the new addresses\.  
+            For more information, see [Bring Your Own IP Addresses
+            \(BYOIP\)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html)
+            in the *AWS Global Accelerator Developer Guide*\.
+        IpAddressType:
+          type: string
+          description: >-
+            The IP address type that an accelerator supports\. For a standard
+            accelerator, the value can be IPV4 or DUAL\_STACK\.
+        Name:
+          type: string
+          description: >-
+            The name of the accelerator\. The name must contain only
+            alphanumeric characters or hyphens \(\-\), and must not begin or end
+            with a hyphen\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            Create tags for an accelerator\.   For more information, see
+            [Tagging
+            ](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html)
+            in the *AWS Global Accelerator Developer Guide*\.
+      required:
+        - Name
+    EndpointGroup:
+      type: object
+      properties:
+        EndpointConfigurations:
+          type: >-
+            list of
+            [endpointconfiguration](aws-properties-globalaccelerator-endpointgroup-endpointconfiguration.md)
+          description: The list of endpoint objects\.
+        EndpointGroupRegion:
+          type: string
+          description: The AWS Regions where the endpoint group is located\.
+        HealthCheckIntervalSeconds:
+          type: integer
+          description: >-
+            The time—10 seconds or 30 seconds—between health checks for each
+            endpoint\. The default value is 30\.
+        HealthCheckPath:
+          type: string
+          description: >-
+            If the protocol is HTTP/S, then this value provides the ping path
+            that Global Accelerator uses for the destination on the endpoints
+            for health checks\. The default is slash \(/\)\.
+        HealthCheckPort:
+          type: integer
+          description: >-
+            The port that Global Accelerator uses to perform health checks on
+            endpoints that are part of this endpoint group\.    The default port
+            is the port for the listener that this endpoint group is associated
+            with\. If the listener port is a list, Global Accelerator uses the
+            first specified port in the list of ports\.
+        HealthCheckProtocol:
+          type: string
+          description: >-
+            The protocol that Global Accelerator uses to perform health checks
+            on endpoints that are part of this endpoint group\. The default
+            value is TCP\.
+        ListenerArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of the listener\.
+        PortOverrides:
+          type: >-
+            list of
+            [portoverride](aws-properties-globalaccelerator-endpointgroup-portoverride.md)
+          description: >-
+            Allows you to override the destination ports used to route traffic
+            to an endpoint\. Using a port override lets you map a list of
+            external destination ports \(that your users send traffic to\) to a
+            list of internal destination ports that you want an application
+            endpoint to receive traffic on\.
+        ThresholdCount:
+          type: integer
+          description: >-
+            The number of consecutive health checks required to set the state of
+            a healthy endpoint to unhealthy, or to set an unhealthy endpoint to
+            healthy\. The default value is 3\.
+        TrafficDialPercentage:
+          type: double
+          description: >-
+            The percentage of traffic to send to an AWS Regions\. Additional
+            traffic is distributed to other endpoint groups for this
+            listener\.    Use this action to increase \(dial up\) or decrease
+            \(dial down\) traffic to a specific Region\. The percentage is
+            applied to the traffic that would otherwise have been routed to the
+            Region based on optimal routing\.   The default value is 100\.
+      required:
+        - EndpointGroupRegion
+        - ListenerArn
+    Listener:
+      type: object
+      properties:
+        AcceleratorArn:
+          type: string
+          description: The Amazon Resource Name \(ARN\) of your accelerator\.
+        ClientAffinity:
+          type: string
+          description: >-
+            Client affinity lets you direct all requests from a user to the same
+            endpoint, if you have stateful applications, regardless of the port
+            and protocol of the client request\. Client affinity gives you
+            control over whether to always route each client to the same
+            specific endpoint\.   AWS Global Accelerator uses a consistent\-flow
+            hashing algorithm to choose the optimal endpoint for a connection\.
+            If client affinity is `NONE`, Global Accelerator uses the
+            "five\-tuple" \(5\-tuple\) properties—source IP address, source
+            port, destination IP address, destination port, and protocol—to
+            select the hash value, and then chooses the best endpoint\. However,
+            with this setting, if someone uses different ports to connect to
+            Global Accelerator, their connections might not be always routed to
+            the same endpoint because the hash value changes\.    If you want a
+            given client to always be routed to the same endpoint, set client
+            affinity to `SOURCE_IP` instead\. When you use the `SOURCE_IP`
+            setting, Global Accelerator uses the "two\-tuple" \(2\-tuple\)
+            properties— source \(client\) IP address and destination IP
+            address—to select the hash value\.   The default value is `NONE`\.
+        PortRanges:
+          type: >-
+            list of
+            [portrange](aws-properties-globalaccelerator-listener-portrange.md)
+          description: >-
+            The list of port ranges for the connections from clients to the
+            accelerator\.
+        Protocol:
+          type: string
+          description: The protocol for the connections from clients to the accelerator\.
+      required:
+        - AcceleratorArn
+        - PortRanges
+        - Protocol
+paths: {}

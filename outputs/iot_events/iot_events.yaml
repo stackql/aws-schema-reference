@@ -1,0 +1,135 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: IoTEvents
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    AlarmModel:
+      type: object
+      properties:
+        AlarmCapabilities:
+          type: >-
+            [alarmcapabilities](aws-properties-iotevents-alarmmodel-alarmcapabilities.md)
+          description: Contains the configuration information of alarm state changes\.
+        AlarmEventActions:
+          type: >-
+            [alarmeventactions](aws-properties-iotevents-alarmmodel-alarmeventactions.md)
+          description: Contains information about one or more alarm actions\.
+        AlarmModelDescription:
+          type: string
+          description: The description of the alarm model\.
+        AlarmModelName:
+          type: string
+          description: The name of the alarm model\.
+        AlarmRule:
+          type: '[alarmrule](aws-properties-iotevents-alarmmodel-alarmrule.md)'
+          description: Defines when your alarm is invoked\.
+        Key:
+          type: string
+          description: >-
+            An input attribute used as a key to create an alarm\. AWS IoT Events
+            routes
+            [inputs](https://docs.aws.amazon.com/iotevents/latest/apireference/API_Input.html)
+            associated with this key to the alarm\.
+        RoleArn:
+          type: string
+          description: >-
+            The ARN of the IAM role that allows the alarm to perform actions and
+            access AWS resources\. For more information, see [Amazon Resource
+            Names
+            \(ARNs\)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html)
+            in the * AWS General Reference*\.
+        Severity:
+          type: integer
+          description: >-
+            A non\-negative integer that reflects the severity level of the
+            alarm\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            A list of key\-value pairs that contain metadata for the alarm
+            model\. The tags help you manage the alarm model\. For more
+            information, see [Tagging your AWS IoT Events
+            resources](https://docs.aws.amazon.com/iotevents/latest/developerguide/tagging-iotevents.html)
+            in the * AWS IoT Events Developer Guide*\.   You can create up to 50
+            tags for one alarm model\.
+      required:
+        - AlarmRule
+        - RoleArn
+    DetectorModel:
+      type: object
+      properties:
+        DetectorModelDefinition:
+          type: >-
+            [detectormodeldefinition](aws-properties-iotevents-detectormodel-detectormodeldefinition.md)
+          description: Information that defines how a detector operates\.
+        DetectorModelDescription:
+          type: string
+          description: A brief description of the detector model\.
+        DetectorModelName:
+          type: string
+          description: The name of the detector model\.
+        EvaluationMethod:
+          type: string
+          description: >-
+            Information about the order in which events are evaluated and how
+            actions are executed\.
+        Key:
+          type: string
+          description: >-
+            The value used to identify a detector instance\. When a device or
+            system sends input, a new detector instance with a unique key value
+            is created\. AWS IoT Events can continue to route input to its
+            corresponding detector instance based on this identifying
+            information\.    This parameter uses a JSON\-path expression to
+            select the attribute\-value pair in the message payload that is used
+            for identification\. To route the message to the correct detector
+            instance, the device must send a message payload that contains the
+            same attribute\-value\.
+        RoleArn:
+          type: string
+          description: >-
+            The ARN of the role that grants permission to AWS IoT Events to
+            perform its operations\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - DetectorModelDefinition
+        - RoleArn
+    Input:
+      type: object
+      properties:
+        InputDefinition:
+          type: '[inputdefinition](aws-properties-iotevents-input-inputdefinition.md)'
+          description: The definition of the input\.
+        InputDescription:
+          type: string
+          description: A brief description of the input\.
+        InputName:
+          type: string
+          description: The name of the input\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: >-
+            An array of key\-value pairs to apply to this resource\.   For more
+            information, see
+            [Tag](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-resource-tags.html)\.
+      required:
+        - InputDefinition
+paths: {}

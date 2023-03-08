@@ -1,0 +1,76 @@
+openapi: 3.0.0
+servers: []
+info:
+  title: CodeArtifact
+  description: AWS CloudFormation Resource Specification
+  contact:
+    name: StackQL Studios
+    url: https://stackql.io/
+    email: info@stackql.io
+  version: 2023-03-08-stackql-generated
+components:
+  schemas:
+    Domain:
+      type: object
+      properties:
+        DomainName:
+          type: string
+          description: A string that specifies the name of the requested domain\.
+        EncryptionKey:
+          type: string
+          description: The key used to encrypt the domain\.
+        PermissionsPolicyDocument:
+          type: object
+          description: >-
+            The document that defines the resource policy that is set on a
+            domain\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A list of tags to be applied to the domain\.
+      required:
+        - DomainName
+    Repository:
+      type: object
+      properties:
+        Description:
+          type: string
+          description: A text description of the repository\.
+        DomainName:
+          type: string
+          description: The name of the domain that contains the repository\.
+        DomainOwner:
+          type: string
+          description: >-
+            The 12\-digit account number of the AWS account that owns the domain
+            that contains the repository\. It does not include dashes or
+            spaces\.
+        ExternalConnections:
+          type: array
+          description: An array of external connections associated with the repository\.
+        PermissionsPolicyDocument:
+          type: object
+          description: >-
+            The document that defines the resource policy that is set on a
+            repository\.
+        RepositoryName:
+          type: string
+          description: The name of an upstream repository\.
+        Tags:
+          type: >-
+            list of
+            [tag](https://docs.aws.amazon.com/awscloudformation/latest/userguide/aws-properties-resource-tags.html)
+          description: A list of tags to be applied to the repository\.
+        Upstreams:
+          type: array
+          description: >-
+            A list of upstream repositories to associate with the repository\.
+            The order of the upstream repositories in the list determines their
+            priority order when AWS CodeArtifact looks for a requested package
+            version\. For more information, see [Working with upstream
+            repositories](https://docs.aws.amazon.com/codeartifact/latest/ug/repos-upstream.html)\.
+      required:
+        - DomainName
+        - RepositoryName
+paths: {}
