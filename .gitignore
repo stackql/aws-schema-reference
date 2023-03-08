@@ -1,5 +1,36 @@
 aws-cloudformation-user-guide/
 
+# Dependency directories
+/node_modules/
+/bower_components/
+
+# Distribution directories
+/dist/
+/build/
+/out/
+/.next/
+/.nuxt/
+/.parcel-cache/
+/.webpack/
+
+# Logs and databases
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.sqlite
+*.log
+
+# IDE files
+/.idea/
+/.vscode/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
